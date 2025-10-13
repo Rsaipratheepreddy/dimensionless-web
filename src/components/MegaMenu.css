@@ -1,0 +1,2216 @@
+.mega-menu {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #ffffff;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.mega-menu.theme-dark {
+    background: #000000;
+    border-bottom-color: #374151;
+}
+
+.mega-menu-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    height: 72px;
+}
+
+/* Brand Section */
+.brand-section {
+    display: flex;
+    align-items: center;
+}
+
+.brand-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.75rem 1rem;
+    border-radius: 16px;
+    position: relative;
+}
+
+.brand-link:hover {
+    background: rgba(0, 0, 0, 0.04);
+    transform: translateY(-1px);
+}
+
+.mega-menu.theme-dark .brand-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.logo-container {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000000;
+    padding: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mega-menu.theme-dark .logo-container {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.brand-link:hover .logo-container {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.mega-menu.theme-dark .brand-link:hover .logo-container {
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.3);
+}
+
+.brand-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.mega-menu.theme-dark .brand-logo {
+    filter: brightness(0);
+}
+
+.brand-name {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .brand-name {
+    color: #ffffff;
+}
+
+.brand-name-line {
+    display: block;
+}
+
+.brand-name-line:first-child {
+    font-weight: 700;
+}
+
+.brand-name-line:last-child {
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+/* Menu Items */
+.menu-items {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.25rem;
+}
+
+.menu-item {
+    position: relative;
+}
+
+.menu-link,
+.menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #6b7280;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.mega-menu.theme-dark .menu-link,
+.mega-menu.theme-dark .menu-trigger {
+    color: #9ca3af;
+}
+
+.menu-link:hover,
+.menu-trigger:hover {
+    color: #000000;
+    background: #f3f4f6;
+}
+
+.mega-menu.theme-dark .menu-link:hover,
+.mega-menu.theme-dark .menu-trigger:hover {
+    color: #ffffff;
+    background: #1f2937;
+}
+
+.dropdown-icon {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.6;
+    color: #6b7280;
+}
+
+.mega-menu.theme-dark .dropdown-icon {
+    color: #9ca3af;
+}
+
+.has-dropdown:hover .dropdown-icon {
+    transform: rotate(180deg);
+    opacity: 1;
+}
+
+/* Mega Dropdown */
+.mega-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    background: #ffffff;
+    border-radius: 0;
+    box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    padding: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: dropdownEnter 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Create a bridge area to prevent accidental closing */
+.mega-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: transparent;
+    pointer-events: auto;
+}
+
+.mega-menu.theme-dark .mega-dropdown {
+    background: #000000;
+    border-top-color: #374151;
+    border-bottom-color: #374151;
+    box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.4),
+        0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes dropdownEnter {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mega-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    padding: 1.5rem;
+    gap: 1.5rem;
+}
+
+/* Vertical Tab Navigation */
+.mega-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 160px;
+    padding-right: 1.5rem;
+}
+
+.mega-tab {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    padding: 0.875rem 1rem;
+    border-radius: 16px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    text-align: left;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.mega-menu.theme-dark .mega-tab {
+    background: #111827;
+    border-color: #374151;
+    color: #9ca3af;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.mega-tab-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    border-radius: 10px;
+    color: #6b7280;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.mega-menu.theme-dark .mega-tab-icon {
+    background: #1f2937;
+    color: #9ca3af;
+}
+
+.mega-tab-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.mega-tab-label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #374151;
+    line-height: 1.2;
+}
+
+.mega-menu.theme-dark .mega-tab-label {
+    color: #d1d5db;
+}
+
+.mega-tab-description {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    line-height: 1.3;
+    font-weight: 400;
+}
+
+.mega-menu.theme-dark .mega-tab-description {
+    color: #6b7280;
+}
+
+.mega-tab:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: #d1d5db;
+}
+
+.mega-menu.theme-dark .mega-tab:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: #4b5563;
+}
+
+.mega-tab:hover .mega-tab-icon {
+    background: #e5e7eb;
+    color: #374151;
+    transform: scale(1.05);
+}
+
+.mega-menu.theme-dark .mega-tab:hover .mega-tab-icon {
+    background: #374151;
+    color: #d1d5db;
+}
+
+.mega-tab:hover .mega-tab-label {
+    color: #111827;
+}
+
+.mega-menu.theme-dark .mega-tab:hover .mega-tab-label {
+    color: #ffffff;
+}
+
+.mega-tab.active {
+    background: #ffffff;
+    border-color: #000000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.mega-menu.theme-dark .mega-tab.active {
+    background: #111827;
+    border-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.mega-tab.active .mega-tab-icon {
+    background: #000000;
+    color: #ffffff;
+}
+
+.mega-menu.theme-dark .mega-tab.active .mega-tab-icon {
+    background: #ffffff;
+    color: #000000;
+}
+
+.mega-tab.active .mega-tab-label {
+    color: #000000;
+}
+
+.mega-menu.theme-dark .mega-tab.active .mega-tab-label {
+    color: #ffffff;
+}
+
+.mega-tab-content {
+    flex: 1;
+    padding: 0;
+}
+
+.mega-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+    width: 100%;
+}
+
+.mega-section {
+    width: 100%;
+}
+
+.section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .section-title {
+    color: #9ca3af;
+}
+
+.section-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.mega-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+}
+
+.mega-menu.theme-dark .mega-item {
+    border-color: #374151;
+    background: #000000;
+}
+
+.mega-item:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.mega-menu.theme-dark .mega-item:hover {
+    background: #111827;
+    border-color: #4b5563;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.item-icon {
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #f3f4f6;
+    border-radius: 10px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.mega-menu.theme-dark .item-icon {
+    color: #9ca3af;
+    background: #1f2937;
+}
+
+.mega-item:hover .item-icon {
+    background: #000000;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+.mega-menu.theme-dark .mega-item:hover .item-icon {
+    background: #ffffff;
+    color: #000000;
+}
+
+.item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.item-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.item-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #000000;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .item-name {
+    color: #ffffff;
+}
+
+.item-badge {
+    background: #000000;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.mega-menu.theme-dark .item-badge {
+    background: #ffffff;
+    color: #000000;
+}
+
+.item-description {
+    font-size: 0.85rem;
+    color: #6b7280;
+    line-height: 1.5;
+    margin: 0;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .item-description {
+    color: #9ca3af;
+}
+
+.mega-featured-wrapper {
+    padding: 2rem;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+    margin-top: 2rem;
+}
+
+.mega-menu.theme-dark .mega-featured-wrapper {
+    border-top-color: #374151;
+    background: #111827;
+}
+
+/* Featured Section */
+.mega-featured {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    gap: 2rem;
+    border: 1px solid #e5e7eb;
+    align-items: flex-start;
+}
+
+.mega-menu.theme-dark .mega-featured {
+    background: #000000;
+    border-color: #374151;
+}
+
+.featured-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.featured-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+    line-height: 1.4;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .featured-title {
+    color: #ffffff;
+}
+
+.featured-description {
+    font-size: 0.9rem;
+    color: #6b7280;
+    line-height: 1.5;
+    margin: 0;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .featured-description {
+    color: #9ca3af;
+}
+
+.featured-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.featured-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .featured-item {
+    color: #9ca3af;
+}
+
+.featured-item svg {
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.mega-menu.theme-dark .featured-item svg {
+    color: #9ca3af;
+}
+
+.featured-version {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.mega-menu.theme-dark .featured-version {
+    border-top-color: #374151;
+}
+
+.version-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #000000;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .version-text {
+    color: #ffffff;
+}
+
+.version-arrow {
+    color: #6b7280;
+    transition: transform 0.2s ease;
+}
+
+.mega-menu.theme-dark .version-arrow {
+    color: #9ca3af;
+}
+
+.mega-featured:hover .version-arrow {
+    transform: translate(2px, -2px);
+}
+
+.featured-image {
+    width: 100%;
+    height: 140px;
+    background: linear-gradient(135deg, #000000 0%, #374151 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.featured-image:hover {
+    transform: scale(1.02);
+}
+
+.video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: white;
+}
+
+.play-icon {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    padding: 0.75rem;
+    transition: all 0.2s ease;
+    color: #ffffff;
+}
+
+.video-placeholder:hover .play-icon {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.video-time {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Menu Actions */
+.menu-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mega-menu.theme-dark .theme-toggle {
+    color: #9ca3af;
+}
+
+.theme-toggle:hover {
+    background: #f3f4f6;
+    color: #000000;
+}
+
+.mega-menu.theme-dark .theme-toggle:hover {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+/* Wallet Connect Button */
+.wallet-connect-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mega-menu.theme-dark .wallet-connect-button {
+    color: #9ca3af;
+}
+
+.wallet-connect-button:hover {
+    background: #f3f4f6;
+    color: #000000;
+}
+
+.mega-menu.theme-dark .wallet-connect-button:hover {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+.contact-button {
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .contact-button {
+    background: #ffffff;
+    color: #000000;
+}
+
+.contact-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.contact-button:hover::before {
+    left: 100%;
+}
+
+.contact-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.mega-menu.theme-dark .contact-button:hover {
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+}
+
+.button-text {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.button-animation {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-button:hover .button-text {
+    transform: translateX(-2px);
+}
+
+.contact-button:hover .button-animation {
+    transform: translateX(4px);
+}
+
+.arrow-icon {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #ffffff;
+}
+
+.mega-menu.theme-dark .arrow-icon {
+    color: #000000;
+}
+
+.contact-button:hover .arrow-icon {
+    transform: translateX(2px);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    border-radius: 12px;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
+    position: relative;
+}
+
+.mega-menu.theme-dark .mobile-menu-toggle {
+    color: #ffffff;
+}
+
+.mobile-menu-toggle:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.mega-menu.theme-dark .mobile-menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 72px);
+    background: #ffffff;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 998;
+    overflow-y: auto;
+}
+
+.mega-menu.theme-dark .mobile-menu {
+    background: #000000;
+}
+
+.mobile-menu.open {
+    transform: translateX(0);
+}
+
+.mobile-menu-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mobile-menu-item {
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.mega-menu.theme-dark .mobile-menu-item {
+    border-bottom-color: #1f2937;
+}
+
+.mobile-menu-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.mobile-menu-link {
+    display: block;
+    padding: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .mobile-menu-link {
+    color: #ffffff;
+}
+
+.mobile-menu-link:hover {
+    background: #f3f4f6;
+}
+
+.mega-menu.theme-dark .mobile-menu-link:hover {
+    background: #1f2937;
+}
+
+.mobile-menu-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #000000;
+    background: none;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .mobile-menu-trigger {
+    color: #ffffff;
+}
+
+.mobile-menu-trigger:hover {
+    background: #f3f4f6;
+}
+
+.mega-menu.theme-dark .mobile-menu-trigger:hover {
+    background: #1f2937;
+}
+
+.mobile-chevron {
+    transition: transform 0.3s ease;
+}
+
+.mobile-chevron.rotated {
+    transform: rotate(90deg);
+}
+
+.mobile-submenu {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mobile-tab-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mobile-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .mobile-tab {
+    background: #111827;
+    border-color: #374151;
+}
+
+.mobile-tab:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.mega-menu.theme-dark .mobile-tab:hover {
+    background: #1f2937;
+    border-color: #4b5563;
+}
+
+.mobile-tab.active {
+    background: #ffffff;
+    border-color: #000000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mega-menu.theme-dark .mobile-tab.active {
+    background: #111827;
+    border-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+.mobile-tab-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e5e7eb;
+    border-radius: 8px;
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.mega-menu.theme-dark .mobile-tab-icon {
+    background: #374151;
+    color: #9ca3af;
+}
+
+.mobile-tab.active .mobile-tab-icon {
+    background: #000000;
+    color: #ffffff;
+}
+
+.mega-menu.theme-dark .mobile-tab.active .mobile-tab-icon {
+    background: #ffffff;
+    color: #000000;
+}
+
+.mobile-tab-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.mobile-tab-label {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: #374151;
+    line-height: 1.2;
+}
+
+.mega-menu.theme-dark .mobile-tab-label {
+    color: #d1d5db;
+}
+
+.mobile-tab.active .mobile-tab-label {
+    color: #000000;
+}
+
+.mega-menu.theme-dark .mobile-tab.active .mobile-tab-label {
+    color: #ffffff;
+}
+
+.mobile-tab-description {
+    font-size: 0.8125rem;
+    color: #9ca3af;
+    line-height: 1.3;
+    font-weight: 400;
+}
+
+.mega-menu.theme-dark .mobile-tab-description {
+    color: #6b7280;
+}
+
+.mobile-tab-items {
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mobile-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mobile-section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .mobile-section-title {
+    color: #9ca3af;
+}
+
+.mobile-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 1rem;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.mega-menu.theme-dark .mobile-item {
+    background: #111827;
+    border-color: #374151;
+}
+
+.mobile-item:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.mega-menu.theme-dark .mobile-item:hover {
+    background: #1f2937;
+    border-color: #4b5563;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-item-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    border-radius: 10px;
+    color: #6b7280;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.mega-menu.theme-dark .mobile-item-icon {
+    background: #1f2937;
+    color: #9ca3af;
+}
+
+.mobile-item:hover .mobile-item-icon {
+    background: #000000;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+.mega-menu.theme-dark .mobile-item:hover .mobile-item-icon {
+    background: #ffffff;
+    color: #000000;
+}
+
+.mobile-item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.mobile-item-name {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: #000000;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .mobile-item-name {
+    color: #ffffff;
+}
+
+.mobile-item-badge {
+    background: #000000;
+    color: #ffffff;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.1875rem 0.5rem;
+    border-radius: 16px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    width: fit-content;
+    margin-top: 0.25rem;
+}
+
+.mega-menu.theme-dark .mobile-item-badge {
+    background: #ffffff;
+    color: #000000;
+}
+
+.mobile-item-description {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    line-height: 1.4;
+    margin: 0;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .mobile-item-description {
+    color: #9ca3af;
+}
+
+.mobile-menu-actions {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.mega-menu.theme-dark .mobile-menu-actions {
+    border-top-color: #374151;
+}
+
+.mobile-contact-button {
+    width: 100%;
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .mobile-contact-button {
+    background: #ffffff;
+    color: #000000;
+}
+
+.mobile-contact-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.mega-menu.theme-dark .mobile-contact-button:hover {
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+}
+
+/* Wallet Modal */
+.wallet-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.3s ease-out;
+    box-sizing: border-box;
+}
+
+.mega-menu.theme-dark .wallet-modal-overlay {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.wallet-modal {
+    background: #ffffff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center center;
+    position: relative;
+}
+
+.mega-menu.theme-dark .wallet-modal {
+    background: #111827;
+    box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.wallet-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.mega-menu.theme-dark .wallet-modal-header {
+    border-bottom-color: #374151;
+}
+
+.wallet-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .wallet-modal-title {
+    color: #ffffff;
+}
+
+.wallet-modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mega-menu.theme-dark .wallet-modal-close {
+    color: #9ca3af;
+}
+
+.wallet-modal-close:hover {
+    background: #f3f4f6;
+    color: #000000;
+}
+
+.mega-menu.theme-dark .wallet-modal-close:hover {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+.wallet-modal-content {
+    padding: 1.5rem;
+}
+
+.wallet-modal-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .wallet-modal-description {
+    color: #9ca3af;
+}
+
+.wallet-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.wallet-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: transparent;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+    flex-direction: row;
+    min-height: 64px;
+}
+
+.mega-menu.theme-dark .wallet-option {
+    background: transparent;
+    border-color: #374151;
+}
+
+.wallet-option:hover {
+    background: #1f2937;
+    border-color: #4b5563;
+}
+
+.mega-menu.theme-dark .wallet-option:hover {
+    background: #1f2937;
+    border-color: #4b5563;
+}
+
+.wallet-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.mega-menu.theme-dark .wallet-icon {
+    background: #ffffff;
+    border-color: #e5e7eb;
+}
+
+.wallet-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.wallet-option:hover .wallet-icon {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mega-menu.theme-dark .wallet-option:hover .wallet-icon {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+.wallet-name {
+    font-weight: 500;
+    font-size: 1rem;
+    color: #ffffff;
+    display: block;
+}
+
+.mega-menu.theme-dark .wallet-name {
+    color: #ffffff;
+}
+
+/* More Wallet Options */
+.wallet-more-options {
+    padding: 1rem 0;
+    text-align: center;
+    border-bottom: 1px solid #374151;
+    margin: 1.5rem 0;
+}
+
+.more-options-text {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.more-options-text:hover {
+    color: #ffffff;
+}
+
+/* Email Section */
+.wallet-email-section {
+    margin: 1.5rem 0;
+}
+
+.email-divider {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: #374151;
+}
+
+.mega-menu.theme-dark .divider-line {
+    background: #374151;
+}
+
+.divider-text {
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 0 0.5rem;
+}
+
+.mega-menu.theme-dark .divider-text {
+    color: #6b7280;
+}
+
+.email-connect-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.email-connect-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.email-connect-button:hover::before {
+    left: 100%;
+}
+
+.email-connect-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.mega-menu.theme-dark .email-connect-button:hover {
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.email-button-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.email-icon {
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.email-arrow {
+    color: #ffffff;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.email-connect-button:hover .email-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+}
+
+/* Terms */
+.wallet-terms {
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-align: center;
+    line-height: 1.4;
+    margin: 1.5rem 0 0 0;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .wallet-terms {
+    color: #6b7280;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+    }
+
+    to {
+        opacity: 1;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Mobile wallet modal adjustments */
+@media (max-width: 640px) {
+    .wallet-modal-overlay {
+        padding: 1rem;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wallet-modal {
+        max-width: calc(100vw - 2rem);
+        width: 100%;
+        max-height: 85vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .wallet-modal-overlay {
+        padding: 0.75rem;
+    }
+
+    .wallet-modal {
+        max-width: calc(100vw - 1.5rem);
+        border-radius: 12px;
+    }
+}
+
+/* Desktop/Mobile Display Control */
+.desktop-only {
+    display: flex;
+}
+
+.mobile-only {
+    display: none;
+}
+
+/* Large Desktop */
+@media (min-width: 1200px) {
+    .mega-menu-container {
+        padding: 1rem 3rem;
+    }
+
+    .mega-content {
+        padding: 2rem;
+    }
+}
+
+/* Tablet Landscape */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .mega-content {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .mega-tabs {
+        flex-direction: row;
+        padding-right: 0;
+        padding-bottom: 1rem;
+        min-width: auto;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        gap: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .mega-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mega-menu.theme-dark .mega-tabs {
+        border-bottom-color: #374151;
+    }
+
+    .mega-tab {
+        min-width: 160px;
+        flex-shrink: 0;
+    }
+
+    .mega-sections {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .section-items {
+        grid-template-columns: 1fr;
+    }
+
+    .mega-featured {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
+/* Tablet Portrait and Mobile Transition */
+@media (max-width: 768px) {
+
+    /* Navigation Changes */
+    .mega-menu-container {
+        padding: 1rem 1.5rem;
+        height: 64px;
+        transition: all 0.3s ease;
+    }
+
+    .menu-items {
+        display: none;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: flex;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    /* Mobile Menu Positioning */
+    .mobile-menu {
+        top: 64px;
+        height: calc(100vh - 64px);
+    }
+
+    .mega-menu-container {
+        position: relative;
+        z-index: 1000;
+    }
+
+    /* Brand Adjustments */
+    .brand-link {
+        padding: 0.5rem 0.75rem;
+        gap: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .brand-name {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .logo-container {
+        width: 40px;
+        height: 40px;
+        padding: 6px;
+        transition: all 0.3s ease;
+    }
+
+    /* Desktop Dropdown Adjustments for Tablet */
+    .mega-content {
+        padding: 1.25rem;
+    }
+
+    .mega-tabs {
+        gap: 0.5rem;
+    }
+
+    .mega-tab {
+        min-width: 140px;
+        padding: 0.875rem 1rem;
+    }
+
+    .mega-tab-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .mega-tab-label {
+        font-size: 0.875rem;
+    }
+
+    .mega-tab-description {
+        font-size: 0.75rem;
+    }
+
+    .mega-sections {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .section-items {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .mega-featured-wrapper {
+        padding: 1.5rem;
+    }
+
+    .mega-featured {
+        padding: 1.5rem;
+        flex-direction: column;
+    }
+
+    .contact-button {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Mobile Landscape */
+@media (max-width: 640px) and (orientation: landscape) {
+    .mega-menu-container {
+        height: 56px;
+        padding: 0.75rem 1rem;
+    }
+
+    .mobile-menu {
+        top: 56px;
+        height: calc(100vh - 56px);
+    }
+
+    .brand-name {
+        font-size: 0.9375rem;
+    }
+
+    .logo-container {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+    .mega-menu-container {
+        padding: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .brand-link {
+        padding: 0.375rem 0.5rem;
+        gap: 0.625rem;
+    }
+
+    .brand-name {
+        font-size: 0.9375rem;
+    }
+
+    .logo-container {
+        width: 36px;
+        height: 36px;
+        padding: 5px;
+    }
+
+    /* Mobile Menu Content */
+    .mobile-menu-content {
+        padding: 1rem;
+    }
+
+    .mobile-submenu {
+        padding-left: 0.5rem;
+    }
+
+    .mobile-tab-items {
+        padding-left: 0.5rem;
+    }
+
+    /* Desktop Dropdown for Small Screens */
+    .mega-content {
+        padding: 1rem;
+    }
+
+    .mega-tabs {
+        gap: 0.375rem;
+    }
+
+    .mega-tab {
+        min-width: 120px;
+        padding: 0.75rem 0.875rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.375rem;
+    }
+
+    .mega-tab-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .mega-tab-label {
+        font-size: 0.8125rem;
+    }
+
+    .mega-tab-description {
+        display: none;
+    }
+
+    .mega-item {
+        padding: 1rem;
+    }
+
+    .item-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .mega-featured-wrapper {
+        padding: 1rem;
+    }
+
+    .mega-featured {
+        padding: 1rem;
+    }
+}
+
+/* Very Small Mobile */
+@media (max-width: 360px) {
+    .mega-menu-container {
+        padding: 0.75rem;
+    }
+
+    .brand-link {
+        padding: 0.25rem 0.375rem;
+        gap: 0.5rem;
+    }
+
+    .brand-name {
+        font-size: 0.875rem;
+    }
+
+    .logo-container {
+        width: 32px;
+        height: 32px;
+        padding: 4px;
+    }
+
+    .mobile-menu-toggle {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mobile-menu-content {
+        padding: 0.875rem;
+    }
+}
+
+/* Smooth Transitions for All Breakpoints */
+.mega-menu,
+.mega-menu-container,
+.brand-link,
+.logo-container,
+.mobile-menu-toggle,
+.menu-items,
+.mobile-menu {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent layout shifts during transitions */
+@media (hover: hover) {
+    .mobile-menu-toggle:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    .mega-menu.theme-dark .mobile-menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .mobile-menu-toggle {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .mobile-menu-trigger,
+    .mobile-menu-link,
+    .mobile-tab {
+        min-height: 44px;
+    }
+}
+
+/* Wallet Modal */
+.wallet-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.mega-menu.theme-dark .wallet-modal-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.wallet-modal {
+    background: #ffffff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mega-menu.theme-dark .wallet-modal {
+    background: #111827;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.wallet-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.mega-menu.theme-dark .wallet-modal-header {
+    border-bottom-color: #374151;
+}
+
+.wallet-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .wallet-modal-title {
+    color: #ffffff;
+}
+
+.wallet-modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mega-menu.theme-dark .wallet-modal-close {
+    color: #9ca3af;
+}
+
+.wallet-modal-close:hover {
+    background: #f3f4f6;
+    color: #000000;
+}
+
+.mega-menu.theme-dark .wallet-modal-close:hover {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+.wallet-modal-content {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+}
+
+.wallet-modal-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .wallet-modal-description {
+    color: #9ca3af;
+}
+
+.wallet-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.wallet-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+    font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mega-menu.theme-dark .wallet-option {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+.wallet-option:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.mega-menu.theme-dark .wallet-option:hover {
+    background: #374151;
+    border-color: #4b5563;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.wallet-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.mega-menu.theme-dark .wallet-icon {
+    background: #111827;
+    border-color: #374151;
+}
+
+.wallet-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #000000;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.mega-menu.theme-dark .wallet-name {
+    color: #ffffff;
+}
+
+.wallet-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    display: block;
+}
+
+.mega-menu.theme-dark .wallet-description {
+    color: #9ca3af;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Menu Actions */
