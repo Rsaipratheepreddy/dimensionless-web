@@ -165,7 +165,7 @@ const Services: React.FC<ServicesProps> = ({
                     </h2>
 
                     <p ref={descriptionRef} className="services-description">
-                        About Us section typically appears on a company or organization's website and provide
+                        About Us section typically appears on a company or organization&apos;s website and provide
                         visitors with key information about the entity. Here are the key points typically included:
                     </p>
                 </div>

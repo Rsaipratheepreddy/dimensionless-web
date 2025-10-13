@@ -142,7 +142,7 @@ const TeamMembers: React.FC<TeamMembersProps> = ({
                 {/* Header */}
                 <div ref={headerRef} className="members-header">
                     <h1 className="main-title">
-                        We've got an entire <span className="highlight">team dedicated</span>
+                        We&apos;ve got an entire <span className="highlight">team dedicated</span>
                     </h1>
                     <p className="subtitle">
                         Get help 24/7, with our award-winning support network of creative experts.

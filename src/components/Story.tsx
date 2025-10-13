@@ -468,7 +468,7 @@ const Story: React.FC<StoryProps> = ({
                                     <IconQuote size={20} />
                                 </div>
                                 <blockquote>
-                                    "Every challenge becomes an opportunity to create something beautiful."
+                                    &ldquo;Every challenge becomes an opportunity to create something beautiful.&rdquo;
                                 </blockquote>
                             </div>
 

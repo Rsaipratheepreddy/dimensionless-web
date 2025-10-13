@@ -58,7 +58,39 @@ export interface MegaMenuProps {
     onCTAClick?: () => void;
 }
 
-const iconMap: { [key: string]: any } = {
+interface MenuItem {
+    label: string;
+    type: 'link' | 'dropdown';
+    link?: string;
+    tabs?: Tab[];
+    featured?: {
+        title: string;
+        description: string;
+        features?: string[];
+        version?: string;
+    };
+}
+
+interface Tab {
+    id: string;
+    label: string;
+    sections: Section[];
+}
+
+interface Section {
+    title: string;
+    items: Item[];
+}
+
+interface Item {
+    name: string;
+    description: string;
+    link: string;
+    icon?: string;
+    badge?: string;
+}
+
+const iconMap: { [key: string]: React.ComponentType<{ size?: number; className?: string; stroke?: number }> } = {
     IconBrush,
     IconDiamond,
     IconPalette,
@@ -96,7 +128,7 @@ const iconMap: { [key: string]: any } = {
     IconMail
 };
 
-const tabIconMap: { [key: string]: any } = {
+const tabIconMap: { [key: string]: React.ComponentType<{ size?: number; className?: string; stroke?: number }> } = {
     'Services': IconSettings,
     'Products': IconPackage
 };
@@ -213,12 +245,12 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
         }));
     };
 
-    const renderMegaDropdown = (menuItem: any) => {
+    const renderMegaDropdown = (menuItem: MenuItem) => {
         if (!menuItem.tabs) return null;
 
         const menuKey = menuItem.label.toLowerCase().replace(/\s+/g, '-');
         const currentTabId = activeTab[menuKey] || menuItem.tabs[0]?.id;
-        const currentTab = menuItem.tabs.find((tab: any) => tab.id === currentTabId);
+        const currentTab = menuItem.tabs.find((tab: Tab) => tab.id === currentTabId);
 
         return (
             <div
@@ -230,7 +262,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                     {/* Vertical Tab Navigation */}
                     {menuItem.tabs.length > 1 && (
                         <div className="mega-tabs">
-                            {menuItem.tabs.map((tab: any) => (
+                            {menuItem.tabs.map((tab: Tab) => (
                                 <button
                                     key={tab.id}
                                     className={`mega-tab ${currentTabId === tab.id ? 'active' : ''}`}
@@ -256,11 +288,11 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
 
                     <div className="mega-tab-content">
                         <div className="mega-sections">
-                            {currentTab?.sections.map((section: any, sectionIndex: number) => (
+                            {currentTab?.sections.map((section: Section, sectionIndex: number) => (
                                 <div key={sectionIndex} className="mega-section">
                                     <h3 className="section-title">{section.title}</h3>
                                     <div className="section-items">
-                                        {section.items.map((item: any, itemIndex: number) => (
+                                        {section.items.map((item: Item, itemIndex: number) => (
                                             <Link
                                                 key={itemIndex}
                                                 href={item.link}
@@ -271,7 +303,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                                                 onMouseUp={() => setIsClickingInMenu(false)}
                                             >
                                                 <div className="item-icon">
-                                                    {renderIcon(item.icon)}
+                                                    {renderIcon(item.icon || 'IconBrush')}
                                                 </div>
                                                 <div className="item-content">
                                                     <div className="item-header">
@@ -361,7 +393,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                                         </button>
                                         {isActive && menuItem.tabs && menuItem.tabs.length > 0 && (
                                             <div className="mobile-submenu">
-                                                {menuItem.tabs!.map((tab: any) => {
+                                                {menuItem.tabs!.map((tab: Tab) => {
                                                     const currentTabId = activeTab[menuKey] || menuItem.tabs![0]?.id;
                                                     const isTabActive = currentTabId === tab.id;
 
@@ -386,10 +418,10 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                                                             </button>
                                                             {isTabActive && (
                                                                 <div className="mobile-tab-items">
-                                                                    {tab.sections.map((section: any, sectionIndex: number) => (
+                                                                    {tab.sections.map((section: Section, sectionIndex: number) => (
                                                                         <div key={sectionIndex} className="mobile-section">
                                                                             <h4 className="mobile-section-title">{section.title}</h4>
-                                                                            {section.items.map((item: any, itemIndex: number) => (
+                                                                            {section.items.map((item: Item, itemIndex: number) => (
                                                                                 <Link
                                                                                     key={itemIndex}
                                                                                     href={item.link}
@@ -397,7 +429,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                                                                                     onClick={() => setIsMobileMenuOpen(false)}
                                                                                 >
                                                                                     <div className="mobile-item-icon">
-                                                                                        {renderIcon(item.icon)}
+                                                                                        {renderIcon(item.icon || 'IconBrush')}
                                                                                     </div>
                                                                                     <div className="mobile-item-content">
                                                                                         <span className="mobile-item-name">{item.name}</span>

@@ -121,7 +121,7 @@ const Banner: React.FC<BannerProps> = ({
 
     }, [mounted]);
 
-    const iconMap: Record<string, React.ComponentType<any>> = {
+    const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
         IconBrush,
         IconBook,
         IconPalette,

@@ -158,7 +158,7 @@ const About: React.FC<AboutProps> = ({
                             </div>
                             <h3 className="card-title">Growth</h3>
                             <p className="card-description">
-                                Our mission's to drive grow & improve progress.
+                                Our mission&apos;s to drive grow & improve progress.
                             </p>
                         </div>
 
@@ -168,7 +168,7 @@ const About: React.FC<AboutProps> = ({
                             </div>
                             <h3 className="card-title">Revenue</h3>
                             <p className="card-description">
-                                Our mission's to drive grow & improve progress.
+                                Our mission&apos;s to drive grow & improve progress.
                             </p>
                         </div>
                     </div>

@@ -5,7 +5,7 @@ import Banner from '../components/Banner';
 import About from '@/components/About';
 import Services from '@/components/Services';
 import GoogleEarthSection from '@/components/GoogleEarthSection';
-import VirtualGallery from '@/components/VirtualGallery';
+import EmbeddedGallery from '@/components/EmbeddedGallery';
 import Address from '@/components/Address';
 import Story from '@/components/Story';
 import TeamMembers from '@/components/TeamMembers';
@@ -45,10 +45,12 @@ export default function Home() {
       />
       <About />
       <Services />
+      <EmbeddedGallery />
       <GoogleEarthSection
         onViewOnEarthClick={handleViewOnEarth}
         onGetDirectionsClick={handleGetDirections}
       />
+
       <Story />
       <TeamMembers />
       <Community />

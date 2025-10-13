@@ -180,7 +180,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className = '' }) => {
                         {firstRowTestimonials.map((testimonial, index) => (
                             <div key={`row1-${testimonial.id}-${index}`} className="testimonial-card">
                                 <div className="testimonial-quote">
-                                    <span className="quote-mark">"</span>
+                                    <span className="quote-mark">&ldquo;</span>
                                     <p className="testimonial-text">{testimonial.text}</p>
                                 </div>
                                 <div className="testimonial-author">
@@ -201,7 +201,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className = '' }) => {
                         {secondRowTestimonials.map((testimonial, index) => (
                             <div key={`row2-${testimonial.id}-${index}`} className="testimonial-card">
                                 <div className="testimonial-quote">
-                                    <span className="quote-mark">"</span>
+                                    <span className="quote-mark">&ldquo;</span>
                                     <p className="testimonial-text">{testimonial.text}</p>
                                 </div>
                                 <div className="testimonial-author">

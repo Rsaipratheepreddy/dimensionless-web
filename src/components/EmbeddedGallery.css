@@ -1,0 +1,329 @@
+/* Embedded Gallery Section */
+.embedded-gallery-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.embedded-gallery-section.theme-dark {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+}
+
+.gallery-container {
+    max-width: 1400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* Gallery Header */
+.gallery-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.gallery-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: #1a202c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.embedded-gallery-section.theme-dark .gallery-title {
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+}
+
+.title-icon {
+    font-size: 3.5rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.gallery-subtitle {
+    font-size: 1.25rem;
+    color: #64748b;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.embedded-gallery-section.theme-dark .gallery-subtitle {
+    color: #cbd5e1;
+}
+
+/* Gallery Embed Container */
+.gallery-embed-container {
+    position: relative;
+    width: 100%;
+    height: 800px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    background: #000;
+    border: 3px solid rgba(102, 126, 234, 0.2);
+    margin: 2rem;
+}
+
+.embedded-gallery-section.theme-dark .gallery-embed-container {
+    border-color: rgba(251, 191, 36, 0.3);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.gallery-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 17px;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    z-index: 10;
+}
+
+.embedded-gallery-section.theme-dark .loading-overlay {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+}
+
+.loading-spinner {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.spinner-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 4px solid transparent;
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+}
+
+.spinner-ring:nth-child(2) {
+    animation-delay: -0.5s;
+    border-top-color: #fbbf24;
+    width: 70px;
+    height: 70px;
+    top: 5px;
+    left: 5px;
+}
+
+.spinner-ring:nth-child(3) {
+    animation-delay: -1s;
+    border-top-color: #10b981;
+    width: 60px;
+    height: 60px;
+    top: 10px;
+    left: 10px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+}
+
+/* Error Container */
+.error-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    z-index: 10;
+}
+
+.error-icon {
+    font-size: 4rem;
+}
+
+.error-container h3 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.error-container p {
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin: 0;
+    max-width: 400px;
+}
+
+.retry-btn {
+    background: white;
+    color: #ef4444;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+    background: #f3f4f6;
+    transform: translateY(-2px);
+}
+
+/* Gallery Info Cards */
+.gallery-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.info-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.embedded-gallery-section.theme-dark .info-card {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #e2e8f0;
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.embedded-gallery-section.theme-dark .info-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.info-card h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-card p {
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.embedded-gallery-section.theme-dark .info-card p {
+    color: #a0aec0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .embedded-gallery-section {
+        padding: 2rem 1rem;
+    }
+
+    .gallery-title {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .title-icon {
+        font-size: 2.5rem;
+    }
+
+    .gallery-subtitle {
+        font-size: 1rem;
+    }
+
+    .gallery-embed-container {
+        height: 500px;
+        margin: 1rem;
+    }
+
+    .gallery-info {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .info-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-embed-container {
+        height: 350px;
+        margin: 0.5rem;
+    }
+
+    .loading-text {
+        font-size: 1rem;
+    }
+
+    .error-container {
+        padding: 1rem;
+    }
+
+    .error-container h3 {
+        font-size: 1.25rem;
+    }
+}
