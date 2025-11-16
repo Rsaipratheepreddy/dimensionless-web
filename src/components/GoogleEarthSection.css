@@ -20,10 +20,12 @@
 
 .earth-container {
     width: 100%;
+    max-width: 1400px;
     height: calc(100vh - 4rem);
     position: relative;
     border-radius: 20px;
     overflow: hidden;
+    margin: 0 auto;
 }
 
 .fullscreen-earth-container {
@@ -124,7 +126,6 @@
     border-radius: 50px;
     font-size: 1.125rem;
     color: white;
-    placeholder-color: rgba(255, 255, 255, 0.6);
     outline: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow:

@@ -17,6 +17,10 @@ export interface CMSData {
             label: string;
             type: 'dropdown' | 'link';
             link?: string;
+            items?: {
+                name: string;
+                link: string;
+            }[];
             tabs?: {
                 id: string;
                 label: string;
@@ -132,238 +136,98 @@ export const cmsData: CMSData = {
                 link: "/"
             },
             {
-                label: "Art Services",
+                label: "Artverse",
                 type: "dropdown",
-                tabs: [
+                items: [
                     {
-                        id: "art-services",
-                        label: "Services",
-                        sections: [
-                            {
-                                title: "ART SERVICES",
-                                items: [
-                                    {
-                                        name: "Tattoos",
-                                        icon: "IconBrush",
-                                        description: "Professional tattoo artistry and custom designs with various sizes and styles",
-                                        link: "/tattoos"
-                                    },
-                                    {
-                                        name: "Piercing",
-                                        icon: "IconDiamond",
-                                        description: "Safe and professional body piercing services with premium jewelry",
-                                        link: "/piercing"
-                                    },
-                                    {
-                                        name: "Art Classes",
-                                        icon: "IconPalette",
-                                        description: "Learn various art techniques from professional artists and instructors",
-                                        link: "/art-classes"
-                                    },
-                                    {
-                                        name: "Tattoo Trainings",
-                                        icon: "IconSchool",
-                                        description: "Comprehensive tattoo artist training programs and certifications",
-                                        link: "/tattoo-training"
-                                    },
-                                    {
-                                        name: "Live Art Sessions",
-                                        icon: "IconVideo",
-                                        description: "Interactive live art performances and real-time workshops",
-                                        link: "/live-art"
-                                    },
-                                    {
-                                        name: "Wall Painting",
-                                        icon: "IconWall",
-                                        description: "Custom murals and large-scale wall art installations",
-                                        link: "/wall-painting"
-                                    },
-                                    {
-                                        name: "Custom Art Installations",
-                                        icon: "IconBuildingStore",
-                                        description: "Bespoke art installations for commercial and residential spaces",
-                                        link: "/custom-installations"
-                                    },
-                                    {
-                                        name: "Corporate Events",
-                                        icon: "IconBuilding",
-                                        description: "Art-focused corporate events and team building activities",
-                                        link: "/corporate-events"
-                                    },
-                                    {
-                                        name: "Nail Art",
-                                        icon: "IconHandFinger",
-                                        description: "Professional nail art services with creative designs",
-                                        link: "/nail-art"
-                                    },
-                                    {
-                                        name: "Art Therapy",
-                                        icon: "IconHeart",
-                                        description: "Therapeutic art sessions for mental health and wellness",
-                                        link: "/art-therapy"
-                                    }
-                                ]
-                            }
-                        ]
+                        name: "Curated Art",
+                        link: "/curated-art"
                     },
                     {
-                        id: "art-products",
-                        label: "Products",
-                        sections: [
-                            {
-                                title: "ART PRODUCTS",
-                                items: [
-                                    {
-                                        name: "Canvas Artworks",
-                                        icon: "IconPhoto",
-                                        description: "Original paintings and canvas art pieces in various sizes and styles",
-                                        link: "/canvas"
-                                    },
-                                    {
-                                        name: "Merchandise",
-                                        icon: "IconShirt",
-                                        description: "Custom branded merchandise, apparel, and promotional items",
-                                        link: "/merchandise"
-                                    },
-                                    {
-                                        name: "Tattoo Kits & Supply",
-                                        icon: "IconToolsKitchen2",
-                                        description: "Professional tattoo equipment, machines, and art supplies",
-                                        link: "/tattoo-kits"
-                                    },
-                                    {
-                                        name: "Customised Wall Art",
-                                        icon: "IconFrame",
-                                        description: "Personalized wall decorations, frames, and home decor",
-                                        link: "/wall-art"
-                                    },
-                                    {
-                                        name: "NFT Art Collections",
-                                        icon: "IconCoin",
-                                        description: "Digital art collections and blockchain-based artwork",
-                                        link: "/nft-collections"
-                                    }
-                                ]
-                            }
-                        ]
+                        name: "Leasing & Sales",
+                        link: "/leasing-sales"
+                    },
+                    {
+                        name: "NFT Gallery",
+                        link: "/nft-gallery"
+                    },
+                    {
+                        name: "Featured Artists",
+                        link: "/featured-artists"
                     }
                 ]
             },
             {
-                label: "Tech Services",
+                label: "Techverse",
                 type: "dropdown",
-                tabs: [
+                items: [
                     {
-                        id: "tech-services",
-                        label: "Services",
-                        sections: [
-                            {
-                                title: "TECH SERVICES",
-                                items: [
-                                    {
-                                        name: "Branding",
-                                        icon: "IconBrandApple",
-                                        description: "Complete brand identity design and strategic brand development",
-                                        link: "/branding"
-                                    },
-                                    {
-                                        name: "Graphic Designing",
-                                        icon: "IconPencil",
-                                        description: "Visual design solutions for digital and print media",
-                                        link: "/graphic-design"
-                                    },
-                                    {
-                                        name: "AI Powered Design Tools",
-                                        icon: "IconRobot",
-                                        description: "Cutting-edge AI tools for automated design and creativity",
-                                        link: "/ai-design-tools"
-                                    },
-                                    {
-                                        name: "Tech Tools",
-                                        icon: "IconTool",
-                                        description: "Custom software tools and automation solutions",
-                                        link: "/tech-tools"
-                                    },
-                                    {
-                                        name: "AR VR Experiences",
-                                        icon: "IconDeviceDesktop",
-                                        description: "Immersive augmented and virtual reality experiences",
-                                        link: "/ar-vr"
-                                    },
-                                    {
-                                        name: "Creative Tech Consulting",
-                                        icon: "IconBulb",
-                                        description: "Strategic technology consulting for creative industries",
-                                        link: "/tech-consulting"
-                                    },
-                                    {
-                                        name: "Website & Ecommerce Development",
-                                        icon: "IconWorld",
-                                        description: "Full-stack web development and e-commerce solutions",
-                                        link: "/web-development"
-                                    }
-                                ]
-                            }
-                        ]
+                        name: "Web3 Solutions",
+                        link: "/web3-solutions"
                     },
                     {
-                        id: "tech-products",
-                        label: "Products",
-                        sections: [
-                            {
-                                title: "TECH PRODUCTS",
-                                items: [
-                                    {
-                                        name: "AI Art Generation Software",
-                                        icon: "IconCpu",
-                                        description: "Advanced AI software for generating unique artistic content",
-                                        link: "/ai-software"
-                                    },
-                                    {
-                                        name: "Digital Marketplace",
-                                        icon: "IconShoppingCart",
-                                        description: "Platform for buying and selling digital art and creative assets",
-                                        link: "/marketplace"
-                                    },
-                                    {
-                                        name: "SM-ART Frames",
-                                        icon: "IconDeviceTablet",
-                                        description: "Smart digital frames with interactive art display features",
-                                        link: "/smart-frames"
-                                    },
-                                    {
-                                        name: "Creative-Tech Mobile Apps",
-                                        icon: "IconDeviceMobile",
-                                        description: "Mobile applications for creative professionals and artists",
-                                        link: "/mobile-apps"
-                                    },
-                                    {
-                                        name: "Design Templates/Toolkits",
-                                        icon: "IconTemplate",
-                                        description: "Professional design templates and comprehensive toolkits",
-                                        link: "/design-templates"
-                                    }
-                                ]
-                            }
-                        ]
+                        name: "AI / AR / XR Projects",
+                        link: "/ai-ar-xr"
+                    },
+                    {
+                        name: "Smart Contract Development",
+                        link: "/smart-contracts"
+                    },
+                    {
+                        name: "Immersive Experiences",
+                        link: "/immersive-experiences"
                     }
                 ]
             },
             {
-                label: "Pricing",
-                type: "link",
-                link: "/pricing"
+                label: "Community",
+                type: "dropdown",
+                items: [
+                    {
+                        name: "Join the DAO",
+                        link: "/dao"
+                    },
+                    {
+                        name: "Events & Workshops",
+                        link: "/events"
+                    },
+                    {
+                        name: "Discord / Whatsapp",
+                        link: "/discord-whatsapp"
+                    },
+                    {
+                        name: "Collabs",
+                        link: "/collabs"
+                    }
+                ]
             },
             {
-                label: "About",
-                type: "link",
-                link: "/about"
+                label: "Wallet",
+                type: "dropdown",
+                items: [
+                    {
+                        name: "Token Utility",
+                        link: "/token-utility"
+                    },
+                    {
+                        name: "Roadmap",
+                        link: "/roadmap"
+                    },
+                    {
+                        name: "Whitepaper",
+                        link: "/whitepaper"
+                    },
+                    {
+                        name: "Buy / Stake",
+                        link: "/buy-stake"
+                    }
+                ]
             }
         ],
         additionalLinks: [],
         cta: {
-            label: "Contact Us",
-            action: "open_contact"
+            label: "Wallet",
+            action: "open_wallet"
         }
     },
     hero: {

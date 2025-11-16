@@ -160,18 +160,31 @@ const Banner: React.FC<BannerProps> = ({
         { id: 5, image: '/studio.png', title: 'Creative Work', alt: 'Creative Artwork' }
     ];
 
+    const tagChips = [
+        { id: 1, text: '@crypto', color: 'blue', position: 'top-left' },
+        { id: 2, text: '@community', color: 'red', position: 'top-right' },
+        { id: 3, text: '@art', color: 'green', position: 'right' },
+        { id: 4, text: '@technology', color: 'yellow', position: 'bottom-left' },
+        { id: 5, text: '@networking', color: 'orange', position: 'bottom-right' }
+    ];
+
     return (
         <section className={`hero-banner theme-${theme} ${className}`}>
             <div className="hero-container">
                 {/* Main Title */}
                 <h1 ref={titleRef} className="hero-title">
-                    Explore Dimensionless<br />
-                    <span className="highlight-word">Art & Tech</span>
+                    <span className="title-main">DIMENS.IN</span>
+                    <span className="title-subtitle">
+                        A<span className="highlight-r">R</span>TECH<span className="highlight-v">V</span>ERSE
+                    </span>
                 </h1>
                 <div ref={cardsRef} className="cards-container">
                     <div ref={userTagsRef} className="user-tags">
-                        <div className="user-tag user-tag-left">@coplin</div>
-                        <div className="user-tag user-tag-right">@andrea</div>
+                        {tagChips.map((chip) => (
+                            <div key={chip.id} className={`user-tag user-tag-${chip.position} tag-${chip.color}`}>
+                                {chip.text}
+                            </div>
+                        ))}
                     </div>
 
                     <div className="cards-stack">

@@ -62,6 +62,10 @@ interface MenuItem {
     label: string;
     type: 'link' | 'dropdown';
     link?: string;
+    items?: {
+        name: string;
+        link: string;
+    }[];
     tabs?: Tab[];
     featured?: {
         title: string;
@@ -245,7 +249,41 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
         }));
     };
 
+    const renderSimpleDropdown = (menuItem: MenuItem) => {
+        if (!menuItem.items || menuItem.items.length === 0) return null;
+
+        const menuKey = menuItem.label.toLowerCase().replace(/\s+/g, '-');
+
+        return (
+            <div
+                className="simple-dropdown"
+                onMouseEnter={() => handleDropdownEnter(menuKey)}
+                onMouseLeave={handleMenuLeave}
+            >
+                <div className="simple-dropdown-content">
+                    {menuItem.items.map((item, index) => (
+                        <Link
+                            key={index}
+                            href={item.link}
+                            className="simple-dropdown-item"
+                            onClick={handleMenuItemClick}
+                            onMouseEnter={(e) => e.stopPropagation()}
+                        >
+                            {item.name}
+                        </Link>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
     const renderMegaDropdown = (menuItem: MenuItem) => {
+        // If it has simple items, use simple dropdown
+        if (menuItem.items && menuItem.items.length > 0) {
+            return renderSimpleDropdown(menuItem);
+        }
+
+        // Otherwise, use the complex mega dropdown with tabs
         if (!menuItem.tabs) return null;
 
         const menuKey = menuItem.label.toLowerCase().replace(/\s+/g, '-');
@@ -391,62 +429,77 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                                                 className={`mobile-chevron ${isActive ? 'rotated' : ''}`}
                                             />
                                         </button>
-                                        {isActive && menuItem.tabs && menuItem.tabs.length > 0 && (
+                                        {isActive && (
                                             <div className="mobile-submenu">
-                                                {menuItem.tabs!.map((tab: Tab) => {
-                                                    const currentTabId = activeTab[menuKey] || menuItem.tabs![0]?.id;
-                                                    const isTabActive = currentTabId === tab.id;
+                                                {menuItem.items && menuItem.items.length > 0 ? (
+                                                    // Simple dropdown items
+                                                    menuItem.items.map((item, index) => (
+                                                        <Link
+                                                            key={index}
+                                                            href={item.link}
+                                                            className="mobile-simple-item"
+                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                        >
+                                                            {item.name}
+                                                        </Link>
+                                                    ))
+                                                ) : menuItem.tabs && menuItem.tabs.length > 0 ? (
+                                                    // Complex tabs structure
+                                                    menuItem.tabs!.map((tab: Tab) => {
+                                                        const currentTabId = activeTab[menuKey] || menuItem.tabs![0]?.id;
+                                                        const isTabActive = currentTabId === tab.id;
 
-                                                    return (
-                                                        <div key={tab.id} className="mobile-tab-section">
-                                                            <button
-                                                                className={`mobile-tab ${isTabActive ? 'active' : ''}`}
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    handleMobileTabClick(menuKey, tab.id);
-                                                                }}
-                                                            >
-                                                                <div className="mobile-tab-icon">
-                                                                    {renderTabIcon(tab.label)}
-                                                                </div>
-                                                                <div className="mobile-tab-content">
-                                                                    <div className="mobile-tab-label">{tab.label}</div>
-                                                                    <div className="mobile-tab-description">
-                                                                        {tab.label === 'Services' ? 'Professional services and solutions' : 'Digital products and tools'}
+                                                        return (
+                                                            <div key={tab.id} className="mobile-tab-section">
+                                                                <button
+                                                                    className={`mobile-tab ${isTabActive ? 'active' : ''}`}
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleMobileTabClick(menuKey, tab.id);
+                                                                    }}
+                                                                >
+                                                                    <div className="mobile-tab-icon">
+                                                                        {renderTabIcon(tab.label)}
                                                                     </div>
-                                                                </div>
-                                                            </button>
-                                                            {isTabActive && (
-                                                                <div className="mobile-tab-items">
-                                                                    {tab.sections.map((section: Section, sectionIndex: number) => (
-                                                                        <div key={sectionIndex} className="mobile-section">
-                                                                            <h4 className="mobile-section-title">{section.title}</h4>
-                                                                            {section.items.map((item: Item, itemIndex: number) => (
-                                                                                <Link
-                                                                                    key={itemIndex}
-                                                                                    href={item.link}
-                                                                                    className="mobile-item"
-                                                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                                                >
-                                                                                    <div className="mobile-item-icon">
-                                                                                        {renderIcon(item.icon || 'IconBrush')}
-                                                                                    </div>
-                                                                                    <div className="mobile-item-content">
-                                                                                        <span className="mobile-item-name">{item.name}</span>
-                                                                                        {item.badge && (
-                                                                                            <span className="mobile-item-badge">{item.badge}</span>
-                                                                                        )}
-                                                                                        <p className="mobile-item-description">{item.description}</p>
-                                                                                    </div>
-                                                                                </Link>
-                                                                            ))}
+                                                                    <div className="mobile-tab-content">
+                                                                        <div className="mobile-tab-label">{tab.label}</div>
+                                                                        <div className="mobile-tab-description">
+                                                                            {tab.label === 'Services' ? 'Professional services and solutions' : 'Digital products and tools'}
                                                                         </div>
-                                                                    ))}
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    );
-                                                })}
+                                                                    </div>
+                                                                </button>
+                                                                {isTabActive && (
+                                                                    <div className="mobile-tab-items">
+                                                                        {tab.sections.map((section: Section, sectionIndex: number) => (
+                                                                            <div key={sectionIndex} className="mobile-section">
+                                                                                <h4 className="mobile-section-title">{section.title}</h4>
+                                                                                {section.items.map((item: Item, itemIndex: number) => (
+                                                                                    <Link
+                                                                                        key={itemIndex}
+                                                                                        href={item.link}
+                                                                                        className="mobile-item"
+                                                                                        onClick={() => setIsMobileMenuOpen(false)}
+                                                                                    >
+                                                                                        <div className="mobile-item-icon">
+                                                                                            {renderIcon(item.icon || 'IconBrush')}
+                                                                                        </div>
+                                                                                        <div className="mobile-item-content">
+                                                                                            <span className="mobile-item-name">{item.name}</span>
+                                                                                            {item.badge && (
+                                                                                                <span className="mobile-item-badge">{item.badge}</span>
+                                                                                            )}
+                                                                                            <p className="mobile-item-description">{item.description}</p>
+                                                                                        </div>
+                                                                                    </Link>
+                                                                                ))}
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })
+                                                ) : null}
                                             </div>
                                         )}
                                     </>
@@ -456,12 +509,12 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                     })}
 
                     <div className="mobile-menu-actions">
-                        <button className="mobile-contact-button" onClick={() => {
-                            handleCTAClick();
+                        <button className="mobile-wallet-button" onClick={() => {
+                            handleWalletConnect();
                             setIsMobileMenuOpen(false);
                         }}>
-                            <span className="button-text">{cmsData.navigation.cta.label}</span>
-                            <IconArrowRight size={16} stroke={1.5} className="arrow-icon" />
+                            <IconWallet size={20} stroke={1.5} />
+                            <span className="wallet-button-text">{cmsData.navigation.cta.label}</span>
                         </button>
                     </div>
                 </div>
@@ -511,8 +564,10 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
                             />
                         </div>
                         <span className="brand-name">
-                            <span className="brand-name-line">Dimensionless</span>
-                            <span className="brand-name-line">Studios</span>
+                            <span className="brand-name-line">DIMENS.IN</span>
+                            <span className="brand-name-line">
+                                ARTE<span className="brand-v-highlight">V</span>ERSE
+                            </span>
                         </span>
                     </Link>
                 </div>
@@ -548,31 +603,17 @@ const MegaMenu: React.FC<MegaMenuProps> = ({
 
                 <div className="menu-actions">
                     <button
-                        className="wallet-connect-button"
-                        onClick={handleWalletConnect}
-                        aria-label="Connect wallet"
-                    >
-                        <IconWallet size={20} stroke={1.5} />
-                    </button>
-
-                    <button
                         className="theme-toggle"
                         onClick={toggleTheme}
                         aria-label="Toggle theme"
                     >
-                        {theme === 'light' ? (
-                            <IconSun size={20} stroke={1.5} />
-                        ) : (
-                            <IconMoon size={20} stroke={1.5} />
-                        )}
+                        <IconSun size={20} stroke={1.5} />
                     </button>
 
-                    {/* Desktop Contact Button */}
-                    <button className="contact-button desktop-only" onClick={handleCTAClick}>
-                        <span className="button-text">{cmsData.navigation.cta.label}</span>
-                        <div className="button-animation">
-                            <IconArrowRight size={16} stroke={1.5} className="arrow-icon" />
-                        </div>
+                    {/* Desktop Wallet Button */}
+                    <button className="wallet-button desktop-only" onClick={handleWalletConnect}>
+                        <IconWallet size={20} stroke={1.5} />
+                        <span className="wallet-button-text">{cmsData.navigation.cta.label}</span>
                     </button>
 
                     {/* Mobile Menu Toggle */}

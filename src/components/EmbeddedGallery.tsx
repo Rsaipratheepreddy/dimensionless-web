@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { IconPalette } from '@tabler/icons-react';
 import './EmbeddedGallery.css';
 
 const EmbeddedGallery: React.FC = () => {
@@ -33,7 +34,7 @@ const EmbeddedGallery: React.FC = () => {
             <div className="gallery-container">
                 <div className="gallery-header">
                     <h2 className="gallery-title">
-                        <span className="title-icon">🎨</span>
+                        <IconPalette size={32} className="title-icon" />
                         Virtual Art Gallery
                     </h2>
                     <p className="gallery-subtitle">
@@ -55,7 +56,6 @@ const EmbeddedGallery: React.FC = () => {
 
                     {hasError ? (
                         <div className="error-container">
-                            <div className="error-icon">⚠️</div>
                             <h3>Unable to Load Gallery</h3>
                             <p>The virtual gallery is currently unavailable. Please try again later.</p>
                             <button
@@ -80,21 +80,6 @@ const EmbeddedGallery: React.FC = () => {
                             sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
                         />
                     )}
-                </div>
-
-                <div className="gallery-info">
-                    <div className="info-card">
-                        <h4>🎯 Interactive Experience</h4>
-                        <p>Navigate through our 3D gallery space using your mouse and keyboard controls</p>
-                    </div>
-                    <div className="info-card">
-                        <h4>🖼️ Curated Collection</h4>
-                        <p>Discover our latest artworks and creative projects in an immersive environment</p>
-                    </div>
-                    <div className="info-card">
-                        <h4>🌐 Virtual Reality Ready</h4>
-                        <p>Experience the gallery in VR for the ultimate immersive art viewing experience</p>
-                    </div>
                 </div>
             </div>
         </section>
