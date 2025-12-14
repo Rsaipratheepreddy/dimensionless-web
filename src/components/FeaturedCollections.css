@@ -1,0 +1,238 @@
+.featured-collections {
+    padding: 2rem 0;
+}
+
+.collections-header-simple {
+    margin-bottom: 2rem;
+}
+
+.collections-title-simple {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 0.5rem 0;
+}
+
+.collections-subtitle-simple {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.art-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1.25rem;
+}
+
+.art-card-simple {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.art-card-simple:hover {
+    border-color: rgba(138, 116, 249, 0.3);
+}
+
+.art-image-simple {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 1rem;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.image-placeholder-simple {
+    width: 100%;
+    height: 100%;
+    background-image: url('/painting.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.image-placeholder-simple::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+.placeholder-text-simple {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-align: left;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.art-info-simple {
+    padding: 0;
+}
+
+.art-title-simple {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+}
+
+.art-artist-simple {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0 0 1rem 0;
+}
+
+.art-price-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.price-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.price-label-simple {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.price-value-simple {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dmn-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url('/dimen-coin.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.time-info {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.time-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.time-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+/* User profile avatar */
+.user-avatar {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #1a1a2e;
+    background: #ffffff;
+    z-index: 3;
+    overflow: hidden;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.place-bid-btn {
+    width: 100%;
+    padding: 0.875rem;
+    background: linear-gradient(135deg, #8a74f9 0%, #6b5ce7 100%);
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.place-bid-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(138, 116, 249, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    .art-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 1024px) {
+    .art-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .featured-collections {
+        padding: 1.5rem 0;
+    }
+
+    .art-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .art-image-simple {
+        height: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .art-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .art-image-simple {
+        height: 260px;
+    }
+}

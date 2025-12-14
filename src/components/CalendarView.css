@@ -1,0 +1,181 @@
+/* Calendar View Styles */
+.calendar-view-section {
+    padding: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.scheduler-container {
+    background: var(--bg-card);
+    /* Match card background */
+    border: 1px solid var(--border-color);
+    /* Match card border */
+    border-radius: 16px;
+    padding: 1.5rem;
+    color: var(--text-main);
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+}
+
+.scheduler-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.scheduler-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
+
+/* React Big Calendar Dark Theme Overrides */
+.rbc-calendar {
+    font-family: inherit;
+    color: var(--text-secondary);
+}
+
+/* Toolbar */
+.rbc-toolbar button {
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.rbc-toolbar button:active,
+.rbc-toolbar button.rbc-active {
+    background-color: #8a74f9;
+    background-image: none;
+    box-shadow: none;
+    color: white;
+    border-color: #8a74f9;
+}
+
+.rbc-toolbar button:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+/* Grid & Headers */
+.rbc-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.rbc-header+.rbc-header {
+    border-left: 1px solid var(--border-color);
+}
+
+.rbc-month-view,
+.rbc-time-view,
+.rbc-agenda-view {
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+}
+
+.rbc-day-bg+.rbc-day-bg {
+    border-left: 1px solid var(--border-color);
+}
+
+.rbc-month-row+.rbc-month-row {
+    border-top: 1px solid var(--border-color);
+}
+
+.rbc-off-range-bg {
+    background: var(--bg-secondary);
+    /* Slightly lighter than black to show difference */
+}
+
+.rbc-today {
+    background-color: rgba(138, 116, 249, 0.05);
+    /* Very subtle purple tint */
+}
+
+/* Time View Grid */
+.rbc-timeslot-group {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.rbc-time-content {
+    border-top: 1px solid var(--border-color);
+}
+
+.rbc-time-view .rbc-row {
+    min-height: 20px;
+}
+
+.rbc-time-header-content {
+    border-left: 1px solid var(--border-color);
+}
+
+.rbc-time-column {
+    border-left: 1px solid var(--border-color);
+}
+
+.rbc-time-gutter .rbc-timeslot-group {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.rbc-label {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Events */
+.rbc-event {
+    border: none;
+    border-radius: 6px;
+    /* Increased radius */
+    padding: 4px 8px;
+    /* Improved padding */
+    font-size: 0.85rem;
+    /* Better readability */
+    font-weight: 600;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Richer shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rbc-event:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+}
+
+.rbc-event-content {
+    font-size: 0.8rem;
+}
+
+/* Custom Event Categories */
+.rbc-event-art-class {
+    background-color: rgba(255, 159, 67, 0.15) !important;
+    border-left: 3px solid #ff9f43 !important;
+    color: #ff9f43 !important;
+}
+
+.rbc-event-exhibition {
+    background-color: rgba(84, 160, 255, 0.15) !important;
+    border-left: 3px solid #54a0ff !important;
+    color: #54a0ff !important;
+}
+
+.rbc-event-meetup {
+    background-color: rgba(29, 209, 161, 0.15) !important;
+    border-left: 3px solid #1dd1a1 !important;
+    color: #1dd1a1 !important;
+}

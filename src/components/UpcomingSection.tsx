@@ -1,0 +1,216 @@
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+    IconPalette,
+    IconBuildingMonument,
+    IconUsers,
+    IconCalendar,
+    IconMapPin,
+    IconTicket,
+    IconHeart,
+    IconUser
+} from '@tabler/icons-react';
+import Image from 'next/image';
+import './UpcomingSection.css';
+
+interface EventItem {
+    id: string;
+    title: string;
+    dateStr: string;
+    dateObj: Date;
+    category: 'art-class' | 'exhibition' | 'meetup';
+    description: string;
+    image?: string;
+    price?: string;
+    duration?: number; // hours
+}
+
+// Calendar Setup
+const UpcomingSection: React.FC = () => {
+    const [activeTab, setActiveTab] = useState<string>('all');
+    const router = useRouter();
+
+    // ... events array ...
+
+    const events: EventItem[] = [
+        {
+            id: '1',
+            title: 'Oil Painting Masterclass',
+            dateStr: 'Dec 24, 10:00 AM',
+            dateObj: new Date(2024, 11, 24, 10, 0),
+            category: 'art-class',
+            description: 'Advanced oil painting techniques.',
+            price: '₹1200',
+            duration: 2
+        },
+        {
+            id: '2',
+            title: 'Modern Art Exhibition',
+            dateStr: 'Dec 26, 11:00 AM',
+            dateObj: new Date(2024, 11, 26, 11, 0),
+            category: 'exhibition',
+            description: 'Showcasing contemporary works.',
+            price: 'Free',
+            duration: 4
+        },
+        {
+            id: '3',
+            title: 'Artist Meetup: Bangalore',
+            dateStr: 'Dec 28, 04:00 PM',
+            dateObj: new Date(2024, 11, 28, 16, 0),
+            category: 'meetup',
+            description: 'Connect with fellow creators.',
+            price: 'Free',
+            duration: 1.5
+        },
+        {
+            id: '4',
+            title: 'Digital Art Workshop',
+            dateStr: 'Jan 05, 02:00 PM',
+            dateObj: new Date(2025, 0, 5, 14, 0),
+            category: 'art-class',
+            description: 'Digital painting with Procreate.',
+            price: '₹800',
+            duration: 3
+        },
+        {
+            id: '5',
+            title: 'Sculpture Gallery Opening',
+            dateStr: 'Jan 10, 06:00 PM',
+            dateObj: new Date(2025, 0, 10, 18, 0),
+            category: 'exhibition',
+            description: 'Kinetic sculpture wing opening.',
+            price: 'Invite',
+            duration: 3
+        },
+        {
+            id: '6',
+            title: 'NFT Creator Talk',
+            dateStr: 'Dec 30, 07:00 PM',
+            dateObj: new Date(2024, 11, 30, 19, 0),
+            category: 'meetup',
+            description: 'Strategies for NFT marketing.',
+            price: 'Free',
+            duration: 1.5
+        }
+    ];
+
+
+    return (
+        <section id="upcoming-events" className="upcoming-section">
+            <div className="section-header-row">
+                <h2 className="section-title">Upcoming Events</h2>
+
+                <div className="header-controls">
+                    <div className="tabs-pill-container">
+                        <button
+                            className={`pill-tab ${activeTab === 'all' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('all')}
+                        >
+                            All
+                        </button>
+                        <button
+                            className={`pill-tab ${activeTab === 'art-class' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('art-class')}
+                        >
+                            <IconPalette size={16} />
+                            Classes
+                        </button>
+                        <button
+                            className={`pill-tab ${activeTab === 'exhibition' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('exhibition')}
+                        >
+                            <IconBuildingMonument size={16} />
+                            Exhibitions
+                        </button>
+                        <button
+                            className={`pill-tab ${activeTab === 'meetup' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('meetup')}
+                        >
+                            <IconUsers size={16} />
+                            Meetups
+                        </button>
+                    </div>
+
+                    <button
+                        className="calendar-entry-btn"
+                        onClick={() => router.push('/calendar')}
+                    >
+                        <IconCalendar size={18} />
+                        <span>View Calendar</span>
+                    </button>
+                </div>
+            </div>
+
+            <div className="events-carousel-container">
+                <div className="events-carousel">
+                    {events.filter(e => activeTab === 'all' || e.category === activeTab).map(event => (
+                        <div key={event.id} className="event-card">
+                            <div className="card-image-wrapper">
+                                <Image
+                                    src="/painting.png"
+                                    alt={event.title}
+                                    fill
+                                    className="card-img"
+                                />
+                                <div className="date-badge">
+                                    <span className="date-day">{event.dateObj.getDate()}</span>
+                                    <span className="date-month">{event.dateObj.toLocaleString('default', { month: 'short' }).toUpperCase()}</span>
+                                </div>
+                                <button className="like-btn">
+                                    <IconHeart size={18} />
+                                </button>
+                                <div className="going-avatars">
+                                    <div className="avatar-stack">
+                                        {[1, 2, 3].map(i => (
+                                            <div key={i} className="mini-avatar">
+                                                <Image src={`/founder${i > 2 ? 1 : i}.png`} alt="User" width={24} height={24} />
+                                            </div>
+                                        ))}
+                                        <div className="avatar-count">+1K Going</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="card-content">
+                                <div className="category-tag">
+                                    {event.category === 'art-class' && 'Art Class'}
+                                    {event.category === 'exhibition' && 'Exhibition'}
+                                    {event.category === 'meetup' && 'Meetup'}
+                                </div>
+                                <h3 className="card-title">{event.title}</h3>
+
+                                <div className="card-meta-list">
+                                    <div className="meta-item">
+                                        <IconMapPin size={16} className="meta-icon" />
+                                        <span>Central Park, New York City</span>
+                                    </div>
+                                    <div className="meta-item">
+                                        <IconCalendar size={16} className="meta-icon" />
+                                        <span>{event.dateStr}</span>
+                                    </div>
+                                    <div className="meta-item">
+                                        <IconTicket size={16} className="meta-icon" />
+                                        <span>From {event.price}</span>
+                                    </div>
+                                    <div className="meta-item">
+                                        <IconUser size={16} className="meta-icon" />
+                                        <span>By World Fusion Events</span>
+                                    </div>
+                                </div>
+
+                                <div className="card-actions">
+                                    <button className="btn-primary">Buy Tickets</button>
+                                    <button className="btn-secondary">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default UpcomingSection;

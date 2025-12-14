@@ -1,8 +1,6 @@
 'use client';
 
 import MegaMenu from '../components/MegaMenu';
-import Banner from '../components/Banner';
-import About from '@/components/About';
 import Services from '@/components/Services';
 import GoogleEarthSection from '@/components/GoogleEarthSection';
 import EmbeddedGallery from '@/components/EmbeddedGallery';
@@ -39,11 +37,7 @@ export default function Home() {
       <MegaMenu
         onCTAClick={handleContactUs}
       />
-      <Banner
-        showVisuals={true}
-        onCTAClick={handleGetStarted}
-      />
-      <About />
+
       <Services />
       <EmbeddedGallery />
       <GoogleEarthSection
