@@ -97,7 +97,15 @@ const CalendarView: React.FC = () => {
         resource: event
     }));
 
-    const eventStyleGetter = (event: any) => {
+    interface CalendarEvent {
+        id: string;
+        title: string;
+        start: Date;
+        end: Date;
+        resource: EventItem;
+    }
+
+    const eventStyleGetter = (event: CalendarEvent) => {
         const category = event.resource.category;
         return {
             className: `rbc-event-${category}`

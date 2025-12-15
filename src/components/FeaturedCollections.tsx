@@ -31,7 +31,7 @@ const FeaturedCollections: React.FC = () => {
         <section className="featured-collections">
             <div className="collections-header-simple">
                 <h2 className="collections-title-simple">Featured Art Collections</h2>
-                <p className="collections-subtitle-simple">This week's curated collection</p>
+                <p className="collections-subtitle-simple">This week&apos;s curated collection</p>
             </div>
 
             <div className="art-grid">

@@ -74,23 +74,55 @@
     box-shadow: 0 4px 12px rgba(138, 116, 249, 0.3);
 }
 
+
+/* Carousel Nav Buttons */
+.carousel-nav-buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+    background: var(--bg-tertiary);
+    border-color: #8a74f9;
+    color: #8a74f9;
+}
+
 /* Carousel */
 .events-carousel-container {
     width: 100%;
     max-width: 100%;
     min-width: 0;
     overflow: hidden;
+    position: relative;
 }
 
 .events-carousel {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     overflow-x: auto;
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
+    /* More space for shadow */
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     scroll-behavior: smooth;
     scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
 .events-carousel::-webkit-scrollbar {
@@ -110,6 +142,7 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     /* Ensure it doesn't shrink */
     flex-shrink: 0;
+    scroll-snap-align: start;
 }
 
 .event-card:hover {

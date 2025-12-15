@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import {
     IconPalette,
@@ -9,7 +9,9 @@ import {
     IconMapPin,
     IconTicket,
     IconHeart,
-    IconUser
+    IconUser,
+    IconChevronLeft,
+    IconChevronRight
 } from '@tabler/icons-react';
 import Image from 'next/image';
 import './UpcomingSection.css';
@@ -30,6 +32,19 @@ interface EventItem {
 const UpcomingSection: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('all');
     const router = useRouter();
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollContainerRef.current) {
+            const { current } = scrollContainerRef;
+            const scrollAmount = 380; // Card width (340) + gap (16) approx
+            if (direction === 'left') {
+                current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+    };
 
     // ... events array ...
 
@@ -133,6 +148,15 @@ const UpcomingSection: React.FC = () => {
                         </button>
                     </div>
 
+                    <div className="carousel-nav-buttons">
+                        <button className="nav-btn" onClick={() => scroll('left')} aria-label="Scroll left">
+                            <IconChevronLeft size={20} />
+                        </button>
+                        <button className="nav-btn" onClick={() => scroll('right')} aria-label="Scroll right">
+                            <IconChevronRight size={20} />
+                        </button>
+                    </div>
+
                     <button
                         className="calendar-entry-btn"
                         onClick={() => router.push('/calendar')}
@@ -144,7 +168,7 @@ const UpcomingSection: React.FC = () => {
             </div>
 
             <div className="events-carousel-container">
-                <div className="events-carousel">
+                <div className="events-carousel" ref={scrollContainerRef}>
                     {events.filter(e => activeTab === 'all' || e.category === activeTab).map(event => (
                         <div key={event.id} className="event-card">
                             <div className="card-image-wrapper">
