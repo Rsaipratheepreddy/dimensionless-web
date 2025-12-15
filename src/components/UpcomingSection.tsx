@@ -79,36 +79,6 @@ const UpcomingSection: React.FC = () => {
             price: 'Free',
             duration: 1.5
         },
-        {
-            id: '4',
-            title: 'Digital Art Workshop',
-            dateStr: 'Jan 05, 02:00 PM',
-            dateObj: new Date(2025, 0, 5, 14, 0),
-            category: 'art-class',
-            description: 'Digital painting with Procreate.',
-            price: '₹800',
-            duration: 3
-        },
-        {
-            id: '5',
-            title: 'Sculpture Gallery Opening',
-            dateStr: 'Jan 10, 06:00 PM',
-            dateObj: new Date(2025, 0, 10, 18, 0),
-            category: 'exhibition',
-            description: 'Kinetic sculpture wing opening.',
-            price: 'Invite',
-            duration: 3
-        },
-        {
-            id: '6',
-            title: 'NFT Creator Talk',
-            dateStr: 'Dec 30, 07:00 PM',
-            dateObj: new Date(2024, 11, 30, 19, 0),
-            category: 'meetup',
-            description: 'Strategies for NFT marketing.',
-            price: 'Free',
-            duration: 1.5
-        }
     ];
 
 
