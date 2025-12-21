@@ -3,6 +3,7 @@ import './AppLayout.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import CategorySidebar from './CategorySidebar';
+import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -13,12 +14,14 @@ interface AppLayoutProps {
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
     const pathname = usePathname();
+    const { profile } = useAuth();
 
     const toggleMobileSidebar = () => {
         setIsMobileSidebarOpen(!isMobileSidebarOpen);
     };
 
     const isHomePage = pathname === '/';
+    const showRightSidebar = isHomePage && profile?.role !== 'admin';
 
     // Close sidebar on window resize if it's open
     useEffect(() => {
@@ -36,11 +39,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             <Sidebar isMobileOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} />
             <div className="main-wrapper">
                 <Header onMenuClick={toggleMobileSidebar} />
-                <div className={`content-wrapper ${!isHomePage ? 'hide-right-sidebar' : ''}`}>
+                <div className={`content-wrapper ${!showRightSidebar ? 'hide-right-sidebar' : ''}`}>
                     <main className="main-content">
                         {children}
                     </main>
-                    {isHomePage && (
+                    {showRightSidebar && (
                         <aside className="right-sidebar">
                             <CategorySidebar />
                         </aside>

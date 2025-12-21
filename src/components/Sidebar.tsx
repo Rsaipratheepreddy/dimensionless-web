@@ -117,57 +117,61 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
             </div>
 
             <nav className="sidebar-nav">
-                <div className="nav-section">
-                    <div className="nav-section-title">Overview</div>
-                    {mainItems.map((item, index) => {
-                        const Icon = item.icon;
-                        const isActive = item.href === '/';
-                        return (
-                            <Link
-                                key={index}
-                                href={item.href}
-                                className={`sidebar-item ${isActive ? 'active' : ''}`}
-                            >
-                                <Icon size={20} className="item-icon" />
-                                {!isCollapsed && <span className="item-label">{item.label}</span>}
-                            </Link>
-                        );
-                    })}
-                </div>
+                {profile?.role !== 'admin' && (
+                    <>
+                        <div className="nav-section">
+                            <div className="nav-section-title">Overview</div>
+                            {mainItems.map((item, index) => {
+                                const Icon = item.icon;
+                                const isActive = item.href === '/';
+                                return (
+                                    <Link
+                                        key={index}
+                                        href={item.href}
+                                        className={`sidebar-item ${isActive ? 'active' : ''}`}
+                                    >
+                                        <Icon size={20} className="item-icon" />
+                                        {!isCollapsed && <span className="item-label">{item.label}</span>}
+                                    </Link>
+                                );
+                            })}
+                        </div>
 
-                <div className="nav-section">
-                    <div className="nav-section-title">Art School</div>
-                    {artSchoolItems.map((item, index) => {
-                        const Icon = item.icon;
-                        return (
-                            <Link
-                                key={index}
-                                href={item.href}
-                                className="sidebar-item"
-                            >
-                                <Icon size={20} className="item-icon" />
-                                {!isCollapsed && <span className="item-label">{item.label}</span>}
-                            </Link>
-                        );
-                    })}
-                </div>
+                        <div className="nav-section">
+                            <div className="nav-section-title">Art School</div>
+                            {artSchoolItems.map((item, index) => {
+                                const Icon = item.icon;
+                                return (
+                                    <Link
+                                        key={index}
+                                        href={item.href}
+                                        className="sidebar-item"
+                                    >
+                                        <Icon size={20} className="item-icon" />
+                                        {!isCollapsed && <span className="item-label">{item.label}</span>}
+                                    </Link>
+                                );
+                            })}
+                        </div>
 
-                <div className="nav-section">
-                    <div className="nav-section-title">Services</div>
-                    {serviceItems.map((item, index) => {
-                        const Icon = item.icon;
-                        return (
-                            <Link
-                                key={index}
-                                href={item.href}
-                                className="sidebar-item"
-                            >
-                                <Icon size={20} className="item-icon" />
-                                {!isCollapsed && <span className="item-label">{item.label}</span>}
-                            </Link>
-                        );
-                    })}
-                </div>
+                        <div className="nav-section">
+                            <div className="nav-section-title">Services</div>
+                            {serviceItems.map((item, index) => {
+                                const Icon = item.icon;
+                                return (
+                                    <Link
+                                        key={index}
+                                        href={item.href}
+                                        className="sidebar-item"
+                                    >
+                                        <Icon size={20} className="item-icon" />
+                                        {!isCollapsed && <span className="item-label">{item.label}</span>}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </>
+                )}
 
                 {profile?.role === 'admin' && (
                     <div className="nav-section">
@@ -179,6 +183,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
                         <Link href="/admin/settings" className="sidebar-item">
                             <IconSettings size={20} className="item-icon" />
                             {!isCollapsed && <span className="item-label">Platform Settings</span>}
+                        </Link>
+                        <Link href="/admin/leasing" className="sidebar-item">
+                            <IconPackage size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Leasing Management</span>}
                         </Link>
                     </div>
                 )}

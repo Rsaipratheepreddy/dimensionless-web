@@ -6,8 +6,31 @@ import StatsCards from '../components/StatsCards';
 import ContinueSection, { CarouselItem } from '../components/ContinueSection';
 import LessonList from '../components/LessonList';
 import ActionCards from '../components/ActionCards';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { IconLoader2 } from '@tabler/icons-react';
 
 export default function Home() {
+    const { profile, loading: authLoading } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!authLoading && profile?.role === 'admin') {
+            router.replace('/admin');
+        }
+    }, [profile, authLoading, router]);
+
+    if (authLoading || profile?.role === 'admin') {
+        return (
+            <AppLayout>
+                <div className="loading-center">
+                    <IconLoader2 className="animate-spin" size={48} color="var(--color-primary)" />
+                </div>
+            </AppLayout>
+        );
+    }
+
     const artItems: CarouselItem[] = [
         {
             title: "Divine Serenity - Buddha Oil Painting",

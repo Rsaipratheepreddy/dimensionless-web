@@ -23,42 +23,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                     <button className="mobile-menu-btn" onClick={onMenuClick} aria-label="Toggle Menu">
                         <IconMenu2 size={24} />
                     </button>
-                    <div className="search-container">
-                        <IconSearch size={20} stroke={1.5} className="search-icon" />
-                        <input
-                            type="text"
-                            className="search-input"
-                            placeholder="Search your course...."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-                </div>
-
-                <div className="header-right-mobile">
-                    <div className="header-actions">
-                        <Link href="/cart" className="header-btn cart-btn" aria-label="Cart">
-                            <IconShoppingCart size={20} stroke={1.5} />
-                            {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
-                        </Link>
-                        <button className="header-btn" aria-label="Messages">
-                            <IconMail size={20} stroke={1.5} />
-                        </button>
-                        <button className="header-btn" aria-label="Notifications">
-                            <IconBell size={20} stroke={1.5} />
-                        </button>
-
-                        <Link href={`/profile/${profile?.id}`} className="user-profile desktop-only">
-                            <img
-                                src={profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.full_name || 'User')}&background=5b4fe8&color=fff`}
-                                alt="User Avatar"
-                                className="user-avatar"
-                            />
-                            <div className="user-info">
-                                <span className="user-name">{profile?.full_name || "User"}</span>
-                            </div>
-                        </Link>
-                    </div>
 
                     <Link href="/" className="mobile-logo mobile-only">
                         <Image
@@ -69,6 +33,49 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                             className="logo-image"
                         />
                     </Link>
+
+                    {profile?.role !== 'admin' && (
+                        <div className="search-container">
+                            <IconSearch size={20} stroke={1.5} className="search-icon" />
+                            <input
+                                type="text"
+                                className="search-input"
+                                placeholder="Search..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+                    )}
+                </div>
+
+                <div className="header-right">
+                    <div className="header-actions">
+                        {profile?.role !== 'admin' && (
+                            <>
+                                <Link href="/cart" className="header-btn cart-btn" aria-label="Cart">
+                                    <IconShoppingCart size={20} stroke={1.5} />
+                                    {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
+                                </Link>
+                                <button className="header-btn" aria-label="Messages">
+                                    <IconMail size={20} stroke={1.5} />
+                                </button>
+                                <button className="header-btn notification-btn" aria-label="Notifications">
+                                    <IconBell size={20} stroke={1.5} />
+                                </button>
+                            </>
+                        )}
+
+                        <Link href={`/profile/${profile?.id}`} className="user-profile">
+                            <img
+                                src={profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.full_name || 'User')}&background=5b4fe8&color=fff`}
+                                alt="User Avatar"
+                                className="user-avatar"
+                            />
+                            <div className="user-info desktop-only">
+                                <span className="user-name">{profile?.full_name || "User"}</span>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </header>
