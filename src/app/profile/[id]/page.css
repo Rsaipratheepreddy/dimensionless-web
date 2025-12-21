@@ -1,0 +1,146 @@
+.profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.profile-header-card {
+    background: white;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.profile-cover {
+    height: 160px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #a29bfe 100%);
+}
+
+.profile-main-info {
+    padding: 0 2.5rem 2.5rem;
+    margin-top: -60px;
+}
+
+.profile-avatar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.main-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid white;
+    object-fit: cover;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-action-btns {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.edit-profile-btn,
+.follow-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.edit-profile-btn {
+    background: #f1f5f9;
+    color: var(--text-main);
+}
+
+.follow-btn {
+    background: var(--color-primary);
+    color: white;
+}
+
+.follow-btn.following {
+    background: #f1f5f9;
+    color: var(--text-main);
+}
+
+.profile-name {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.profile-bio-text {
+    font-size: 1.1rem;
+    color: #475569;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-bottom: 1.5rem;
+}
+
+.profile-stats-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-pill {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.stat-pill strong {
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.stat-pill span {
+    color: #94a3b8;
+}
+
+.profile-details-list {
+    display: flex;
+    gap: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 1.5rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.profile-feed-section {
+    margin-top: 3rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+.posts-grid-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.loading-center,
+.error-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}

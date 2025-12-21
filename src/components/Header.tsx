@@ -1,9 +1,11 @@
 'use client';
 import './Header.css';
-import { IconSearch, IconBell, IconMail, IconMenu2 } from '@tabler/icons-react';
+import { IconSearch, IconBell, IconMail, IconMenu2, IconShoppingCart } from '@tabler/icons-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface HeaderProps {
     onMenuClick: () => void;
@@ -11,6 +13,8 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
     const [searchQuery, setSearchQuery] = useState('');
+    const { itemCount } = useCart();
+    const { profile } = useAuth();
 
     return (
         <header className="app-header">
@@ -33,6 +37,10 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
                 <div className="header-right-mobile">
                     <div className="header-actions">
+                        <Link href="/cart" className="header-btn cart-btn" aria-label="Cart">
+                            <IconShoppingCart size={20} stroke={1.5} />
+                            {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
+                        </Link>
                         <button className="header-btn" aria-label="Messages">
                             <IconMail size={20} stroke={1.5} />
                         </button>
@@ -40,12 +48,16 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                             <IconBell size={20} stroke={1.5} />
                         </button>
 
-                        <div className="user-profile desktop-only">
-                            <img src="/founder1.png" alt="User Avatar" className="user-avatar" />
+                        <Link href={`/profile/${profile?.id}`} className="user-profile desktop-only">
+                            <img
+                                src={profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.full_name || 'User')}&background=5b4fe8&color=fff`}
+                                alt="User Avatar"
+                                className="user-avatar"
+                            />
                             <div className="user-info">
-                                <span className="user-name">Jason Ranti</span>
+                                <span className="user-name">{profile?.full_name || "User"}</span>
                             </div>
-                        </div>
+                        </Link>
                     </div>
 
                     <Link href="/" className="mobile-logo mobile-only">

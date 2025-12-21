@@ -8,8 +8,13 @@ export async function middleware(request: NextRequest) {
         },
     })
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://mtsmdeyxvsgxazgqbikm.supabase.co'
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10c21kZXl4dnNneGF6Z3FiaWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NzU2MzQsImV4cCI6MjA4MTQ1MTYzNH0.Q-fUIsu7x9KSVCMxuqk39fw10Qc_rNpPp315GvMTgxw'
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    // If env vars aren't loaded yet (can happen in some dev environments), just skip middleware
+    if (!supabaseUrl || !supabaseAnonKey) {
+        return response
+    }
 
     const supabase = createServerClient(
         supabaseUrl,
@@ -57,43 +62,41 @@ export async function middleware(request: NextRequest) {
         }
     )
 
+    // IMPORTANT: use getUser() not getSession() for security/reliability
     const { data: { user } } = await supabase.auth.getUser()
 
-    // Protect sensitive routes
-    const protectedRoutes = ['/', '/calendar', '/main']
+    const { pathname } = request.nextUrl
+
+    // Protect these routes (requires login)
+    const protectedRoutes = ['/', '/calendar', '/main', '/shop', '/buy-art', '/wallet', '/admin']
     const isProtectedRoute = protectedRoutes.some(route =>
-        request.nextUrl.pathname === route || request.nextUrl.pathname.startsWith(`${route}/`)
+        pathname === route || pathname.startsWith(`${route}/`)
     )
 
-    // Auth routes (where logged in users shouldn't go)
-    const authRoutes = ['/login', '/signup', '/verify-email']
-    const isAuthRoute = authRoutes.some(route =>
-        request.nextUrl.pathname === route
-    )
+    // Public auth routes (requires NO login)
+    const authRoutes = ['/login', '/signup']
+    const isAuthRoute = authRoutes.some(route => pathname === route)
 
+    // Redirect to login if accessing protected route while logged out
     if (!user && isProtectedRoute) {
         const url = request.nextUrl.clone()
         url.pathname = '/login'
         return NextResponse.redirect(url)
     }
 
+    // Redirect to home if accessing login/signup while already logged in
+    // We only do this if a user actually exists to avoid loop
     if (user && isAuthRoute) {
         const url = request.nextUrl.clone()
         url.pathname = '/'
         return NextResponse.redirect(url)
     }
+
     return response
 }
 
 export const config = {
     matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         * Feel free to modify this pattern to include more paths.
-         */
         '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
     ],
 }

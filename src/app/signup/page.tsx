@@ -1,11 +1,13 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconBrandGoogle, IconBrandMeta, IconEye, IconEyeOff } from '@tabler/icons-react';
+import { toast } from 'react-hot-toast';
 import './page.css';
 
 export default function SignupPage() {
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,7 +16,7 @@ export default function SignupPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const { signUp, user } = useAuth();
+    const { signUp } = useAuth();
 
     // Grid images from public folder - organized in columns
     const gridColumns = [
@@ -24,43 +26,44 @@ export default function SignupPage() {
         ['/founder1.png', '/painting.png', '/studio.png', '/founder1.png', '/painting.png'],
     ];
 
-    // Redirect if already logged in
-    useEffect(() => {
-        if (user) {
-            router.push('/');
-        }
-    }, [user, router]);
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
 
         if (password !== confirmPassword) {
             setError('Passwords do not match');
+            toast.error('Passwords do not match');
             return;
         }
 
         if (password.length < 6) {
             setError('Password must be at least 6 characters');
+            toast.error('Password must be at least 6 characters');
             return;
         }
 
         setLoading(true);
 
-        const { error } = await signUp(email, password);
+        try {
+            const { error: signUpError } = await signUp(email, password, fullName);
 
-        if (error) {
-            setError(error.message);
+            if (signUpError) {
+                setError(signUpError.message);
+                toast.error(signUpError.message);
+                setLoading(false);
+            } else {
+                toast.success('Account created successfully!');
+                router.push('/');
+            }
+        } catch (err: any) {
+            setError(err.message || 'An error occurred during signup');
+            toast.error(err.message || 'An error occurred during signup');
             setLoading(false);
-        } else {
-            // Redirect to verification page with email
-            router.push(`/verify-email?email=${encodeURIComponent(email)}`);
         }
     };
 
     return (
         <div className="auth-page">
-            {/* Left side - Image Grid */}
             <div className="auth-grid">
                 <div className="grid-container">
                     {gridColumns.map((column, colIndex) => (
@@ -77,7 +80,6 @@ export default function SignupPage() {
                 </div>
             </div>
 
-            {/* Right side - Signup Form */}
             <div className="auth-content">
                 <div className="auth-header-logo">
                     <img src="/logo-black.png" alt="Dimensionless" className="header-logo-img" />
@@ -94,6 +96,18 @@ export default function SignupPage() {
                                     {error}
                                 </div>
                             )}
+
+                            <div className="input-group">
+                                <label htmlFor="fullName">Full Name</label>
+                                <input
+                                    id="fullName"
+                                    type="text"
+                                    value={fullName}
+                                    onChange={(e) => setFullName(e.target.value)}
+                                    placeholder="Enter your full name"
+                                    required
+                                />
+                            </div>
 
                             <div className="input-group">
                                 <label htmlFor="email">Email</label>
@@ -172,12 +186,6 @@ export default function SignupPage() {
                                 <span>Sign up with Google</span>
                             </button>
                         </div>
-
-                        <p className="terms-notice">
-                            By signing up you agree to Dimensionless&apos;s{' '}
-                            <a href="#" className="link">Terms of Service</a> and{' '}
-                            <a href="#" className="link">Privacy Policy</a>
-                        </p>
                     </div>
                 </div>
             </div>

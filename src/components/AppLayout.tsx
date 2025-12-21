@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import CategorySidebar from './CategorySidebar';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 interface AppLayoutProps {
     children: React.ReactNode;
@@ -11,10 +12,13 @@ interface AppLayoutProps {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+    const pathname = usePathname();
 
     const toggleMobileSidebar = () => {
         setIsMobileSidebarOpen(!isMobileSidebarOpen);
     };
+
+    const isHomePage = pathname === '/';
 
     // Close sidebar on window resize if it's open
     useEffect(() => {
@@ -32,13 +36,15 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             <Sidebar isMobileOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} />
             <div className="main-wrapper">
                 <Header onMenuClick={toggleMobileSidebar} />
-                <div className="content-wrapper">
+                <div className={`content-wrapper ${!isHomePage ? 'hide-right-sidebar' : ''}`}>
                     <main className="main-content">
                         {children}
                     </main>
-                    <aside className="right-sidebar">
-                        <CategorySidebar />
-                    </aside>
+                    {isHomePage && (
+                        <aside className="right-sidebar">
+                            <CategorySidebar />
+                        </aside>
+                    )}
                 </div>
             </div>
             {isMobileSidebarOpen && (

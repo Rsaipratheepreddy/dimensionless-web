@@ -3,6 +3,10 @@ import './Sidebar.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import { useModal } from '@/contexts/ModalContext';
+import { toast } from 'react-hot-toast';
 import {
     IconHome,
     IconShoppingCart,
@@ -18,7 +22,12 @@ import {
     IconLogout,
     IconMail,
     IconUsers,
-    IconX
+    IconX,
+    IconBrush,
+    IconWallet,
+    IconShieldCheck,
+    IconPackage,
+    IconUser
 } from '@tabler/icons-react';
 
 interface SidebarProps {
@@ -28,18 +37,44 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const { user, profile, signOut } = useAuth();
+    const router = useRouter();
+    const { confirm } = useModal();
+
+    const handleLogout = async () => {
+        const confirmed = await confirm({
+            title: 'Logout',
+            message: 'Are you sure you want to log out from Dimensionless?',
+            confirmText: 'Logout',
+            type: 'danger'
+        });
+
+        if (confirmed) {
+            await signOut();
+            toast.success('Logged out successfully');
+            router.push('/login');
+        }
+    };
 
     const mainItems = [
-        { icon: IconHome, label: 'Dashboard', href: '/' },
-        { icon: IconMail, label: 'Inbox', href: '/inbox' },
-        { icon: IconSchool, label: 'Learning', href: '/art-classes' },
-        { icon: IconShoppingCart, label: 'Shop', href: '/buy-sell-art' },
-        { icon: IconUsers, label: 'Group', href: '/community' },
+        { icon: IconHome, label: 'Home', href: '/' },
+        { icon: IconUser, label: 'My Profile', href: `/profile/${profile?.id}` },
+        { icon: IconMail, label: 'Feed', href: '/feed' },
+        { icon: IconBrush, label: 'Buy Art', href: '/buy-art' },
+        { icon: IconShoppingCart, label: 'Shop', href: '/shop' },
+        { icon: IconPackage, label: 'My Orders', href: '/orders' },
+        { icon: IconWallet, label: 'Wallet', href: '/wallet' },
+        { icon: IconBuilding, label: 'Art Leasing', href: '/art-leasing' },
+    ];
+
+
+    const artSchoolItems = [
+        { icon: IconSchool, label: 'Art Classes', href: '/art-classes' },
+        { icon: IconPencil, label: 'Art Courses', href: '/art-courses' },
     ];
 
     const serviceItems = [
-        { icon: IconBuilding, label: 'Art Leasing', href: '/art-leasing' },
-        { icon: IconPencil, label: 'Tattoo Studio', href: '/tattoo-studio' },
+        { icon: IconBuilding, label: 'Tattoo Studio', href: '/tattoo-studio' },
         { icon: IconDiamond, label: 'Piercings', href: '/piercings' },
         { icon: IconCoin, label: 'Dimen Token', href: '/token' },
     ];
@@ -101,6 +136,23 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
                 </div>
 
                 <div className="nav-section">
+                    <div className="nav-section-title">Art School</div>
+                    {artSchoolItems.map((item, index) => {
+                        const Icon = item.icon;
+                        return (
+                            <Link
+                                key={index}
+                                href={item.href}
+                                className="sidebar-item"
+                            >
+                                <Icon size={20} className="item-icon" />
+                                {!isCollapsed && <span className="item-label">{item.label}</span>}
+                            </Link>
+                        );
+                    })}
+                </div>
+
+                <div className="nav-section">
                     <div className="nav-section-title">Services</div>
                     {serviceItems.map((item, index) => {
                         const Icon = item.icon;
@@ -117,13 +169,31 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
                     })}
                 </div>
 
+                {profile?.role === 'admin' && (
+                    <div className="nav-section">
+                        <div className="nav-section-title">Admin</div>
+                        <Link href="/admin" className="sidebar-item">
+                            <IconShieldCheck size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Admin Portal</span>}
+                        </Link>
+                        <Link href="/admin/settings" className="sidebar-item">
+                            <IconSettings size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Platform Settings</span>}
+                        </Link>
+                    </div>
+                )}
+
                 <div className="sidebar-footer">
                     <div className="nav-section-title">Settings</div>
                     <Link href="/settings" className="sidebar-item">
                         <IconSettings size={20} className="item-icon" />
                         {!isCollapsed && <span className="item-label">Settings</span>}
                     </Link>
-                    <button className="sidebar-item logout-btn" style={{ width: '100%', border: 'none', background: 'none', cursor: 'pointer', padding: '0.875rem 1rem' }}>
+                    <button
+                        className="sidebar-item logout-btn"
+                        onClick={handleLogout}
+                        style={{ width: '100%', border: 'none', background: 'none', cursor: 'pointer', padding: '0.875rem 1rem' }}
+                    >
                         <IconLogout size={20} className="item-icon" style={{ color: '#ef4444' }} />
                         {!isCollapsed && <span className="item-label" style={{ color: '#ef4444' }}>Logout</span>}
                     </button>

@@ -31,6 +31,10 @@
     width: 100%;
 }
 
+.content-wrapper.hide-right-sidebar {
+    grid-template-columns: minmax(0, 1fr);
+}
+
 .main-content {
     flex: 1;
     min-width: 0;

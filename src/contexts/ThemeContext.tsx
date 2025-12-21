@@ -24,19 +24,12 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-    const [theme, setThemeState] = useState<Theme>('light');
+    const [theme] = useState<Theme>('light');
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
         setMounted(true);
-
-        // Get theme from localStorage or system preference
-        const savedTheme = localStorage.getItem('theme') as Theme | null;
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-        setThemeState(initialTheme);
-        document.documentElement.setAttribute('data-theme', initialTheme);
+        document.documentElement.setAttribute('data-theme', 'light');
 
         // Prevent transition on initial load
         document.documentElement.classList.add('no-transition');
@@ -45,15 +38,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         }, 100);
     }, []);
 
-    const setTheme = (newTheme: Theme) => {
-        setThemeState(newTheme);
-        localStorage.setItem('theme', newTheme);
-        document.documentElement.setAttribute('data-theme', newTheme);
+    const setTheme = () => {
+        // No-op to prevent theme changes
     };
 
     const toggleTheme = () => {
-        const newTheme = theme === 'light' ? 'dark' : 'light';
-        setTheme(newTheme);
+        // No-op
     };
 
     // Prevent hydration mismatch
@@ -66,4 +56,4 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
             {children}
         </ThemeContext.Provider>
     );
-} 
+}

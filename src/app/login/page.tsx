@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconBrandGoogle, IconBrandMeta, IconEye, IconEyeOff } from '@tabler/icons-react';
+import { toast } from 'react-hot-toast';
 import './page.css';
 
 export default function LoginPage() {
@@ -38,8 +39,10 @@ export default function LoginPage() {
 
         if (error) {
             setError(error.message);
+            toast.error(error.message);
             setLoading(false);
         } else {
+            toast.success('Welcome back!');
             router.push('/');
         }
     };
