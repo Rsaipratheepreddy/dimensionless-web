@@ -140,31 +140,38 @@
 /* Responsive */
 @media (max-width: 768px) {
     .top-carousel {
-        height: 300px;
+        height: 280px;
+        margin-bottom: 1.5rem;
+        width: 100%;
     }
 
     .carousel-overlay {
-        padding: 2rem 1.5rem;
+        padding: 1.5rem 1rem;
     }
 
     .carousel-title {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
     }
 
     .carousel-subtitle {
-        font-size: 1rem;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+    }
+
+    .carousel-cta-btn {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.875rem;
     }
 
     .carousel-nav {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
     }
 
-    .carousel-nav-left {
-        left: 1rem;
-    }
-
-    .carousel-nav-right {
-        right: 1rem;
+    .carousel-dots {
+        left: auto;
+        right: 1.5rem;
+        transform: none;
+        bottom: 1rem;
     }
 }

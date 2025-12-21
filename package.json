@@ -11,6 +11,8 @@
   "dependencies": {
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.3.0",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.87.3",
     "@tabler/icons-react": "^3.34.1",
     "@types/three": "^0.180.0",
     "gsap": "^3.13.0",

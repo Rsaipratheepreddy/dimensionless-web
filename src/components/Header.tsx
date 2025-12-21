@@ -1,54 +1,62 @@
 'use client';
 import './Header.css';
-import { IconSearch, IconWallet, IconSun, IconMoon, IconUser } from '@tabler/icons-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { IconSearch, IconBell, IconMail, IconMenu2 } from '@tabler/icons-react';
 import { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-const Header: React.FC = () => {
-    const { theme, toggleTheme } = useTheme();
+interface HeaderProps {
+    onMenuClick: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
     const [searchQuery, setSearchQuery] = useState('');
-
-    const handleWalletConnect = () => {
-        console.log('Connect wallet clicked');
-        // Wallet connection logic will go here
-    };
 
     return (
         <header className="app-header">
             <div className="header-content">
-                <div className="search-container">
-                    <IconSearch size={20} stroke={1.5} className="search-icon" />
-                    <input
-                        type="text"
-                        className="search-input"
-                        placeholder="Search DIMENSIONLESS"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <span className="search-shortcut">/</span>
+                <div className="header-left">
+                    <button className="mobile-menu-btn" onClick={onMenuClick} aria-label="Toggle Menu">
+                        <IconMenu2 size={24} />
+                    </button>
+                    <div className="search-container">
+                        <IconSearch size={20} stroke={1.5} className="search-icon" />
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search your course...."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </div>
                 </div>
 
-                <div className="header-actions">
-                    <button
-                        className="header-btn"
-                        onClick={toggleTheme}
-                        aria-label="Toggle theme"
-                    >
-                        {theme === 'dark' ? (
-                            <IconSun size={20} stroke={1.5} />
-                        ) : (
-                            <IconMoon size={20} stroke={1.5} />
-                        )}
-                    </button>
+                <div className="header-right-mobile">
+                    <div className="header-actions">
+                        <button className="header-btn" aria-label="Messages">
+                            <IconMail size={20} stroke={1.5} />
+                        </button>
+                        <button className="header-btn" aria-label="Notifications">
+                            <IconBell size={20} stroke={1.5} />
+                        </button>
 
-                    <button className="wallet-btn" onClick={handleWalletConnect}>
-                        <IconWallet size={20} stroke={1.5} />
-                        <span>Connect Wallet</span>
-                    </button>
+                        <div className="user-profile desktop-only">
+                            <img src="/founder1.png" alt="User Avatar" className="user-avatar" />
+                            <div className="user-info">
+                                <span className="user-name">Jason Ranti</span>
+                            </div>
+                        </div>
+                    </div>
 
-                    <button className="header-btn profile-btn" aria-label="Profile">
-                        <IconUser size={20} stroke={1.5} />
-                    </button>
+                    <Link href="/" className="mobile-logo mobile-only">
+                        <Image
+                            src="/logo-black.png"
+                            alt="Dimensionless"
+                            width={32}
+                            height={32}
+                            className="logo-image"
+                        />
+                    </Link>
                 </div>
             </div>
         </header>

@@ -1,0 +1,133 @@
+.lesson-section {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.lesson-section .section-header {
+    margin-bottom: 1.5rem;
+}
+
+.see-all {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #6366f1;
+    text-decoration: none;
+}
+
+.lesson-table-container {
+    overflow-x: auto;
+}
+
+.lesson-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lesson-table th {
+    text-align: left;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 0.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.lesson-table td {
+    padding: 1rem 0.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.lesson-table tr:last-child td {
+    border-bottom: none;
+}
+
+.mentor-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.table-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.mentor-table-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.mentor-table-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.mentor-table-date {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.type-badge {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.desc-text {
+    font-size: 0.875rem;
+    color: #475569;
+    font-weight: 500;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #e2e8f0;
+    background: transparent;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background: #f1f5f9;
+    color: #6366f1;
+    border-color: #6366f1;
+}
+
+@media (max-width: 768px) {
+    .lesson-section {
+        padding: 1rem;
+    }
+
+    /* Hide Type and Date columns on mobile for better fit */
+    .lesson-table th:nth-child(2),
+    .lesson-table td:nth-child(2),
+    .lesson-table th:nth-child(4),
+    .lesson-table td:nth-child(4) {
+        display: none;
+    }
+
+    .mentor-table-name {
+        font-size: 0.8125rem;
+    }
+
+    .desc-text {
+        font-size: 0.8125rem;
+    }
+}
