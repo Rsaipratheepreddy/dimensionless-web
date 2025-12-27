@@ -1,11 +1,12 @@
 'use client';
 import './Header.css';
 import { IconSearch, IconBell, IconMail, IconMenu2, IconShoppingCart } from '@tabler/icons-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/utils/supabase';
 
 interface HeaderProps {
     onMenuClick: () => void;
@@ -14,7 +15,54 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const { itemCount } = useCart();
-    const { profile } = useAuth();
+    const { user, profile } = useAuth();
+    const [notifications, setNotifications] = useState<any[]>([]);
+    const [showNotifications, setShowNotifications] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            fetchNotifications();
+            // Subscribe to new notifications
+            const channel = supabase
+                .channel('notifications')
+                .on('postgres_changes', {
+                    event: 'INSERT',
+                    schema: 'public',
+                    table: 'notifications',
+                    filter: `user_id=eq.${user.id}`
+                }, () => {
+                    fetchNotifications();
+                })
+                .subscribe();
+
+            return () => {
+                supabase.removeChannel(channel);
+            };
+        }
+    }, [user]);
+
+    const fetchNotifications = async () => {
+        const { data } = await supabase
+            .from('notifications')
+            .select('*, actor:profiles!notifications_actor_id_fkey(full_name, avatar_url)')
+            .eq('user_id', user?.id)
+            .order('created_at', { ascending: false })
+            .limit(10);
+
+        if (data) setNotifications(data);
+    };
+
+    const markAsRead = async () => {
+        if (!user) return;
+        await supabase
+            .from('notifications')
+            .update({ is_read: true })
+            .eq('user_id', user.id)
+            .eq('is_read', false);
+        fetchNotifications();
+    };
+
+    const unreadCount = notifications.filter(n => !n.is_read).length;
 
     return (
         <header className="app-header">
@@ -59,9 +107,40 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                                 <button className="header-btn" aria-label="Messages">
                                     <IconMail size={20} stroke={1.5} />
                                 </button>
-                                <button className="header-btn notification-btn" aria-label="Notifications">
+                                <button className="header-btn notification-btn" aria-label="Notifications" onClick={() => {
+                                    setShowNotifications(!showNotifications);
+                                    if (!showNotifications && unreadCount > 0) markAsRead();
+                                }}>
                                     <IconBell size={20} stroke={1.5} />
+                                    {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
                                 </button>
+
+                                {showNotifications && (
+                                    <div className="notifications-dropdown">
+                                        <div className="dropdown-header">
+                                            Notifications
+                                        </div>
+                                        <div className="notifications-list">
+                                            {notifications.length === 0 ? (
+                                                <div className="empty-notifications">No new notifications</div>
+                                            ) : (
+                                                notifications.map(n => (
+                                                    <div key={n.id} className={`notification-item ${!n.is_read ? 'unread' : ''}`}>
+                                                        <img
+                                                            src={n.actor?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(n.actor?.full_name || 'U')}`}
+                                                            className="notification-avatar"
+                                                            alt=""
+                                                        />
+                                                        <div className="notification-content">
+                                                            <p className="notification-text">{n.content}</p>
+                                                            <span className="notification-time">{new Date(n.created_at).toLocaleDateString()}</span>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </>
                         )}
 

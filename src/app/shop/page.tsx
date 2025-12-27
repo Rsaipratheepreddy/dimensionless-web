@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconPlus, IconTrash, IconEdit, IconPhoto, IconLoader2, IconFileSpreadsheet } from '@tabler/icons-react';
+import { IconPlus, IconTrash, IconEdit, IconPhoto, IconFileSpreadsheet } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import ArtCard from '@/components/ArtCard';
 import { useModal } from '@/contexts/ModalContext';
@@ -350,9 +351,7 @@ export default function ShopPage() {
                 </div>
 
                 {loading ? (
-                    <div className="loading-state">
-                        <IconLoader2 className="animate-spin" size={40} />
-                    </div>
+                    <LottieLoader />
                 ) : (
                     <div className="shop-table-container">
                         {paintings.length === 0 ? (

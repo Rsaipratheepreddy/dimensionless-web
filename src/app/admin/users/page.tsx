@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconChevronLeft, IconLoader2, IconUserCheck, IconShieldCheck } from '@tabler/icons-react';
+import { IconChevronLeft, IconUserCheck, IconShieldCheck } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import { useModal } from '@/contexts/ModalContext';
 import { toast } from 'react-hot-toast';
@@ -89,9 +90,7 @@ export default function AdminUsers() {
                 </div>
 
                 {loading ? (
-                    <div className="loading-state">
-                        <IconLoader2 className="animate-spin" size={40} />
-                    </div>
+                    <LottieLoader />
                 ) : (
                     <div className="admin-table-container">
                         <table className="admin-table">

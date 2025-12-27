@@ -15,6 +15,7 @@ import {
     IconBrush,
     IconEdit
 } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
@@ -152,7 +153,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
         }
     };
 
-    if (loading) return <AppLayout><div className="loading-center"><IconLoader2 className="animate-spin" size={40} /></div></AppLayout>;
+    if (loading) return <AppLayout><LottieLoader /></AppLayout>;
     if (!viewProfile) return <AppLayout><div className="error-center">Profile not found.</div></AppLayout>;
 
     return (

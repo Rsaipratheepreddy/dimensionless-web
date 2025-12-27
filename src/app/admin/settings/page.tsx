@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconSettings, IconLoader2, IconCircleCheck, IconCheck, IconAlertCircle } from '@tabler/icons-react';
+import { IconSettings, IconCircleCheck, IconCheck, IconAlertCircle } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import { toast } from 'react-hot-toast';
 import './page.css';
@@ -89,9 +90,7 @@ export default function AdminSettingsPage() {
 
                 <div className="settings-content">
                     {loading ? (
-                        <div className="loading-state">
-                            <IconLoader2 className="animate-spin" size={32} />
-                        </div>
+                        <LottieLoader />
                     ) : (
                         <form className="settings-form" onSubmit={handleSave}>
                             <div className="settings-section">
@@ -116,10 +115,7 @@ export default function AdminSettingsPage() {
 
                             <button className="save-btn" disabled={saving}>
                                 {saving ? (
-                                    <>
-                                        <IconLoader2 className="animate-spin" size={20} />
-                                        <span>Saving...</span>
-                                    </>
+                                    <span>Saving...</span>
                                 ) : (
                                     <>
                                         {success && <IconCircleCheck size={20} />}

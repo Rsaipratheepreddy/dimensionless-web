@@ -11,6 +11,7 @@ import {
     IconHeart
 } from '@tabler/icons-react';
 import Link from 'next/link';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import './page.css';
 
@@ -126,9 +127,7 @@ export default function ArtLeasingGallery() {
                 </div>
 
                 {loading ? (
-                    <div className="loading-center">
-                        <IconLoader2 className="animate-spin" size={48} color="#0f172a" />
-                    </div>
+                    <LottieLoader />
                 ) : filteredPaintings.length > 0 ? (
                     <div className="leasing-grid">
                         {filteredPaintings.map(art => {

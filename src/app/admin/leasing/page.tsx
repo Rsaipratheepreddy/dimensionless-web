@@ -14,6 +14,7 @@ import {
     IconX,
     IconTruckDelivery
 } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import { toast } from 'react-hot-toast';
 import './page.css';
@@ -285,9 +286,7 @@ export default function AdminLeasingPage() {
                 </nav>
 
                 {loading ? (
-                    <div className="loading-center">
-                        <IconLoader2 className="animate-spin" size={40} />
-                    </div>
+                    <LottieLoader />
                 ) : (
                     <>
                         {activeTab === 'inventory' ? (

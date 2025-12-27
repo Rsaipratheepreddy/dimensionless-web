@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconChevronLeft, IconLoader2, IconCheck, IconX } from '@tabler/icons-react';
+import { IconChevronLeft, IconCheck, IconX } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import { toast } from 'react-hot-toast';
 import '../page.css';
@@ -92,9 +93,7 @@ export default function AdminRedemptions() {
                 </div>
 
                 {loading ? (
-                    <div className="loading-state">
-                        <IconLoader2 className="animate-spin" size={40} />
-                    </div>
+                    <LottieLoader />
                 ) : (
                     <div className="admin-table-container">
                         <table className="admin-table">

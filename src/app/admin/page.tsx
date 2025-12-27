@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconUsers, IconShoppingCart, IconCash, IconAlertCircle, IconLoader2 } from '@tabler/icons-react';
+import { IconUsers, IconShoppingCart, IconCash, IconAlertCircle } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import './page.css';
 
@@ -72,9 +73,7 @@ export default function AdminDashboard() {
                 </div>
 
                 {loading ? (
-                    <div className="loading-state">
-                        <IconLoader2 className="animate-spin" size={40} />
-                    </div>
+                    <LottieLoader />
                 ) : (
                     <div className="stats-grid">
                         <div className="stat-card">

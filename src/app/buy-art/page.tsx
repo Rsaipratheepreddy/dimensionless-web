@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconSearch, IconFilter, IconLoader2, IconShoppingCart, IconHeart, IconX, IconPlus, IconCheck } from '@tabler/icons-react';
+import { IconSearch, IconFilter, IconShoppingCart, IconHeart, IconX, IconPlus, IconCheck } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import ArtCard from '@/components/ArtCard';
 import { useCart } from '@/contexts/CartContext';
@@ -98,9 +99,7 @@ export default function BuyArtPage() {
                     </div>
 
                     {loading ? (
-                        <div className="loading-state">
-                            <IconLoader2 className="animate-spin" size={40} />
-                        </div>
+                        <LottieLoader />
                     ) : (
                         <div className="marketplace-grid">
                             {filteredPaintings.length === 0 ? (

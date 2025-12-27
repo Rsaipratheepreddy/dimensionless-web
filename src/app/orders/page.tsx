@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconPackage, IconLoader2, IconExternalLink } from '@tabler/icons-react';
+import { IconPackage, IconExternalLink } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import './page.css';
 
@@ -129,9 +130,7 @@ export default function OrdersPage() {
                 </div>
 
                 {loading ? (
-                    <div className="loading-state">
-                        <IconLoader2 className="animate-spin" size={40} color="var(--color-primary)" />
-                    </div>
+                    <LottieLoader />
                 ) : (
                     <div className="orders-list">
                         {activeTab === 'purchases' ? (

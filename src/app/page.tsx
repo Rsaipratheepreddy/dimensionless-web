@@ -9,7 +9,7 @@ import ActionCards from '../components/ActionCards';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { IconLoader2 } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 
 export default function Home() {
     const { profile, loading: authLoading } = useAuth();
@@ -24,9 +24,7 @@ export default function Home() {
     if (authLoading || profile?.role === 'admin') {
         return (
             <AppLayout>
-                <div className="loading-center">
-                    <IconLoader2 className="animate-spin" size={48} color="var(--color-primary)" />
-                </div>
+                <LottieLoader />
             </AppLayout>
         );
     }

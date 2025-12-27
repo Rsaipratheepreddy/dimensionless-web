@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconWallet, IconHistory, IconArrowUpRight, IconCash, IconLoader2 } from '@tabler/icons-react';
+import { IconWallet, IconHistory, IconArrowUpRight, IconCash } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import AppLayout from '@/components/AppLayout';
 import { toast } from 'react-hot-toast';
 import './page.css';
@@ -134,9 +135,7 @@ export default function WalletPage() {
                     </div>
 
                     {loading ? (
-                        <div className="loading-state">
-                            <IconLoader2 className="animate-spin" size={32} />
-                        </div>
+                        <LottieLoader />
                     ) : requests.length === 0 ? (
                         <div className="empty-history">
                             <IconHistory size={48} stroke={1} />

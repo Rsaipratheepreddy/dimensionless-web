@@ -10,6 +10,7 @@ import {
     IconBuilding,
     IconBrush
 } from '@tabler/icons-react';
+import LottieLoader from '@/components/LottieLoader';
 import Link from 'next/link';
 import AppLayout from '@/components/AppLayout';
 import { toast } from 'react-hot-toast';
@@ -136,9 +137,7 @@ export default function LeaseDetailPage({ params }: { params: Promise<{ id: stri
 
     if (loading) return (
         <AppLayout>
-            <div className="loading-center">
-                <IconLoader2 className="animate-spin" size={48} color="var(--color-primary)" />
-            </div>
+            <LottieLoader />
         </AppLayout>
     );
 
