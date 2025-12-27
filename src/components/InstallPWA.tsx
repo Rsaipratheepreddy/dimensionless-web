@@ -88,8 +88,11 @@ const InstallPWA: React.FC = () => {
                 <p>Install our app for a better, faster experience.</p>
 
                 {isIOS && (
-                    <div className="ios-guide">
-                        Tap <IconShare size={18} /> then <strong>"Add to Home Screen"</strong>
+                    <div className="ios-guide-container">
+                        <p className="ios-safari-note">Requires Safari browser</p>
+                        <div className="ios-guide">
+                            Tap <IconShare size={18} className="share-icon-pulse" /> then <strong>"Add to Home Screen"</strong>
+                        </div>
                     </div>
                 )}
 
