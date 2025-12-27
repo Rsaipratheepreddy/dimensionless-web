@@ -38,15 +38,15 @@ export async function GET(request: NextRequest) {
 
         const { data: slots, error } = await query;
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching slots:', error);
+            return NextResponse.json([]);
+        }
 
-        return NextResponse.json(slots);
-    } catch (error) {
+        return NextResponse.json(slots || []);
+    } catch (error: any) {
         console.error('Error fetching slots:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch slots' },
-            { status: 500 }
-        );
+        return NextResponse.json([]);
     }
 }
 

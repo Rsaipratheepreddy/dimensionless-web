@@ -51,7 +51,10 @@ export async function GET(request: NextRequest) {
             `)
             .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching admin classes:', error);
+            return NextResponse.json([]);
+        }
 
         // Map registrations count back to _count format used in frontend
         const formattedClasses = (classes || []).map(c => ({
@@ -62,9 +65,9 @@ export async function GET(request: NextRequest) {
         }));
 
         return NextResponse.json(formattedClasses);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching admin classes:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json([]);
     }
 }
 

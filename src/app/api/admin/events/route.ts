@@ -50,7 +50,10 @@ export async function GET(request: NextRequest) {
             `)
             .order('start_date', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching admin events:', error);
+            return NextResponse.json([]);
+        }
 
         // Map registrations count format
         const formattedEvents = (events || []).map(e => ({
@@ -62,9 +65,9 @@ export async function GET(request: NextRequest) {
         }));
 
         return NextResponse.json(formattedEvents);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching admin events:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json([]);
     }
 }
 
