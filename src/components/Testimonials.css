@@ -2,7 +2,7 @@
 .testimonials-section {
     position: relative;
     background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-    padding: 5rem 0;
+    padding: 80px 0;
     overflow: hidden;
     width: 100%;
 }
@@ -67,31 +67,31 @@
 /* Header Section */
 .testimonials-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 48px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
-    padding: 0 2rem;
+    gap: 24px;
+    padding: 0 32px;
 }
 
 .testimonials-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
+    gap: 8px;
+    padding: 12px 24px;
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
     border-radius: 50px;
     color: white;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 500;
     font-family: var(--font-secondary);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .testimonials-title {
-    font-size: 3rem;
+    font-size: 48px;
     font-weight: 700;
     color: white;
     margin: 0;
@@ -123,13 +123,13 @@
 .testimonials-grid {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 32px;
     width: 100%;
 }
 
 .testimonials-row {
     display: flex;
-    gap: 1.5rem;
+    gap: 24px;
     width: 100%;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -171,10 +171,10 @@
 .testimonial-card {
     background: #ffffff;
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 20px;
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -198,11 +198,11 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
 }
 
 .quote-mark {
-    font-size: 2.5rem;
+    font-size: 40px;
     font-weight: 700;
     color: #4f46e5;
     line-height: 1;
@@ -214,7 +214,7 @@
 }
 
 .testimonial-text {
-    font-size: 1rem;
+    font-size: 16px;
     line-height: 1.6;
     color: #4a5568;
     margin: 0;
@@ -229,8 +229,8 @@
 .testimonial-author {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding-top: 1rem;
+    gap: 16px;
+    padding-top: 16px;
     border-top: 1px solid #e2e8f0;
 }
 
@@ -262,10 +262,10 @@
 }
 
 .author-name {
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 600;
     color: #1a202c;
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 4px 0;
     font-family: var(--font-primary);
 }
 
@@ -274,7 +274,7 @@
 }
 
 .author-position {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #718096;
     margin: 0;
     font-family: var(--font-secondary);
@@ -287,7 +287,7 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
     .testimonials-title {
-        font-size: 2.5rem;
+        font-size: 40px;
     }
 
     .testimonial-card {
@@ -306,34 +306,34 @@
 
 @media (max-width: 768px) {
     .testimonials-section {
-        padding: 4rem 0;
+        padding: 64px 0;
     }
 
     .testimonials-header {
-        margin-bottom: 2rem;
-        padding: 0 1.5rem;
+        margin-bottom: 32px;
+        padding: 0 24px;
     }
 
     .testimonials-title {
-        font-size: 2rem;
+        font-size: 32px;
     }
 
     .testimonials-grid {
-        gap: 1.5rem;
+        gap: 24px;
     }
 
     .testimonial-card {
         width: 280px;
         max-width: 280px;
-        padding: 1.25rem;
+        padding: 20px;
     }
 
     .quote-mark {
-        font-size: 2rem;
+        font-size: 32px;
     }
 
     .testimonial-text {
-        font-size: 0.9rem;
+        font-size: 14.4px;
     }
 
     .testimonials-row:nth-child(1) {
@@ -353,36 +353,36 @@
 
 @media (max-width: 480px) {
     .testimonials-section {
-        padding: 3rem 0;
+        padding: 48px 0;
     }
 
     .testimonials-header {
-        margin-bottom: 2.5rem;
-        padding: 0 1rem;
+        margin-bottom: 40px;
+        padding: 0 16px;
     }
 
     .testimonials-title {
-        font-size: 1.75rem;
+        font-size: 28px;
     }
 
     .testimonials-badge {
-        padding: 0.625rem 1.25rem;
-        font-size: 0.8rem;
+        padding: 10px 20px;
+        font-size: 12.8px;
     }
 
     .testimonial-card {
         width: 260px;
         max-width: 260px;
-        padding: 1.25rem;
-        gap: 1.25rem;
+        padding: 20px;
+        gap: 20px;
     }
 
     .quote-mark {
-        font-size: 2rem;
+        font-size: 32px;
     }
 
     .testimonial-text {
-        font-size: 0.875rem;
+        font-size: 14px;
         line-height: 1.5;
     }
 
@@ -392,11 +392,11 @@
     }
 
     .author-name {
-        font-size: 0.9rem;
+        font-size: 14.4px;
     }
 
     .author-position {
-        font-size: 0.8rem;
+        font-size: 12.8px;
     }
 
     /* Even smaller overlays on small mobile */

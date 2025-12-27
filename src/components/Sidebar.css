@@ -10,7 +10,7 @@
     flex-direction: column;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 100;
-    padding: 1.5rem 0;
+    padding: 24px 0;
 }
 
 .sidebar.collapsed {
@@ -18,7 +18,7 @@
 }
 
 .sidebar-header {
-    padding: 1.5rem 1rem;
+    padding: 24px 16px;
     border-bottom: none;
     display: flex;
     align-items: center;
@@ -29,13 +29,13 @@
 .sidebar-logo {
     display: flex;
     align-items: center;
-    gap: 0.875rem;
+    gap: 14px;
     text-decoration: none;
     transition: opacity 0.2s ease;
 }
 
 .logo-text {
-    font-size: 1.125rem;
+    font-size: 18px;
     font-weight: 700;
     color: #1a1a1a;
     letter-spacing: -0.01em;
@@ -70,34 +70,34 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 1.5rem 0.75rem;
+    padding: 24px 12px;
     display: flex;
     flex-direction: column;
 }
 
 .nav-section {
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
 }
 
 .nav-section-title {
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 600;
     color: #94a3b8;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding: 0 0.75rem 0.75rem;
+    padding: 0 12px 12px;
 }
 
 .sidebar-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1rem;
-    margin-bottom: 0.125rem;
+    gap: 12px;
+    padding: 14px 16px;
+    margin-bottom: 2px;
     border-radius: 12px;
     color: #64748b;
     text-decoration: none;
-    font-size: 0.9375rem;
+    font-size: 15px;
     font-weight: 500;
     transition: all 0.2s ease;
 }
@@ -126,7 +126,7 @@
 }
 
 .sidebar-footer {
-    padding: 1rem 0.75rem;
+    padding: 16px 12px;
     margin-top: auto;
 }
 
@@ -141,7 +141,7 @@
 .sidebar-actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .close-btn {

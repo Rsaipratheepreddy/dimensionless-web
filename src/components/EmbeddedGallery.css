@@ -1,6 +1,6 @@
 /* Embedded Gallery Section */
 .embedded-gallery-section {
-    padding: 6rem 2rem;
+    padding: 96px 32px;
     background: #f3f4f6;
     display: flex;
     align-items: center;
@@ -16,7 +16,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 32px;
 }
 
 /* Gallery Header */
@@ -27,14 +27,14 @@
 }
 
 .gallery-title {
-    font-size: 2.25rem;
+    font-size: 36px;
     font-weight: 700;
-    margin-bottom: 0.75rem;
+    margin-bottom: 12px;
     color: #1f2937;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 12px;
     letter-spacing: -0.02em;
     line-height: 1.2;
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -54,7 +54,7 @@
 }
 
 .gallery-subtitle {
-    font-size: 0.9rem;
+    font-size: 14.4px;
     color: #6b7280;
     line-height: 1.6;
     max-width: 600px;
@@ -76,7 +76,7 @@
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     background: #000;
     border: 3px solid rgba(102, 126, 234, 0.2);
-    margin: 2rem;
+    margin: 32px;
 }
 
 .embedded-gallery-section.theme-dark .gallery-embed-container {
@@ -103,7 +103,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 32px;
     z-index: 10;
 }
 
@@ -157,7 +157,7 @@
 
 .loading-text {
     color: white;
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: 600;
     text-align: center;
     margin: 0;
@@ -175,14 +175,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
-    padding: 2rem;
+    gap: 24px;
+    padding: 32px;
     z-index: 10;
 }
 
 .error-container h3 {
     color: white;
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: 700;
     margin: 0;
 }
@@ -198,7 +198,7 @@
     background: white;
     color: #ef4444;
     border: none;
-    padding: 0.75rem 2rem;
+    padding: 12px 32px;
     border-radius: 50px;
     font-weight: 600;
     cursor: pointer;
@@ -214,12 +214,12 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .embedded-gallery-section {
-        padding: 2rem 1rem;
+        padding: 32px 16px;
     }
 
     .gallery-title {
-        font-size: 1.75rem;
-        gap: 0.5rem;
+        font-size: 28px;
+        gap: 8px;
     }
 
     .title-icon {
@@ -228,12 +228,12 @@
     }
 
     .gallery-subtitle {
-        font-size: 0.85rem;
+        font-size: 13.6px;
     }
 
     .gallery-embed-container {
         height: 500px;
-        margin: 1rem;
+        margin: 16px;
     }
 
 }
@@ -241,18 +241,18 @@
 @media (max-width: 480px) {
     .gallery-embed-container {
         height: 350px;
-        margin: 0.5rem;
+        margin: 8px;
     }
 
     .loading-text {
-        font-size: 1rem;
+        font-size: 16px;
     }
 
     .error-container {
-        padding: 1rem;
+        padding: 16px;
     }
 
     .error-container h3 {
-        font-size: 1.25rem;
+        font-size: 20px;
     }
 }

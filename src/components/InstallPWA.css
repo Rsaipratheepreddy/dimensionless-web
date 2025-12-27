@@ -37,13 +37,13 @@
 
 .install-pwa-content h4 {
     margin: 0 0 4px 0;
-    font-size: 1rem;
+    font-size: 16px;
     color: var(--text-main);
 }
 
 .install-pwa-content p {
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 13.6px;
     color: var(--text-secondary);
 }
 
@@ -58,7 +58,7 @@
     padding: 8px 16px;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 14.4px;
     cursor: pointer;
     transition: opacity 0.2s;
 }
@@ -73,7 +73,7 @@
     color: var(--text-muted);
     padding: 8px;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 14.4px;
 }
 
 .ios-guide-container {
@@ -84,7 +84,7 @@
 }
 
 .ios-safari-note {
-    font-size: 0.75rem !important;
+    font-size: 12px !important;
     color: var(--color-primary) !important;
     font-weight: 600;
     margin: 0 !important;
@@ -94,7 +94,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.85rem;
+    font-size: 13.6px;
     color: var(--text-secondary);
     background: var(--bg-secondary);
     padding: 6px 10px;

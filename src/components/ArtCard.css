@@ -33,7 +33,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 1.5rem;
+    padding: 24px;
     background: linear-gradient(to top,
             rgba(0, 0, 0, 0.9) 0%,
             rgba(0, 0, 0, 0.5) 40%,
@@ -53,11 +53,11 @@
 /* Top Actions */
 .art-card-actions-top {
     position: absolute;
-    top: 1.25rem;
-    right: 1.25rem;
+    top: 20px;
+    right: 20px;
     z-index: 5;
     display: flex;
-    gap: 0.5rem;
+    gap: 8px;
     opacity: 0;
     transform: translateY(-10px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -96,11 +96,11 @@
 /* Status Badge */
 .art-status-badge {
     position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
-    padding: 0.4rem 1rem;
+    top: 20px;
+    left: 20px;
+    padding: 6.4px 16px;
     border-radius: 12px;
-    font-size: 0.7rem;
+    font-size: 11.2px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -130,14 +130,14 @@
 
 /* Info Section */
 .art-card-info-main {
-    margin-bottom: 1.25rem;
+    margin-bottom: 20px;
 }
 
 .art-card-title {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: 600;
     color: white;
-    margin-bottom: 0.75rem;
+    margin-bottom: 12px;
     line-height: 1.2;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -145,7 +145,7 @@
 .art-card-artist {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .art-artist-avatar {
@@ -164,12 +164,12 @@
 .art-artist-name {
     color: white;
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 15.2px;
 }
 
 .art-artist-label {
     color: rgba(255, 255, 255, 0.7);
-    font-size: 0.75rem;
+    font-size: 12px;
 }
 
 /* Footer Section */
@@ -182,27 +182,27 @@
 .art-card-price {
     display: flex;
     align-items: baseline;
-    gap: 0.25rem;
+    gap: 4px;
     color: white;
 }
 
 .price-currency {
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 600;
 }
 
 .price-amount {
-    font-size: 1.75rem;
+    font-size: 28px;
     font-weight: 700;
 }
 
 .art-buy-button {
     background: white;
     color: #1a1a1a;
-    padding: 0.6rem 1.25rem;
+    padding: 9.6px 20px;
     border-radius: 14px;
     font-weight: 700;
-    font-size: 0.875rem;
+    font-size: 14px;
     transition: all 0.2s ease;
     white-space: nowrap;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

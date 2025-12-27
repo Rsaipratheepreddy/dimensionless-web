@@ -120,7 +120,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 32px;
     position: relative;
 }
 
@@ -128,8 +128,8 @@
 .auth-header-logo {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
+    gap: 12px;
+    margin-bottom: 32px;
 }
 
 .header-logo-img {
@@ -139,7 +139,7 @@
 }
 
 .header-logo-text {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: 700;
     color: var(--text-main);
 }
@@ -155,48 +155,48 @@
 }
 
 .form-title {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: 600;
     color: var(--text-main);
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
 }
 
 /* Form Styles */
 .form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 20px;
 }
 
 .error-alert {
-    padding: 0.75rem 1rem;
+    padding: 12px 16px;
     background: rgba(220, 38, 38, 0.1);
     border: 1px solid rgba(220, 38, 38, 0.3);
     border-radius: 6px;
     color: #dc2626;
-    font-size: 0.875rem;
+    font-size: 14px;
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .input-group label {
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-main);
 }
 
 .input-group input {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 12px 16px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background: var(--bg-card);
     color: var(--text-main);
-    font-size: 0.9375rem;
+    font-size: 15px;
     transition: all 0.2s ease;
 }
 
@@ -218,17 +218,17 @@
 }
 
 .password-input input {
-    padding-right: 3rem;
+    padding-right: 48px;
 }
 
 .password-toggle {
     position: absolute;
-    right: 1rem;
+    right: 16px;
     background: none;
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 0.25rem;
+    padding: 4px;
     display: flex;
     align-items: center;
     transition: color 0.2s ease;
@@ -241,16 +241,16 @@
 /* Submit Button */
 .submit-button {
     width: 100%;
-    padding: 0.875rem 1.5rem;
+    padding: 14px 24px;
     background: var(--color-primary);
     color: var(--text-inverse);
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-top: 0.5rem;
+    margin-top: 8px;
 }
 
 .submit-button:hover:not(:disabled) {
@@ -268,8 +268,8 @@
 .form-footer {
     display: flex;
     justify-content: space-between;
-    margin-top: 1rem;
-    font-size: 0.875rem;
+    margin-top: 16px;
+    font-size: 14px;
 }
 
 .link {
@@ -287,9 +287,9 @@
 .social-divider {
     display: flex;
     align-items: center;
-    margin: 2rem 0 1.5rem;
+    margin: 32px 0 24px;
     color: var(--text-muted);
-    font-size: 0.875rem;
+    font-size: 14px;
 }
 
 .social-divider::before,
@@ -301,27 +301,27 @@
 }
 
 .social-divider span {
-    padding: 0 1rem;
+    padding: 0 16px;
 }
 
 /* Social Buttons */
 .social-buttons {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .social-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1.5rem;
+    gap: 12px;
+    padding: 12px 24px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background: var(--bg-card);
     color: var(--text-main);
-    font-size: 0.9375rem;
+    font-size: 15px;
     font-weight: 500;
     cursor: not-allowed;
     opacity: 0.6;
@@ -335,22 +335,22 @@
 /* Responsive */
 @media (max-width: 1023px) {
     .auth-content {
-        padding: 1.5rem;
+        padding: 24px;
     }
 
     .brand-name {
-        font-size: 1.5rem;
+        font-size: 24px;
     }
 
     .form-title {
-        font-size: 1.25rem;
+        font-size: 20px;
     }
 }
 
 @media (max-width: 640px) {
     .form-footer {
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 12px;
         text-align: center;
     }
 }

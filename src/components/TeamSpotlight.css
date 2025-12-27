@@ -2,18 +2,18 @@
 .team-spotlight-section {
     position: relative;
     background: #ffffff;
-    padding: 4rem 0;
+    padding: 64px 0;
     overflow: hidden;
 }
 
 .team-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    gap: 48px;
 }
 
 /* Header Section */
@@ -22,7 +22,7 @@
     max-width: 700px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
     align-items: center;
 }
 
@@ -30,10 +30,10 @@
     display: inline-flex;
     align-items: center;
     width: fit-content;
-    padding: 0.4rem 0.8rem;
+    padding: 6.4px 12.8px;
     background: linear-gradient(135deg, #ff6b6b, #ff9a56);
     border-radius: 20px;
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 500;
     color: white;
     transition: all 0.3s ease;
@@ -44,7 +44,7 @@
 }
 
 .team-title {
-    font-size: 2.5rem;
+    font-size: 40px;
     font-weight: 700;
     line-height: 1.2;
     color: #1f2937;
@@ -53,7 +53,7 @@
 }
 
 .team-subtitle {
-    font-size: 0.9rem;
+    font-size: 14.4px;
     line-height: 1.6;
     color: #6b7280;
     margin: 0;
@@ -64,7 +64,7 @@
 .team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    gap: 24px;
     width: 100%;
     max-width: 1200px;
 }
@@ -83,10 +83,10 @@
 }
 
 .team-card-inner {
-    padding: 1.5rem;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
     height: 100%;
 }
 
@@ -97,7 +97,7 @@
     height: 200px;
     border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
 }
 
 .team-image img {
@@ -113,8 +113,8 @@
 
 .team-icon {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 16px;
+    right: 16px;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -133,20 +133,20 @@
 .team-content {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
     flex-grow: 1;
 }
 
 .team-category {
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 0.25rem;
+    margin-bottom: 4px;
 }
 
 .team-name {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: 600;
     color: #1f2937;
     margin: 0;
@@ -154,15 +154,15 @@
 }
 
 .team-role {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #6b7280;
     font-weight: 500;
     margin: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
 }
 
 .team-expertise {
-    font-size: 0.8rem;
+    font-size: 12.8px;
     line-height: 1.4;
     color: #9ca3af;
     margin: 0;
@@ -173,25 +173,25 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .team-spotlight-section {
-        padding: 3rem 0;
+        padding: 48px 0;
     }
 
     .team-container {
-        padding: 0 1.5rem;
-        gap: 2.5rem;
+        padding: 0 24px;
+        gap: 40px;
     }
 
     .team-title {
-        font-size: 2rem;
+        font-size: 32px;
     }
 
     .team-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem;
+        gap: 20px;
     }
 
     .team-card-inner {
-        padding: 1.25rem;
+        padding: 20px;
     }
 
     .team-image {
@@ -201,25 +201,25 @@
 
 @media (max-width: 480px) {
     .team-spotlight-section {
-        padding: 2.5rem 0;
+        padding: 40px 0;
     }
 
     .team-container {
-        padding: 0 1rem;
-        gap: 2rem;
+        padding: 0 16px;
+        gap: 32px;
     }
 
     .team-title {
-        font-size: 1.75rem;
+        font-size: 28px;
     }
 
     .team-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 16px;
     }
 
     .team-card-inner {
-        padding: 1rem;
+        padding: 16px;
     }
 
     .team-image {

@@ -1,25 +1,31 @@
 .action-cards-single {
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
 .action-card-wide {
     background: #ffffff;
     border-radius: 20px;
-    padding: 1.5rem 2rem;
+    padding: 24px 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 24px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
     border: 1px solid rgba(0, 0, 0, 0.03);
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .card-main-content {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: 20px;
     flex: 1;
+    min-width: 0;
 }
 
 .card-icon-box {
@@ -36,33 +42,35 @@
 
 .card-info {
     flex: 1;
+    min-width: 0;
 }
 
 .card-title {
-    font-size: 1.125rem;
+    font-size: 18px;
     font-weight: 700;
     color: #1a1a1a;
-    margin-bottom: 0.25rem;
+    margin-bottom: 4px;
 }
 
 .card-desc {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #94a3b8;
     line-height: 1.4;
     margin: 0;
 }
 
 .card-action-btn {
-    padding: 0.75rem 2rem;
+    padding: 12px 32px;
     background: #1a1a1a;
     color: #ffffff;
     border: none;
     border-radius: 12px;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s ease;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .card-action-btn:hover {
@@ -71,29 +79,48 @@
 
 @media (max-width: 768px) {
     .action-cards-single {
-        margin-bottom: 1rem;
+        margin-bottom: 16px;
         width: 100%;
+        max-width: 100%;
     }
 
     .action-card-wide {
         flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+        gap: 20px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .card-main-content {
+        flex-direction: column;
         align-items: flex-start;
-        padding: 1.25rem;
-        gap: 1.25rem;
+        width: 100%;
+    }
+
+    .card-info {
         width: 100%;
     }
 
     .card-title {
-        font-size: 1rem;
+        font-size: 16px;
     }
 
     .card-action-btn {
         width: 100%;
-        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 24px;
     }
 }
 
 @media (max-width: 480px) {
+    .action-card-wide {
+        padding: 16px;
+    }
+
     .card-desc {
         display: none;
     }

@@ -1,41 +1,41 @@
 .orders-container {
-    padding: 6rem 2rem 10rem;
+    padding: 96px 32px 160px;
     max-width: 1000px;
     margin: 0 auto;
     min-height: 100vh;
 }
 
 .orders-header {
-    margin-bottom: 4rem;
+    margin-bottom: 64px;
 }
 
 .orders-header h1 {
-    font-size: 2.75rem;
+    font-size: 44px;
     font-weight: 800;
     color: #0f172a;
     letter-spacing: -0.03em;
-    margin-bottom: 0.75rem;
+    margin-bottom: 12px;
 }
 
 .orders-header p {
-    font-size: 1.125rem;
+    font-size: 18px;
     color: #64748b;
     font-weight: 500;
 }
 
 .orders-tabs {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 3rem;
+    gap: 16px;
+    margin-bottom: 48px;
     border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 1.5rem;
+    padding-bottom: 24px;
 }
 
 .tab-btn {
-    padding: 0.75rem 1.5rem;
+    padding: 12px 24px;
     border: none;
     background: transparent;
-    font-size: 0.95rem;
+    font-size: 15.2px;
     font-weight: 600;
     color: #64748b;
     cursor: pointer;
@@ -57,12 +57,12 @@
 .orders-list {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 24px;
 }
 
 .order-item {
     background: white;
-    padding: 1.5rem;
+    padding: 24px;
     border-radius: 20px;
     border: 1px solid #eee;
     display: flex;
@@ -73,7 +73,7 @@
 
 .order-main {
     display: flex;
-    gap: 1.5rem;
+    gap: 24px;
     align-items: center;
 }
 
@@ -94,11 +94,11 @@
 .order-details {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 4px;
 }
 
 .order-tag {
-    font-size: 0.65rem;
+    font-size: 10.4px;
     font-weight: 800;
     letter-spacing: 0.05em;
     color: #94a3b8;
@@ -110,7 +110,7 @@
 }
 
 .order-details h3 {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: 700;
     color: #0f172a;
     margin: 0;
@@ -118,7 +118,7 @@
 
 .order-date,
 .lease-period {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #64748b;
 }
 
@@ -126,22 +126,22 @@
     text-align: right;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
     align-items: flex-end;
 }
 
 .order-price {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: 800;
     color: #0f172a;
     letter-spacing: -0.02em;
 }
 
 .order-status {
-    font-size: 0.7rem;
+    font-size: 11.2px;
     font-weight: 700;
     text-transform: uppercase;
-    padding: 0.4rem 1rem;
+    padding: 6.4px 16px;
     border-radius: 12px;
     display: inline-block;
     letter-spacing: 0.05em;
@@ -170,24 +170,24 @@
 
 .empty-orders {
     text-align: center;
-    padding: 6rem 2rem;
+    padding: 96px 32px;
     background: #f8fafc;
     border-radius: 30px;
     border: 2px dashed #e2e8f0;
 }
 
 .empty-orders h3 {
-    margin: 1.5rem 0 0.5rem;
-    font-size: 1.5rem;
+    margin: 24px 0 8px;
+    font-size: 24px;
     color: #0f172a;
 }
 
 .explore-btn {
     display: inline-block;
-    margin-top: 2rem;
+    margin-top: 32px;
     background: #0f172a;
     color: white;
-    padding: 1rem 2rem;
+    padding: 16px 32px;
     border-radius: 16px;
     font-weight: 700;
     text-decoration: none;
@@ -203,7 +203,7 @@
     .order-item {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1.5rem;
+        gap: 24px;
     }
 
     .order-main {
@@ -214,13 +214,13 @@
         text-align: left;
         width: 100%;
         border-top: 1px solid #f1f5f9;
-        padding-top: 1.5rem;
+        padding-top: 24px;
         align-items: flex-start;
     }
 
     .orders-tabs {
         overflow-x: auto;
-        padding-bottom: 0.5rem;
+        padding-bottom: 8px;
     }
 
     .tab-btn {

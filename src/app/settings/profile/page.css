@@ -1,21 +1,21 @@
 .settings-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 32px;
 }
 
 .settings-header {
-    margin-bottom: 2.5rem;
+    margin-bottom: 40px;
 }
 
 .back-link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
+    font-size: 14.4px;
+    margin-bottom: 16px;
     transition: color 0.2s ease;
 }
 
@@ -24,10 +24,10 @@
 }
 
 .settings-header h1 {
-    font-size: 2rem;
+    font-size: 32px;
     font-weight: 800;
     color: var(--text-main);
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
 }
 
 .settings-header p {
@@ -37,20 +37,20 @@
 .settings-card {
     background: white;
     border-radius: 24px;
-    padding: 2.5rem;
+    padding: 40px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .profile-form {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 40px;
 }
 
 .avatar-section {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 32px;
 }
 
 .avatar-wrapper {
@@ -89,40 +89,40 @@
 }
 
 .avatar-info h3 {
-    font-size: 1.1rem;
+    font-size: 17.6px;
     font-weight: 700;
-    margin-bottom: 0.25rem;
+    margin-bottom: 4px;
 }
 
 .avatar-info p {
-    font-size: 0.9rem;
+    font-size: 14.4px;
     color: var(--text-secondary);
 }
 
 .form-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 24px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .form-group label {
-    font-size: 0.9rem;
+    font-size: 14.4px;
     font-weight: 600;
     color: var(--text-main);
 }
 
 .form-group input,
 .form-group textarea {
-    padding: 0.75rem 1rem;
+    padding: 12px 16px;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
-    font-size: 1rem;
+    font-size: 16px;
     transition: all 0.2s ease;
 }
 
@@ -141,10 +141,10 @@
 .save-profile-btn {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
     background: var(--color-primary);
     color: white;
-    padding: 0.875rem 2rem;
+    padding: 14px 32px;
     border-radius: 12px;
     font-weight: 700;
     cursor: pointer;

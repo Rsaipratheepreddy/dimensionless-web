@@ -1,10 +1,10 @@
 .dashboard-hero {
     position: relative;
     border-radius: 24px;
-    padding: 3rem 4rem;
+    padding: 48px 64px;
     overflow: hidden;
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
 }
 
 .dashboard-hero.slide-courses {
@@ -41,30 +41,30 @@
 .hero-tag {
     display: inline-block;
     color: rgba(255, 255, 255, 0.84);
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.1em;
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
 }
 
 .hero-title {
     color: #ffffff;
-    font-size: clamp(1.5rem, 4vw, 2.75rem);
+    font-size: clamp(24px, 4vw, 44px);
     font-weight: 700;
     line-height: 1.25;
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
 }
 
 .hero-btn {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 0.75rem 0.75rem 0.75rem 1.5rem;
+    gap: 16px;
+    padding: 12px 12px 12px 24px;
     background: #1a1a1a;
     color: #ffffff;
     border: none;
     border-radius: 50px;
-    font-size: 0.9375rem;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -84,13 +84,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.125rem;
+    font-size: 18px;
 }
 
 .hero-decor .decor-star {
     position: absolute;
     color: rgba(255, 255, 255, 0.2);
-    font-size: 3rem;
+    font-size: 48px;
     pointer-events: none;
 }
 
@@ -103,14 +103,14 @@
 .star-2 {
     bottom: 25%;
     left: 45%;
-    font-size: 2rem !important;
+    font-size: 32px !important;
     animation: pulse 3s infinite 1s;
 }
 
 .star-3 {
     top: 50%;
     right: 5%;
-    font-size: 1.5rem !important;
+    font-size: 24px !important;
     animation: pulse 5s infinite 2s;
 }
 
@@ -130,10 +130,10 @@
 
 .carousel-indicators {
     position: absolute;
-    bottom: 1.5rem;
-    left: 4rem;
+    bottom: 24px;
+    left: 64px;
     display: flex;
-    gap: 0.6rem;
+    gap: 9.6px;
     z-index: 3;
 }
 
@@ -155,46 +155,46 @@
 /* Responsive */
 @media (max-width: 768px) {
     .dashboard-hero {
-        padding: 1.5rem;
-        margin-bottom: 1rem;
+        padding: 24px;
+        margin-bottom: 16px;
         border-radius: 20px;
         width: 100%;
         max-width: 100%;
     }
 
     .hero-title {
-        font-size: 1.75rem;
-        margin-bottom: 1.5rem;
+        font-size: 28px;
+        margin-bottom: 24px;
     }
 
     .hero-tag {
-        margin-bottom: 1rem;
+        margin-bottom: 16px;
     }
 
     .carousel-indicators {
         left: auto;
-        right: 1.5rem;
-        bottom: 1.5rem;
+        right: 24px;
+        bottom: 24px;
     }
 }
 
 @media (max-width: 480px) {
     .dashboard-hero {
-        padding: 1.5rem;
+        padding: 24px;
     }
 
     .hero-title {
-        font-size: 1.5rem;
+        font-size: 24px;
     }
 
     .hero-btn {
-        padding: 0.6rem 0.6rem 0.6rem 1.25rem;
-        font-size: 0.875rem;
+        padding: 9.6px 9.6px 9.6px 20px;
+        font-size: 14px;
     }
 
     .btn-icon {
         width: 28px;
         height: 28px;
-        font-size: 1rem;
+        font-size: 16px;
     }
 }

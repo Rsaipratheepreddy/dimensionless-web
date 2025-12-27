@@ -142,29 +142,50 @@ export default function WalletPage() {
                             <p>No transactions found</p>
                         </div>
                     ) : (
-                        <div className="requests-table-container">
-                            <table className="requests-table">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {requests.map((request) => (
-                                        <tr key={request.id}>
-                                            <td>{new Date(request.created_at).toLocaleDateString()}</td>
-                                            <td className="amount-cell">₹{request.amount.toLocaleString('en-IN')}</td>
-                                            <td>
-                                                <span className={`status-tag ${request.status}`}>
-                                                    {request.status}
-                                                </span>
-                                            </td>
+                        <div className="requests-container">
+                            {/* Desktop Table View */}
+                            <div className="requests-table-wrapper desktop-only">
+                                <table className="requests-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {requests.map((request) => (
+                                            <tr key={request.id}>
+                                                <td>{new Date(request.created_at).toLocaleDateString()}</td>
+                                                <td className="amount-cell">₹{request.amount.toLocaleString('en-IN')}</td>
+                                                <td>
+                                                    <span className={`status-tag ${request.status}`}>
+                                                        {request.status}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Mobile Card View */}
+                            <div className="requests-cards-wrapper mobile-only">
+                                {requests.map((request) => (
+                                    <div key={request.id} className="request-mobile-card">
+                                        <div className="request-card-header">
+                                            <span className="card-date">{new Date(request.created_at).toLocaleDateString()}</span>
+                                            <span className={`status-tag ${request.status}`}>
+                                                {request.status}
+                                            </span>
+                                        </div>
+                                        <div className="request-card-body">
+                                            <span className="card-amount">₹{request.amount.toLocaleString('en-IN')}</span>
+                                            <span className="card-label">Payout Request</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>

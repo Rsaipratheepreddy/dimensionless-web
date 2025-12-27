@@ -2,7 +2,7 @@
 .community-section {
     position: relative;
     background: #ffffff;
-    padding: 5rem 0;
+    padding: 80px 0;
     overflow: hidden;
 }
 
@@ -24,11 +24,11 @@
 .community-container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    gap: 48px;
     position: relative;
     z-index: 1;
 }
@@ -39,7 +39,7 @@
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 24px;
     align-items: center;
 }
 
@@ -47,10 +47,10 @@
     display: inline-flex;
     align-items: center;
     width: fit-content;
-    padding: 0.5rem 1rem;
+    padding: 8px 16px;
     background: linear-gradient(135deg, #ff6b6b, #ff9a56);
     border-radius: 25px;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 600;
     color: white;
     transition: all 0.3s ease;
@@ -61,7 +61,7 @@
 }
 
 .community-title {
-    font-size: 2.5rem;
+    font-size: 40px;
     font-weight: 700;
     line-height: 1.2;
     color: #1f2937;
@@ -90,7 +90,7 @@
 }
 
 .community-subtitle {
-    font-size: 1.125rem;
+    font-size: 18px;
     line-height: 1.6;
     color: #6b7280;
     margin: 0;
@@ -103,10 +103,10 @@
 .founder-stats-section {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 20px;
     width: 100%;
     max-width: 500px;
-    padding: 1.25rem;
+    padding: 20px;
     border: 1px solid #e5e7eb;
     border-radius: 16px;
     background: #ffffff;
@@ -136,7 +136,7 @@
 .founder-hero {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 24px;
     width: 100%;
     padding: 0;
     border: none;
@@ -172,9 +172,9 @@
 }
 
 .founder-content h3 {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: 600;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 8px 0;
     color: #1f2937;
     line-height: 1.3;
     font-family: var(--font-primary, 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
@@ -200,7 +200,7 @@
 }
 
 .founder-content p {
-    font-size: 0.8rem;
+    font-size: 12.8px;
     line-height: 1.5;
     margin: 0;
     color: #6b7280;
@@ -211,13 +211,13 @@
 .community-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+    gap: 12px;
     width: 100%;
 }
 
 .stat-card {
     text-align: center;
-    padding: 0.875rem 0.5rem;
+    padding: 14px 8px;
     border: 1px solid #f1f5f9;
     border-radius: 12px;
     background: #fafafa;
@@ -257,7 +257,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 0.5rem auto;
+    margin: 0 auto 8px auto;
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -266,20 +266,20 @@
 .stat-content {
     display: flex;
     flex-direction: column;
-    gap: 0.125rem;
+    gap: 2px;
 }
 
 .stat-number {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: 700;
     color: #1f2937;
     line-height: 1;
-    margin-bottom: 0.125rem;
+    margin-bottom: 2px;
     font-family: var(--font-primary, 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
 }
 
 .stat-label {
-    font-size: 0.625rem;
+    font-size: 10px;
     color: #6b7280;
     font-weight: 500;
     font-family: var(--font-secondary, 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
@@ -291,7 +291,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 32px;
 }
 
 .alpha-header {
@@ -301,10 +301,10 @@
 }
 
 .alpha-title {
-    font-size: 2rem;
+    font-size: 32px;
     font-weight: 700;
     color: #1f2937;
-    margin: 0 0 0.75rem 0;
+    margin: 0 0 12px 0;
     line-height: 1.2;
     letter-spacing: -0.01em;
     font-family: var(--font-primary, 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
@@ -330,7 +330,7 @@
 }
 
 .alpha-description {
-    font-size: 0.9rem;
+    font-size: 14.4px;
     line-height: 1.6;
     color: #6b7280;
     margin: 0;
@@ -343,7 +343,7 @@
     align-items: flex-start;
     width: 100%;
     margin: 0 auto;
-    padding: 2rem 0;
+    padding: 32px 0;
     overflow: hidden;
     position: relative;
 }
@@ -351,7 +351,7 @@
 .experts-scroll-container {
     display: flex;
     align-items: flex-start;
-    gap: 2rem;
+    gap: 32px;
     animation: infiniteScroll 30s linear infinite;
     width: max-content;
 }
@@ -433,25 +433,25 @@
 }
 
 .expert-info {
-    padding: 1.25rem;
+    padding: 20px;
     text-align: center;
     background: #ffffff;
     position: relative;
 }
 
 .expert-name {
-    font-size: 1.1rem;
+    font-size: 17.6px;
     font-weight: 600;
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 4px 0;
     color: #1f2937;
     line-height: 1.3;
     font-family: var(--font-primary, 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
 }
 
 .expert-role {
-    font-size: 0.8rem;
+    font-size: 12.8px;
     color: #6b7280;
-    margin: 0 0 0.75rem 0;
+    margin: 0 0 12px 0;
     line-height: 1.4;
     font-family: var(--font-secondary, 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
 }
@@ -468,21 +468,21 @@
 .join-community-section {
     display: flex;
     justify-content: center;
-    padding-top: 0.5rem;
+    padding-top: 8px;
     border-top: 1px solid #f1f5f9;
-    margin-top: 0.25rem;
+    margin-top: 4px;
 }
 
 .join-community-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    gap: 8px;
+    padding: 8px 16px;
     background: linear-gradient(135deg, #1f2937, #111827);
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -500,33 +500,33 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .community-section {
-        padding: 4rem 0;
+        padding: 64px 0;
     }
 
     .community-container {
-        padding: 0 1.5rem;
-        gap: 3rem;
+        padding: 0 24px;
+        gap: 48px;
     }
 
     .community-title {
-        font-size: 2.5rem;
+        font-size: 40px;
         line-height: 1.3;
     }
 
     .community-subtitle {
-        font-size: 1rem;
+        font-size: 16px;
     }
 
     .founder-stats-section {
-        padding: 1rem;
-        gap: 1rem;
+        padding: 16px;
+        gap: 16px;
         max-width: 450px;
     }
 
     .founder-hero {
         flex-direction: column;
         text-align: center;
-        gap: 1rem;
+        gap: 16px;
     }
 
     .founder-image {
@@ -536,20 +536,20 @@
     }
 
     .founder-content h3 {
-        font-size: 1.125rem;
+        font-size: 18px;
     }
 
     .founder-content p {
-        font-size: 0.75rem;
+        font-size: 12px;
     }
 
     .community-stats {
         grid-template-columns: 1fr;
-        gap: 0.75rem;
+        gap: 12px;
     }
 
     .stat-card {
-        padding: 1rem 0.75rem;
+        padding: 16px 12px;
     }
 
     .stat-icon {
@@ -558,15 +558,15 @@
     }
 
     .stat-number {
-        font-size: 1.25rem;
+        font-size: 20px;
     }
 
     .alpha-title {
-        font-size: 2rem;
+        font-size: 32px;
     }
 
     .experts-scroll-container {
-        gap: 1.5rem;
+        gap: 24px;
         animation: infiniteScroll 25s linear infinite;
     }
 
@@ -591,46 +591,46 @@
     }
 
     .expert-info {
-        padding: 1rem;
+        padding: 16px;
     }
 
     .expert-name {
-        font-size: 0.95rem;
+        font-size: 15.2px;
     }
 
     .expert-role {
-        font-size: 0.75rem;
+        font-size: 12px;
     }
 
     .join-community-btn {
         width: 100%;
         justify-content: center;
-        padding: 0.5rem 1rem;
+        padding: 8px 16px;
     }
 }
 
 @media (max-width: 480px) {
     .community-section {
-        padding: 3rem 0;
+        padding: 48px 0;
     }
 
     .community-container {
-        padding: 0 1rem;
-        gap: 2.5rem;
+        padding: 0 16px;
+        gap: 40px;
     }
 
     .community-title {
-        font-size: 2rem;
+        font-size: 32px;
     }
 
     .founder-stats-section {
-        padding: 0.875rem;
-        gap: 0.875rem;
+        padding: 14px;
+        gap: 14px;
         max-width: 400px;
     }
 
     .founder-hero {
-        gap: 0.75rem;
+        gap: 12px;
     }
 
     .founder-image {
@@ -640,15 +640,15 @@
     }
 
     .stat-card {
-        padding: 0.75rem 0.5rem;
+        padding: 12px 8px;
     }
 
     .alpha-title {
-        font-size: 1.5rem;
+        font-size: 24px;
     }
 
     .experts-scroll-container {
-        gap: 1rem;
+        gap: 16px;
         animation: infiniteScroll 20s linear infinite;
     }
 
@@ -673,16 +673,16 @@
     }
 
     .expert-info {
-        padding: 0.875rem;
+        padding: 14px;
     }
 
     .expert-name {
-        font-size: 0.9rem;
+        font-size: 14.4px;
     }
 
     .expert-role {
-        font-size: 0.7rem;
-        margin-bottom: 0.5rem;
+        font-size: 11.2px;
+        margin-bottom: 8px;
     }
 
     .artistic-underline {

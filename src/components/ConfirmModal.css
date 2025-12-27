@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    padding: 2rem;
+    padding: 32px;
     animation: fadeIn 0.3s ease;
 }
 
@@ -16,7 +16,7 @@
     border-radius: 24px;
     width: 100%;
     max-width: 440px;
-    padding: 2.5rem;
+    padding: 40px;
     position: relative;
     box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
     animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -24,7 +24,7 @@
 
 .modal-body {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
 }
 
 .modal-icon {
@@ -34,7 +34,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 24px;
 }
 
 .modal-icon.primary {
@@ -48,26 +48,26 @@
 }
 
 .modal-body h2 {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: 750;
     color: var(--text-main);
-    margin-bottom: 0.75rem;
+    margin-bottom: 12px;
 }
 
 .modal-body p {
     color: var(--text-secondary);
     line-height: 1.6;
-    font-size: 0.95rem;
+    font-size: 15.2px;
 }
 
 .modal-footer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 16px;
 }
 
 .modal-cancel-btn {
-    padding: 0.875rem;
+    padding: 14px;
     border-radius: 12px;
     font-weight: 600;
     background: #f1f5f9;
@@ -80,7 +80,7 @@
 }
 
 .modal-confirm-btn {
-    padding: 0.875rem;
+    padding: 14px;
     border-radius: 12px;
     font-weight: 700;
     color: white;
@@ -102,10 +102,10 @@
 
 .modal-close-x {
     position: absolute;
-    top: 1.25rem;
-    right: 1.25rem;
+    top: 20px;
+    right: 20px;
     color: #94a3b8;
-    padding: 0.5rem;
+    padding: 8px;
     border-radius: 50%;
     transition: all 0.2s ease;
 }

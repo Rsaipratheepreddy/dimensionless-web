@@ -18,16 +18,16 @@
     text-align: center;
     z-index: 10;
     max-width: 600px;
-    padding: 2rem;
+    padding: 32px;
 }
 
 .not-found-visual {
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
 }
 
 .not-found-code {
-    font-size: 15rem;
+    font-size: 240px;
     font-weight: 900;
     line-height: 1;
     letter-spacing: -0.05em;
@@ -65,31 +65,31 @@
 }
 
 .not-found-text h2 {
-    font-size: 3rem;
+    font-size: 48px;
     font-weight: 800;
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
     letter-spacing: -0.02em;
 }
 
 .not-found-text p {
-    font-size: 1.25rem;
+    font-size: 20px;
     color: #94a3b8;
     line-height: 1.6;
-    margin-bottom: 3rem;
+    margin-bottom: 48px;
 }
 
 .not-found-actions {
     display: flex;
-    gap: 1.5rem;
+    gap: 24px;
 }
 
 .btn-primary-glow {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
     background: #4f46e5;
     color: white;
-    padding: 1rem 2rem;
+    padding: 16px 32px;
     border-radius: 14px;
     font-weight: 700;
     text-decoration: none;
@@ -106,11 +106,11 @@
 .btn-secondary-outline {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
     background: transparent;
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 1rem 2rem;
+    padding: 16px 32px;
     border-radius: 14px;
     font-weight: 700;
     cursor: pointer;
@@ -124,25 +124,25 @@
 
 .not-found-footer {
     position: absolute;
-    bottom: 3rem;
+    bottom: 48px;
     color: #475569;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 500;
 }
 
 @media (max-width: 640px) {
     .not-found-code {
-        font-size: 10rem;
+        font-size: 160px;
     }
 
     .not-found-text h2 {
-        font-size: 2.25rem;
+        font-size: 36px;
     }
 
     .not-found-actions {
         flex-direction: column;
         width: 100%;
-        gap: 1rem;
+        gap: 16px;
     }
 
     .btn-primary-glow,

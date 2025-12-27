@@ -92,43 +92,77 @@ export default function AdminUsers() {
                 {loading ? (
                     <LottieLoader />
                 ) : (
-                    <div className="admin-table-container">
-                        <table className="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Current Role</th>
-                                    <th>Joined</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {profiles.map((profile) => (
-                                    <tr key={profile.id}>
-                                        <td>
-                                            <div className="artist-cell">
-                                                <strong>{profile.full_name || 'Anonymous'}</strong>
-                                                <span>{profile.email}</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span className={`status-tag ${profile.role}`}>
-                                                {profile.role}
-                                            </span>
-                                        </td>
-                                        <td>{new Date(profile.created_at).toLocaleDateString()}</td>
-                                        <td>
-                                            <button
-                                                className="action-btn-admin secondary"
-                                                onClick={() => toggleRole(profile.id, profile.role)}
-                                            >
-                                                Change to {profile.role === 'admin' ? 'User' : 'Admin'}
-                                            </button>
-                                        </td>
+                    <div className="admin-list-container">
+                        {/* Desktop Table View */}
+                        <div className="admin-table-wrapper desktop-only">
+                            <table className="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Current Role</th>
+                                        <th>Joined</th>
+                                        <th>Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {profiles.map((profile) => (
+                                        <tr key={profile.id}>
+                                            <td>
+                                                <div className="artist-cell">
+                                                    <strong>{profile.full_name || 'Anonymous'}</strong>
+                                                    <span>{profile.email}</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className={`status-tag ${profile.role}`}>
+                                                    {profile.role}
+                                                </span>
+                                            </td>
+                                            <td>{new Date(profile.created_at).toLocaleDateString()}</td>
+                                            <td>
+                                                <button
+                                                    className="action-btn-admin secondary"
+                                                    onClick={() => toggleRole(profile.id, profile.role)}
+                                                >
+                                                    Change to {profile.role === 'admin' ? 'User' : 'Admin'}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Mobile Card View */}
+                        <div className="admin-cards-wrapper mobile-only">
+                            {profiles.map((profile) => (
+                                <div key={profile.id} className="admin-mobile-card">
+                                    <div className="admin-card-header">
+                                        <div className="admin-card-user-info">
+                                            <strong>{profile.full_name || 'Anonymous'}</strong>
+                                            <span>{profile.email}</span>
+                                        </div>
+                                        <span className={`status-tag ${profile.role}`}>
+                                            {profile.role}
+                                        </span>
+                                    </div>
+                                    <div className="admin-card-details">
+                                        <div className="detail-item">
+                                            <span className="detail-label">Joined</span>
+                                            <span className="detail-value">{new Date(profile.created_at).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                    <div className="admin-card-actions">
+                                        <button
+                                            className="action-btn-admin secondary"
+                                            onClick={() => toggleRole(profile.id, profile.role)}
+                                        >
+                                            Make {profile.role === 'admin' ? 'User' : 'Admin'}
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>

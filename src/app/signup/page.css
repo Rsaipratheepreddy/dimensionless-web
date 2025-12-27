@@ -3,10 +3,10 @@
 
 /* Additional signup-specific styles */
 .terms-notice {
-    font-size: 0.8125rem;
+    font-size: 13px;
     color: var(--text-muted);
     text-align: center;
-    margin-top: 1.5rem;
+    margin-top: 24px;
     line-height: 1.6;
 }
 
@@ -18,11 +18,11 @@
 /* Verification Notice Styles */
 .verification-notice {
     text-align: center;
-    padding: 2rem 0;
+    padding: 32px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 24px;
 }
 
 .verification-icon {
@@ -35,13 +35,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
 }
 
 .verification-text {
     color: var(--text-muted);
     line-height: 1.6;
-    font-size: 1rem;
+    font-size: 16px;
     max-width: 320px;
 }
 
@@ -54,16 +54,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
+    gap: 20px;
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 16px;
 }
 
 .resend-button {
     background: var(--color-primary);
     color: white;
     border: none;
-    padding: 0.875rem 2rem;
+    padding: 14px 32px;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
@@ -79,10 +79,10 @@
 .back-link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
     color: var(--text-muted);
     text-decoration: none;
-    font-size: 0.875rem;
+    font-size: 14px;
     transition: color 0.2s;
 }
 

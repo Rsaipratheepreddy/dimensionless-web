@@ -1,0 +1,102 @@
+/* Global Mobile Card Container Fix */
+@media (max-width: 768px) {
+
+    /* Ensure main content doesn't overflow */
+    .main-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Fix all direct children of main-content */
+    .main-content>* {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Action Cards */
+    .action-cards-single,
+    .action-card-wide,
+    .card-main-content {
+        display: flex !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Dashboard Hero */
+    .dashboard-hero {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Service Cards */
+    .services-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .service-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Art/Collection Cards */
+    .art-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .art-card-simple,
+    .art-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Generic Card Containers */
+    [class*="card-container"],
+    [class*="cards-grid"],
+    [class*="card-grid"],
+    [class*="-cards"] {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Generic Cards */
+    [class*="-card"],
+    [class*="card-"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Card Buttons */
+    [class*="card"] button,
+    [class*="card"] .btn,
+    [class*="card"] [class*="-btn"] {
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Sections and Containers */
+    section,
+    .section {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}

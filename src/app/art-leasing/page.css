@@ -1,5 +1,5 @@
 .leasing-gallery {
-    padding: 4rem 2rem;
+    padding: 64px 32px;
     max-width: 1200px;
     margin: 0 auto;
     min-height: 100vh;
@@ -10,20 +10,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 3rem;
-    gap: 2rem;
+    margin-bottom: 48px;
+    gap: 32px;
 }
 
 .header-left h1 {
-    font-size: 2.25rem;
+    font-size: 36px;
     font-weight: 700;
     color: #0f172a;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
     letter-spacing: -0.02em;
 }
 
 .header-left p {
-    font-size: 0.9375rem;
+    font-size: 15px;
     color: #64748b;
     max-width: 400px;
     line-height: 1.5;
@@ -35,7 +35,7 @@
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 10px;
-    padding: 0 1rem;
+    padding: 0 16px;
     width: 100%;
     max-width: 340px;
     height: 42px;
@@ -49,14 +49,14 @@
 
 .search-icon {
     color: #94a3b8;
-    margin-right: 0.75rem;
+    margin-right: 12px;
 }
 
 .search-bar-container input {
     border: none;
     outline: none;
     width: 100%;
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #0f172a;
     background: transparent;
 }
@@ -68,10 +68,10 @@
 /* Filter Bar - Chips */
 .filter-bar {
     display: flex;
-    gap: 0.625rem;
-    margin-bottom: 3rem;
+    gap: 10px;
+    margin-bottom: 48px;
     overflow-x: auto;
-    padding-bottom: 0.5rem;
+    padding-bottom: 8px;
     scrollbar-width: none;
     /* Firefox */
 }
@@ -82,9 +82,9 @@
 }
 
 .filter-chip {
-    padding: 0.5rem 1.125rem;
+    padding: 8px 18px;
     border-radius: 100px;
-    font-size: 0.8125rem;
+    font-size: 13px;
     font-weight: 600;
     background: #f1f5f9;
     color: #64748b;
@@ -107,27 +107,27 @@
 .leasing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2rem;
+    gap: 32px;
 }
 
 @media (max-width: 768px) {
     .leasing-gallery {
-        padding: 2.5rem 1.25rem;
+        padding: 40px 20px;
     }
 
     .leasing-header-v2 {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1.5rem;
-        margin-bottom: 2rem;
+        gap: 24px;
+        margin-bottom: 32px;
     }
 
     .header-left h1 {
-        font-size: 1.75rem;
+        font-size: 28px;
     }
 
     .header-left p {
-        font-size: 0.875rem;
+        font-size: 14px;
     }
 
     .search-bar-container {
@@ -136,12 +136,12 @@
     }
 
     .filter-bar {
-        margin-bottom: 2rem;
+        margin-bottom: 32px;
     }
 
     .leasing-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 24px;
     }
 }
 
@@ -181,8 +181,8 @@
 /* Wishlist Heart */
 .card-wishlist-btn {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 24px;
+    right: 24px;
     width: 44px;
     height: 44px;
     background: rgba(255, 255, 255, 0.15);
@@ -208,22 +208,22 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 2rem;
+    padding: 32px;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 24px;
     z-index: 5;
 }
 
 .overlay-top {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .leasing-card-title {
-    font-size: 1.75rem;
+    font-size: 28px;
     font-weight: 700;
     color: white;
     margin: 0;
@@ -234,7 +234,7 @@
 .leasing-artist-row-minimal {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .artist-avatar-xs {
@@ -263,13 +263,13 @@
 }
 
 .artist-name-minimal {
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 600;
     color: white;
 }
 
 .info-label-xs {
-    font-size: 0.75rem;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.5);
     font-weight: 500;
 }
@@ -281,24 +281,24 @@
 }
 
 .leasing-price-minimal {
-    font-size: 1.75rem;
+    font-size: 28px;
     font-weight: 700;
     color: white;
 }
 
 .leasing-price-minimal span {
-    font-size: 1rem;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.7);
     font-weight: 400;
     margin-left: 2px;
 }
 
 .lease-action-pill {
-    padding: 0.75rem 1.5rem;
+    padding: 12px 24px;
     border-radius: 16px;
     background: white;
     color: #000;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 700;
     text-align: center;
     min-width: 140px;
@@ -312,14 +312,14 @@
 
 .availability-badge {
     position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
+    top: 24px;
+    left: 24px;
     background: rgba(239, 68, 68, 0.9);
     backdrop-filter: blur(8px);
     color: white;
-    padding: 0.4rem 1rem;
+    padding: 6.4px 16px;
     border-radius: 99px;
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 700;
     z-index: 10;
 }
@@ -327,11 +327,11 @@
 /* Empty State - Refined */
 .premium-empty-state {
     text-align: center;
-    padding: 8rem 2rem;
+    padding: 128px 32px;
     background: #f8fafc;
     border-radius: 24px;
     border: 1px solid #e2e8f0;
-    margin-top: 2rem;
+    margin-top: 32px;
 }
 
 .empty-icon-box {
@@ -342,20 +342,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 2rem;
+    margin: 0 auto 32px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
 .premium-empty-state h3 {
-    font-size: 1.75rem;
+    font-size: 28px;
     font-weight: 800;
     color: var(--text-main);
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
 }
 
 .premium-empty-state p {
     color: #64748b;
-    font-size: 1.1rem;
+    font-size: 17.6px;
     max-width: 400px;
     margin: 0 auto;
 }
@@ -373,7 +373,7 @@
 .lease-vertical-layout {
     width: 100%;
     min-height: 100vh;
-    padding: 6rem 1.5rem 10rem;
+    padding: 96px 24px 160px;
     background: #ffffff;
 }
 
@@ -385,16 +385,16 @@
 }
 
 .back-link-simple {
-    margin-bottom: 3rem;
+    margin-bottom: 48px;
 }
 
 .back-link-simple a {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
     color: #94a3b8;
     text-decoration: none;
-    font-size: 0.8125rem;
+    font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -406,7 +406,7 @@
 }
 
 .detail-hero-minimal {
-    margin-bottom: 4rem;
+    margin-bottom: 64px;
     width: 100%;
 }
 
@@ -418,21 +418,21 @@
 }
 
 .detail-header-group {
-    margin-bottom: 2.5rem;
+    margin-bottom: 40px;
 }
 
 .detail-header-group h1 {
-    font-size: 2.5rem;
+    font-size: 40px;
     font-weight: 800;
     color: #0f172a;
     letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
 }
 
 .artist-profile-row {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .artist-avatar-sm {
@@ -456,17 +456,17 @@
 .artist-info-stack {
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: 1.6px;
 }
 
 .artist-name-bold {
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 700;
     color: #1e293b;
 }
 
 .verified-status {
-    font-size: 0.7rem;
+    font-size: 11.2px;
     font-weight: 600;
     color: #10b981;
     text-transform: uppercase;
@@ -474,18 +474,18 @@
 }
 
 .detail-narrative {
-    margin-bottom: 5rem;
+    margin-bottom: 80px;
 }
 
 .detail-narrative p {
-    font-size: 1.125rem;
+    font-size: 18px;
     line-height: 1.8;
     color: #475569;
     max-width: 680px;
 }
 
 .detail-booking-flow {
-    padding-top: 4rem;
+    padding-top: 64px;
     border-top: 1px solid #f1f5f9;
 }
 
@@ -493,17 +493,17 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 2.5rem;
+    margin-bottom: 40px;
 }
 
 .booking-intro h3 {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: 700;
     color: #0f172a;
 }
 
 .rate-indicator-minimal {
-    font-size: 1.125rem;
+    font-size: 18px;
     font-weight: 600;
     color: #475569;
 }
@@ -511,23 +511,23 @@
 .booking-form-minimal {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 40px;
 }
 
 .date-selection-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 32px;
 }
 
 .field-minimal {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .field-minimal label {
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -535,11 +535,11 @@
 }
 
 .field-minimal input {
-    padding: 1rem;
+    padding: 16px;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     background: #f8fafc;
-    font-size: 0.95rem;
+    font-size: 15.2px;
     color: #0f172a;
     outline: none;
     transition: all 0.2s;
@@ -555,7 +555,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem;
+    padding: 32px;
     background: #f8fafc;
     border-radius: 20px;
 }
@@ -563,29 +563,29 @@
 .total-row-minimal {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 4px;
 }
 
 .total-label {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #64748b;
     font-weight: 600;
 }
 
 .total-amount-bold {
-    font-size: 1.75rem;
+    font-size: 28px;
     font-weight: 900;
     color: #0f172a;
     letter-spacing: -0.02em;
 }
 
 .btn-lease-primary {
-    padding: 1rem 2.5rem;
+    padding: 16px 40px;
     background: #0f172a;
     color: #ffffff;
     border: none;
     border-radius: 14px;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
@@ -602,24 +602,24 @@
 }
 
 .setup-footer-minimal {
-    margin-top: 2rem;
+    margin-top: 32px;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
     color: #94a3b8;
-    font-size: 0.8125rem;
+    font-size: 13px;
     font-weight: 500;
 }
 
 @media (max-width: 640px) {
     .date-selection-row {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 24px;
     }
 
     .booking-summary-simple {
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 24px;
         text-align: center;
     }
 
@@ -628,6 +628,6 @@
     }
 
     .detail-header-group h1 {
-        font-size: 2rem;
+        font-size: 32px;
     }
 }

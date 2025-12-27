@@ -2,14 +2,14 @@
 .feed-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 1.5rem;
+    padding: 24px;
     min-height: 100vh;
 }
 
 .feed-grid {
     display: grid;
     grid-template-columns: 280px 1fr 320px;
-    gap: 2rem;
+    gap: 32px;
     align-items: flex-start;
 }
 
@@ -31,7 +31,7 @@
     top: 90px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 24px;
 }
 
 .profile-card-header {
@@ -40,7 +40,7 @@
 }
 
 .profile-card-content {
-    padding: 0 1.5rem 1.5rem;
+    padding: 0 24px 24px;
     text-align: center;
     margin-top: -40px;
 }
@@ -51,30 +51,30 @@
     border-radius: 50%;
     border: 4px solid white;
     object-fit: cover;
-    margin-bottom: 0.75rem;
+    margin-bottom: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile-card-name {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 17.6px;
     color: var(--text-main);
-    margin-bottom: 0.25rem;
+    margin-bottom: 4px;
 }
 
 .profile-card-bio {
-    font-size: 0.85rem;
+    font-size: 13.6px;
     color: #64748b;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
     line-height: 1.4;
 }
 
 .profile-stats {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 16px;
     border-top: 1px solid #f1f5f9;
-    padding-top: 1rem;
+    padding-top: 16px;
 }
 
 .stat-item {
@@ -88,21 +88,21 @@
 }
 
 .stat-label {
-    font-size: 0.75rem;
+    font-size: 12px;
     color: #94a3b8;
 }
 
 .menu-list {
-    padding: 0.5rem;
+    padding: 8px;
 }
 
 .menu-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    gap: 12px;
+    padding: 12px 16px;
     color: #475569;
-    font-size: 0.95rem;
+    font-size: 15.2px;
     border-radius: 8px;
     transition: all 0.2s;
 }
@@ -116,19 +116,19 @@
 .feed-content {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 24px;
 }
 
 .create-post-card {
-    padding: 1rem;
+    padding: 16px;
 }
 
 .create-post-top {
     display: flex;
-    gap: 1rem;
+    gap: 16px;
     align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
     border-bottom: 1px solid #f1f5f9;
 }
 
@@ -143,8 +143,8 @@
     border: none;
     background: #f8fafc;
     border-radius: 24px;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.95rem;
+    padding: 12px 20px;
+    font-size: 15.2px;
     transition: all 0.2s;
     outline: none;
 }
@@ -156,16 +156,16 @@
 
 .create-post-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .action-chip {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    gap: 8px;
+    padding: 8px 16px;
     border-radius: 20px;
-    font-size: 0.9rem;
+    font-size: 14.4px;
     font-weight: 500;
     color: #64748b;
     background: transparent;
@@ -188,13 +188,13 @@
     background: var(--color-primary);
     color: white;
     border: none;
-    padding: 0.5rem 1.5rem;
+    padding: 8px 24px;
     border-radius: 20px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .post-submit-btn:disabled {
@@ -207,13 +207,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 1rem;
+    padding: 12px 16px;
 }
 
 .post-user-info {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .poster-avatar {
@@ -232,27 +232,27 @@
 .poster-name {
     font-weight: 700;
     color: #262626;
-    font-size: 0.85rem;
+    font-size: 13.6px;
     text-decoration: none;
 }
 
 .post-time {
-    font-size: 0.8rem;
+    font-size: 12.8px;
     color: #94a3b8;
 }
 
 .post-content {
-    padding: 0 1.25rem;
-    font-size: 1rem;
+    padding: 0 20px;
+    font-size: 16px;
     line-height: 1.6;
     color: #334155;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
     white-space: pre-wrap;
 }
 
 .post-media {
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
 }
 
 .post-media img {
@@ -267,7 +267,7 @@
 .feed-painting-card {
     background: #f8fafc;
     border-radius: 12px;
-    margin: 0 1.25rem 1rem;
+    margin: 0 20px 16px;
     overflow: hidden;
     border: 1px solid #e2e8f0;
 }
@@ -279,7 +279,7 @@
 }
 
 .feed-painting-info {
-    padding: 1rem;
+    padding: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -287,7 +287,7 @@
 
 .painting-title {
     font-weight: 700;
-    margin-bottom: 0.25rem;
+    margin-bottom: 4px;
 }
 
 .painting-price {
@@ -297,8 +297,8 @@
 
 /* Interaction Bar */
 .post-stats {
-    padding: 0 1.25rem 0.5rem;
-    font-size: 0.9rem;
+    padding: 0 20px 8px;
+    font-size: 14.4px;
     color: var(--text-main);
     font-weight: 700;
 }
@@ -309,15 +309,15 @@
 
 .post-actions-bar {
     display: flex;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
+    gap: 8px;
+    padding: 8px 12px;
 }
 
 .interaction-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 8px;
     background: transparent;
     border: none;
     color: #262626;
@@ -336,9 +336,9 @@
     bottom: 100%;
     left: 0;
     display: flex;
-    gap: 0.5rem;
+    gap: 8px;
     background: white;
-    padding: 0.5rem;
+    padding: 8px;
     border-radius: 30px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     border: 1px solid #efefef;
@@ -358,10 +358,10 @@
 .reaction-picker button {
     background: transparent;
     border: none;
-    font-size: 1.5rem;
+    font-size: 24px;
     cursor: pointer;
     transition: transform 0.2s;
-    padding: 0.2rem;
+    padding: 3.2px;
 }
 
 .reaction-picker button:hover {
@@ -371,16 +371,16 @@
 .reaction-display {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .reaction-emoji {
-    font-size: 1.5rem;
+    font-size: 24px;
     line-height: 1;
 }
 
 .reaction-label {
-    font-size: 0.9rem;
+    font-size: 14.4px;
     font-weight: 600;
 }
 
@@ -388,8 +388,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
+    gap: 8px;
+    padding: 8px 12px;
     background: transparent;
     border: none;
     color: #666;
@@ -416,65 +416,65 @@
 }
 
 .post-content {
-    padding: 0 1.25rem 0.75rem;
-    font-size: 0.9rem;
+    padding: 0 20px 12px;
+    font-size: 14.4px;
     line-height: 1.5;
     color: #262626;
 }
 
 .caption-username {
     font-weight: 700;
-    margin-right: 0.5rem;
+    margin-right: 8px;
 }
 
 .view-comments-btn {
     display: block;
     width: 100%;
     text-align: left;
-    padding: 0 1.25rem 0.75rem;
+    padding: 0 20px 12px;
     background: transparent;
     border: none;
     color: #8e8e8e;
-    font-size: 0.85rem;
+    font-size: 13.6px;
     cursor: pointer;
 }
 
 /* Comments Section */
 .comments-section {
     background: white;
-    padding: 0 1.25rem 1rem;
+    padding: 0 20px 16px;
 }
 
 .comment-item {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 
 .comment-content {
-    font-size: 0.85rem;
+    font-size: 13.6px;
     line-height: 1.4;
 }
 
 .comment-username {
     font-weight: 700;
-    margin-right: 0.4rem;
+    margin-right: 6.4px;
 }
 
 .comment-input-area {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-top: 1rem;
+    gap: 12px;
+    margin-top: 16px;
     border-top: 1px solid #efefef;
-    padding-top: 0.75rem;
+    padding-top: 12px;
 }
 
 .comment-input {
     flex: 1;
     border: none;
     outline: none;
-    font-size: 0.9rem;
+    font-size: 14.4px;
     background: transparent;
 }
 
@@ -483,7 +483,7 @@
     border: none;
     color: var(--color-primary);
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 13.6px;
     padding: 0;
     cursor: pointer;
 }
@@ -494,20 +494,20 @@
     top: 90px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 24px;
 }
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem;
+    padding: 20px;
     border-bottom: 1px solid #f1f5f9;
 }
 
 .section-title {
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 16px;
     color: var(--text-main);
 }
 
@@ -515,8 +515,8 @@
 .event-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    gap: 12px;
+    padding: 12px 16px;
     cursor: pointer;
     transition: background 0.2s;
 }
@@ -541,12 +541,12 @@
 .event-title {
     font-weight: 600;
     display: block;
-    font-size: 0.9rem;
+    font-size: 14.4px;
 }
 
 .contact-status,
 .event-time {
-    font-size: 0.75rem;
+    font-size: 12px;
     color: #94a3b8;
 }
 
@@ -592,41 +592,41 @@
 
 /* Poll Creation Styling */
 .poll-creation-area {
-    padding: 1rem;
+    padding: 16px;
     background: #f8fafc;
     border-radius: 12px;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
     border: 1px solid #e2e8f0;
 }
 
 .poll-question-input {
     width: 100%;
-    padding: 0.75rem;
+    padding: 12px;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
+    margin-bottom: 16px;
+    font-size: 15.2px;
     outline: none;
 }
 
 .poll-options-inputs {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .poll-option-input-wrapper {
     display: flex;
-    gap: 0.5rem;
+    gap: 8px;
     align-items: center;
 }
 
 .poll-option-input {
     flex: 1;
-    padding: 0.6rem 0.75rem;
+    padding: 9.6px 12px;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    font-size: 0.9rem;
+    font-size: 14.4px;
     outline: none;
 }
 
@@ -648,22 +648,22 @@
     background: transparent;
     color: var(--color-primary);
     border: 1px dashed var(--color-primary);
-    padding: 0.5rem;
+    padding: 8px;
     border-radius: 8px;
-    font-size: 0.85rem;
+    font-size: 13.6px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.25rem;
-    margin-top: 0.5rem;
+    gap: 4px;
+    margin-top: 8px;
 }
 
 /* Media Preview Styling */
 .media-preview-area {
     position: relative;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
     border-radius: 12px;
     overflow: hidden;
 }
@@ -705,29 +705,29 @@
 
 /* Post Poll Styling */
 .post-poll-area {
-    padding: 1.25rem;
+    padding: 20px;
     background: #f8fafc;
     border-radius: 12px;
-    margin: 0 1.25rem 1rem;
+    margin: 0 20px 16px;
     border: 1px solid #e2e8f0;
 }
 
 .poll-question-text {
     font-weight: 700;
-    margin-bottom: 1rem;
-    font-size: 1rem;
+    margin-bottom: 16px;
+    font-size: 16px;
 }
 
 .poll-options-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .poll-option-btn {
     position: relative;
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 12px 16px;
     background: white;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -772,12 +772,12 @@
     position: relative;
     z-index: 1;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 13.6px;
     color: var(--color-primary);
 }
 
 .poll-footer {
-    margin-top: 1rem;
-    font-size: 0.8rem;
+    margin-top: 16px;
+    font-size: 12.8px;
     color: #94a3b8;
 }

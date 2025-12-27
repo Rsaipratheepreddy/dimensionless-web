@@ -366,47 +366,83 @@ export default function ShopPage() {
                                 </button>
                             </div>
                         ) : (
-                            <table className="shop-table">
-                                <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Description</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <div className="shop-list-container">
+                                {/* Desktop Table View */}
+                                <div className="shop-table-wrapper desktop-only">
+                                    <table className="shop-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Image</th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {paintings.map((painting) => (
+                                                <tr key={painting.id}>
+                                                    <td className="col-image">
+                                                        <div className="table-img-wrap">
+                                                            <img src={painting.image_url || '/placeholder-art.png'} alt={painting.title} />
+                                                        </div>
+                                                    </td>
+                                                    <td className="col-name">{painting.title}</td>
+                                                    <td className="col-price">₹{painting.price.toLocaleString()}</td>
+                                                    <td className="col-desc">
+                                                        <div className="desc-text">{painting.description || '-'}</div>
+                                                    </td>
+                                                    <td className="col-status">
+                                                        <span className={`table-status ${painting.status}`}>
+                                                            {painting.status}
+                                                        </span>
+                                                    </td>
+                                                    <td className="col-actions">
+                                                        <button className="table-action-btn edit" onClick={() => handleEdit(painting)} title="Edit">
+                                                            <IconEdit size={18} />
+                                                        </button>
+                                                        <button className="table-action-btn delete" onClick={() => deletePainting(painting.id)} title="Delete">
+                                                            <IconTrash size={18} />
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* Mobile Card View */}
+                                <div className="shop-cards-wrapper mobile-only">
                                     {paintings.map((painting) => (
-                                        <tr key={painting.id}>
-                                            <td className="col-image">
-                                                <div className="table-img-wrap">
-                                                    <img src={painting.image_url || '/placeholder-art.png'} alt={painting.title} />
-                                                </div>
-                                            </td>
-                                            <td className="col-name">{painting.title}</td>
-                                            <td className="col-price">₹{painting.price.toLocaleString()}</td>
-                                            <td className="col-desc">
-                                                <div className="desc-text">{painting.description || '-'}</div>
-                                            </td>
-                                            <td className="col-status">
-                                                <span className={`table-status ${painting.status}`}>
+                                        <div key={painting.id} className="painting-mobile-card">
+                                            <div className="card-image-section">
+                                                <img src={painting.image_url || '/placeholder-art.png'} alt={painting.title} />
+                                                <span className={`table-status ${painting.status} card-status-badge`}>
                                                     {painting.status}
                                                 </span>
-                                            </td>
-                                            <td className="col-actions">
-                                                <button className="table-action-btn edit" onClick={() => handleEdit(painting)} title="Edit">
-                                                    <IconEdit size={18} />
-                                                </button>
-                                                <button className="table-action-btn delete" onClick={() => deletePainting(painting.id)} title="Delete">
-                                                    <IconTrash size={18} />
-                                                </button>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                            <div className="card-info-section">
+                                                <div className="card-primary-info">
+                                                    <h3 className="card-title">{painting.title}</h3>
+                                                    <p className="card-price">₹{painting.price.toLocaleString()}</p>
+                                                </div>
+                                                <p className="card-description">{painting.description || 'No description provided'}</p>
+                                                <div className="card-actions">
+                                                    <button className="mobile-action-btn edit" onClick={() => handleEdit(painting)}>
+                                                        <IconEdit size={18} />
+                                                        Edit
+                                                    </button>
+                                                    <button className="mobile-action-btn delete" onClick={() => deletePainting(painting.id)}>
+                                                        <IconTrash size={18} />
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     ))}
-                                </tbody>
-                            </table>
+                                </div>
+                            </div>
                         )}
                     </div>
                 )}

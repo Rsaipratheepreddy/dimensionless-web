@@ -20,7 +20,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 2rem;
+    padding: 16px 32px;
     height: 72px;
 }
 
@@ -33,10 +33,10 @@
 .brand-link {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 0.75rem 1rem;
+    padding: 12px 16px;
     border-radius: 16px;
     position: relative;
 }
@@ -87,7 +87,7 @@
 .brand-name {
     display: flex;
     flex-direction: column;
-    font-size: 1.125rem;
+    font-size: 18px;
     font-weight: 600;
     color: #000000;
     letter-spacing: -0.02em;
@@ -106,12 +106,12 @@
 
 .brand-name-line:first-child {
     font-weight: 700;
-    font-size: 1.125rem;
+    font-size: 18px;
 }
 
 .brand-name-line:last-child {
     font-weight: 500;
-    font-size: 0.875rem;
+    font-size: 14px;
     opacity: 1;
 }
 
@@ -125,7 +125,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 0.25rem;
+    gap: 4px;
 }
 
 .menu-item {
@@ -136,10 +136,10 @@
 .menu-trigger {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
+    gap: 8px;
+    padding: 12px 16px;
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 15.2px;
     color: #6b7280;
     text-decoration: none;
     border-radius: 8px;
@@ -190,7 +190,7 @@
     box-shadow:
         0 10px 25px -5px rgba(0, 0, 0, 0.1),
         0 5px 10px -5px rgba(0, 0, 0, 0.04);
-    padding: 0.5rem;
+    padding: 8px;
     opacity: 0;
     transform: translateY(-10px);
     animation: dropdownEnter 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -210,13 +210,13 @@
 .simple-dropdown-content {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 4px;
 }
 
 .simple-dropdown-item {
     display: block;
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
+    padding: 12px 16px;
+    font-size: 15.2px;
     font-weight: 500;
     color: #374151;
     text-decoration: none;
@@ -292,26 +292,26 @@
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    padding: 1.5rem;
-    gap: 1.5rem;
+    padding: 24px;
+    gap: 24px;
 }
 
 /* Vertical Tab Navigation */
 .mega-tabs {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
     min-width: 160px;
-    padding-right: 1.5rem;
+    padding-right: 24px;
 }
 
 .mega-tab {
     background: #ffffff;
     border: 1px solid #e5e7eb;
-    padding: 0.875rem 1rem;
+    padding: 14px 16px;
     border-radius: 16px;
     font-weight: 500;
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #6b7280;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -319,7 +319,7 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 10px;
     text-align: left;
     position: relative;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -353,12 +353,12 @@
 .mega-tab-content {
     display: flex;
     flex-direction: column;
-    gap: 0.125rem;
+    gap: 2px;
 }
 
 .mega-tab-label {
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #374151;
     line-height: 1.2;
 }
@@ -368,7 +368,7 @@
 }
 
 .mega-tab-description {
-    font-size: 0.75rem;
+    font-size: 12px;
     color: #9ca3af;
     line-height: 1.3;
     font-weight: 400;
@@ -446,7 +446,7 @@
 .mega-sections {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 3rem;
+    gap: 48px;
     width: 100%;
 }
 
@@ -455,10 +455,10 @@
 }
 
 .section-title {
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 600;
     color: #6b7280;
-    margin-bottom: 1.5rem;
+    margin-bottom: 24px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -471,14 +471,14 @@
 .section-items {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
+    gap: 16px;
 }
 
 .mega-item {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
-    padding: 1.25rem;
+    gap: 16px;
+    padding: 20px;
     border-radius: 12px;
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -542,13 +542,13 @@
 .item-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.5rem;
+    gap: 12px;
+    margin-bottom: 8px;
 }
 
 .item-name {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 15.2px;
     color: #000000;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -560,9 +560,9 @@
 .item-badge {
     background: #000000;
     color: #ffffff;
-    font-size: 0.7rem;
+    font-size: 11.2px;
     font-weight: 600;
-    padding: 0.2rem 0.6rem;
+    padding: 3.2px 9.6px;
     border-radius: 20px;
     white-space: nowrap;
     text-transform: uppercase;
@@ -575,7 +575,7 @@
 }
 
 .item-description {
-    font-size: 0.85rem;
+    font-size: 13.6px;
     color: #6b7280;
     line-height: 1.5;
     margin: 0;
@@ -587,10 +587,10 @@
 }
 
 .mega-featured-wrapper {
-    padding: 2rem;
+    padding: 32px;
     border-top: 1px solid #e5e7eb;
     background: #f9fafb;
-    margin-top: 2rem;
+    margin-top: 32px;
 }
 
 .mega-menu.theme-dark .mega-featured-wrapper {
@@ -604,9 +604,9 @@
     margin: 0 auto;
     background: #ffffff;
     border-radius: 16px;
-    padding: 2rem;
+    padding: 32px;
     display: flex;
-    gap: 2rem;
+    gap: 32px;
     border: 1px solid #e5e7eb;
     align-items: flex-start;
 }
@@ -619,11 +619,11 @@
 .featured-content {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
 }
 
 .featured-title {
-    font-size: 1.1rem;
+    font-size: 17.6px;
     font-weight: 600;
     color: #000000;
     margin: 0;
@@ -636,7 +636,7 @@
 }
 
 .featured-description {
-    font-size: 0.9rem;
+    font-size: 14.4px;
     color: #6b7280;
     line-height: 1.5;
     margin: 0;
@@ -653,14 +653,14 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .featured-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
+    gap: 8px;
+    font-size: 13.6px;
     color: #6b7280;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -681,9 +681,9 @@
 .featured-version {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    padding-top: 1rem;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 16px;
     border-top: 1px solid #e5e7eb;
 }
 
@@ -692,7 +692,7 @@
 }
 
 .version-text {
-    font-size: 0.85rem;
+    font-size: 13.6px;
     font-weight: 600;
     color: #000000;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -746,7 +746,7 @@
 .play-icon {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    padding: 0.75rem;
+    padding: 12px;
     transition: all 0.2s ease;
     color: #ffffff;
 }
@@ -758,13 +758,13 @@
 
 .video-time {
     position: absolute;
-    bottom: 1rem;
-    left: 1rem;
+    bottom: 16px;
+    left: 16px;
     background: rgba(0, 0, 0, 0.6);
     color: white;
-    padding: 0.25rem 0.5rem;
+    padding: 4px 8px;
     border-radius: 6px;
-    font-size: 0.8rem;
+    font-size: 12.8px;
     font-weight: 500;
 }
 
@@ -772,7 +772,7 @@
 .menu-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
 }
 
 .theme-toggle {
@@ -808,8 +808,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
+    gap: 8px;
+    padding: 12px 20px;
     border: none;
     background: #000000;
     border-radius: 8px;
@@ -817,7 +817,7 @@
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 14.4px;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -898,16 +898,16 @@
 }
 
 .mobile-menu-content {
-    padding: 1.5rem;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .mobile-menu-item {
     border-bottom: 1px solid #f3f4f6;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
 }
 
 .mega-menu.theme-dark .mobile-menu-item {
@@ -922,8 +922,8 @@
 
 .mobile-menu-link {
     display: block;
-    padding: 1rem;
-    font-size: 1.125rem;
+    padding: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: #000000;
     text-decoration: none;
@@ -949,8 +949,8 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 1rem;
-    font-size: 1.125rem;
+    padding: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: #000000;
     background: none;
@@ -982,17 +982,17 @@
 }
 
 .mobile-submenu {
-    margin-top: 1rem;
-    padding-left: 1rem;
+    margin-top: 16px;
+    padding-left: 16px;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
 .mobile-simple-item {
     display: block;
-    padding: 0.875rem 1rem;
-    font-size: 1rem;
+    padding: 14px 16px;
+    font-size: 16px;
     font-weight: 500;
     color: #374151;
     text-decoration: none;
@@ -1018,14 +1018,14 @@
 .mobile-tab-section {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .mobile-tab {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem;
+    gap: 12px;
+    padding: 14px;
     background: #f9fafb;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
@@ -1091,12 +1091,12 @@
 .mobile-tab-content {
     display: flex;
     flex-direction: column;
-    gap: 0.125rem;
+    gap: 2px;
 }
 
 .mobile-tab-label {
     font-weight: 600;
-    font-size: 0.9375rem;
+    font-size: 15px;
     color: #374151;
     line-height: 1.2;
 }
@@ -1114,7 +1114,7 @@
 }
 
 .mobile-tab-description {
-    font-size: 0.8125rem;
+    font-size: 13px;
     color: #9ca3af;
     line-height: 1.3;
     font-weight: 400;
@@ -1125,20 +1125,20 @@
 }
 
 .mobile-tab-items {
-    padding-left: 1rem;
+    padding-left: 16px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
 }
 
 .mobile-section {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .mobile-section-title {
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 600;
     color: #6b7280;
     text-transform: uppercase;
@@ -1153,8 +1153,8 @@
 .mobile-item {
     display: flex;
     align-items: flex-start;
-    gap: 0.875rem;
-    padding: 1rem;
+    gap: 14px;
+    padding: 16px;
     background: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
@@ -1213,12 +1213,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 6px;
 }
 
 .mobile-item-name {
     font-weight: 600;
-    font-size: 0.9375rem;
+    font-size: 15px;
     color: #000000;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -1230,15 +1230,15 @@
 .mobile-item-badge {
     background: #000000;
     color: #ffffff;
-    font-size: 0.6875rem;
+    font-size: 11px;
     font-weight: 600;
-    padding: 0.1875rem 0.5rem;
+    padding: 3px 8px;
     border-radius: 16px;
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 0.02em;
     width: fit-content;
-    margin-top: 0.25rem;
+    margin-top: 4px;
 }
 
 .mega-menu.theme-dark .mobile-item-badge {
@@ -1247,7 +1247,7 @@
 }
 
 .mobile-item-description {
-    font-size: 0.8125rem;
+    font-size: 13px;
     color: #6b7280;
     line-height: 1.4;
     margin: 0;
@@ -1259,8 +1259,8 @@
 }
 
 .mobile-menu-actions {
-    margin-top: 2rem;
-    padding-top: 2rem;
+    margin-top: 32px;
+    padding-top: 32px;
     border-top: 1px solid #e5e7eb;
 }
 
@@ -1273,15 +1273,15 @@
     background: #000000;
     color: #ffffff;
     border: none;
-    padding: 1rem 1.5rem;
+    padding: 16px 24px;
     border-radius: 12px;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 8px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -1314,7 +1314,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 16px;
     animation: fadeIn 0.3s ease-out;
     box-sizing: border-box;
 }
@@ -1349,7 +1349,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    padding: 24px 24px 16px 24px;
     border-bottom: 1px solid #e5e7eb;
 }
 
@@ -1358,7 +1358,7 @@
 }
 
 .wallet-modal-title {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: 600;
     color: #000000;
     margin: 0;
@@ -1398,13 +1398,13 @@
 }
 
 .wallet-modal-content {
-    padding: 1.5rem;
+    padding: 24px;
 }
 
 .wallet-modal-description {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #6b7280;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 24px 0;
     text-align: center;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -1416,14 +1416,14 @@
 .wallet-options {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .wallet-option {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
+    gap: 16px;
+    padding: 16px 20px;
     background: transparent;
     border: 1px solid #374151;
     border-radius: 8px;
@@ -1486,7 +1486,7 @@
 
 .wallet-name {
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 16px;
     color: #ffffff;
     display: block;
 }
@@ -1497,15 +1497,15 @@
 
 /* More Wallet Options */
 .wallet-more-options {
-    padding: 1rem 0;
+    padding: 16px 0;
     text-align: center;
     border-bottom: 1px solid #374151;
-    margin: 1.5rem 0;
+    margin: 24px 0;
 }
 
 .more-options-text {
     color: #9ca3af;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: color 0.2s ease;
@@ -1517,14 +1517,14 @@
 
 /* Email Section */
 .wallet-email-section {
-    margin: 1.5rem 0;
+    margin: 24px 0;
 }
 
 .email-divider {
     display: flex;
     align-items: center;
-    margin-bottom: 1.5rem;
-    gap: 1rem;
+    margin-bottom: 24px;
+    gap: 16px;
 }
 
 .divider-line {
@@ -1539,10 +1539,10 @@
 
 .divider-text {
     color: #6b7280;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
-    padding: 0 0.5rem;
+    padding: 0 8px;
 }
 
 .mega-menu.theme-dark .divider-text {
@@ -1554,12 +1554,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.25rem;
+    padding: 16px 20px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
     border-radius: 12px;
     color: #ffffff;
-    font-size: 1rem;
+    font-size: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -1594,7 +1594,7 @@
 .email-button-content {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .email-icon {
@@ -1615,11 +1615,11 @@
 
 /* Terms */
 .wallet-terms {
-    font-size: 0.75rem;
+    font-size: 12px;
     color: #6b7280;
     text-align: center;
     line-height: 1.4;
-    margin: 1.5rem 0 0 0;
+    margin: 24px 0 0 0;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -1656,13 +1656,13 @@
 /* Mobile wallet modal adjustments */
 @media (max-width: 640px) {
     .wallet-modal-overlay {
-        padding: 1rem;
+        padding: 16px;
         align-items: center;
         justify-content: center;
     }
 
     .wallet-modal {
-        max-width: calc(100vw - 2rem);
+        max-width: calc(100vw - 32px);
         width: 100%;
         max-height: 85vh;
     }
@@ -1670,11 +1670,11 @@
 
 @media (max-width: 480px) {
     .wallet-modal-overlay {
-        padding: 0.75rem;
+        padding: 12px;
     }
 
     .wallet-modal {
-        max-width: calc(100vw - 1.5rem);
+        max-width: calc(100vw - 24px);
         border-radius: 12px;
     }
 }
@@ -1691,11 +1691,11 @@
 /* Large Desktop */
 @media (min-width: 1200px) {
     .mega-menu-container {
-        padding: 1rem 3rem;
+        padding: 16px 48px;
     }
 
     .mega-content {
-        padding: 2rem;
+        padding: 32px;
     }
 }
 
@@ -1703,19 +1703,19 @@
 @media (max-width: 1024px) and (min-width: 769px) {
     .mega-content {
         flex-direction: column;
-        gap: 1.5rem;
-        padding: 1.5rem;
+        gap: 24px;
+        padding: 24px;
     }
 
     .mega-tabs {
         flex-direction: row;
         padding-right: 0;
-        padding-bottom: 1rem;
+        padding-bottom: 16px;
         min-width: auto;
         overflow-x: auto;
         scrollbar-width: none;
         -ms-overflow-style: none;
-        gap: 0.75rem;
+        gap: 12px;
         border-bottom: 1px solid #e5e7eb;
     }
 
@@ -1734,7 +1734,7 @@
 
     .mega-sections {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
+        gap: 32px;
     }
 
     .section-items {
@@ -1743,7 +1743,7 @@
 
     .mega-featured {
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 24px;
     }
 }
 
@@ -1752,7 +1752,7 @@
 
     /* Navigation Changes */
     .mega-menu-container {
-        padding: 1rem 1.5rem;
+        padding: 16px 24px;
         height: 64px;
         transition: all 0.3s ease;
     }
@@ -1786,13 +1786,13 @@
 
     /* Brand Adjustments */
     .brand-link {
-        padding: 0.5rem 0.75rem;
-        gap: 0.75rem;
+        padding: 8px 12px;
+        gap: 12px;
         transition: all 0.3s ease;
     }
 
     .brand-name {
-        font-size: 1rem;
+        font-size: 16px;
         font-weight: 600;
     }
 
@@ -1805,16 +1805,16 @@
 
     /* Desktop Dropdown Adjustments for Tablet */
     .mega-content {
-        padding: 1.25rem;
+        padding: 20px;
     }
 
     .mega-tabs {
-        gap: 0.5rem;
+        gap: 8px;
     }
 
     .mega-tab {
         min-width: 140px;
-        padding: 0.875rem 1rem;
+        padding: 14px 16px;
     }
 
     .mega-tab-icon {
@@ -1823,16 +1823,16 @@
     }
 
     .mega-tab-label {
-        font-size: 0.875rem;
+        font-size: 14px;
     }
 
     .mega-tab-description {
-        font-size: 0.75rem;
+        font-size: 12px;
     }
 
     .mega-sections {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 24px;
     }
 
     .section-items {
@@ -1840,17 +1840,17 @@
     }
 
     .mega-featured-wrapper {
-        padding: 1.5rem;
+        padding: 24px;
     }
 
     .mega-featured {
-        padding: 1.5rem;
+        padding: 24px;
         flex-direction: column;
     }
 
     .wallet-button {
-        padding: 0.75rem 1.25rem;
-        font-size: 0.875rem;
+        padding: 12px 20px;
+        font-size: 14px;
     }
 }
 
@@ -1858,7 +1858,7 @@
 @media (max-width: 640px) and (orientation: landscape) {
     .mega-menu-container {
         height: 56px;
-        padding: 0.75rem 1rem;
+        padding: 12px 16px;
     }
 
     .mobile-menu {
@@ -1867,7 +1867,7 @@
     }
 
     .brand-name {
-        font-size: 0.9375rem;
+        font-size: 15px;
     }
 
     .logo-container {
@@ -1879,17 +1879,17 @@
 /* Mobile Portrait */
 @media (max-width: 480px) {
     .mega-menu-container {
-        padding: 1rem;
+        padding: 16px;
         transition: all 0.3s ease;
     }
 
     .brand-link {
-        padding: 0.375rem 0.5rem;
-        gap: 0.625rem;
+        padding: 6px 8px;
+        gap: 10px;
     }
 
     .brand-name {
-        font-size: 0.9375rem;
+        font-size: 15px;
     }
 
     .logo-container {
@@ -1900,32 +1900,32 @@
 
     /* Mobile Menu Content */
     .mobile-menu-content {
-        padding: 1rem;
+        padding: 16px;
     }
 
     .mobile-submenu {
-        padding-left: 0.5rem;
+        padding-left: 8px;
     }
 
     .mobile-tab-items {
-        padding-left: 0.5rem;
+        padding-left: 8px;
     }
 
     /* Desktop Dropdown for Small Screens */
     .mega-content {
-        padding: 1rem;
+        padding: 16px;
     }
 
     .mega-tabs {
-        gap: 0.375rem;
+        gap: 6px;
     }
 
     .mega-tab {
         min-width: 120px;
-        padding: 0.75rem 0.875rem;
+        padding: 12px 14px;
         flex-direction: column;
         text-align: center;
-        gap: 0.375rem;
+        gap: 6px;
     }
 
     .mega-tab-icon {
@@ -1934,7 +1934,7 @@
     }
 
     .mega-tab-label {
-        font-size: 0.8125rem;
+        font-size: 13px;
     }
 
     .mega-tab-description {
@@ -1942,7 +1942,7 @@
     }
 
     .mega-item {
-        padding: 1rem;
+        padding: 16px;
     }
 
     .item-icon {
@@ -1951,27 +1951,27 @@
     }
 
     .mega-featured-wrapper {
-        padding: 1rem;
+        padding: 16px;
     }
 
     .mega-featured {
-        padding: 1rem;
+        padding: 16px;
     }
 }
 
 /* Very Small Mobile */
 @media (max-width: 360px) {
     .mega-menu-container {
-        padding: 0.75rem;
+        padding: 12px;
     }
 
     .brand-link {
-        padding: 0.25rem 0.375rem;
-        gap: 0.5rem;
+        padding: 4px 6px;
+        gap: 8px;
     }
 
     .brand-name {
-        font-size: 0.875rem;
+        font-size: 14px;
     }
 
     .logo-container {
@@ -1986,7 +1986,7 @@
     }
 
     .mobile-menu-content {
-        padding: 0.875rem;
+        padding: 14px;
     }
 }
 
@@ -2039,7 +2039,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 16px;
     animation: fadeIn 0.2s ease-out;
 }
 
@@ -2067,7 +2067,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    padding: 24px 24px 16px 24px;
     border-bottom: 1px solid #e5e7eb;
 }
 
@@ -2076,7 +2076,7 @@
 }
 
 .wallet-modal-title {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: 600;
     color: #000000;
     margin: 0;
@@ -2116,13 +2116,13 @@
 }
 
 .wallet-modal-content {
-    padding: 1rem 1.5rem 1.5rem 1.5rem;
+    padding: 16px 24px 24px 24px;
 }
 
 .wallet-modal-description {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #6b7280;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 24px 0;
     text-align: center;
     font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -2134,14 +2134,14 @@
 .wallet-options {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
 }
 
 .wallet-option {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 16px;
+    padding: 16px;
     background: #f9fafb;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
@@ -2190,9 +2190,9 @@
 
 .wallet-name {
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 16px;
     color: #000000;
-    margin-bottom: 0.25rem;
+    margin-bottom: 4px;
     display: block;
 }
 
@@ -2201,7 +2201,7 @@
 }
 
 .wallet-description {
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #6b7280;
     display: block;
 }

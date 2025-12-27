@@ -291,108 +291,190 @@ export default function AdminLeasingPage() {
                     <>
                         {activeTab === 'inventory' ? (
                             <div className="inventory-section">
-                                <table className="admin-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Artwork</th>
-                                            <th>Artist</th>
-                                            <th>Category</th>
-                                            <th>Preferred Rate</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {inventory.map(item => (
-                                            <tr key={item.id}>
-                                                <td>
-                                                    <div className="table-artwork-info">
-                                                        <img src={item.image_url} alt={item.title} className="table-thumb" />
-                                                        <span>{item.title}</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="table-artist-info">
-                                                        {item.artist_avatar_url && <img src={item.artist_avatar_url} alt={item.artist_name} className="table-avatar" />}
+                                {/* Desktop Table View */}
+                                <div className="inventory-table-wrapper desktop-only">
+                                    <table className="admin-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Artwork</th>
+                                                <th>Artist</th>
+                                                <th>Category</th>
+                                                <th>Preferred Rate</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {inventory.map(item => (
+                                                <tr key={item.id}>
+                                                    <td>
+                                                        <div className="table-artwork-info">
+                                                            <img src={item.image_url} alt={item.title} className="table-thumb" />
+                                                            <span>{item.title}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="table-artist-info">
+                                                            {item.artist_avatar_url && <img src={item.artist_avatar_url} alt={item.artist_name} className="table-avatar" />}
+                                                            <span>{item.artist_name}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span className="status-badge" style={{ background: '#f1f5f9', color: '#64748b' }}>
+                                                            {(item as any).category || 'General'}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span className="table-rate-badge">
+                                                            ₹{item.preferred_rate_interval === 'hourly' ? item.hourly_rate : item.preferred_rate_interval === 'daily' ? item.daily_rate : item.preferred_rate_interval === 'monthly' ? item.monthly_rate : item.yearly_rate}
+                                                            <small>/{item.preferred_rate_interval.slice(0, 2)}</small>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span className={`status-badge ${item.is_available ? 'available' : 'leased'}`}>
+                                                            {item.is_available ? 'Available' : 'Leased'}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div className="table-actions">
+                                                            <button className="action-btn-sm" onClick={() => handleEdit(item)} title="Edit">
+                                                                <IconEdit size={16} />
+                                                            </button>
+                                                            <button className="action-btn-sm" onClick={() => handleDelete(item.id)} style={{ color: '#ef4444' }} title="Delete">
+                                                                <IconTrash size={16} />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* Mobile Card View */}
+                                <div className="leasing-cards-wrapper mobile-only">
+                                    {inventory.map(item => (
+                                        <div key={item.id} className="leasing-mobile-card">
+                                            <div className="leasing-card-header">
+                                                <img src={item.image_url} alt={item.title} className="card-thumb" />
+                                                <div className="card-header-info">
+                                                    <span className="card-title">{item.title}</span>
+                                                    <div className="card-meta">
+                                                        {item.artist_avatar_url && <img src={item.artist_avatar_url} className="artist-avatar-sm" />}
                                                         <span>{item.artist_name}</span>
                                                     </div>
-                                                </td>
-                                                <td>
-                                                    <span className="status-badge" style={{ background: '#f1f5f9', color: '#64748b' }}>
-                                                        {(item as any).category || 'General'}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span className="table-rate-badge">
-                                                        ₹{item.preferred_rate_interval === 'hourly' ? item.hourly_rate : item.preferred_rate_interval === 'daily' ? item.daily_rate : item.preferred_rate_interval === 'monthly' ? item.monthly_rate : item.yearly_rate}
-                                                        <small>/{item.preferred_rate_interval.slice(0, 2)}</small>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span className={`status-badge ${item.is_available ? 'available' : 'leased'}`}>
-                                                        {item.is_available ? 'Available' : 'Leased'}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <div className="table-actions">
-                                                        <button className="action-btn-sm" onClick={() => handleEdit(item)} title="Edit">
-                                                            <IconEdit size={16} />
-                                                        </button>
-                                                        <button className="action-btn-sm" onClick={() => handleDelete(item.id)} style={{ color: '#ef4444' }} title="Delete">
-                                                            <IconTrash size={16} />
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                                </div>
+                                                <span className={`status-badge ${item.is_available ? 'available' : 'leased'}`}>
+                                                    {item.is_available ? 'Avail' : 'Leased'}
+                                                </span>
+                                            </div>
+                                            <div className="card-details-grid">
+                                                <div className="detail-item">
+                                                    <span className="detail-label">Rate ({item.preferred_rate_interval})</span>
+                                                    <span className="detail-value">₹{item.preferred_rate_interval === 'hourly' ? item.hourly_rate : item.preferred_rate_interval === 'daily' ? item.daily_rate : item.preferred_rate_interval === 'monthly' ? item.monthly_rate : item.yearly_rate}</span>
+                                                </div>
+                                                <div className="detail-item">
+                                                    <span className="detail-label">Category</span>
+                                                    <span className="detail-value">{(item as any).category || 'General'}</span>
+                                                </div>
+                                            </div>
+                                            <div className="card-actions">
+                                                <button className="mobile-action-btn edit" onClick={() => handleEdit(item)}>
+                                                    <IconEdit size={18} /> Edit
+                                                </button>
+                                                <button className="mobile-action-btn delete" onClick={() => handleDelete(item.id)} style={{ color: '#e11d48' }}>
+                                                    <IconTrash size={18} /> Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         ) : (
                             <div className="orders-section">
-                                <table className="admin-table">
-                                    <thead>
-                                        <tr>
-                                            <th>User</th>
-                                            <th>Artwork</th>
-                                            <th>Duration</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {orders.map(order => (
-                                            <tr key={order.id}>
-                                                <td>{order.profiles?.full_name}</td>
-                                                <td>{order.leasable_paintings?.title}</td>
-                                                <td>{new Date(order.start_date).toLocaleDateString()} - {new Date(order.end_date).toLocaleDateString()}</td>
-                                                <td>₹{order.total_price}</td>
-                                                <td>
-                                                    <span className={`status-badge ${order.status}`}>{order.status}</span>
-                                                </td>
-                                                <td>
-                                                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                                        <button
-                                                            className="action-btn-sm"
-                                                            onClick={() => updateOrderStatus(order.id, 'shipped')}
-                                                            title="Mark as Shipped"
-                                                        >
-                                                            <IconTruckDelivery size={16} />
-                                                        </button>
-                                                        <button
-                                                            className="action-btn-sm"
-                                                            onClick={() => updateOrderStatus(order.id, 'delivered')}
-                                                            title="Mark as Delivered"
-                                                        >
-                                                            <IconCheck size={16} />
-                                                        </button>
-                                                    </div>
-                                                </td>
+                                {/* Desktop Table View */}
+                                <div className="orders-table-wrapper desktop-only">
+                                    <table className="admin-table">
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Artwork</th>
+                                                <th>Duration</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {orders.map(order => (
+                                                <tr key={order.id}>
+                                                    <td>{order.profiles?.full_name}</td>
+                                                    <td>{order.leasable_paintings?.title}</td>
+                                                    <td>{new Date(order.start_date).toLocaleDateString()} - {new Date(order.end_date).toLocaleDateString()}</td>
+                                                    <td>₹{order.total_price}</td>
+                                                    <td>
+                                                        <span className={`status-badge ${order.status}`}>{order.status}</span>
+                                                    </td>
+                                                    <td>
+                                                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                            <button
+                                                                className="action-btn-sm"
+                                                                onClick={() => updateOrderStatus(order.id, 'shipped')}
+                                                                title="Mark as Shipped"
+                                                            >
+                                                                <IconTruckDelivery size={16} />
+                                                            </button>
+                                                            <button
+                                                                className="action-btn-sm"
+                                                                onClick={() => updateOrderStatus(order.id, 'delivered')}
+                                                                title="Mark as Delivered"
+                                                            >
+                                                                <IconCheck size={16} />
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                {/* Mobile Card View */}
+                                <div className="leasing-cards-wrapper mobile-only">
+                                    {orders.map(order => (
+                                        <div key={order.id} className="leasing-mobile-card">
+                                            <div className="leasing-card-header">
+                                                <div className="card-header-info">
+                                                    <span className="card-title">{order.leasable_paintings?.title}</span>
+                                                    <span className="card-meta">Ordered by {order.profiles?.full_name}</span>
+                                                </div>
+                                                <span className={`status-badge ${order.status}`}>{order.status}</span>
+                                            </div>
+                                            <div className="card-details-grid">
+                                                <div className="detail-item">
+                                                    <span className="detail-label">Price</span>
+                                                    <span className="detail-value text-primary">₹{order.total_price}</span>
+                                                </div>
+                                                <div className="detail-item">
+                                                    <span className="detail-label">Start Date</span>
+                                                    <span className="detail-value">{new Date(order.start_date).toLocaleDateString()}</span>
+                                                </div>
+                                                <div className="detail-item">
+                                                    <span className="detail-label">End Date</span>
+                                                    <span className="detail-value">{new Date(order.end_date).toLocaleDateString()}</span>
+                                                </div>
+                                            </div>
+                                            <div className="card-actions">
+                                                <button className="mobile-action-btn" onClick={() => updateOrderStatus(order.id, 'shipped')}>
+                                                    <IconTruckDelivery size={18} /> Ship
+                                                </button>
+                                                <button className="mobile-action-btn" onClick={() => updateOrderStatus(order.id, 'delivered')}>
+                                                    <IconCheck size={18} /> Deliver
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </>
