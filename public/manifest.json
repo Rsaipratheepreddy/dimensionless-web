@@ -10,9 +10,15 @@
     ],
     "start_url": "/",
     "display": "standalone",
+    "display_override": [
+        "window-controls-overlay",
+        "standalone",
+        "minimal-ui"
+    ],
     "orientation": "portrait",
     "theme_color": "#5B4FE8",
     "background_color": "#FFFFFF",
+    "prefer_related_applications": false,
     "icons": [
         {
             "src": "/icons/icon-72x72.png",
