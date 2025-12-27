@@ -39,14 +39,16 @@ export async function GET(request: NextRequest) {
 
         const { data: categories, error } = await query;
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching categories:', error);
+            // Return empty array instead of error to prevent client-side filter errors
+            return NextResponse.json([]);
+        }
 
-        return NextResponse.json(categories);
-    } catch (error) {
+        return NextResponse.json(categories || []);
+    } catch (error: any) {
         console.error('Error fetching categories:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch categories' },
-            { status: 500 }
-        );
+        // Return empty array instead of 500 to prevent client crashes
+        return NextResponse.json([]);
     }
 }

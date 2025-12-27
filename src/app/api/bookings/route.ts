@@ -127,14 +127,14 @@ export async function GET(request: NextRequest) {
             .eq('user_id', user.id)
             .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching bookings:', error);
+            return NextResponse.json([]);
+        }
 
         return NextResponse.json(bookings || []);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching bookings:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch bookings' },
-            { status: 500 }
-        );
+        return NextResponse.json([]);
     }
 }

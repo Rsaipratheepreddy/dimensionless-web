@@ -30,14 +30,14 @@ export async function GET(request: NextRequest) {
             .eq('is_active', true)
             .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching tattoo designs:', error);
+            return NextResponse.json([]);
+        }
 
-        return NextResponse.json(designs);
-    } catch (error) {
+        return NextResponse.json(designs || []);
+    } catch (error: any) {
         console.error('Error fetching tattoo designs:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch designs' },
-            { status: 500 }
-        );
+        return NextResponse.json([]);
     }
 }

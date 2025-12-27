@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
 
         if (error) {
             console.error('Error fetching art classes:', error);
-            throw error;
+            return NextResponse.json([]);
         }
 
         // Fetch session counts separately for each class
@@ -66,10 +66,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(classesWithSessions);
     } catch (error: any) {
         console.error('Error fetching public classes:', error);
-        return NextResponse.json({
-            error: 'Internal Server Error',
-            message: error?.message || 'Unknown error',
-            details: process.env.NODE_ENV === 'development' ? error : undefined
-        }, { status: 500 });
+        return NextResponse.json([]);
     }
 }
