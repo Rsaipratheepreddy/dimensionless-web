@@ -22,6 +22,9 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "Dimensionless",
   },
+  icons: {
+    apple: "/icons/icon-192x192.png",
+  },
   other: {
     "mobile-web-app-capable": "yes",
     "msapplication-TileColor": "#5B4FE8",
