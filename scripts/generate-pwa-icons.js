@@ -5,7 +5,7 @@ const path = require('path');
 const SOURCE_IMAGE = path.join(__dirname, '../public/logo-black.png'); // Change this to your source image
 const OUTPUT_DIR = path.join(__dirname, '../public/icons');
 
-const SIZES = [72, 96, 128, 144, 152, 192, 384, 512];
+const SIZES = [72, 96, 128, 144, 152, 180, 192, 384, 512];
 
 async function generateIcons() {
     if (!fs.existsSync(SOURCE_IMAGE)) {
