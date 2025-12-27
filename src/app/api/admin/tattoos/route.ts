@@ -32,7 +32,10 @@ export async function GET(request: NextRequest) {
             `)
             .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching tattoo designs:', error);
+            return NextResponse.json([]);
+        }
 
         const formattedDesigns = (designs || []).map(d => ({
             ...d,
@@ -40,12 +43,9 @@ export async function GET(request: NextRequest) {
         }));
 
         return NextResponse.json(formattedDesigns);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching tattoo designs:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch designs' },
-            { status: 500 }
-        );
+        return NextResponse.json([]);
     }
 }
 
