@@ -29,15 +29,15 @@ export async function GET(request: NextRequest) {
             .select('*')
             .order('type, name');
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching categories:', error);
+            return NextResponse.json([]);
+        }
 
-        return NextResponse.json(categories);
-    } catch (error) {
+        return NextResponse.json(categories || []);
+    } catch (error: any) {
         console.error('Error fetching categories:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch categories' },
-            { status: 500 }
-        );
+        return NextResponse.json([]);
     }
 }
 
