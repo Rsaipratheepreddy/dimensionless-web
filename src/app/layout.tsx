@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Dimensionless",
   },
   icons: {
-    apple: "/icons/icon-192x192.png",
+    apple: "/icons/icon-180x180.png",
   },
   other: {
     "mobile-web-app-capable": "yes",
