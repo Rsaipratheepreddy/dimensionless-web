@@ -6,6 +6,7 @@ import StatsCards from '../components/StatsCards';
 import ContinueSection, { CarouselItem } from '../components/ContinueSection';
 import UpcomingSection from '../components/UpcomingSection';
 import LessonList from '../components/LessonList';
+import { HeroShimmer, CarouselShimmer } from '../components/ShimmerCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -34,81 +35,82 @@ export default function Home() {
 
     const fetchCMSData = async () => {
         try {
-            const { data, error } = await supabase.from('home_config').select('*');
-            if (error) {
-                console.warn('CMS data fetch notice:', error.message || error);
-                setLoading(false);
-                return;
-            }
-            const configMap = (data || []).reduce((acc: any, curr: any) => {
-                acc[curr.id] = curr;
-                return acc;
-            }, {});
+            // Fetch CMS config and all trending items in parallel
+            const [cmsResult, artResult, tattooResult, leasingResult] = await Promise.allSettled([
+                supabase.from('home_config').select('*'),
+                supabase.from('paintings').select('id, title, image_url, price, artist:profiles(full_name, avatar_url)').limit(10),
+                supabase.from('tattoo_designs').select('id, name, image_url, base_price').limit(10),
+                supabase.from('leasable_paintings').select('id, title, image_url, artist_name, monthly_rate, artist_avatar_url').limit(10)
+            ]);
 
-            setCmsData(configMap);
-            await fetchTrendingItems(configMap);
+            // Process CMS config
+            let configMap: any = {};
+            if (cmsResult.status === 'fulfilled' && cmsResult.value.data) {
+                configMap = (cmsResult.value.data || []).reduce((acc: any, curr: any) => {
+                    acc[curr.id] = curr;
+                    return acc;
+                }, {});
+                setCmsData(configMap);
+            }
+
+            // Process trending items with fallback
+            const processItems = (
+                result: PromiseSettledResult<any>,
+                configKey: string,
+                mapFn: (item: any) => any
+            ) => {
+                if (result.status === 'fulfilled' && result.value.data) {
+                    const ids = configMap[configKey]?.items?.map((i: any) => i.id).filter(Boolean) || [];
+                    const data = result.value.data || [];
+
+                    if (ids.length > 0) {
+                        // Filter and order by CMS config
+                        return ids.map((id: string) => {
+                            const item = data.find((d: any) => d.id === id);
+                            return item ? mapFn(item) : null;
+                        }).filter(Boolean);
+                    }
+                    // If no CMS config, return first few items
+                    return data.slice(0, 6).map(mapFn);
+                }
+                // Fallback to CMS snapshot
+                return configMap[configKey]?.items || [];
+            };
+
+            setTrendingItems({
+                art: processItems(artResult, 'trending_art', (item) => ({
+                    id: item.id,
+                    title: item.title,
+                    image: item.image_url,
+                    price: item.price ? `₹${item.price.toLocaleString()}` : '',
+                    artist: item.artist?.full_name,
+                    artistAvatar: item.artist?.avatar_url,
+                    selected_from: 'paintings'
+                })),
+                tattoos: processItems(tattooResult, 'trending_tattoos', (item) => ({
+                    id: item.id,
+                    title: item.name,
+                    image: item.image_url,
+                    price: item.base_price ? `₹${item.base_price.toLocaleString()}` : '',
+                    artist: 'Tattoo Art',
+                    artistAvatar: '/member-names.png',
+                    selected_from: 'tattoo_designs'
+                })),
+                leasing: processItems(leasingResult, 'art_leasing', (item) => ({
+                    id: item.id,
+                    title: item.title,
+                    image: item.image_url,
+                    price: item.monthly_rate ? `₹${item.monthly_rate}/mo` : '',
+                    artist: item.artist_name,
+                    artistAvatar: item.artist_avatar_url,
+                    selected_from: 'leasable_paintings'
+                }))
+            });
         } catch (error) {
-            console.error('Unexpected error fetching CMS data:', error);
+            console.error('Unexpected error fetching data:', error);
         } finally {
             setLoading(false);
         }
-    };
-
-    const fetchTrendingItems = async (configMap: any) => {
-        const fetchSection = async (id: string, table: string, select: string, mapFn: (item: any) => any) => {
-            const ids = configMap[id]?.items?.map((i: any) => i.id).filter(Boolean) || [];
-            if (ids.length === 0) return [];
-
-            const { data, error } = await supabase.from(table).select(select).in('id', ids);
-            if (error) {
-                console.error(`Error fetching ${id}:`, error);
-                return configMap[id]?.items || []; // Fallback to snapshot
-            }
-
-            const itemsData = (data as any[]) || [];
-
-            // Maintain order of IDs as stored in CMS
-            return ids.map((id: string) => {
-                const item = itemsData.find(d => d.id === id);
-                return item ? mapFn(item) : configMap[id]?.items?.find((i: any) => i.id === id);
-            }).filter(Boolean);
-        };
-
-        const [artItems, tattooItems, leasingItems] = await Promise.all([
-            fetchSection('trending_art', 'paintings', 'id, title, image_url, price, artist:profiles(full_name, avatar_url)', (item) => ({
-                id: item.id,
-                title: item.title,
-                image: item.image_url,
-                price: item.price ? `₹${item.price.toLocaleString()}` : '',
-                artist: item.artist?.full_name,
-                artistAvatar: item.artist?.avatar_url,
-                selected_from: 'paintings'
-            })),
-            fetchSection('trending_tattoos', 'tattoo_designs', 'id, name, image_url, base_price', (item) => ({
-                id: item.id,
-                title: item.name,
-                image: item.image_url,
-                price: item.base_price ? `₹${item.base_price.toLocaleString()}` : '',
-                artist: 'Tattoo Art', // Simplified for now as artisan join is uncertain
-                artistAvatar: '/member-names.png',
-                selected_from: 'tattoo_designs'
-            })),
-            fetchSection('art_leasing', 'leasable_paintings', 'id, title, image_url, artist_name, monthly_rate, artist_avatar_url', (item) => ({
-                id: item.id,
-                title: item.title,
-                image: item.image_url,
-                price: item.monthly_rate ? `₹${item.monthly_rate}/mo` : '',
-                artist: item.artist_name,
-                artistAvatar: item.artist_avatar_url,
-                selected_from: 'leasable_paintings'
-            }))
-        ]);
-
-        setTrendingItems({
-            art: artItems,
-            tattoos: tattooItems,
-            leasing: leasingItems
-        });
     };
 
     if (authLoading || profile?.role === 'admin') {
@@ -119,47 +121,56 @@ export default function Home() {
         );
     }
 
-    if (loading) return <AppLayout><LottieLoader /></AppLayout>;
-
     return (
         <AppLayout>
             <div className="dashboard-content">
-                <DashboardHero
-                    slides={cmsData['home_banner']?.items}
-                />
-
-                <UpcomingSection />
-
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem', marginTop: '2rem' }}>
-                    {trendingItems.art.length > 0 && (
-                        <ContinueSection
-                            title={cmsData['trending_art']?.title || "Trending Art"}
-                            items={trendingItems.art}
-                            buttonText="Buy Now"
+                {loading ? (
+                    <>
+                        <HeroShimmer />
+                        <div style={{ marginBottom: '2rem' }} />
+                        <CarouselShimmer />
+                        <CarouselShimmer />
+                        <CarouselShimmer />
+                    </>
+                ) : (
+                    <>
+                        <DashboardHero
+                            slides={cmsData['home_banner']?.items}
                         />
-                    )}
 
-                    {trendingItems.tattoos.length > 0 && (
-                        <ContinueSection
-                            title={cmsData['trending_tattoos']?.title || "Trending Tattoos"}
-                            items={trendingItems.tattoos}
-                            showPrice={false}
-                            showAvatar={true}
-                            buttonText="Book Slot"
-                        />
-                    )}
+                        <UpcomingSection />
 
-                    {trendingItems.leasing.length > 0 && (
-                        <ContinueSection
-                            title={cmsData['art_leasing']?.title || "Art Leasing"}
-                            items={trendingItems.leasing}
-                            buttonText="Lease"
-                        />
-                    )}
-                </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem', marginTop: '2rem' }}>
+                            {trendingItems.art.length > 0 && (
+                                <ContinueSection
+                                    title={cmsData['trending_art']?.title || "Trending Art"}
+                                    items={trendingItems.art}
+                                    buttonText="Buy Now"
+                                />
+                            )}
 
-                <LessonList />
+                            {trendingItems.tattoos.length > 0 && (
+                                <ContinueSection
+                                    title={cmsData['trending_tattoos']?.title || "Trending Tattoos"}
+                                    items={trendingItems.tattoos}
+                                    showPrice={false}
+                                    showAvatar={true}
+                                    buttonText="Book Slot"
+                                />
+                            )}
+
+                            {trendingItems.leasing.length > 0 && (
+                                <ContinueSection
+                                    title={cmsData['art_leasing']?.title || "Art Leasing"}
+                                    items={trendingItems.leasing}
+                                    buttonText="Lease"
+                                />
+                            )}
+                        </div>
+
+                        <LessonList />
+                    </>
+                )}
             </div>
         </AppLayout>
     );

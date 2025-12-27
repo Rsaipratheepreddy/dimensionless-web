@@ -32,8 +32,7 @@ export async function GET(request: NextRequest) {
             .from('art_classes')
             .select(`
                 *,
-                art_class_categories(name),
-                sessions:art_class_sessions(count)
+                art_class_categories(name)
             `)
             .eq('status', 'published')
             .order('created_at', { ascending: false });
@@ -43,18 +42,34 @@ export async function GET(request: NextRequest) {
 
         const { data: classes, error } = await query;
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching art classes:', error);
+            throw error;
+        }
 
-        // Formatted response
-        const formatted = (classes || []).map(c => ({
-            ...c,
-            category_name: c.art_class_categories?.name,
-            session_count: (c.sessions as any)[0]?.count || 0
-        }));
+        // Fetch session counts separately for each class
+        const classesWithSessions = await Promise.all(
+            (classes || []).map(async (artClass) => {
+                const { count } = await supabase
+                    .from('art_class_sessions')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('class_id', artClass.id);
 
-        return NextResponse.json(formatted);
-    } catch (error) {
+                return {
+                    ...artClass,
+                    category_name: artClass.art_class_categories?.name,
+                    session_count: count || 0
+                };
+            })
+        );
+
+        return NextResponse.json(classesWithSessions);
+    } catch (error: any) {
         console.error('Error fetching public classes:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({
+            error: 'Internal Server Error',
+            message: error?.message || 'Unknown error',
+            details: process.env.NODE_ENV === 'development' ? error : undefined
+        }, { status: 500 });
     }
 }

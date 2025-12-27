@@ -1,0 +1,220 @@
+/* Shimmer Animation */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Hero Shimmer */
+.hero-shimmer {
+    height: 280px;
+    background: #f0f0f0;
+    border-radius: 24px;
+    padding: 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.shimmer-content {
+    max-width: 600px;
+}
+
+.shimmer-title {
+    height: 48px;
+    width: 70%;
+    margin-bottom: 16px;
+    background: linear-gradient(90deg, #e0e0e0 0%, #ececec 50%, #e0e0e0 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+.shimmer-subtitle {
+    height: 24px;
+    width: 50%;
+    margin-bottom: 24px;
+    background: linear-gradient(90deg, #e0e0e0 0%, #ececec 50%, #e0e0e0 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+.shimmer-button {
+    height: 48px;
+    width: 160px;
+    background: linear-gradient(90deg, #d8d8d8 0%, #e4e4e4 50%, #d8d8d8 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+/* Carousel Shimmer */
+.carousel-shimmer-section {
+    margin-bottom: 48px;
+}
+
+.shimmer-header {
+    height: 32px;
+    width: 200px;
+    margin-bottom: 24px;
+    background: linear-gradient(90deg, #e8e8e8 0%, #f4f4f4 50%, #e8e8e8 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+.shimmer-carousel {
+    display: flex;
+    gap: 24px;
+    overflow: hidden;
+}
+
+.shimmer-card {
+    min-width: 260px;
+    max-width: 260px;
+    height: 380px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: #f8f8f8;
+    flex-shrink: 0;
+}
+
+.shimmer-image {
+    height: 240px;
+    width: 100%;
+    border-radius: 0;
+    background: linear-gradient(90deg, #e8e8e8 0%, #f0f0f0 50%, #e8e8e8 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+}
+
+.shimmer-card-content {
+    padding: 20px;
+}
+
+.shimmer-text {
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #e8e8e8 0%, #f4f4f4 50%, #e8e8e8 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+.shimmer-text-lg {
+    height: 24px;
+    width: 80%;
+}
+
+.shimmer-text-md {
+    height: 20px;
+    width: 70%;
+}
+
+.shimmer-text-sm {
+    height: 16px;
+    width: 60%;
+}
+
+.shimmer-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.shimmer-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #e8e8e8 0%, #f4f4f4 50%, #e8e8e8 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+}
+
+.shimmer-button-small {
+    height: 36px;
+    width: 100px;
+    background: linear-gradient(90deg, #e8e8e8 0%, #f4f4f4 50%, #e8e8e8 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+/* Upcoming Shimmer */
+.upcoming-shimmer-section {
+    margin-bottom: 48px;
+}
+
+.shimmer-tabs {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.shimmer-tab {
+    height: 40px;
+    width: 120px;
+    background: linear-gradient(90deg, #e8e8e8 0%, #f4f4f4 50%, #e8e8e8 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+.shimmer-card-small {
+    min-width: 320px;
+    height: 180px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8f8f8;
+    flex-shrink: 0;
+    padding: 16px;
+}
+
+.shimmer-image-small {
+    height: 100px;
+    width: 100%;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #e8e8e8 0%, #f4f4f4 50%, #e8e8e8 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 1.5s infinite linear;
+    border-radius: 8px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .hero-shimmer {
+        height: 220px;
+        padding: 24px;
+    }
+
+    .shimmer-title {
+        height: 36px;
+    }
+
+    .shimmer-card {
+        min-width: 240px;
+        max-width: 240px;
+        height: 340px;
+    }
+
+    .shimmer-image {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .shimmer-card {
+        min-width: 200px;
+        max-width: 200px;
+        height: 300px;
+    }
+
+    .shimmer-card-small {
+        min-width: 280px;
+    }
+}
