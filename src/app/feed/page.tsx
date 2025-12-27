@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
     IconPhoto,
@@ -71,7 +72,8 @@ interface Comment {
 }
 
 export default function FeedPage() {
-    const { user, profile } = useAuth();
+    const { user, profile, loading: authLoading } = useAuth();
+    const router = useRouter();
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
@@ -90,10 +92,14 @@ export default function FeedPage() {
     const [newComment, setNewComment] = useState('');
 
     useEffect(() => {
-        if (user) {
-            fetchPosts();
+        if (!authLoading) {
+            if (user) {
+                fetchPosts();
+            } else {
+                router.push('/login');
+            }
         }
-    }, [user]);
+    }, [user, authLoading, router]);
 
     const fetchPosts = async () => {
         try {
@@ -128,7 +134,7 @@ export default function FeedPage() {
                     .select('user_id, reaction_type')
                     .eq('post_id', post.id)
                     .eq('user_id', user?.id)
-                    .single();
+                    .maybeSingle();
 
                 const { count: commentsCount } = await supabase
                     .from('comments')

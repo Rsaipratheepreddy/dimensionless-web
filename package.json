@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pwa:icons": "node scripts/generate-pwa-icons.js"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.6",
@@ -17,9 +18,11 @@
     "@types/three": "^0.180.0",
     "gsap": "^3.13.0",
     "lottie-react": "^2.4.1",
+    "minimatch": "^10.1.1",
     "moment": "^2.30.1",
     "moment-timezone": "^0.6.0",
     "next": "16.0.10",
+    "next-pwa": "^5.6.0",
     "razorpay": "^2.9.6",
     "react": "19.1.0",
     "react-big-calendar": "^1.19.4",
@@ -27,11 +30,13 @@
     "react-gallery-3d": "^2.2.1",
     "react-hot-toast": "^2.6.0",
     "react-three-fiber": "^6.0.13",
+    "sharp": "^0.34.5",
     "three": "^0.180.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/minimatch": "^6.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-big-calendar": "^1.16.3",
