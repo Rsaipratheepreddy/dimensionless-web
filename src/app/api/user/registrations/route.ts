@@ -46,7 +46,10 @@ export async function GET(request: NextRequest) {
             .eq('user_id', user.id)
             .eq('status', 'active');
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching user registrations:', error);
+            return NextResponse.json([]);
+        }
 
         // For each class, fetch the closest upcoming session
         const today = new Date().toISOString().split('T')[0];
@@ -69,8 +72,8 @@ export async function GET(request: NextRequest) {
         }));
 
         return NextResponse.json(enhancedRegistrations);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching user registrations:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json([]);
     }
 }

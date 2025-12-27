@@ -54,14 +54,14 @@ export async function GET(request: NextRequest) {
             `)
             .order('created_at', { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error fetching admin bookings:', error);
+            return NextResponse.json([]);
+        }
 
         return NextResponse.json(bookings || []);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching admin bookings:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch bookings' },
-            { status: 500 }
-        );
+        return NextResponse.json([]);
     }
 }
