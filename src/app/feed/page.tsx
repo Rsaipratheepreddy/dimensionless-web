@@ -77,6 +77,8 @@ export default function FeedPage() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
+    const [suggestedUsers, setSuggestedUsers] = useState<any[]>([]);
 
     // Create Post State
     const [postType, setPostType] = useState<'text' | 'image' | 'poll'>('text');
@@ -95,6 +97,8 @@ export default function FeedPage() {
         if (!authLoading) {
             if (user) {
                 fetchPosts();
+                fetchUpcomingEvents();
+                fetchSuggestedUsers();
             } else {
                 router.push('/login');
             }
@@ -174,6 +178,40 @@ export default function FeedPage() {
             toast.error('Failed to load feed.');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchUpcomingEvents = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('events')
+                .select('*')
+                .eq('status', 'published')
+                .gte('start_date', new Date().toISOString())
+                .order('start_date', { ascending: true })
+                .limit(3);
+
+            if (!error && data) {
+                setUpcomingEvents(data);
+            }
+        } catch (error) {
+            console.error('Error fetching upcoming events:', error);
+        }
+    };
+
+    const fetchSuggestedUsers = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('id, full_name, avatar_url, role')
+                .neq('id', user?.id)
+                .limit(4);
+
+            if (!error && data) {
+                setSuggestedUsers(data);
+            }
+        } catch (error) {
+            console.error('Error fetching suggested users:', error);
         }
     };
 
@@ -390,51 +428,6 @@ export default function FeedPage() {
             <div className="feed-container">
                 <div className="feed-grid">
 
-                    {/* LEFT SIDEBAR - PROFILE & MENU */}
-                    <aside className="left-sidebar">
-                        <div className="profile-summary-card">
-                            <div className="profile-card-header"></div>
-                            <div className="profile-card-content">
-                                <img
-                                    src={profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.full_name || 'User')}&background=5b4fe8&color=fff`}
-                                    alt="User"
-                                    className="profile-card-avatar"
-                                />
-                                <h3 className="profile-card-name">{profile?.full_name || 'User'}</h3>
-                                <p className="profile-card-bio">{profile?.bio ? (profile.bio.length > 60 ? profile.bio.substring(0, 60) + '...' : profile.bio) : 'Welcome to Dimensionless'}</p>
-
-                                <div className="profile-stats">
-                                    <div className="stat-item">
-                                        <span className="stat-value">{posts.filter(p => p.user_id === user?.id).length}</span>
-                                        <span className="stat-label">Posts</span>
-                                    </div>
-                                    <div className="stat-item">
-                                        <span className="stat-value">--</span>
-                                        <span className="stat-label">Following</span>
-                                    </div>
-                                    <div className="stat-item">
-                                        <span className="stat-value">--</span>
-                                        <span className="stat-label">Followers</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="sidebar-section">
-                            <div className="menu-list">
-                                <Link href="/feed" className="menu-item">
-                                    <IconUsers size={20} /> Groups
-                                </Link>
-                                <Link href="/feed" className="menu-item">
-                                    <IconCalendarEvent size={20} /> Events
-                                </Link>
-                                <Link href="/shop" className="menu-item">
-                                    <IconBrush size={20} /> Marketplace
-                                </Link>
-                            </div>
-                        </div>
-                    </aside>
-
                     {/* MAIN FEED CONTENT */}
                     <main className="feed-content">
                         {/* Create Post */}
@@ -558,7 +551,11 @@ export default function FeedPage() {
 
                                 {post.type === 'image' && post.media_url && (
                                     <div className="post-media">
-                                        <img src={post.media_url} alt="Post content" />
+                                        {post.media_url.match(/\.(mp4|webm|ogg)$/i) || post.media_url.includes('video') ? (
+                                            <video src={post.media_url} controls className="post-video" />
+                                        ) : (
+                                            <img src={post.media_url} alt="Post content" />
+                                        )}
                                     </div>
                                 )}
 
@@ -600,11 +597,11 @@ export default function FeedPage() {
                                     <div className="feed-painting-card">
                                         <img src={post.paintings.image_url} alt={post.paintings.title} className="feed-painting-img" />
                                         <div className="feed-painting-info">
-                                            <div>
+                                            <div className="feed-painting-details">
                                                 <div className="painting-title">{post.paintings.title}</div>
                                                 <div className="painting-price">₹{post.paintings.price.toLocaleString()}</div>
                                             </div>
-                                            <Link href="/shop" className="post-submit-btn" style={{ textDecoration: 'none', fontSize: '0.8rem' }}>View Art</Link>
+                                            <Link href={`/shop`} className="view-art-btn">View Art</Link>
                                         </div>
                                     </div>
                                 )}
@@ -696,27 +693,32 @@ export default function FeedPage() {
                     </main>
 
                     {/* RIGHT SIDEBAR - EVENTS & CONTACTS */}
-                    <aside className="right-sidebar">
+                    < aside className="right-sidebar" >
                         <div className="sidebar-section">
                             <div className="section-header">
                                 <span className="section-title">Upcoming Events</span>
-                                <IconPlus size={18} color="#94a3b8" />
+                                <Link href="/events"><IconPlus size={18} color="#94a3b8" /></Link>
                             </div>
                             <div className="menu-list">
-                                <div className="event-item">
-                                    <IconCalendarEvent size={24} color="#a29bfe" />
-                                    <div className="event-info">
-                                        <span className="event-title">Digital Art Expo</span>
-                                        <span className="event-time">Mon, Oct 24, 10:00 AM</span>
+                                {upcomingEvents.length > 0 ? (
+                                    upcomingEvents.map(event => (
+                                        <Link href={`/events/${event.id}`} key={event.id} className="event-item" style={{ textDecoration: 'none' }}>
+                                            <IconCalendarEvent size={24} color={event.type === 'competition' ? "#ff7675" : "#a29bfe"} />
+                                            <div className="event-info">
+                                                <span className="event-title">{event.title}</span>
+                                                <span className="event-time">
+                                                    {new Date(event.start_date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    ))
+                                ) : (
+                                    <div className="event-item">
+                                        <div className="event-info">
+                                            <span className="event-title" style={{ color: '#94a3b8', fontSize: '13px' }}>No upcoming events</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="event-item">
-                                    <IconCalendarEvent size={24} color="#ff7675" />
-                                    <div className="event-info">
-                                        <span className="event-title">Live Painting</span>
-                                        <span className="event-time">Fri, Oct 28, 6:00 PM</span>
-                                    </div>
-                                </div>
+                                )}
                             </div>
                         </div>
 
@@ -725,27 +727,33 @@ export default function FeedPage() {
                                 <span className="section-title">Who to Follow</span>
                             </div>
                             <div className="menu-list">
-                                <div className="contact-item">
-                                    <img src="/founder1.png" className="contact-avatar" alt="U" onError={(e) => e.currentTarget.src = 'https://ui-avatars.com/api/?name=Ajay+S'} />
-                                    <div className="contact-info">
-                                        <span className="contact-name">Ajay Singh</span>
-                                        <span className="contact-status">Artist</span>
+                                {suggestedUsers.length > 0 ? (
+                                    suggestedUsers.map(suggestedUser => (
+                                        <Link href={`/profile/${suggestedUser.id}`} key={suggestedUser.id} className="contact-item" style={{ textDecoration: 'none' }}>
+                                            <img
+                                                src={suggestedUser.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(suggestedUser.full_name)}`}
+                                                className="contact-avatar"
+                                                alt={suggestedUser.full_name}
+                                            />
+                                            <div className="contact-info">
+                                                <span className="contact-name">{suggestedUser.full_name}</span>
+                                                <span className="contact-status">{suggestedUser.role || 'User'}</span>
+                                            </div>
+                                            <IconUser size={16} color="#94a3b8" />
+                                        </Link>
+                                    ))
+                                ) : (
+                                    <div className="contact-item">
+                                        <div className="contact-info">
+                                            <span className="contact-name" style={{ color: '#94a3b8', fontSize: '13px' }}>No users to follow</span>
+                                        </div>
                                     </div>
-                                    <IconUser size={16} color="#94a3b8" />
-                                </div>
-                                <div className="contact-item">
-                                    <img src="/founder2.png" className="contact-avatar" alt="U" onError={(e) => e.currentTarget.src = 'https://ui-avatars.com/api/?name=Priya+D'} />
-                                    <div className="contact-info">
-                                        <span className="contact-name">Priya Das</span>
-                                        <span className="contact-status">Collector</span>
-                                    </div>
-                                    <IconUser size={16} color="#94a3b8" />
-                                </div>
+                                )}
                             </div>
                         </div>
                     </aside>
                 </div>
             </div>
-        </AppLayout>
+        </AppLayout >
     );
 }

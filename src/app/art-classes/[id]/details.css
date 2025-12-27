@@ -1,0 +1,255 @@
+.class-details-page {
+    padding: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
+    padding: 40px 24px;
+}
+
+/* Header */
+.class-header {
+    margin-bottom: 32px;
+}
+
+.class-header .cat-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(91, 79, 232, 0.1);
+    color: var(--color-primary);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+}
+
+.class-header h1 {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0 0 16px 0;
+    line-height: 1.2;
+}
+
+.class-header .stats-line {
+    display: flex;
+    gap: 24px;
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+.class-header .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Thumbnail */
+.class-hero-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--bg-secondary);
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.class-hero-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Sections */
+.details-main section {
+    margin-bottom: 48px;
+}
+
+.details-main h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 20px;
+}
+
+.details-main .description {
+    font-size: 17px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* Sessions list */
+.sessions-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.session-card {
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    transition: all 0.2s ease;
+}
+
+.session-card:hover {
+    border-color: var(--color-primary);
+}
+
+.session-date-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    height: 80px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.session-date-box .day {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1;
+}
+
+.session-date-box .month {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.session-info {
+    flex: 1;
+}
+
+.session-info h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 8px 0;
+}
+
+.session-info .time {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.join-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    align-self: center;
+}
+
+/* Sidebar Sticky Card */
+.registration-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 32px;
+    position: sticky;
+    top: 40px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+}
+
+.pricing-section {
+    margin-bottom: 24px;
+}
+
+.registration-card .price {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+}
+
+.registration-card .price small {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-left: 8px;
+}
+
+.register-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 16px;
+}
+
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(91, 79, 232, 0.4);
+}
+
+.register-btn.registered {
+    background: #10b981;
+    cursor: default;
+}
+
+.register-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.info-bullet {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 968px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .registration-card {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 20px 20px 0 0;
+        z-index: 100;
+        padding: 20px;
+    }
+}

@@ -1,10 +1,17 @@
 .app-layout {
     display: flex;
     min-height: 100vh;
-    background: #f8f9fc;
+    background: #f8fafc;
     overflow-x: hidden;
     width: 100%;
     color: #1a1a1a;
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+    background: #f8fafc;
 }
 
 .main-wrapper {

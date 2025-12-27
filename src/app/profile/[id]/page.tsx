@@ -25,6 +25,7 @@ interface ProfileData {
     id: string;
     full_name: string;
     avatar_url: string;
+    background_image?: string;
     bio: string;
     created_at: string;
 }
@@ -160,12 +161,15 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
         <AppLayout>
             <div className="profile-container">
                 <div className="profile-header-card">
-                    <div className="profile-cover"></div>
+                    <div
+                        className="profile-cover"
+                        style={viewProfile.background_image ? { backgroundImage: `url(${viewProfile.background_image})` } : {}}
+                    ></div>
                     <div className="profile-main-info">
                         <div className="profile-avatar-row">
                             <img
-                                src={viewProfile.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(viewProfile.full_name)}&background=5b4fe8&color=fff`}
-                                alt={viewProfile.full_name}
+                                src={viewProfile.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(viewProfile.full_name || 'User')}&background=5b4fe8&color=fff`}
+                                alt={viewProfile.full_name || 'User'}
                                 className="main-avatar"
                             />
                             <div className="profile-action-btns">
@@ -188,7 +192,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                         </div>
 
                         <div className="profile-meta-content">
-                            <h1 className="profile-name">{viewProfile.full_name}</h1>
+                            <h1 className="profile-name">{viewProfile.full_name || 'Dimen Member'}</h1>
                             {viewProfile.bio && <p className="profile-bio-text">{viewProfile.bio}</p>}
 
                             <div className="profile-stats-row">
@@ -206,7 +210,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                             <div className="profile-details-list">
                                 <div className="detail-item">
                                     <IconCalendar size={18} />
-                                    <span>Joined {new Date(viewProfile.created_at).toLocaleDateString()}</span>
+                                    <span>Joined {viewProfile.created_at ? new Date(viewProfile.created_at).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }) : 'Recently'}</span>
                                 </div>
                             </div>
                         </div>
@@ -245,6 +249,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                                     <div className="post-actions">
                                         <button className="action-btn"><IconHeart size={18} /> <span>Like</span></button>
                                         <button className="action-btn"><IconMessageCircle size={18} /> <span>Comment</span></button>
+                                        <button className="action-btn"><IconShare size={18} /> <span>Share</span></button>
                                     </div>
                                 </div>
                             ))

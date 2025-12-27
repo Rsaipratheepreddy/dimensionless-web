@@ -58,10 +58,25 @@ button {
     --color-secondary: #ff9933;
     --color-accent: #800020;
 
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+    --shadow-xl: none;
+
+    /* Spacing Tokens */
+    --gap-xs: 4px;
+    --gap-sm: 8px;
+    --gap-md: 16px;
+    --gap-lg: 24px;
+    --gap-xl: 32px;
+    --gap-2xl: 48px;
+
+    /* Button Standardization */
+    --btn-height-sm: 36px;
+    --btn-height-md: 44px;
+    --btn-height-lg: 52px;
+    --btn-radius: 8px;
+    --btn-font-size: 14px;
 
     /* Responsive Spacing & Scales */
     --padding-mobile: 16px;
@@ -121,11 +136,64 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Remove default button styles */
+/* Standardized Buttons */
 button {
     background: none;
     border: none;
     cursor: pointer;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-outline {
+    height: var(--btn-height-md);
+    padding: 0 var(--gap-md);
+    border-radius: var(--btn-radius);
+    font-size: var(--btn-font-size);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-main);
+}
+
+.btn-outline {
+    background: transparent;
+    border-color: var(--border-color);
+    color: var(--text-main);
+}
+
+.btn-sm {
+    height: var(--btn-height-sm);
+    font-size: 13px;
+}
+
+.btn-lg {
+    height: var(--btn-height-lg);
+    font-size: 16px;
+}
+
+/* Bottom Sheets / Modals */
+.bottom-sheet {
+    background: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: var(--gap-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: none;
 }
 
 /* Accessibility */

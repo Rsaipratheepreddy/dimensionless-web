@@ -60,10 +60,11 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background: conic-gradient(#6366f1 32%, #f1f5f9 0);
+    /* Background handled dynamically via style prop */
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 0.5s ease;
 }
 
 .circular-progress::after {

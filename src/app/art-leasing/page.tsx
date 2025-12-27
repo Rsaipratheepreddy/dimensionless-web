@@ -27,47 +27,58 @@ interface LeasablePainting {
     yearly_rate: number;
     preferred_rate_interval?: 'hourly' | 'daily' | 'monthly' | 'yearly';
     is_available: boolean;
-    category?: string;
+    category_id?: string;
     lease_orders?: {
         end_date: string;
     }[];
 }
 
+interface Category {
+    id: string;
+    name: string;
+    color: string;
+}
+
 export default function ArtLeasingGallery() {
     const { profile } = useAuth();
     const [paintings, setPaintings] = useState<LeasablePainting[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeCategory, setActiveCategory] = useState('All Artworks');
+    const [selectedCategory, setSelectedCategory] = useState('all');
 
     useEffect(() => {
-        fetchPaintings();
+        fetchData();
     }, []);
 
-    const fetchPaintings = async () => {
+    const fetchData = async () => {
         try {
-            const { data, error } = await supabase
-                .from('leasable_paintings')
-                .select(`
-                    *,
-                    lease_orders(end_date, status)
-                `)
-                .eq('is_available', true)
-                .order('created_at', { ascending: false });
+            const [paintingsRes, categoriesRes] = await Promise.all([
+                supabase
+                    .from('leasable_paintings')
+                    .select(`
+                        *,
+                        lease_orders(end_date, status)
+                    `)
+                    .eq('is_available', true)
+                    .order('created_at', { ascending: false }),
+                fetch('/api/categories?type=leasing')
+            ]);
 
-            if (error) throw error;
-            setPaintings(data || []);
+            if (paintingsRes.error) throw paintingsRes.error;
+            setPaintings(paintingsRes.data || []);
+
+            const categoriesData = await categoriesRes.json();
+            setCategories(categoriesData);
         } catch (error) {
-            console.error('Error fetching leasable art:', error);
+            console.error('Error fetching data:', error);
         } finally {
             setLoading(false);
         }
     };
 
-    const categories = ['All Artworks', ...new Set(paintings.map(p => (p as any).category || 'General').filter(Boolean))];
-
     const filteredPaintings = paintings.filter(art => {
-        const matchesCategory = activeCategory === 'All Artworks' || (art as any).category === activeCategory || (activeCategory === 'General' && !(art as any).category);
+        const matchesCategory = selectedCategory === 'all' || art.category_id === selectedCategory;
         const matchesSearch = art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             art.artist_name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
@@ -115,13 +126,19 @@ export default function ArtLeasingGallery() {
                 </header>
 
                 <div className="filter-bar">
+                    <button
+                        className={`filter-chip ${selectedCategory === 'all' ? 'active' : ''}`}
+                        onClick={() => setSelectedCategory('all')}
+                    >
+                        All Artworks
+                    </button>
                     {categories.map(cat => (
                         <button
-                            key={cat}
-                            className={`filter-chip ${activeCategory === cat ? 'active' : ''}`}
-                            onClick={() => setActiveCategory(cat)}
+                            key={cat.id}
+                            className={`filter-chip ${selectedCategory === cat.id ? 'active' : ''}`}
+                            onClick={() => setSelectedCategory(cat.id)}
                         >
-                            {cat}
+                            {cat.name}
                         </button>
                     ))}
                 </div>
@@ -171,7 +188,7 @@ export default function ArtLeasingGallery() {
                                                     ₹{price}<span>{label}</span>
                                                 </div>
                                                 <div className="lease-action-pill">
-                                                    {availability ? 'View Slot' : 'Lease Now'}
+                                                    {availability ? 'View Slot' : 'Lease'}
                                                 </div>
                                             </div>
                                         </div>

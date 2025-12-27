@@ -1,210 +1,320 @@
 'use client';
-import { useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+
+import { useState, useEffect, useRef } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 import {
-    IconPalette,
-    IconBuildingMonument,
-    IconUsers,
     IconCalendar,
+    IconClock,
     IconMapPin,
     IconTicket,
-    IconHeart,
-    IconUser,
+    IconSchool,
+    IconBrush,
+    IconChevronRight,
     IconChevronLeft,
-    IconChevronRight
+    IconLoader2
 } from '@tabler/icons-react';
-import Image from 'next/image';
+import Link from 'next/link';
 import './UpcomingSection.css';
+import { supabase } from '@/utils/supabase';
 
-interface EventItem {
+type TabType = 'tattoos' | 'events' | 'classes';
+
+interface UpcomingItem {
     id: string;
     title: string;
-    dateStr: string;
-    dateObj: Date;
-    category: 'art-class' | 'exhibition' | 'meetup';
-    description: string;
-    image?: string;
-    price?: string;
-    duration?: number; // hours
+    image: string;
+    date: string;
+    time?: string;
+    location?: string;
+    type: string;
+    isRegistered: boolean;
+    link: string;
 }
 
-// Calendar Setup
-const UpcomingSection: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<string>('all');
-    const router = useRouter();
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
+export default function UpcomingSection() {
+    const { user } = useAuth();
+    const [activeTab, setActiveTab] = useState<TabType>('events');
+    const [loading, setLoading] = useState(true);
+    const [items, setItems] = useState<{ [key in TabType]: UpcomingItem[] }>({
+        tattoos: [],
+        events: [],
+        classes: []
+    });
 
-    const scroll = (direction: 'left' | 'right') => {
-        if (scrollContainerRef.current) {
-            const { current } = scrollContainerRef;
-            const scrollAmount = 380; // Card width (340) + gap (16) approx
-            if (direction === 'left') {
-                current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            } else {
-                current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            }
+    const currentItems = items[activeTab] || [];
+
+    const carouselRef = useRef<HTMLDivElement>(null);
+    const [showArrows, setShowArrows] = useState({ left: false, right: false });
+
+    const checkScroll = () => {
+        if (carouselRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+            setShowArrows({
+                left: scrollLeft > 10,
+                right: scrollLeft < scrollWidth - clientWidth - 10
+            });
         }
     };
 
-    // ... events array ...
+    const scroll = (direction: 'left' | 'right') => {
+        if (carouselRef.current) {
+            const { scrollLeft, clientWidth } = carouselRef.current;
+            const scrollAmount = clientWidth * 0.8;
+            carouselRef.current.scrollTo({
+                left: direction === 'left' ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    };
 
-    const events: EventItem[] = [
-        {
-            id: '1',
-            title: 'Oil Painting Masterclass',
-            dateStr: 'Dec 24, 10:00 AM',
-            dateObj: new Date(2024, 11, 24, 10, 0),
-            category: 'art-class',
-            description: 'Advanced oil painting techniques.',
-            price: '₹1200',
-            duration: 2
-        },
-        {
-            id: '2',
-            title: 'Modern Art Exhibition',
-            dateStr: 'Dec 26, 11:00 AM',
-            dateObj: new Date(2024, 11, 26, 11, 0),
-            category: 'exhibition',
-            description: 'Showcasing contemporary works.',
-            price: 'Free',
-            duration: 4
-        },
-        {
-            id: '3',
-            title: 'Artist Meetup: Bangalore',
-            dateStr: 'Dec 28, 04:00 PM',
-            dateObj: new Date(2024, 11, 28, 16, 0),
-            category: 'meetup',
-            description: 'Connect with fellow creators.',
-            price: 'Free',
-            duration: 1.5
-        },
-    ];
+    useEffect(() => {
+        if (user) {
+            fetchAllData();
+        } else {
+            setLoading(false);
+        }
+    }, [user]);
 
+    useEffect(() => {
+        if (!loading && currentItems.length > 0) {
+            // Wait for render
+            setTimeout(checkScroll, 100);
+        }
+    }, [loading, activeTab, items]);
+
+    // Re-check on window resize
+    useEffect(() => {
+        window.addEventListener('resize', checkScroll);
+        return () => window.removeEventListener('resize', checkScroll);
+    }, []);
+
+    const fetchAllData = async () => {
+        setLoading(true);
+        try {
+            await Promise.all([
+                fetchTattoos(),
+                fetchEvents(),
+                fetchClasses()
+            ]);
+        } catch (error) {
+            console.error('Error fetching upcoming data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchTattoos = async () => {
+        const response = await fetch('/api/bookings');
+        const data = await response.json();
+        const filtered = data.filter((b: any) => {
+            const bookingDate = new Date(b.booking_date);
+            return bookingDate >= new Date() && b.status !== 'cancelled';
+        }).map((b: any) => ({
+            id: b.id,
+            title: b.tattoo_designs?.name || 'Tattoo Session',
+            image: b.tattoo_designs?.image_url || '/painting.png',
+            date: b.booking_date,
+            time: b.booking_time,
+            type: 'Booking',
+            isRegistered: true,
+            link: `/tattoos/${b.tattoo_designs?.id}`
+        }));
+        setItems(prev => ({ ...prev, tattoos: filtered }));
+    };
+
+    const fetchEvents = async () => {
+        // 1. Fetch user's registrations
+        const { data: registrations } = await supabase
+            .from('event_registrations')
+            .select('event_id, events(*)')
+            .eq('user_id', user?.id);
+
+        const registeredIds = (registrations || []).map(r => r.event_id);
+        const registeredItems = (registrations || []).map((r: any) => {
+            const event = Array.isArray(r.events) ? r.events[0] : r.events;
+            if (!event) return null;
+            return {
+                id: event.id,
+                title: event.title,
+                image: event.image_url,
+                date: event.start_date,
+                time: new Date(event.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                location: event.location,
+                type: 'Registered',
+                isRegistered: true,
+                link: `/events/${event.id}`
+            };
+        }).filter(Boolean) as UpcomingItem[];
+
+        // 2. Fetch available upcoming events
+        const { data: availableEvents } = await supabase
+            .from('events')
+            .select('*')
+            .eq('status', 'published')
+            .gte('start_date', new Date().toISOString())
+            .not('id', 'in', `(${registeredIds.length > 0 ? registeredIds.join(',') : '00000000-0000-0000-0000-000000000000'})`)
+            .limit(5);
+
+        const availableItems = (availableEvents || []).map(e => ({
+            id: e.id,
+            title: e.title,
+            image: e.image_url,
+            date: e.start_date,
+            time: new Date(e.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            location: e.location,
+            type: 'Upcoming',
+            isRegistered: false,
+            link: `/events/${e.id}`
+        }));
+
+        setItems(prev => ({ ...prev, events: [...registeredItems, ...availableItems] }));
+    };
+
+    const fetchClasses = async () => {
+        // 1. Fetch user's enrolled classes
+        const response = await fetch('/api/user/registrations');
+        const enrolledData = await response.json();
+
+        const enrolledIds = (enrolledData || []).map((r: any) => r.art_classes?.id);
+        const enrolledItems = (enrolledData || []).map((r: any) => ({
+            id: r.art_classes.id,
+            title: r.art_classes.title,
+            image: r.art_classes.thumbnail_url,
+            date: r.next_session?.session_date || '',
+            time: r.next_session?.session_time || '',
+            type: 'Enrolled',
+            isRegistered: true,
+            link: `/art-classes/${r.art_classes.id}`
+        }));
+
+        // 2. Fetch available classes
+        const { data: availableClasses } = await supabase
+            .from('art_classes')
+            .select('*')
+            .eq('status', 'published')
+            .not('id', 'in', `(${enrolledIds.length > 0 ? enrolledIds.join(',') : '00000000-0000-0000-0000-000000000000'})`)
+            .limit(5);
+
+        const availableItems = (availableClasses || []).map(c => ({
+            id: c.id,
+            title: c.title,
+            image: c.thumbnail_url,
+            date: 'Ongoing',
+            type: 'Available',
+            isRegistered: false,
+            link: `/art-classes/${c.id}`
+        }));
+
+        setItems(prev => ({ ...prev, classes: [...enrolledItems, ...availableItems] }));
+    };
+
+
+    if (!user) return null;
 
     return (
-        <section id="upcoming-events" className="upcoming-section">
-            <div className="section-header-row">
-                <h2 className="section-title">Upcoming Events</h2>
-
-                <div className="header-controls">
-                    <div className="tabs-pill-container">
-                        <button
-                            className={`pill-tab ${activeTab === 'all' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('all')}
-                        >
-                            All
-                        </button>
-                        <button
-                            className={`pill-tab ${activeTab === 'art-class' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('art-class')}
-                        >
-                            <IconPalette size={16} />
-                            Classes
-                        </button>
-                        <button
-                            className={`pill-tab ${activeTab === 'exhibition' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('exhibition')}
-                        >
-                            <IconBuildingMonument size={16} />
-                            Exhibitions
-                        </button>
-                        <button
-                            className={`pill-tab ${activeTab === 'meetup' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('meetup')}
-                        >
-                            <IconUsers size={16} />
-                            Meetups
-                        </button>
-                    </div>
-
-                    <div className="carousel-nav-buttons">
-                        <button className="nav-btn" onClick={() => scroll('left')} aria-label="Scroll left">
-                            <IconChevronLeft size={20} />
-                        </button>
-                        <button className="nav-btn" onClick={() => scroll('right')} aria-label="Scroll right">
-                            <IconChevronRight size={20} />
-                        </button>
-                    </div>
-
+        <section className="upcoming-section">
+            <div className="upcoming-header">
+                <h2>Upcoming For You</h2>
+                <div className="tab-bar">
                     <button
-                        className="calendar-entry-btn"
-                        onClick={() => router.push('/calendar')}
+                        className={`tab-btn ${activeTab === 'events' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('events')}
                     >
-                        <IconCalendar size={18} />
-                        <span>View Calendar</span>
+                        <IconTicket size={18} />
+                        Events
+                    </button>
+                    <button
+                        className={`tab-btn ${activeTab === 'classes' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('classes')}
+                    >
+                        <IconSchool size={18} />
+                        Classes
+                    </button>
+                    <button
+                        className={`tab-btn ${activeTab === 'tattoos' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('tattoos')}
+                    >
+                        <IconBrush size={18} />
+                        Tattoos
                     </button>
                 </div>
             </div>
 
-            <div className="events-carousel-container">
-                <div className="events-carousel" ref={scrollContainerRef}>
-                    {events.filter(e => activeTab === 'all' || e.category === activeTab).map(event => (
-                        <div key={event.id} className="event-card">
-                            <div className="card-image-wrapper">
-                                <Image
-                                    src="/painting.png"
-                                    alt={event.title}
-                                    fill
-                                    className="card-img"
-                                />
-                                <div className="date-badge">
-                                    <span className="date-day">{event.dateObj.getDate()}</span>
-                                    <span className="date-month">{event.dateObj.toLocaleString('default', { month: 'short' }).toUpperCase()}</span>
-                                </div>
-                                <button className="like-btn">
-                                    <IconHeart size={18} />
-                                </button>
-                                <div className="going-avatars">
-                                    <div className="avatar-stack">
-                                        {[1, 2, 3].map(i => (
-                                            <div key={i} className="mini-avatar">
-                                                <Image src={`/founder${i > 2 ? 1 : i}.png`} alt="User" width={24} height={24} />
+            <div className="upcoming-content">
+                {loading ? (
+                    <div className="loading-placeholder">
+                        <IconLoader2 className="animate-spin" size={32} />
+                        <p>Updating your schedule...</p>
+                    </div>
+                ) : currentItems.length === 0 ? (
+                    <div className="empty-state">
+                        <IconCalendar size={48} />
+                        <p>No upcoming {activeTab} found.</p>
+                        <Link href={`/${activeTab === 'tattoos' ? 'tattoos' : activeTab === 'events' ? 'events' : 'art-classes'}`} className="explore-btn">
+                            Explore {activeTab}
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="carousel-container">
+                        {showArrows.left && (
+                            <button className="nav-btn left" onClick={() => scroll('left')} aria-label="Scroll left">
+                                <IconChevronLeft size={20} />
+                            </button>
+                        )}
+
+                        <div className="upcoming-grid carousel-grid" ref={carouselRef} onScroll={checkScroll}>
+                            {currentItems.map(item => (
+                                <Link href={item.link} key={`${item.id}-${item.type}`} className={`upcoming-card ${item.isRegistered ? 'registered' : ''}`}>
+                                    <div className="card-image">
+                                        <img src={item.image || '/painting.png'} alt={item.title} />
+                                        <span className={`status-badge ${item.type.toLowerCase()}`}>
+                                            {item.type}
+                                        </span>
+                                    </div>
+                                    <div className="card-info">
+                                        <h3>{item.title}</h3>
+                                        <div className="info-meta">
+                                            <div className="meta-item">
+                                                <IconCalendar size={14} />
+                                                <span>{item.date === 'Ongoing' ? 'Ongoing' : new Date(item.date).toLocaleDateString()}</span>
                                             </div>
-                                        ))}
-                                        <div className="avatar-count">+1K Going</div>
+                                            {item.time && (
+                                                <div className="meta-item">
+                                                    <IconClock size={14} />
+                                                    <span>{item.time}</span>
+                                                </div>
+                                            )}
+                                            {item.location && (
+                                                <div className="meta-item">
+                                                    <IconMapPin size={14} />
+                                                    <span>{item.location}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="card-action">
+                                            <span>{item.isRegistered ? 'View Details' : 'Book Now'}</span>
+                                            <IconChevronRight size={16} />
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div className="card-content">
-                                <div className="category-tag">
-                                    {event.category === 'art-class' && 'Art Class'}
-                                    {event.category === 'exhibition' && 'Exhibition'}
-                                    {event.category === 'meetup' && 'Meetup'}
-                                </div>
-                                <h3 className="card-title">{event.title}</h3>
-
-                                <div className="card-meta-list">
-                                    <div className="meta-item">
-                                        <IconMapPin size={16} className="meta-icon" />
-                                        <span>Central Park, New York City</span>
-                                    </div>
-                                    <div className="meta-item">
-                                        <IconCalendar size={16} className="meta-icon" />
-                                        <span>{event.dateStr}</span>
-                                    </div>
-                                    <div className="meta-item">
-                                        <IconTicket size={16} className="meta-icon" />
-                                        <span>From {event.price}</span>
-                                    </div>
-                                    <div className="meta-item">
-                                        <IconUser size={16} className="meta-icon" />
-                                        <span>By World Fusion Events</span>
-                                    </div>
-                                </div>
-
-                                <div className="card-actions">
-                                    <button className="btn-primary">Buy Tickets</button>
-                                    <button className="btn-secondary">View Details</button>
-                                </div>
-                            </div>
+                                </Link>
+                            ))}
                         </div>
-                    ))}
-                </div>
+
+                        {showArrows.right && (
+                            <button className="nav-btn right" onClick={() => scroll('right')} aria-label="Scroll right">
+                                <IconChevronRight size={20} />
+                            </button>
+                        )}
+                    </div>
+                )}
+            </div>
+
+            <div className="section-footer">
+                <Link href={`/${activeTab === 'tattoos' ? 'tattoos' : activeTab === 'events' ? 'events' : 'art-classes'}`} className="view-all-link">
+                    View All {activeTab}
+                    <IconChevronRight size={16} />
+                </Link>
             </div>
         </section>
     );
-};
-
-export default UpcomingSection;
+}

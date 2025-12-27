@@ -27,7 +27,10 @@ import {
     IconWallet,
     IconShieldCheck,
     IconPackage,
-    IconUser
+    IconUser,
+    IconCalendar,
+    IconTrophy,
+    IconPalette
 } from '@tabler/icons-react';
 
 interface SidebarProps {
@@ -60,6 +63,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
         { icon: IconHome, label: 'Home', href: '/' },
         { icon: IconUser, label: 'My Profile', href: `/profile/${profile?.id}` },
         { icon: IconMail, label: 'Feed', href: '/feed' },
+        { icon: IconTrophy, label: 'Events', href: '/events' },
         { icon: IconBrush, label: 'Buy Art', href: '/buy-art' },
         { icon: IconShoppingCart, label: 'Shop', href: '/shop' },
         { icon: IconPackage, label: 'My Orders', href: '/orders' },
@@ -74,7 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
     ];
 
     const serviceItems = [
-        { icon: IconBuilding, label: 'Tattoo Studio', href: '/tattoo-studio' },
+        { icon: IconBuilding, label: 'Tattoo Studio', href: '/tattoos' },
         { icon: IconDiamond, label: 'Piercings', href: '/piercings' },
         { icon: IconCoin, label: 'Dimen Token', href: '/token' },
     ];
@@ -187,6 +191,34 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
                         <Link href="/admin/leasing" className="sidebar-item">
                             <IconPackage size={20} className="item-icon" />
                             {!isCollapsed && <span className="item-label">Leasing Management</span>}
+                        </Link>
+                        <Link href="/admin/tattoos" className="sidebar-item">
+                            <IconBrush size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Tattoo Management</span>}
+                        </Link>
+                        <Link href="/admin/tattoo-slots" className="sidebar-item">
+                            <IconCalendar size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Slot Management</span>}
+                        </Link>
+                        <Link href="/admin/categories" className="sidebar-item">
+                            <IconSettings size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Category Management</span>}
+                        </Link>
+                        <Link href="/admin/bookings" className="sidebar-item">
+                            <IconPackage size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">All Bookings</span>}
+                        </Link>
+                        <Link href="/admin/classes" className="sidebar-item">
+                            <IconSchool size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Class Management</span>}
+                        </Link>
+                        <Link href="/admin/events" className="sidebar-item">
+                            <IconCalendar size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Event Management</span>}
+                        </Link>
+                        <Link href="/admin/cms" className="sidebar-item">
+                            <IconPalette size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Site CMS</span>}
                         </Link>
                     </div>
                 )}

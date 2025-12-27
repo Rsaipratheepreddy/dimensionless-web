@@ -35,40 +35,52 @@ const ContinueSection: React.FC<ContinueSectionProps> = ({
             </div>
 
             <div className="continue-grid">
-                {items.map((item, index) => (
-                    <div key={index} className="continue-card">
-                        <img src={item.image} alt={item.title} className="card-background-image" />
+                {items.map((item, index) => {
+                    const getLink = () => {
+                        const type = (item as any).selected_from;
+                        const id = (item as any).id;
+                        if (!id || !type) return '#';
+                        if (type === 'paintings') return `/buy-art/${id}`;
+                        if (type === 'tattoo_designs') return `/tattoos/${id}`;
+                        if (type === 'leasable_paintings') return `/art-leasing/${id}`;
+                        return '#';
+                    };
 
-                        <div className="card-overlay-top">
-                            <button className="heart-btn-glass"><IconHeart size={18} /></button>
-                        </div>
+                    return (
+                        <div key={index} className="continue-card" onClick={() => window.location.href = getLink()}>
+                            <img src={item.image} alt={item.title} className="card-background-image" />
 
-                        <div className="card-overlay-bottom">
-                            <h3 className="card-title-overlay">{item.title}</h3>
+                            <div className="card-overlay-top">
+                                <button className="heart-btn-glass" onClick={(e) => { e.stopPropagation(); }}><IconHeart size={18} /></button>
+                            </div>
 
-                            <div className="card-footer-overlay">
-                                {showAvatar && (
-                                    <div className="artist-profile-overlay">
-                                        <img src={item.artistAvatar} alt={item.artist} className="artist-avatar-overlay" />
-                                        <div className="artist-info-overlay">
-                                            <span className="artist-name-overlay">{item.artist}</span>
-                                            <span className="artist-label-overlay">Artist</span>
+                            <div className="card-overlay-bottom">
+                                <h3 className="card-title-overlay">{item.title}</h3>
+
+                                <div className="card-footer-overlay">
+                                    {showAvatar && (
+                                        <div className="artist-profile-overlay">
+                                            <img src={item.artistAvatar || '/member-names.png'} alt={item.artist} className="artist-avatar-overlay" />
+                                            <div className="artist-info-overlay">
+                                                <span className="artist-name-overlay">{item.artist}</span>
+                                                <span className="artist-label-overlay">Artist</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-
-                                <div className="card-action-row-overlay">
-                                    {showPrice && item.price && (
-                                        <span className="card-price-overlay">{item.price}</span>
                                     )}
-                                    <button className="buy-btn-overlay">
-                                        {buttonText}
-                                    </button>
+
+                                    <div className="card-action-row-overlay">
+                                        {showPrice && item.price && (
+                                            <span className="card-price-overlay">{item.price}</span>
+                                        )}
+                                        <button className="buy-btn-overlay">
+                                            {buttonText}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </section>
     );

@@ -1,0 +1,250 @@
+.admin-bookings-page {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.admin-bookings-page .page-header {
+    margin-bottom: 32px;
+}
+
+.admin-bookings-page .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.admin-bookings-page .page-header p {
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 10px 16px;
+    border-radius: 12px;
+    flex: 1;
+    min-width: 300px;
+}
+
+.search-box input {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    margin-left: 12px;
+    width: 100%;
+    outline: none;
+}
+
+.filters-group {
+    display: flex;
+    gap: 8px;
+}
+
+.filters-group button {
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.filters-group button:hover {
+    background: var(--bg-secondary);
+}
+
+.filters-group button.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+.bookings-table-container {
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.bookings-table th {
+    padding: 16px 24px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.bookings-table td {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.booking-cell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.booking-cell .design-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.booking-cell .design-name {
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.booking-cell .datetime {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.customer-cell .name {
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.customer-cell .email,
+.customer-cell .phone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+}
+
+.status-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.status-cell .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.badge.pending_verification,
+.badge.payment_pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge.confirmed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge.cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.badge.completed {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge.pending {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.price-cell {
+    font-weight: 700;
+    color: var(--color-primary);
+    font-size: 16px;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+}
+
+.icon-btn.accept {
+    color: #10b981;
+}
+
+.icon-btn.accept:hover {
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
+}
+
+.icon-btn.reject {
+    color: #ef4444;
+}
+
+.icon-btn.reject:hover {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+}
+
+.empty-state {
+    padding: 64px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .controls-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

@@ -1,200 +1,179 @@
-.dashboard-hero {
+.dashboard-hero-immersive-container,
+.dashboard-hero-immersive.default {
     position: relative;
-    border-radius: 24px;
-    padding: 48px 64px;
+    width: 100%;
+    height: 380px;
+    margin-bottom: 2rem;
+    border-radius: 20px;
     overflow: hidden;
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-bottom: 32px;
+    background: #0d1117;
 }
 
-.dashboard-hero.slide-courses {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: scale(1.02);
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
 }
 
-.dashboard-hero.slide-shop {
-    background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+.hero-slide.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 1;
 }
 
-.dashboard-hero.slide-services {
-    background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+.dashboard-hero-immersive.default {
+    background: linear-gradient(135deg, #0f172a 0%, #312e81 100%);
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.6) 0%,
+            rgba(0, 0, 0, 0.2) 60%,
+            transparent 100%);
+    z-index: 1;
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 600px;
-    animation: slideUp 0.6s ease-out;
+    max-width: 500px;
+    color: white;
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.hero-tag {
+.hero-badge {
     display: inline-block;
-    color: rgba(255, 255, 255, 0.84);
-    font-size: 12px;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    border-radius: 50px;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.1em;
-    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .hero-title {
-    color: #ffffff;
-    font-size: clamp(24px, 4vw, 44px);
-    font-weight: 700;
-    line-height: 1.25;
-    margin-bottom: 32px;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
 }
 
-.hero-btn {
+.hero-description {
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 24px;
+    max-width: 450px;
+}
+
+.hero-explore-btn {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 12px 12px 12px 24px;
-    background: #1a1a1a;
-    color: #ffffff;
+    gap: 12px;
+    background: white;
+    color: #0d1117;
     border: none;
+    padding: 10px 10px 10px 24px;
     border-radius: 50px;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.hero-btn:hover {
+.hero-explore-btn:hover {
     transform: translateY(-2px);
-    background: #000000;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.btn-icon {
-    width: 32px;
-    height: 32px;
-    background: #ffffff;
-    color: #1a1a1a;
+.btn-circle {
+    width: 36px;
+    height: 36px;
+    background: #0d1117;
+    color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    transition: transform 0.3s ease;
 }
 
-.hero-decor .decor-star {
-    position: absolute;
-    color: rgba(255, 255, 255, 0.2);
-    font-size: 48px;
-    pointer-events: none;
-}
-
-.star-1 {
-    top: 20%;
-    right: 15%;
-    animation: pulse 4s infinite;
-}
-
-.star-2 {
-    bottom: 25%;
-    left: 45%;
-    font-size: 32px !important;
-    animation: pulse 3s infinite 1s;
-}
-
-.star-3 {
-    top: 50%;
-    right: 5%;
-    font-size: 24px !important;
-    animation: pulse 5s infinite 2s;
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.2;
-    }
-
-    50% {
-        transform: scale(1.2);
-        opacity: 0.4;
-    }
+.hero-explore-btn:hover .btn-circle {
+    transform: rotate(-30deg);
 }
 
 .carousel-indicators {
     position: absolute;
     bottom: 24px;
-    left: 64px;
+    left: 48px;
     display: flex;
-    gap: 9.6px;
-    z-index: 3;
+    gap: 6px;
+    z-index: 10;
 }
 
-.indicator {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+.indicator-bar {
+    width: 32px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 2px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.indicator.active {
-    width: 24px;
-    border-radius: 4px;
-    background: #ffffff;
+.indicator-bar.active {
+    background: white;
+    width: 64px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-    .dashboard-hero {
-        padding: 24px;
-        margin-bottom: 16px;
-        border-radius: 20px;
-        width: 100%;
-        max-width: 100%;
+
+    .dashboard-hero-immersive-container,
+    .dashboard-hero-immersive.default {
+        height: 320px;
+        border-radius: 16px;
     }
 
-    .hero-title {
-        font-size: 28px;
-        margin-bottom: 24px;
-    }
-
-    .hero-tag {
-        margin-bottom: 16px;
-    }
-
-    .carousel-indicators {
-        left: auto;
-        right: 24px;
-        bottom: 24px;
-    }
-}
-
-@media (max-width: 480px) {
-    .dashboard-hero {
-        padding: 24px;
+    .hero-slide,
+    .dashboard-hero-immersive.default {
+        padding: 0 24px;
     }
 
     .hero-title {
         font-size: 24px;
     }
 
-    .hero-btn {
-        padding: 9.6px 9.6px 9.6px 20px;
+    .hero-description {
         font-size: 14px;
+        margin-bottom: 20px;
     }
 
-    .btn-icon {
-        width: 28px;
-        height: 28px;
-        font-size: 16px;
+    .carousel-indicators {
+        left: 24px;
+        bottom: 20px;
+    }
+
+    .indicator-bar {
+        width: 24px;
+    }
+
+    .indicator-bar.active {
+        width: 48px;
     }
 }

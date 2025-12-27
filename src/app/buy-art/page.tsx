@@ -17,41 +17,58 @@ interface Painting {
     price: number;
     image_url: string;
     artist_id: string;
+    category_id: string;
     profiles: {
         full_name: string;
         avatar_url: string;
     } | null;
 }
 
+interface Category {
+    id: string;
+    name: string;
+    color: string;
+}
+
 export default function BuyArtPage() {
     const { user } = useAuth();
     const { addToCart, isInCart } = useCart();
     const [paintings, setPaintings] = useState<any[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedPainting, setSelectedPainting] = useState<any | null>(null);
 
     useEffect(() => {
-        fetchAvailablePaintings();
+        fetchData();
     }, []);
 
-    const fetchAvailablePaintings = async () => {
+    const fetchData = async () => {
         try {
             setLoading(true);
-            const { data, error } = await supabase
-                .from('paintings')
-                .select('*, profiles(full_name, avatar_url)')
-                .eq('status', 'available')
-                .order('created_at', { ascending: false });
+            const [paintingsRes, categoriesRes] = await Promise.all([
+                supabase
+                    .from('paintings')
+                    .select('*, profiles(full_name, avatar_url)')
+                    .eq('status', 'available')
+                    .order('created_at', { ascending: false }),
+                fetch('/api/categories?type=art')
+            ]);
 
-            if (error) throw error;
-            setPaintings(data || []);
+            if (paintingsRes.error) throw paintingsRes.error;
+            setPaintings(paintingsRes.data || []);
+
+            const categoriesData = await categoriesRes.json();
+            setCategories(categoriesData);
         } catch (error) {
-            console.error('Error fetching marketplace:', error);
+            console.error('Error fetching data:', error);
         } finally {
             setLoading(false);
         }
     };
+
+
 
     const handleAddToCart = (painting: any) => {
         addToCart({
@@ -65,10 +82,12 @@ export default function BuyArtPage() {
         toast.success(`${painting.title} added to cart!`);
     };
 
-    const filteredPaintings = paintings.filter(p =>
-        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.profiles?.full_name?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredPaintings = paintings.filter(p => {
+        const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            p.profiles?.full_name?.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = selectedCategory === 'all' || p.category_id === selectedCategory;
+        return matchesSearch && matchesCategory;
+    });
 
     return (
         <AppLayout>
@@ -93,9 +112,21 @@ export default function BuyArtPage() {
 
                 <div className="marketplace-content">
                     <div className="content-filters">
-                        <button className="filter-btn active">All Artworks</button>
-                        <button className="filter-btn">New Releases</button>
-                        <button className="filter-btn">Trending</button>
+                        <button
+                            className={`filter-btn ${selectedCategory === 'all' ? 'active' : ''}`}
+                            onClick={() => setSelectedCategory('all')}
+                        >
+                            All Artworks
+                        </button>
+                        {categories.map(cat => (
+                            <button
+                                key={cat.id}
+                                className={`filter-btn ${selectedCategory === cat.id ? 'active' : ''}`}
+                                onClick={() => setSelectedCategory(cat.id)}
+                            >
+                                {cat.name}
+                            </button>
+                        ))}
                     </div>
 
                     {loading ? (

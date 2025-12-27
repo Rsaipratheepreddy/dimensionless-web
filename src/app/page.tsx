@@ -4,22 +4,112 @@ import AppLayout from '../components/AppLayout';
 import DashboardHero from '../components/DashboardHero';
 import StatsCards from '../components/StatsCards';
 import ContinueSection, { CarouselItem } from '../components/ContinueSection';
+import UpcomingSection from '../components/UpcomingSection';
 import LessonList from '../components/LessonList';
-import ActionCards from '../components/ActionCards';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/utils/supabase';
 import LottieLoader from '@/components/LottieLoader';
 
 export default function Home() {
     const { profile, loading: authLoading } = useAuth();
     const router = useRouter();
 
+    const [cmsData, setCmsData] = useState<{ [key: string]: any }>({});
+    const [trendingItems, setTrendingItems] = useState<{ [key: string]: any[] }>({
+        art: [],
+        tattoos: [],
+        leasing: []
+    });
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         if (!authLoading && profile?.role === 'admin') {
             router.replace('/admin');
+        } else {
+            fetchCMSData();
         }
     }, [profile, authLoading, router]);
+
+    const fetchCMSData = async () => {
+        try {
+            const { data, error } = await supabase.from('home_config').select('*');
+            if (error) {
+                console.warn('CMS data fetch notice:', error.message || error);
+                setLoading(false);
+                return;
+            }
+            const configMap = (data || []).reduce((acc: any, curr: any) => {
+                acc[curr.id] = curr;
+                return acc;
+            }, {});
+
+            setCmsData(configMap);
+            await fetchTrendingItems(configMap);
+        } catch (error) {
+            console.error('Unexpected error fetching CMS data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchTrendingItems = async (configMap: any) => {
+        const fetchSection = async (id: string, table: string, select: string, mapFn: (item: any) => any) => {
+            const ids = configMap[id]?.items?.map((i: any) => i.id).filter(Boolean) || [];
+            if (ids.length === 0) return [];
+
+            const { data, error } = await supabase.from(table).select(select).in('id', ids);
+            if (error) {
+                console.error(`Error fetching ${id}:`, error);
+                return configMap[id]?.items || []; // Fallback to snapshot
+            }
+
+            const itemsData = (data as any[]) || [];
+
+            // Maintain order of IDs as stored in CMS
+            return ids.map((id: string) => {
+                const item = itemsData.find(d => d.id === id);
+                return item ? mapFn(item) : configMap[id]?.items?.find((i: any) => i.id === id);
+            }).filter(Boolean);
+        };
+
+        const [artItems, tattooItems, leasingItems] = await Promise.all([
+            fetchSection('trending_art', 'paintings', 'id, title, image_url, price, artist:profiles(full_name, avatar_url)', (item) => ({
+                id: item.id,
+                title: item.title,
+                image: item.image_url,
+                price: item.price ? `₹${item.price.toLocaleString()}` : '',
+                artist: item.artist?.full_name,
+                artistAvatar: item.artist?.avatar_url,
+                selected_from: 'paintings'
+            })),
+            fetchSection('trending_tattoos', 'tattoo_designs', 'id, name, image_url, base_price', (item) => ({
+                id: item.id,
+                title: item.name,
+                image: item.image_url,
+                price: item.base_price ? `₹${item.base_price.toLocaleString()}` : '',
+                artist: 'Tattoo Art', // Simplified for now as artisan join is uncertain
+                artistAvatar: '/member-names.png',
+                selected_from: 'tattoo_designs'
+            })),
+            fetchSection('art_leasing', 'leasable_paintings', 'id, title, image_url, artist_name, monthly_rate, artist_avatar_url', (item) => ({
+                id: item.id,
+                title: item.title,
+                image: item.image_url,
+                price: item.monthly_rate ? `₹${item.monthly_rate}/mo` : '',
+                artist: item.artist_name,
+                artistAvatar: item.artist_avatar_url,
+                selected_from: 'leasable_paintings'
+            }))
+        ]);
+
+        setTrendingItems({
+            art: artItems,
+            tattoos: tattooItems,
+            leasing: leasingItems
+        });
+    };
 
     if (authLoading || profile?.role === 'admin') {
         return (
@@ -29,198 +119,44 @@ export default function Home() {
         );
     }
 
-    const artItems: CarouselItem[] = [
-        {
-            title: "Divine Serenity - Buddha Oil Painting",
-            artist: "Leonardo samsul",
-            artistAvatar: "/member-names.png",
-            category: "OIL PAINTING",
-            image: "/painting.png",
-            price: "₹12,500",
-            color: "#0ea5e9"
-        },
-        {
-            title: "Modern Architecture Vision Studio",
-            artist: "Bayu Saito",
-            artistAvatar: "/founder1.png",
-            category: "PHOTOGRAPHY",
-            image: "/studio.png",
-            price: "₹8,000",
-            color: "#6366f1"
-        },
-        {
-            title: "Abstract Branding & Identity Design",
-            artist: "Padhang Satrio",
-            artistAvatar: "/founder2.png",
-            category: "DIGITAL ART",
-            image: "/abtimg.png",
-            price: "₹5,400",
-            color: "#ec4899"
-        },
-        {
-            title: "Cosmic Whispers - Acrylic Mix",
-            artist: "Sarah Chen",
-            artistAvatar: "/member-names.png",
-            category: "ACRYLIC",
-            image: "/painting.png",
-            price: "₹15,200",
-            color: "#8b5cf6"
-        },
-        {
-            title: "Urban Solitude - B&W Collection",
-            artist: "Marcus Bell",
-            artistAvatar: "/founder1.png",
-            category: "SKETCH",
-            image: "/studio.png",
-            price: "₹4,200",
-            color: "#f59e0b"
-        },
-        {
-            title: "Nature's Echo - Water Color",
-            artist: "Elena Rodriguez",
-            artistAvatar: "/founder2.png",
-            category: "WATER COLOR",
-            image: "/abtimg.png",
-            price: "₹9,800",
-            color: "#10b981"
-        }
-    ];
-
-    const tattooItems: CarouselItem[] = [
-        {
-            title: "Minimalist Lotus Fine Line",
-            artist: "Generic",
-            artistAvatar: "/member-names.png",
-            category: "MINIMALIST",
-            image: "/studio.png",
-            color: "#1e293b"
-        },
-        {
-            title: "Neo-Traditional Phoenix Backpiece",
-            artist: "Generic",
-            artistAvatar: "/founder1.png",
-            category: "NEO-TRADITIONAL",
-            image: "/painting.png",
-            color: "#ef4444"
-        },
-        {
-            title: "Geometric Mandala Sleeve",
-            artist: "Generic",
-            artistAvatar: "/founder2.png",
-            category: "GEOMETRIC",
-            image: "/abtimg.png",
-            color: "#6366f1"
-        },
-        {
-            title: "Watercolor Dreamcatcher",
-            artist: "Generic",
-            artistAvatar: "/member-names.png",
-            category: "WATERCOLOR",
-            image: "/studio.png",
-            color: "#ec4899"
-        },
-        {
-            title: "Japanese Irezumi Dragon",
-            artist: "Generic",
-            artistAvatar: "/founder1.png",
-            category: "TRADITIONAL",
-            image: "/painting.png",
-            color: "#f59e0b"
-        },
-        {
-            title: "Tiny Constellation Wrist Tattoo",
-            artist: "Generic",
-            artistAvatar: "/founder2.png",
-            category: "FINELINE",
-            image: "/abtimg.png",
-            color: "#10b981"
-        }
-    ];
-
-    const leasingItems: CarouselItem[] = [
-        {
-            title: "Vibrant Horizon - Corporate Collection",
-            artist: "Studio Ardent",
-            artistAvatar: "/ajay-founder.png",
-            category: "CORPORATE",
-            image: "/studio.png",
-            price: "₹2,500/mo",
-            color: "#1e293b"
-        },
-        {
-            title: "Serenity Flow - Zen Garden Series",
-            artist: "Elena Rodriguez",
-            artistAvatar: "/founder2.png",
-            category: "WELLNESS",
-            image: "/painting.png",
-            price: "₹3,200/mo",
-            color: "#10b981"
-        },
-        {
-            title: "Industrial Echo - Metal Series",
-            artist: "Marcus Bell",
-            artistAvatar: "/founder1.png",
-            category: "INDUSTRIAL",
-            image: "/abtimg.png",
-            price: "₹4,000/mo",
-            color: "#f59e0b"
-        },
-        {
-            title: "Nature's Whispers - Office Set",
-            artist: "Studio Ardent",
-            artistAvatar: "/ajay-founder.png",
-            category: "CORPORATE",
-            image: "/painting.png",
-            price: "₹2,800/mo",
-            color: "#8b5cf6"
-        },
-        {
-            title: "Modern Solitude - Loft Collection",
-            artist: "Bayu Saito",
-            artistAvatar: "/founder1.png",
-            category: "MODERN",
-            image: "/studio.png",
-            price: "₹3,500/mo",
-            color: "#3b82f6"
-        },
-        {
-            title: "Abstract Pulse - Gallery Rental",
-            artist: "Padhang Satrio",
-            artistAvatar: "/founder2.png",
-            category: "EXHIBITION",
-            image: "/abtimg.png",
-            price: "₹5,000/mo",
-            color: "#f43f5e"
-        }
-    ];
+    if (loading) return <AppLayout><LottieLoader /></AppLayout>;
 
     return (
         <AppLayout>
             <div className="dashboard-content">
-                <DashboardHero />
-                <ActionCards />
+                <DashboardHero
+                    slides={cmsData['home_banner']?.items}
+                />
+
+                <UpcomingSection />
 
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
-                    <ContinueSection
-                        title="Trending Art"
-                        items={artItems}
-                        buttonText="Buy Now"
-                    />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem', marginTop: '2rem' }}>
+                    {trendingItems.art.length > 0 && (
+                        <ContinueSection
+                            title={cmsData['trending_art']?.title || "Trending Art"}
+                            items={trendingItems.art}
+                            buttonText="Buy Now"
+                        />
+                    )}
 
-                    <ContinueSection
-                        title="Trending Tattoos"
-                        items={tattooItems}
-                        showPrice={false}
-                        showAvatar={false}
-                        buttonText="Book Slot"
-                    />
+                    {trendingItems.tattoos.length > 0 && (
+                        <ContinueSection
+                            title={cmsData['trending_tattoos']?.title || "Trending Tattoos"}
+                            items={trendingItems.tattoos}
+                            showPrice={false}
+                            showAvatar={true}
+                            buttonText="Book Slot"
+                        />
+                    )}
 
-                    <ContinueSection
-                        title="Art Leasing"
-                        items={leasingItems}
-                        buttonText="Lease Now"
-                    />
+                    {trendingItems.leasing.length > 0 && (
+                        <ContinueSection
+                            title={cmsData['art_leasing']?.title || "Art Leasing"}
+                            items={trendingItems.leasing}
+                            buttonText="Lease"
+                        />
+                    )}
                 </div>
 
                 <LessonList />

@@ -1,70 +1,89 @@
-'use client';
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { IconArrowRight } from '@tabler/icons-react';
 import './DashboardHero.css';
 
-const slides = [
-    {
-        tag: "ONLINE COURSE",
-        title: "Sharpen Your Skills with\nProfessional Online Courses",
-        buttonText: "Join Now",
-        className: "slide-courses"
-    },
-    {
-        tag: "MARKETPLACE",
-        title: "Buy and Sell Your Unique\nArtworks to the World",
-        buttonText: "Browse Art",
-        className: "slide-shop"
-    },
-    {
-        tag: "ART SERVICES",
-        title: "Professional Art Leasing\nand Custom Tattoo Studios",
-        buttonText: "Book Now",
-        className: "slide-services"
-    }
-];
+interface Slide {
+    title?: string;
+    description?: string;
+    image?: string;
+    link?: string;
+}
 
-const DashboardHero: React.FC = () => {
+interface DashboardHeroProps {
+    slides?: Slide[];
+}
+
+export default function DashboardHero({ slides = [] }: DashboardHeroProps) {
+    const { profile } = useAuth();
     const [currentSlide, setCurrentSlide] = useState(0);
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentSlide((prev: number) => (prev + 1) % slides.length);
-        }, 5000);
-        return () => clearInterval(timer);
-    }, []);
+        if (slides.length <= 1) return;
 
-    const slide = slides[currentSlide];
+        const timer = setInterval(() => {
+            setCurrentSlide(prev => (prev + 1) % slides.length);
+        }, 6000);
+
+        return () => clearInterval(timer);
+    }, [slides]);
+
+    if (slides.length === 0) {
+        return (
+            <section className="dashboard-hero-immersive default">
+                <div className="hero-overlay"></div>
+                <div className="hero-content">
+                    <h1 className="hero-title">
+                        Welcome, {profile?.full_name?.split(' ')[0] || 'Member'}!
+                    </h1>
+                    <p className="hero-description">
+                        Your creative journey continues here. Explore new workshops, manage your art, and connect with the community.
+                    </p>
+                    <button className="hero-explore-btn">
+                        Explore Now
+                        <div className="btn-circle">
+                            <IconArrowRight size={20} />
+                        </div>
+                    </button>
+                </div>
+            </section>
+        );
+    }
 
     return (
-        <section className={`dashboard-hero ${slide.className}`}>
-            <div className="hero-content">
-                <span className="hero-tag">{slide.tag}</span>
-                <h1 className="hero-title">
-                    {slide.title.split('\n').map((line, i) => (
-                        <span key={i}>{line}{i === 0 && <br />}</span>
-                    ))}
-                </h1>
-                <button className="hero-btn">
-                    {slide.buttonText}
-                    <span className="btn-icon">→</span>
-                </button>
-            </div>
-            <div className="hero-decor">
-                <div className="decor-star star-1">✦</div>
-                <div className="decor-star star-2">✦</div>
-                <div className="decor-star star-3">✦</div>
-            </div>
+        <section className="dashboard-hero-immersive-container">
+            {slides.map((slide, idx) => (
+                <div
+                    key={idx}
+                    className={`hero-slide ${idx === currentSlide ? 'active' : ''}`}
+                    style={slide.image ? { backgroundImage: `url(${slide.image})` } : {}}
+                >
+                    <div className="hero-overlay"></div>
+                    <div className="hero-content">
+                        <h1 className="hero-title">{slide.title}</h1>
+                        <p className="hero-description">{slide.description}</p>
+                        <button
+                            className="hero-explore-btn"
+                            onClick={() => slide.link && (window.location.href = slide.link)}
+                        >
+                            Explore Now
+                            <div className="btn-circle">
+                                <IconArrowRight size={20} />
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            ))}
+
             <div className="carousel-indicators">
-                {slides.map((_, i) => (
-                    <div
-                        key={i}
-                        className={`indicator ${i === currentSlide ? 'active' : ''}`}
-                        onClick={() => setCurrentSlide(i)}
+                {slides.map((_, idx) => (
+                    <button
+                        key={idx}
+                        className={`indicator-bar ${idx === currentSlide ? 'active' : ''}`}
+                        onClick={() => setCurrentSlide(idx)}
                     />
                 ))}
             </div>
         </section>
     );
-};
-
-export default DashboardHero;
+}

@@ -45,8 +45,10 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
+
 
 .stat-icon {
     width: 48px;
@@ -74,7 +76,12 @@
 
 .stat-icon.volume {
     background: rgba(139, 92, 246, 0.1);
-    color: #8b5e36;
+    color: #8b5cf6;
+}
+
+.stat-icon.users-active {
+    background: rgba(236, 72, 153, 0.1);
+    color: #ec4899;
 }
 
 .stat-info h3 {
@@ -107,17 +114,18 @@
     background: var(--color-primary);
     color: white;
     font-weight: 600;
-    transition: all 0.2s ease;
+    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 8px;
+    border: 1px solid transparent;
 }
 
-.action-btn-admin:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    opacity: 0.9;
+.action-btn-admin.highlight {
+    background: linear-gradient(135deg, var(--color-primary), #6366f1);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
 }
+
 
 .action-btn-admin.secondary {
     background: var(--bg-secondary);

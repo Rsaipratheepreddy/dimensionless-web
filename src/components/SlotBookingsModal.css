@@ -1,0 +1,157 @@
+.slot-bookings-modal {
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.booking-item {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.booking-header {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.design-thumb {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.booking-info h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0 0 8px 0;
+}
+
+.status-badges {
+    display: flex;
+    gap: 8px;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.badge.confirmed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.badge.pending_verification,
+.badge.payment_pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge.completed {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.customer-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: var(--bg-card);
+    border-radius: 8px;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.booking-notes {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 12px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.booking-notes strong {
+    color: var(--text-main);
+}
+
+.booking-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.booking-footer .price {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.booking-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.action-btn.accept {
+    background: #10b981;
+    color: white;
+}
+
+.action-btn.accept:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+.action-btn.reject {
+    background: #ef4444;
+    color: white;
+}
+
+.action-btn.reject:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.loading,
+.empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-secondary);
+}
