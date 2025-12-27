@@ -39,6 +39,16 @@ const InstallPWA: React.FC = () => {
 
         window.addEventListener('beforeinstallprompt', handler);
 
+        // Fallback: If after 10 seconds we haven't received the event, 
+        // and we aren't standalone, show the banner anyway with manual instructions 
+        // to help users find the Chrome menu option.
+        const fallbackTimer = setTimeout(() => {
+            const isDismissed = localStorage.getItem('pwa-prompt-dismissed');
+            if (!isDismissed && !isStandaloneMode && !supportsPWA) {
+                setIsVisible(true);
+            }
+        }, 10000);
+
         // For iOS, show if not standalone and not dismissed
         if (ios && !isStandaloneMode) {
             const isDismissed = localStorage.getItem('pwa-prompt-dismissed');
@@ -47,7 +57,10 @@ const InstallPWA: React.FC = () => {
             }
         }
 
-        return () => window.removeEventListener('beforeinstallprompt', handler);
+        return () => {
+            window.removeEventListener('beforeinstallprompt', handler);
+            clearTimeout(fallbackTimer);
+        };
     }, []);
 
     const onClickInstall = async () => {
@@ -77,6 +90,12 @@ const InstallPWA: React.FC = () => {
                 {isIOS && (
                     <div className="ios-guide">
                         Tap <IconShare size={18} /> then <strong>"Add to Home Screen"</strong>
+                    </div>
+                )}
+
+                {!isIOS && !supportsPWA && (
+                    <div className="ios-guide">
+                        Tap the 3 dots (⋮) then <strong>"Install App"</strong>
                     </div>
                 )}
             </div>
