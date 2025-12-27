@@ -1,0 +1,114 @@
+.install-pwa-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-xl);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 9999;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(120%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.install-pwa-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+}
+
+.install-pwa-content {
+    flex: 1;
+}
+
+.install-pwa-content h4 {
+    margin: 0 0 4px 0;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.install-pwa-content p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.install-pwa-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.install-btn {
+    background: var(--color-primary);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.install-btn:hover {
+    opacity: 0.9;
+}
+
+.dismiss-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    padding: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.ios-guide {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-top: 8px;
+}
+
+.ios-share-icon {
+    width: 20px;
+    height: 20px;
+}
+
+@media (max-width: 768px) {
+    .install-pwa-banner {
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .install-pwa-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .install-btn {
+        width: 100%;
+    }
+}

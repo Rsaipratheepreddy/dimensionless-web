@@ -3,6 +3,7 @@ import './AppLayout.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import CategorySidebar from './CategorySidebar';
+import InstallPWA from './InstallPWA';
 import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
@@ -53,6 +54,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             {isMobileSidebarOpen && (
                 <div className="sidebar-overlay" onClick={() => setIsMobileSidebarOpen(false)} />
             )}
+            <InstallPWA />
         </div>
     );
 };
