@@ -10,9 +10,9 @@ import {
     IconBuilding,
     IconBrush
 } from '@tabler/icons-react';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 import Link from 'next/link';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { toast } from 'react-hot-toast';
 import '../page.css';
 

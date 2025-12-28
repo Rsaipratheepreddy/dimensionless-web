@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconSettings, IconCircleCheck, IconCheck, IconAlertCircle } from '@tabler/icons-react';
-import LottieLoader from '@/components/LottieLoader';
-import AppLayout from '@/components/AppLayout';
+import LottieLoader from '@/components/ui/LottieLoader';
+import AppLayout from '@/components/layout/AppLayout';
 import { toast } from 'react-hot-toast';
 import './page.css';
 

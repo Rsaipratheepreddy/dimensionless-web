@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import {
     IconCalendar,
@@ -16,6 +16,7 @@ import {
 import Link from 'next/link';
 import './UpcomingSection.css';
 import { supabase } from '@/utils/supabase';
+import { getOptimizedImageUrl } from '@/utils/image-optimization';
 
 type TabType = 'tattoos' | 'events' | 'classes';
 
@@ -31,7 +32,7 @@ interface UpcomingItem {
     link: string;
 }
 
-export default function UpcomingSection() {
+const UpcomingSection = () => {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<TabType>('events');
     const [loading, setLoading] = useState<{ [key in TabType]: boolean }>({
@@ -103,9 +104,13 @@ export default function UpcomingSection() {
         try {
             const response = await fetch('/api/bookings');
             const data = await response.json();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
             const filtered = data.filter((b: any) => {
                 const bookingDate = new Date(b.booking_date);
-                return bookingDate >= new Date() && b.status !== 'cancelled';
+                bookingDate.setHours(0, 0, 0, 0);
+                return bookingDate >= today && b.status !== 'cancelled';
             }).map((b: any) => ({
                 id: b.id,
                 title: b.tattoo_designs?.name || 'Tattoo Session',
@@ -290,7 +295,10 @@ export default function UpcomingSection() {
                             {currentItems.map(item => (
                                 <Link href={item.link} key={`${item.id}-${item.type}`} className={`upcoming-card ${item.isRegistered ? 'registered' : ''}`}>
                                     <div className="card-image">
-                                        <img src={item.image || '/painting.png'} alt={item.title} />
+                                        <img
+                                            src={getOptimizedImageUrl(item.image || '/painting.png', { width: 400, format: 'webp' })}
+                                            alt={item.title}
+                                        />
                                         <span className={`status-badge ${item.type.toLowerCase()}`}>
                                             {item.type}
                                         </span>
@@ -341,4 +349,6 @@ export default function UpcomingSection() {
             </div>
         </section>
     );
-}
+};
+
+export default React.memo(UpcomingSection);

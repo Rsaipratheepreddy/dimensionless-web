@@ -2,6 +2,7 @@
 import React from 'react';
 import { IconHeart, IconTrash, IconEdit } from '@tabler/icons-react';
 import './ArtCard.css';
+import { getOptimizedImageUrl } from '@/utils/image-optimization';
 
 interface ArtCardProps {
     title: string;
@@ -35,7 +36,11 @@ const ArtCard: React.FC<ArtCardProps> = ({
     return (
         <div className="art-card-premium" onClick={onClick}>
             <div className="art-card-image-wrap">
-                <img src={image || '/placeholder-art.png'} alt={title} className="art-card-img" />
+                <img
+                    src={getOptimizedImageUrl(image || '/placeholder-art.png', { width: 500, format: 'webp' })}
+                    alt={title}
+                    className="art-card-img"
+                />
 
                 {/* Status Badge for Owner view */}
                 {isOwner && (
@@ -69,7 +74,11 @@ const ArtCard: React.FC<ArtCardProps> = ({
 
                         {showArtist && (
                             <div className="art-card-artist">
-                                <img src={artistAvatar || '/founder1.png'} alt={artistName} className="art-artist-avatar" />
+                                <img
+                                    src={getOptimizedImageUrl(artistAvatar || '/founder1.png', { width: 60, format: 'webp' })}
+                                    alt={artistName}
+                                    className="art-artist-avatar"
+                                />
                                 <div className="art-artist-details">
                                     <span className="art-artist-name">{artistName || 'Unknown Artist'}</span>
                                     <span className="art-artist-label">Artist</span>

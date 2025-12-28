@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { IconSearch, IconCalendar, IconClock } from '@tabler/icons-react';
 import './page.css';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 import { useAuth } from '@/contexts/AuthContext';
-import MyBookings from '@/components/MyBookings';
+import MyBookings from '@/components/features/dashboard/MyBookings';
 
 interface TattooDesign {
     id: string;

@@ -14,8 +14,8 @@ import {
     IconX,
     IconTruckDelivery
 } from '@tabler/icons-react';
-import LottieLoader from '@/components/LottieLoader';
-import AppLayout from '@/components/AppLayout';
+import LottieLoader from '@/components/ui/LottieLoader';
+import AppLayout from '@/components/layout/AppLayout';
 import { toast } from 'react-hot-toast';
 import './page.css';
 

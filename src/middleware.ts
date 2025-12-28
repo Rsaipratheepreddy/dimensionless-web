@@ -62,9 +62,6 @@ export async function middleware(request: NextRequest) {
         }
     )
 
-    // IMPORTANT: use getUser() not getSession() for security/reliability
-    const { data: { user } } = await supabase.auth.getUser()
-
     const { pathname } = request.nextUrl
 
     // Protect these routes (requires login)
@@ -73,9 +70,17 @@ export async function middleware(request: NextRequest) {
         pathname === route || pathname.startsWith(`${route}/`)
     )
 
-    // Public auth routes (requires NO login)
+    // Public auth routes (requires NO login - redirect to home if logged in)
     const authRoutes = ['/login', '/signup']
     const isAuthRoute = authRoutes.some(route => pathname === route)
+
+    // Only call getUser() if we are on a protected route or an auth route
+    // This saves a major network call for public API routes like /api/home-data
+    let user = null;
+    if (isProtectedRoute || isAuthRoute) {
+        const { data: { user: authUser } } = await supabase.auth.getUser()
+        user = authUser;
+    }
 
     // Redirect to login if accessing protected route while logged out
     if (!user && isProtectedRoute) {
@@ -85,7 +90,6 @@ export async function middleware(request: NextRequest) {
     }
 
     // Redirect to home if accessing login/signup while already logged in
-    // We only do this if a user actually exists to avoid loop
     if (user && isAuthRoute) {
         const url = request.nextUrl.clone()
         url.pathname = '/'

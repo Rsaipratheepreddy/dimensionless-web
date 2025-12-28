@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/utils/supabase';
+import { getOptimizedImageUrl } from '@/utils/image-optimization';
 
 interface HeaderProps {
     onMenuClick: () => void;
@@ -127,7 +128,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                                                 notifications.map(n => (
                                                     <div key={n.id} className={`notification-item ${!n.is_read ? 'unread' : ''}`}>
                                                         <img
-                                                            src={n.actor?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(n.actor?.full_name || 'U')}`}
+                                                            src={getOptimizedImageUrl(n.actor?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(n.actor?.full_name || 'U')}`, { width: 40, format: 'webp' })}
                                                             className="notification-avatar"
                                                             alt=""
                                                         />
@@ -146,7 +147,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
                         <Link href={`/profile/${profile?.id}`} className="user-profile">
                             <img
-                                src={profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.full_name || 'User')}&background=5b4fe8&color=fff`}
+                                src={getOptimizedImageUrl(profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.full_name || 'User')}&background=5b4fe8&color=fff`, { width: 40, format: 'webp' })}
                                 alt="User Avatar"
                                 className="user-avatar"
                             />

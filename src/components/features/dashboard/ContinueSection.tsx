@@ -1,6 +1,7 @@
 'use client';
+import React from 'react';
 import './ContinueSection.css';
-import { IconChevronLeft, IconChevronRight, IconHeart } from '@tabler/icons-react';
+import { getOptimizedImageUrl } from '@/utils/image-optimization';
 
 export interface CarouselItem {
     id?: string;
@@ -57,7 +58,11 @@ const ContinueSection: React.FC<ContinueSectionProps> = ({
                             className={`continue-card ${isSold ? 'sold-out' : ''}`}
                             onClick={() => window.location.href = getLink()}
                         >
-                            <img src={item.image} alt={item.title} className="card-background-image" />
+                            <img
+                                src={getOptimizedImageUrl(item.image, { width: 600, format: 'webp' })}
+                                alt={item.title}
+                                className="card-background-image"
+                            />
 
                             <div className="card-overlay-top">
                                 {/* Heart button removed as per user request */}
@@ -69,7 +74,11 @@ const ContinueSection: React.FC<ContinueSectionProps> = ({
                                 <div className="card-footer-overlay">
                                     {showAvatar && (
                                         <div className="artist-profile-overlay">
-                                            <img src={item.artistAvatar || '/member-names.png'} alt={item.artist} className="artist-avatar-overlay" />
+                                            <img
+                                                src={getOptimizedImageUrl(item.artistAvatar || '/member-names.png', { width: 80, format: 'webp' })}
+                                                alt={item.artist}
+                                                className="artist-avatar-overlay"
+                                            />
                                             <div className="artist-info-overlay">
                                                 <span className="artist-name-overlay">{item.artist}</span>
                                                 <span className="artist-label-overlay">Artist</span>
@@ -95,4 +104,4 @@ const ContinueSection: React.FC<ContinueSectionProps> = ({
     );
 };
 
-export default ContinueSection;
+export default React.memo(ContinueSection);

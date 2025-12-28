@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import {
     IconSettings,
     IconDeviceFloppy,
@@ -19,7 +19,7 @@ import {
     IconSearch
 } from '@tabler/icons-react';
 import { toast } from 'react-hot-toast';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 import { supabase } from '@/utils/supabase';
 import './page.css';
 

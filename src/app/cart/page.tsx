@@ -2,7 +2,7 @@
 import React from 'react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { IconTrash, IconShoppingCart, IconArrowRight, IconBrush } from '@tabler/icons-react';
 import Link from 'next/link';
 import './page.css';

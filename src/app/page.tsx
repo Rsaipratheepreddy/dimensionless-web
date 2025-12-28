@@ -1,17 +1,17 @@
 'use client';
 
-import AppLayout from '../components/AppLayout';
-import DashboardHero from '../components/DashboardHero';
-import StatsCards from '../components/StatsCards';
-import ContinueSection, { CarouselItem } from '../components/ContinueSection';
-import UpcomingSection from '../components/UpcomingSection';
-import LessonList from '../components/LessonList';
-import { HeroShimmer, CarouselShimmer } from '../components/ShimmerCard';
+import AppLayout from '@/components/layout/AppLayout';
+import DashboardHero from '@/components/features/dashboard/DashboardHero';
+import StatsCards from '@/components/features/dashboard/StatsCards';
+import ContinueSection, { CarouselItem } from '@/components/features/dashboard/ContinueSection';
+import UpcomingSection from '@/components/features/dashboard/UpcomingSection';
+import LessonList from '@/components/features/art-classes/LessonList';
+import { HeroShimmer, CarouselShimmer } from '@/components/ui/ShimmerCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/utils/supabase';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 
 export default function Home() {
     const { profile, loading: authLoading } = useAuth();

@@ -4,8 +4,8 @@ import { supabase } from '@/utils/supabase';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconUsers, IconShoppingCart, IconCash, IconAlertCircle } from '@tabler/icons-react';
-import LottieLoader from '@/components/LottieLoader';
-import AppLayout from '@/components/AppLayout';
+import LottieLoader from '@/components/ui/LottieLoader';
+import AppLayout from '@/components/layout/AppLayout';
 import './page.css';
 
 export default function AdminDashboard() {

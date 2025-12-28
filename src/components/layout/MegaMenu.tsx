@@ -3,8 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import './MegaMenu.css';
 import { useState, useEffect } from 'react';
-import { cmsData } from '../data/cmsData';
-import { useTheme } from '../contexts/ThemeContext';
+import { cmsData } from '@/data/cmsData';
+import { useTheme } from '@/contexts/ThemeContext';
 import {
     IconBrush,
     IconDiamond,

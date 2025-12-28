@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, useParams } from 'next/navigation';
 import {
@@ -18,7 +18,7 @@ import {
 } from '@tabler/icons-react';
 import { supabase } from '@/utils/supabase';
 import './editor.css';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 import { toast } from 'react-hot-toast';
 
 interface Session {

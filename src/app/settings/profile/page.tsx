@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconUser, IconCamera, IconLoader2, IconCheck, IconChevronLeft } from '@tabler/icons-react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import './page.css';

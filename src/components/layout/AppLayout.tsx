@@ -2,11 +2,12 @@
 import './AppLayout.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import CategorySidebar from './CategorySidebar';
-import InstallPWA from './InstallPWA';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import InstallPWA from '../ui/InstallPWA';
+import CategorySidebar from '../features/tattoos/CategorySidebar';
 
 interface AppLayoutProps {
     children: React.ReactNode;

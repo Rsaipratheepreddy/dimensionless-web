@@ -1,6 +1,6 @@
 'use client';
+import ConfirmModal from '@/components/ui/ConfirmModal';
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import ConfirmModal from '../components/ConfirmModal';
 
 interface ModalOptions {
     title: string;

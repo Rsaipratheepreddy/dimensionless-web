@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconArrowRight } from '@tabler/icons-react';
 import './DashboardHero.css';
+import { getOptimizedImageUrl } from '@/utils/image-optimization';
 
 interface Slide {
     title?: string;
@@ -56,7 +57,9 @@ export default function DashboardHero({ slides = [] }: DashboardHeroProps) {
                 <div
                     key={idx}
                     className={`hero-slide ${idx === currentSlide ? 'active' : ''}`}
-                    style={slide.image ? { backgroundImage: `url(${slide.image})` } : {}}
+                    style={slide.image ? {
+                        backgroundImage: `url(${getOptimizedImageUrl(slide.image, { width: 1200, format: 'webp' })})`
+                    } : {}}
                 >
                     <div className="hero-overlay"></div>
                     <div className="hero-content">

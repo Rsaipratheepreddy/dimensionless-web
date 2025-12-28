@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import {
     IconSearch,
     IconCalendarEvent,
@@ -11,7 +11,7 @@ import {
 import Link from 'next/link';
 import './page.css';
 import { toast } from 'react-hot-toast';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 import { supabase } from '@/utils/supabase';
 
 interface ArtClass {

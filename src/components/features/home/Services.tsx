@@ -12,7 +12,7 @@ import {
     IconSchool,
     IconBuilding
 } from '@tabler/icons-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import './Services.css';
 
 gsap.registerPlugin(ScrollTrigger);

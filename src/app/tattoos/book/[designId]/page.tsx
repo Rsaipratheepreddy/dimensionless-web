@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconCheck, IconChevronLeft, IconChevronRight, IconCalendar, IconClock, IconUpload, IconX } from '@tabler/icons-react';
 import './page.css';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 import { toast } from 'react-hot-toast';
 
 interface TattooDesign {

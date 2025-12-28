@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { IconSearch, IconFilter, IconCheck, IconX, IconUser, IconMail, IconPhone, IconCalendar, IconClock } from '@tabler/icons-react';
 import { toast } from 'react-hot-toast';
 import { useModal } from '@/contexts/ModalContext';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 import './page.css';
 
 interface Booking {

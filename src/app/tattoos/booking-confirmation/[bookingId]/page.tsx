@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { IconCheck, IconCalendar, IconClock, IconCreditCard, IconHome } from '@tabler/icons-react';
 import './page.css';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 
 interface Booking {
     id: string;

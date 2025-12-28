@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/utils/supabase';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { IconShieldCheck, IconArrowLeft, IconLoader2, IconCircleCheck } from '@tabler/icons-react';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';

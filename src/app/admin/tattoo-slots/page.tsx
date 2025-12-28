@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { IconPlus, IconCalendar, IconClock, IconTrash, IconUsers, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import './page.css';
-import LottieLoader from '@/components/LottieLoader';
-import AddSlotModal from '@/components/AddSlotModal';
-import SlotBookingsModal from '@/components/SlotBookingsModal';
+import LottieLoader from '@/components/ui/LottieLoader';
+import AddSlotModal from '@/components/features/art-classes/AddSlotModal';
+import SlotBookingsModal from '@/components/features/admin/SlotBookingsModal';
 import { useModal } from '@/contexts/ModalContext';
 import { toast } from 'react-hot-toast';
 

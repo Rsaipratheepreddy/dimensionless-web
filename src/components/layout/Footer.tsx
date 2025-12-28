@@ -10,7 +10,7 @@ import {
     IconPhone,
     IconMapPin
 } from '@tabler/icons-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import './Footer.css';
 
 export interface FooterProps {

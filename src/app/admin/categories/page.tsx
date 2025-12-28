@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { IconPlus, IconEdit, IconTrash, IconPalette } from '@tabler/icons-react';
 import './page.css';
-import LottieLoader from '@/components/LottieLoader';
-import AddCategoryModal from '@/components/AddCategoryModal';
+import LottieLoader from '@/components/ui/LottieLoader';
+import AddCategoryModal from '@/components/features/admin/AddCategoryModal';
 
 interface Category {
     id: string;

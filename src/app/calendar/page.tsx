@@ -1,5 +1,5 @@
-import AppLayout from '@/components/AppLayout';
-import CalendarView from '@/components/CalendarView';
+import AppLayout from '@/components/layout/AppLayout';
+import CalendarView from '@/components/features/art-classes/CalendarView';
 
 export default function CalendarPage() {
     return (

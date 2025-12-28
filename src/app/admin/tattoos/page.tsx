@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { IconPlus, IconEdit, IconTrash, IconEye, IconEyeOff } from '@tabler/icons-react';
 import { useModal } from '@/contexts/ModalContext';
 import { toast } from 'react-hot-toast';
 import './page.css';
-import LottieLoader from '@/components/LottieLoader';
-import AddDesignModal from '@/components/AddDesignModal';
+import LottieLoader from '@/components/ui/LottieLoader';
+import AddDesignModal from '@/components/features/tattoos/AddDesignModal';
 
 interface TattooDesign {
     id: string;

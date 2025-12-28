@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import './LessonList.css';
 import { IconArrowUpRight, IconVideo } from '@tabler/icons-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { getOptimizedImageUrl } from '@/utils/image-optimization';
 import Link from 'next/link';
 
 interface Registration {
@@ -85,7 +86,7 @@ const LessonList: React.FC = () => {
                                     <td>
                                         <div className="mentor-cell">
                                             <img
-                                                src={reg.art_classes.thumbnail_url || '/painting.png'}
+                                                src={getOptimizedImageUrl(reg.art_classes.thumbnail_url || '/painting.png', { width: 100, format: 'webp' })}
                                                 alt={reg.art_classes.title}
                                                 className="table-avatar"
                                             />

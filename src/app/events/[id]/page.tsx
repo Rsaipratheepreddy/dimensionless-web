@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, use } from 'react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import {
@@ -15,7 +15,7 @@ import {
     IconArrowLeft
 } from '@tabler/icons-react';
 import './details.css';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 import { toast } from 'react-hot-toast';
 import Script from 'next/script';
 import Link from 'next/link';

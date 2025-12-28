@@ -21,10 +21,10 @@ import {
     IconMessage,
     IconPlus
 } from '@tabler/icons-react';
-import AppLayout from '@/components/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import { toast } from 'react-hot-toast';
 import './page.css';
-import LottieLoader from '@/components/LottieLoader';
+import LottieLoader from '@/components/ui/LottieLoader';
 
 interface Post {
     id: string;

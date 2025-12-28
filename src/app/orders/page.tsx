@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconPackage, IconExternalLink } from '@tabler/icons-react';
-import LottieLoader from '@/components/LottieLoader';
-import AppLayout from '@/components/AppLayout';
+import LottieLoader from '@/components/ui/LottieLoader';
+import AppLayout from '@/components/layout/AppLayout';
 import './page.css';
 
 interface Order {

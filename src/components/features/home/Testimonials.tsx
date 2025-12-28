@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { IconStar } from '@tabler/icons-react';
 import './Testimonials.css';
+import { getOptimizedImageUrl } from '@/utils/image-optimization';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -185,7 +186,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className = '' }) => {
                                 </div>
                                 <div className="testimonial-author">
                                     <div className="author-avatar">
-                                        <img src={testimonial.avatar} alt={testimonial.author} />
+                                        <img src={getOptimizedImageUrl(testimonial.avatar, { width: 60, format: "webp" })} alt={testimonial.author} />
                                     </div>
                                     <div className="author-info">
                                         <h4 className="author-name">{testimonial.author}</h4>
@@ -206,7 +207,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ className = '' }) => {
                                 </div>
                                 <div className="testimonial-author">
                                     <div className="author-avatar">
-                                        <img src={testimonial.avatar} alt={testimonial.author} />
+                                        <img src={getOptimizedImageUrl(testimonial.avatar, { width: 60, format: "webp" })} alt={testimonial.author} />
                                     </div>
                                     <div className="author-info">
                                         <h4 className="author-name">{testimonial.author}</h4>

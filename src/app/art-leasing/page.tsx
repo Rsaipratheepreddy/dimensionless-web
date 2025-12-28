@@ -11,8 +11,8 @@ import {
     IconHeart
 } from '@tabler/icons-react';
 import Link from 'next/link';
-import LottieLoader from '@/components/LottieLoader';
-import AppLayout from '@/components/AppLayout';
+import LottieLoader from '@/components/ui/LottieLoader';
+import AppLayout from '@/components/layout/AppLayout';
 import './page.css';
 
 interface LeasablePainting {
