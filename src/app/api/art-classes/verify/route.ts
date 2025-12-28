@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
 
 // POST /api/art-classes/verify - Verify Razorpay payment and activate registration
 export async function POST(req: NextRequest) {
@@ -28,24 +27,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 });
         }
 
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
 
         // 2. Fetch registration details
         const { data: registration, error: regError } = await supabase
@@ -62,6 +44,7 @@ export async function POST(req: NextRequest) {
             .single();
 
         if (regError || !registration) {
+            console.error('Registration not found for verification:', regError);
             throw new Error('Registration not found');
         }
 
@@ -73,9 +56,9 @@ export async function POST(req: NextRequest) {
         };
 
         // If it was a subscription, calculate expiry
-        if (registration.type === 'subscription' && registration.art_classes.subscription_duration) {
+        if (registration.type === 'subscription' && (registration.art_classes as any)?.subscription_duration) {
             const expiry = new Date();
-            expiry.setDate(expiry.getDate() + registration.art_classes.subscription_duration);
+            expiry.setDate(expiry.getDate() + (registration.art_classes as any).subscription_duration);
             updateData.expires_at = expiry.toISOString();
         }
 
@@ -85,8 +68,6 @@ export async function POST(req: NextRequest) {
             .eq('id', registrationId);
 
         if (updateError) throw updateError;
-
-        // 4. Record attendance/history if needed (optional for now)
 
         return NextResponse.json({ success: true });
     } catch (error: any) {

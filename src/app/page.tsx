@@ -35,50 +35,40 @@ export default function Home() {
 
     const fetchCMSData = async () => {
         try {
-            // Fetch CMS config and all trending items in parallel
-            const [cmsResult, artResult, tattooResult, leasingResult] = await Promise.allSettled([
-                supabase.from('home_config').select('*'),
-                supabase.from('paintings').select('id, title, image_url, price, artist:profiles(full_name, avatar_url)').limit(10),
-                supabase.from('tattoo_designs').select('id, name, image_url, base_price').limit(10),
-                supabase.from('leasable_paintings').select('id, title, image_url, artist_name, monthly_rate, artist_avatar_url').limit(10)
-            ]);
+            const response = await fetch('/api/home-data');
+            const data = await response.json();
+
+            if (!response.ok) throw new Error(data.error || 'Failed to fetch home data');
 
             // Process CMS config
-            let configMap: any = {};
-            if (cmsResult.status === 'fulfilled' && cmsResult.value.data) {
-                configMap = (cmsResult.value.data || []).reduce((acc: any, curr: any) => {
-                    acc[curr.id] = curr;
-                    return acc;
-                }, {});
-                setCmsData(configMap);
-            }
+            const configMap = (data.cms || []).reduce((acc: any, curr: any) => {
+                acc[curr.id] = curr;
+                return acc;
+            }, {});
+            setCmsData(configMap);
 
             // Process trending items with fallback
             const processItems = (
-                result: PromiseSettledResult<any>,
+                itemData: any[],
                 configKey: string,
                 mapFn: (item: any) => any
             ) => {
-                if (result.status === 'fulfilled' && result.value.data) {
-                    const ids = configMap[configKey]?.items?.map((i: any) => i.id).filter(Boolean) || [];
-                    const data = result.value.data || [];
+                const ids = configMap[configKey]?.items?.map((i: any) => i.id).filter(Boolean) || [];
+                const items = itemData || [];
 
-                    if (ids.length > 0) {
-                        // Filter and order by CMS config
-                        return ids.map((id: string) => {
-                            const item = data.find((d: any) => d.id === id);
-                            return item ? mapFn(item) : null;
-                        }).filter(Boolean);
-                    }
-                    // If no CMS config, return first few items
-                    return data.slice(0, 6).map(mapFn);
+                if (ids.length > 0) {
+                    // Filter and order by CMS config
+                    return ids.map((id: string) => {
+                        const item = items.find((d: any) => d.id === id);
+                        return item ? mapFn(item) : null;
+                    }).filter(Boolean);
                 }
-                // Fallback to CMS snapshot
-                return configMap[configKey]?.items || [];
+                // If no CMS config, return first few items
+                return items.slice(0, 6).map(mapFn);
             };
 
             setTrendingItems({
-                art: processItems(artResult, 'trending_art', (item) => ({
+                art: processItems(data.art, 'trending_art', (item) => ({
                     id: item.id,
                     title: item.title,
                     image: item.image_url,
@@ -87,7 +77,7 @@ export default function Home() {
                     artistAvatar: item.artist?.avatar_url,
                     selected_from: 'paintings'
                 })),
-                tattoos: processItems(tattooResult, 'trending_tattoos', (item) => ({
+                tattoos: processItems(data.tattoos, 'trending_tattoos', (item) => ({
                     id: item.id,
                     title: item.name,
                     image: item.image_url,
@@ -96,7 +86,7 @@ export default function Home() {
                     artistAvatar: '/member-names.png',
                     selected_from: 'tattoo_designs'
                 })),
-                leasing: processItems(leasingResult, 'art_leasing', (item) => ({
+                leasing: processItems(data.leasing, 'art_leasing', (item) => ({
                     id: item.id,
                     title: item.title,
                     image: item.image_url,

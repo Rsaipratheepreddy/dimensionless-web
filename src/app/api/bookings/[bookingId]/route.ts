@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
 
 // PATCH /api/bookings/[bookingId] - Update booking status
 export async function PATCH(
@@ -8,24 +7,9 @@ export async function PATCH(
     { params }: { params: Promise<{ bookingId: string }> }
 ) {
     try {
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
         const { bookingId } = await params;
         const body = await request.json();
@@ -34,6 +18,8 @@ export async function PATCH(
             .from('tattoo_bookings')
             .update(body)
             .eq('id', bookingId)
+            // Ensure user can only update their own booking OR is admin (RLS should handle this, but good to be explicit here)
+            .eq('user_id', user.id)
             .select()
             .single();
 
@@ -55,24 +41,9 @@ export async function GET(
     { params }: { params: Promise<{ bookingId: string }> }
 ) {
     try {
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
         const { bookingId } = await params;
 
@@ -86,6 +57,7 @@ export async function GET(
                 )
             `)
             .eq('id', bookingId)
+            .eq('user_id', user.id)
             .single();
 
         if (error) throw error;

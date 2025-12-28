@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { razorpay } from '@/utils/razorpay';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
 
 // POST /api/art-classes/checkout - Create Razorpay order for class registration
 export async function POST(req: NextRequest) {
@@ -10,6 +9,14 @@ export async function POST(req: NextRequest) {
 
         if (!registrationId || !amount) {
             return NextResponse.json({ error: 'Missing registration details' }, { status: 400 });
+        }
+
+        const supabase = await createClient();
+
+        // Check for admin role or simply if user exists (already checked in register, but good to be safe)
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
         // Create Razorpay Order
@@ -22,29 +29,11 @@ export async function POST(req: NextRequest) {
         const order = await razorpay.orders.create(options);
 
         // Update registration with order ID
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
-
         await supabase
             .from('art_class_registrations')
             .update({ razorpay_order_id: order.id })
-            .eq('id', registrationId);
+            .eq('id', registrationId)
+            .eq('user_id', user.id); // Security: ensure user owns registration
 
         return NextResponse.json({
             orderId: order.id,

@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
+
+async function verifyAdmin(supabase: any) {
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) return { error: 'Unauthorized', status: 401 };
+
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    if (profile?.role !== 'admin') return { error: 'Forbidden', status: 403 };
+    return { user };
+}
 
 // GET /api/admin/art-classes/[id] - Fetch single class with sessions
 export async function GET(
@@ -16,39 +29,10 @@ export async function GET(
             return NextResponse.json({ error: 'Invalid class ID' }, { status: 400 });
         }
 
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
-
-        // Verify admin role
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        if (authError || !user) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
-
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single();
-
-        if (profile?.role !== 'admin') {
-            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        const supabase = await createClient();
+        const verification = await verifyAdmin(supabase);
+        if ('error' in verification) {
+            return NextResponse.json({ error: verification.error }, { status: verification.status });
         }
 
         // Fetch class and sessions
@@ -56,7 +40,8 @@ export async function GET(
             .from('art_classes')
             .select(`
                 *,
-                sessions:art_class_sessions(*)
+                sessions:art_class_sessions(*),
+                art_class_categories(name)
             `)
             .eq('id', id)
             .single();
@@ -80,39 +65,10 @@ export async function PUT(
         const body = await request.json();
         const { sessions, id: _id, created_at, updated_at, ...updateData } = body;
 
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
-
-        // Verify admin role
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        if (authError || !user) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
-
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single();
-
-        if (profile?.role !== 'admin') {
-            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        const supabase = await createClient();
+        const verification = await verifyAdmin(supabase);
+        if ('error' in verification) {
+            return NextResponse.json({ error: verification.error }, { status: verification.status });
         }
 
         // 1. Update Class
@@ -128,8 +84,7 @@ export async function PUT(
 
         if (classError) throw classError;
 
-        // 2. Update Sessions (Delete existing and insert new for simplicity, or do complex sync)
-        // For now, simpler: delete all for this class and re-insert
+        // 2. Update Sessions
         await supabase.from('art_class_sessions').delete().eq('class_id', id);
 
         if (sessions && sessions.length > 0) {

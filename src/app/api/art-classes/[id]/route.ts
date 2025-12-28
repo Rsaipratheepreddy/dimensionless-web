@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
 
 // GET /api/art-classes/[id] - Fetch single class with basic session info
 export async function GET(
@@ -16,24 +15,7 @@ export async function GET(
             return NextResponse.json({ error: 'Invalid class ID' }, { status: 400 });
         }
 
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
 
         const { data: { user } } = await supabase.auth.getUser();
 
@@ -48,7 +30,10 @@ export async function GET(
             .eq('status', 'published')
             .single();
 
-        if (classError) throw classError;
+        if (classError) {
+            console.error('Error fetching art class:', classError);
+            return NextResponse.json({ error: 'Art class not found' }, { status: 404 });
+        }
 
         // 2. Check if user is registered
         let registration = null;
@@ -59,12 +44,11 @@ export async function GET(
                 .eq('user_id', user.id)
                 .eq('class_id', id)
                 .eq('status', 'active')
-                .single();
+                .maybeSingle();
             registration = reg;
         }
 
         // 3. Fetch sessions
-        // If registered, include session_link. If not, only title/date/time.
         const sessionSelect = registration
             ? 'id, session_title, session_date, session_time, session_link'
             : 'id, session_title, session_date, session_time';
@@ -76,11 +60,13 @@ export async function GET(
             .order('session_date', { ascending: true })
             .order('session_time', { ascending: true });
 
-        if (sessionError) throw sessionError;
+        if (sessionError) {
+            console.error('Error fetching sessions:', sessionError);
+        }
 
         return NextResponse.json({
             ...artClass,
-            category_name: artClass.art_class_categories?.name,
+            category_name: (artClass.art_class_categories as any)?.name || 'General',
             sessions: sessions || [],
             is_registered: !!registration,
             registration_details: registration

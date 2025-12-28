@@ -1,33 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
+
+async function verifyAdmin(supabase: any) {
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) return { error: 'Unauthorized', status: 401 };
+
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    if (profile?.role !== 'admin') return { error: 'Forbidden', status: 403 };
+    return { user };
+}
 
 // POST /api/admin/tattoo-slots/bulk - Create multiple slots at once
 export async function POST(request: NextRequest) {
     try {
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
-
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        const supabase = await createClient();
+        const verification = await verifyAdmin(supabase);
+        if ('error' in verification) {
+            return NextResponse.json({ error: verification.error }, { status: verification.status });
         }
+        const { user } = verification;
 
         const body = await request.json();
         const { date, start_time, end_time, slot_duration, max_bookings } = body;
@@ -59,7 +55,7 @@ export async function POST(request: NextRequest) {
                 max_bookings: parseInt(max_bookings),
                 current_bookings: 0,
                 is_available: true,
-                created_by: user.id
+                created_by: user!.id
             });
         }
 

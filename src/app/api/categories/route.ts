@@ -8,6 +8,22 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url);
         const type = searchParams.get('type');
 
+        console.log('Fetching categories for type:', type);
+
+        // Art classes use a separate table
+        if (type === 'art_class' || type === 'class') {
+            const { data: artCategories, error: artError } = await supabase
+                .from('art_class_categories')
+                .select('*')
+                .order('name');
+
+            if (artError) {
+                console.error('Error fetching art class categories:', artError);
+                return NextResponse.json([]);
+            }
+            return NextResponse.json(artCategories || []);
+        }
+
         let query = supabase
             .from('categories')
             .select('*')
@@ -21,14 +37,12 @@ export async function GET(request: NextRequest) {
 
         if (error) {
             console.error('Error fetching categories:', error);
-            // Return empty array instead of error to prevent client-side filter errors
             return NextResponse.json([]);
         }
 
         return NextResponse.json(categories || []);
     } catch (error: any) {
         console.error('Error in categories API:', error);
-        // Return empty array instead of 500 to prevent client crashes
         return NextResponse.json([]);
     }
 }

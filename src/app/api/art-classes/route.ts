@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
 
 // GET /api/art-classes - Fetch published classes for users
 export async function GET(request: NextRequest) {
@@ -9,24 +8,9 @@ export async function GET(request: NextRequest) {
         const category = searchParams.get('category');
         const pricing = searchParams.get('pricing');
 
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
+
+        console.log('Fetching art classes with params:', { category, pricing });
 
         let query = supabase
             .from('art_classes')
@@ -37,7 +21,7 @@ export async function GET(request: NextRequest) {
             .eq('status', 'published')
             .order('created_at', { ascending: false });
 
-        if (category) query = query.eq('category_id', category);
+        if (category && category !== 'all') query = query.eq('category_id', category);
         if (pricing && pricing !== 'all') query = query.eq('pricing_type', pricing);
 
         const { data: classes, error } = await query;
@@ -46,6 +30,8 @@ export async function GET(request: NextRequest) {
             console.error('Error fetching art classes:', error);
             return NextResponse.json([]);
         }
+
+        console.log(`Found ${classes?.length || 0} published art classes`);
 
         // Fetch session counts separately for each class
         const classesWithSessions = await Promise.all(
@@ -57,7 +43,7 @@ export async function GET(request: NextRequest) {
 
                 return {
                     ...artClass,
-                    category_name: artClass.art_class_categories?.name,
+                    category_name: (artClass.art_class_categories as any)?.name || 'General',
                     session_count: count || 0
                 };
             })
@@ -65,7 +51,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json(classesWithSessions);
     } catch (error: any) {
-        console.error('Error fetching public classes:', error);
+        console.error('Unexpected error in art-classes API:', error);
         return NextResponse.json([]);
     }
 }

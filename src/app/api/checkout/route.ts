@@ -1,11 +1,22 @@
 import { NextResponse } from 'next/server';
 import { razorpay } from '@/utils/razorpay';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
 
 export async function POST(req: Request) {
     try {
         const { paintingId, amount } = await req.json();
+
+        // Optional: Check if painting exists/available from Supabase
+        const supabase = await createClient();
+        const { data, error } = await supabase
+            .from('paintings')
+            .select('id, price')
+            .eq('id', paintingId)
+            .single();
+
+        if (error || !data) {
+            console.error('Painting not found for checkout:', paintingId);
+        }
 
         // Create Razorpay Order
         const options = {
