@@ -34,7 +34,11 @@ interface UpcomingItem {
 export default function UpcomingSection() {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<TabType>('events');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<{ [key in TabType]: boolean }>({
+        tattoos: true,
+        events: true,
+        classes: true
+    });
     const [items, setItems] = useState<{ [key in TabType]: UpcomingItem[] }>({
         tattoos: [],
         events: [],
@@ -71,12 +75,12 @@ export default function UpcomingSection() {
         if (user) {
             fetchAllData();
         } else {
-            setLoading(false);
+            setLoading({ tattoos: false, events: false, classes: false });
         }
     }, [user]);
 
     useEffect(() => {
-        if (!loading && currentItems.length > 0) {
+        if (!loading[activeTab] && currentItems.length > 0) {
             // Wait for render
             setTimeout(checkScroll, 100);
         }
@@ -89,123 +93,143 @@ export default function UpcomingSection() {
     }, []);
 
     const fetchAllData = async () => {
-        setLoading(true);
-        try {
-            await Promise.all([
-                fetchTattoos(),
-                fetchEvents(),
-                fetchClasses()
-            ]);
-        } catch (error) {
-            console.error('Error fetching upcoming data:', error);
-        } finally {
-            setLoading(false);
-        }
+        // Fetch everything in parallel but let them update state independently
+        fetchTattoos();
+        fetchEvents();
+        fetchClasses();
     };
 
     const fetchTattoos = async () => {
-        const response = await fetch('/api/bookings');
-        const data = await response.json();
-        const filtered = data.filter((b: any) => {
-            const bookingDate = new Date(b.booking_date);
-            return bookingDate >= new Date() && b.status !== 'cancelled';
-        }).map((b: any) => ({
-            id: b.id,
-            title: b.tattoo_designs?.name || 'Tattoo Session',
-            image: b.tattoo_designs?.image_url || '/painting.png',
-            date: b.booking_date,
-            time: b.booking_time,
-            type: 'Booking',
-            isRegistered: true,
-            link: `/tattoos/${b.tattoo_designs?.id}`
-        }));
-        setItems(prev => ({ ...prev, tattoos: filtered }));
+        try {
+            const response = await fetch('/api/bookings');
+            const data = await response.json();
+            const filtered = data.filter((b: any) => {
+                const bookingDate = new Date(b.booking_date);
+                return bookingDate >= new Date() && b.status !== 'cancelled';
+            }).map((b: any) => ({
+                id: b.id,
+                title: b.tattoo_designs?.name || 'Tattoo Session',
+                image: b.tattoo_designs?.image_url || '/painting.png',
+                date: b.booking_date,
+                time: b.booking_time,
+                type: 'Booking',
+                isRegistered: true,
+                link: `/tattoos/${b.tattoo_designs?.id}`
+            }));
+            setItems(prev => ({ ...prev, tattoos: filtered }));
+        } catch (error) {
+            console.error('Error fetching tattoos:', error);
+        } finally {
+            setLoading(prev => ({ ...prev, tattoos: false }));
+        }
     };
 
     const fetchEvents = async () => {
-        // 1. Fetch user's registrations
-        const { data: registrations } = await supabase
-            .from('event_registrations')
-            .select('event_id, events(*)')
-            .eq('user_id', user?.id);
+        try {
+            // 1. Fetch user's registrations
+            const { data: registrations } = await supabase
+                .from('event_registrations')
+                .select('event_id, events(*)')
+                .eq('user_id', user?.id);
 
-        const registeredIds = (registrations || []).map(r => r.event_id);
-        const registeredItems = (registrations || []).map((r: any) => {
-            const event = Array.isArray(r.events) ? r.events[0] : r.events;
-            if (!event) return null;
-            return {
-                id: event.id,
-                title: event.title,
-                image: event.image_url,
-                date: event.start_date,
-                time: new Date(event.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                location: event.location,
-                type: 'Registered',
-                isRegistered: true,
-                link: `/events/${event.id}`
-            };
-        }).filter(Boolean) as UpcomingItem[];
+            const registeredIds = (registrations || []).map(r => r.event_id).filter(Boolean);
+            const registeredItems = (registrations || []).map((r: any) => {
+                const event = Array.isArray(r.events) ? r.events[0] : r.events;
+                if (!event) return null;
+                return {
+                    id: event.id,
+                    title: event.title,
+                    image: event.image_url,
+                    date: event.start_date,
+                    time: new Date(event.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    location: event.location,
+                    type: 'Registered',
+                    isRegistered: true,
+                    link: `/events/${event.id}`
+                };
+            }).filter(Boolean) as UpcomingItem[];
 
-        // 2. Fetch available upcoming events
-        const { data: availableEvents } = await supabase
-            .from('events')
-            .select('*')
-            .eq('status', 'published')
-            .gte('start_date', new Date().toISOString())
-            .not('id', 'in', `(${registeredIds.length > 0 ? registeredIds.join(',') : '00000000-0000-0000-0000-000000000000'})`)
-            .limit(5);
+            // 2. Fetch available upcoming events (excluding already registered)
+            let query = supabase
+                .from('events')
+                .select('*')
+                .eq('status', 'published')
+                .gte('start_date', new Date().toISOString())
+                .limit(5);
 
-        const availableItems = (availableEvents || []).map(e => ({
-            id: e.id,
-            title: e.title,
-            image: e.image_url,
-            date: e.start_date,
-            time: new Date(e.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            location: e.location,
-            type: 'Upcoming',
-            isRegistered: false,
-            link: `/events/${e.id}`
-        }));
+            if (registeredIds.length > 0) {
+                query = query.not('id', 'in', `(${registeredIds.join(',')})`);
+            }
 
-        setItems(prev => ({ ...prev, events: [...registeredItems, ...availableItems] }));
+            const { data: availableEvents } = await query;
+
+            const availableItems = (availableEvents || []).map(e => ({
+                id: e.id,
+                title: e.title,
+                image: e.image_url,
+                date: e.start_date,
+                time: new Date(e.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                location: e.location,
+                type: 'Upcoming',
+                isRegistered: false,
+                link: `/events/${e.id}`
+            }));
+
+            setItems(prev => ({ ...prev, events: [...registeredItems, ...availableItems] }));
+        } catch (error) {
+            console.error('Error fetching events:', error);
+        } finally {
+            setLoading(prev => ({ ...prev, events: false }));
+        }
     };
 
     const fetchClasses = async () => {
-        // 1. Fetch user's enrolled classes
-        const response = await fetch('/api/user/registrations');
-        const enrolledData = await response.json();
+        try {
+            // 1. Fetch user's enrolled classes
+            const response = await fetch('/api/user/registrations');
+            const enrolledData = await response.json();
 
-        const enrolledIds = (enrolledData || []).map((r: any) => r.art_classes?.id);
-        const enrolledItems = (enrolledData || []).map((r: any) => ({
-            id: r.art_classes.id,
-            title: r.art_classes.title,
-            image: r.art_classes.thumbnail_url,
-            date: r.next_session?.session_date || '',
-            time: r.next_session?.session_time || '',
-            type: 'Enrolled',
-            isRegistered: true,
-            link: `/art-classes/${r.art_classes.id}`
-        }));
+            const enrolledIds = (enrolledData || []).map((r: any) => r.art_classes?.id).filter(Boolean);
+            const enrolledItems = (enrolledData || []).map((r: any) => ({
+                id: r.art_classes?.id,
+                title: r.art_classes?.title,
+                image: r.art_classes?.thumbnail_url,
+                date: r.next_session?.session_date || '',
+                time: r.next_session?.session_time || '',
+                type: 'Enrolled',
+                isRegistered: true,
+                link: `/art-classes/${r.art_classes?.id}`
+            }));
 
-        // 2. Fetch available classes
-        const { data: availableClasses } = await supabase
-            .from('art_classes')
-            .select('*')
-            .eq('status', 'published')
-            .not('id', 'in', `(${enrolledIds.length > 0 ? enrolledIds.join(',') : '00000000-0000-0000-0000-000000000000'})`)
-            .limit(5);
+            // 2. Fetch available classes
+            let query = supabase
+                .from('art_classes')
+                .select('*')
+                .eq('status', 'published')
+                .limit(5);
 
-        const availableItems = (availableClasses || []).map(c => ({
-            id: c.id,
-            title: c.title,
-            image: c.thumbnail_url,
-            date: 'Ongoing',
-            type: 'Available',
-            isRegistered: false,
-            link: `/art-classes/${c.id}`
-        }));
+            if (enrolledIds.length > 0) {
+                query = query.not('id', 'in', `(${enrolledIds.join(',')})`);
+            }
 
-        setItems(prev => ({ ...prev, classes: [...enrolledItems, ...availableItems] }));
+            const { data: availableClasses } = await query;
+
+            const availableItems = (availableClasses || []).map(c => ({
+                id: c.id,
+                title: c.title,
+                image: c.thumbnail_url,
+                date: 'Ongoing',
+                type: 'Available',
+                isRegistered: false,
+                link: `/art-classes/${c.id}`
+            }));
+
+            setItems(prev => ({ ...prev, classes: [...enrolledItems, ...availableItems] }));
+        } catch (error) {
+            console.error('Error fetching classes:', error);
+        } finally {
+            setLoading(prev => ({ ...prev, classes: false }));
+        }
     };
 
 
@@ -241,10 +265,10 @@ export default function UpcomingSection() {
             </div>
 
             <div className="upcoming-content">
-                {loading ? (
+                {loading[activeTab] ? (
                     <div className="loading-placeholder">
                         <IconLoader2 className="animate-spin" size={32} />
-                        <p>Updating your schedule...</p>
+                        <p>Updating your {activeTab}...</p>
                     </div>
                 ) : currentItems.length === 0 ? (
                     <div className="empty-state">

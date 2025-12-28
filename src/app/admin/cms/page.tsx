@@ -91,22 +91,6 @@ const REQD_SECTIONS = [
         description: 'Main banner at the top of the home page',
         items: [],
         config_data: {}
-    },
-    {
-        id: 'events_banner',
-        title: 'Events Banner',
-        description: 'Banner for the events page',
-        items: [],
-        image_url: '',
-        config_data: { hero_title: '' }
-    },
-    {
-        id: 'classes_banner',
-        title: 'Art Classes Banner',
-        description: 'Banner for the art classes page',
-        items: [],
-        image_url: '',
-        config_data: { hero_title: '' }
     }
 ];
 

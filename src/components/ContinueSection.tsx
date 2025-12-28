@@ -60,7 +60,7 @@ const ContinueSection: React.FC<ContinueSectionProps> = ({
                             <img src={item.image} alt={item.title} className="card-background-image" />
 
                             <div className="card-overlay-top">
-                                <button className="heart-btn-glass" onClick={(e) => { e.stopPropagation(); }}><IconHeart size={18} /></button>
+                                {/* Heart button removed as per user request */}
                             </div>
 
                             <div className="card-overlay-bottom">
