@@ -11,8 +11,9 @@
     grid-template-columns: 1fr 320px;
     gap: var(--gap-xl);
     align-items: flex-start;
-    max-width: 1000px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
+    width: 100%;
 }
 
 .post-video {
@@ -267,7 +268,7 @@
 .feed-painting-card {
     background: #f8fafc;
     border-radius: 12px;
-    margin: 0 20px 16px;
+    margin: 0 16px 16px;
     overflow: hidden;
     border: 1px solid #e2e8f0;
 }
@@ -319,12 +320,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px;
+    gap: 8px;
+    padding: 8px 12px;
     background: transparent;
     border: none;
-    color: #262626;
+    color: #64748b;
     cursor: pointer;
-    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+    font-size: 14.4px;
+    font-weight: 500;
+}
+
+.interaction-btn:hover {
+    background: #f1f5f9;
+    color: var(--text-main);
+}
+
+.interaction-btn.liked {
+    color: #ef4444;
 }
 
 /* Reactions Styling */
@@ -343,67 +357,41 @@
     padding: 8px;
     border-radius: 30px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    border: 1px solid #efefef;
+    border: 1px solid #e2e8f0;
     visibility: hidden;
     opacity: 0;
     transform: translateY(10px);
-    transition: all 0.2s ease;
-    z-index: 10;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
 }
 
+.reaction-container:hover .reaction-picker {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
 
 .reaction-picker button {
     background: transparent;
     border: none;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 3.2px;
+    padding: 4px;
+    transition: transform 0.2s;
 }
 
-
-.reaction-display {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.reaction-picker button:hover {
+    transform: scale(1.3);
 }
 
 .reaction-emoji {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1;
 }
 
 .reaction-label {
     font-size: 14.4px;
     font-weight: 600;
-}
-
-.interaction-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px 12px;
-    background: transparent;
-    border: none;
-    color: #666;
-    cursor: pointer;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.interaction-btn:hover {
-    background: #f3f3f3;
-}
-
-.interaction-btn.liked {
-    color: var(--color-primary);
-}
-
-
-.interaction-btn.liked {
-    color: #ef4444;
 }
 
 .post-content {
@@ -551,21 +539,31 @@
 @media (max-width: 800px) {
     .feed-container {
         padding: 0;
+        width: 100%;
+        overflow-x: hidden;
     }
 
     .feed-grid {
         grid-template-columns: 1fr;
         gap: 0;
+        width: 100%;
     }
 
     .left-sidebar {
         display: none;
     }
 
+    .feed-content {
+        width: 100%;
+        gap: 12px;
+    }
+
     .create-post-card {
         border-radius: 0;
         border-left: none;
         border-right: none;
+        padding: 16px;
+        width: 100%;
     }
 
     .post-card {
@@ -574,6 +572,12 @@
         border-right: none;
         box-shadow: none;
         border-bottom: 1px solid #f1f5f9;
+        width: 100%;
+    }
+
+    .feed-painting-card,
+    .post-poll-area {
+        margin: 0 12px 12px;
     }
 }
 
@@ -689,10 +693,10 @@
 
 /* Post Poll Styling */
 .post-poll-area {
-    padding: 20px;
+    padding: 16px;
     background: #f8fafc;
     border-radius: 12px;
-    margin: 0 20px 16px;
+    margin: 0 16px 16px;
     border: 1px solid #e2e8f0;
 }
 

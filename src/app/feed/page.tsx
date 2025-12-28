@@ -108,6 +108,20 @@ export default function FeedPage() {
     const fetchPosts = async () => {
         try {
             setLoading(true);
+
+            // Try optimized RPC first
+            const { data, error: rpcError } = await supabase.rpc('get_posts_with_interactions', {
+                p_user_id: user?.id
+            });
+
+            if (!rpcError) {
+                setPosts(data || []);
+                return;
+            }
+
+            // Fallback if RPC fails (e.g. function not created yet)
+            console.warn('RPC failed, falling back to sequential fetch:', rpcError.message || rpcError);
+
             const { data: postsData, error } = await supabase
                 .from('posts')
                 .select(`
@@ -123,9 +137,8 @@ export default function FeedPage() {
 
             if (error) throw error;
 
-            // Fetch interaction stats for each post
+            // Fetch interaction stats for each post (Original logic)
             const postsWithStats = await Promise.all((postsData || []).map(async (post) => {
-                // Normalize polls to be an object instead of array
                 const postPolls = Array.isArray(post.polls) ? post.polls[0] : post.polls;
 
                 const { count: likesCount } = await supabase
@@ -145,11 +158,9 @@ export default function FeedPage() {
                     .select('*', { count: 'exact', head: true })
                     .eq('post_id', post.id);
 
-                // Fetch user poll votes
                 let userVoteOptionId = null;
                 if (user && post.type === 'poll' && postPolls) {
                     const options = postPolls.poll_options || [];
-
                     if (options.length > 0) {
                         const { data: voteData } = await supabase
                             .from('poll_votes')
@@ -163,7 +174,7 @@ export default function FeedPage() {
 
                 return {
                     ...post,
-                    polls: postPolls, // Store as object
+                    polls: postPolls,
                     likes_count: likesCount || 0,
                     user_has_liked: !!userLikeData,
                     user_reaction: userLikeData?.reaction_type || null,
@@ -174,7 +185,7 @@ export default function FeedPage() {
 
             setPosts(postsWithStats);
         } catch (error: any) {
-            console.error(error);
+            console.error('Error fetching feed:', error.message || error);
             toast.error('Failed to load feed.');
         } finally {
             setLoading(false);
@@ -612,21 +623,19 @@ export default function FeedPage() {
                                             className={`interaction-btn ${post.user_has_liked ? 'liked' : ''}`}
                                             onClick={() => toggleLike(post.id, post.user_reaction || 'like')}
                                         >
-                                            <div className="reaction-display">
-                                                {post.user_has_liked ? (
-                                                    <span className="reaction-emoji">
-                                                        {post.user_reaction === 'love' ? '❤️' :
-                                                            post.user_reaction === 'celebrate' ? '👏' :
-                                                                post.user_reaction === 'insightful' ? '💡' :
-                                                                    post.user_reaction === 'curious' ? '😮' : '👍'}
-                                                    </span>
-                                                ) : <IconHeart size={24} />}
-                                                <span className="reaction-label desktop-only">
-                                                    {post.user_has_liked ? (
-                                                        (post.user_reaction || 'like').charAt(0).toUpperCase() + (post.user_reaction || 'like').slice(1)
-                                                    ) : 'Like'}
+                                            {post.user_has_liked ? (
+                                                <span className="reaction-emoji">
+                                                    {post.user_reaction === 'love' ? '❤️' :
+                                                        post.user_reaction === 'celebrate' ? '👏' :
+                                                            post.user_reaction === 'insightful' ? '💡' :
+                                                                post.user_reaction === 'curious' ? '😮' : '❤️'}
                                                 </span>
-                                            </div>
+                                            ) : (
+                                                <IconHeart size={22} stroke={1.5} />
+                                            )}
+                                            <span className="interaction-label">
+                                                {(post.likes_count ?? 0) > 0 ? post.likes_count : 'Like'}
+                                            </span>
                                         </button>
                                         <div className="reaction-picker">
                                             <button onClick={() => toggleLike(post.id, 'like')} title="Like">👍</button>
@@ -637,16 +646,17 @@ export default function FeedPage() {
                                         </div>
                                     </div>
                                     <button className="interaction-btn" onClick={() => toggleComments(post.id)}>
-                                        <IconMessageCircle size={24} /> <span className="desktop-only">Comment</span>
+                                        <IconMessageCircle size={22} stroke={1.5} />
+                                        <span className="interaction-label">
+                                            {(post.comments_count ?? 0) > 0 ? post.comments_count : 'Comment'}
+                                        </span>
                                     </button>
                                     <button className="interaction-btn">
-                                        <IconShare size={24} /> <span className="desktop-only">Share</span>
+                                        <IconShare size={22} stroke={1.5} />
+                                        <span className="desktop-only">Share</span>
                                     </button>
                                 </div>
 
-                                <div className="post-stats">
-                                    <span className="likes-count">{post.likes_count} likes</span>
-                                </div>
 
                                 <div className="post-content">
                                     {post.content && (
