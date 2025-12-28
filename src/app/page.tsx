@@ -40,44 +40,26 @@ export default function Home() {
 
             if (!response.ok) throw new Error(data.error || 'Failed to fetch home data');
 
-            // Process CMS config
+            // Process CMS config (Mainly for Banner now)
             const configMap = (data.cms || []).reduce((acc: any, curr: any) => {
                 acc[curr.id] = curr;
                 return acc;
             }, {});
             setCmsData(configMap);
 
-            // Process trending items with fallback
-            const processItems = (
-                itemData: any[],
-                configKey: string,
-                mapFn: (item: any) => any
-            ) => {
-                const ids = configMap[configKey]?.items?.map((i: any) => i.id).filter(Boolean) || [];
-                const items = itemData || [];
-
-                if (ids.length > 0) {
-                    // Filter and order by CMS config
-                    return ids.map((id: string) => {
-                        const item = items.find((d: any) => d.id === id);
-                        return item ? mapFn(item) : null;
-                    }).filter(Boolean);
-                }
-                // If no CMS config, return first few items
-                return items.slice(0, 6).map(mapFn);
-            };
-
+            // Directly map data from API bypassing CMS filtering
             setTrendingItems({
-                art: processItems(data.art, 'trending_art', (item) => ({
+                art: (data.art || []).map((item: any) => ({
                     id: item.id,
                     title: item.title,
                     image: item.image_url,
                     price: item.price ? `₹${item.price.toLocaleString()}` : '',
                     artist: item.artist?.full_name,
                     artistAvatar: item.artist?.avatar_url,
+                    status: item.status,
                     selected_from: 'paintings'
                 })),
-                tattoos: processItems(data.tattoos, 'trending_tattoos', (item) => ({
+                tattoos: (data.tattoos || []).map((item: any) => ({
                     id: item.id,
                     title: item.name,
                     image: item.image_url,
@@ -86,7 +68,7 @@ export default function Home() {
                     artistAvatar: '/member-names.png',
                     selected_from: 'tattoo_designs'
                 })),
-                leasing: processItems(data.leasing, 'art_leasing', (item) => ({
+                leasing: (data.leasing || []).map((item: any) => ({
                     id: item.id,
                     title: item.title,
                     image: item.image_url,
@@ -96,7 +78,7 @@ export default function Home() {
                     selected_from: 'leasable_paintings'
                 }))
             });
-        } catch (error) {
+        } catch (error: any) {
             console.error('Unexpected error fetching data:', error);
         } finally {
             setLoading(false);

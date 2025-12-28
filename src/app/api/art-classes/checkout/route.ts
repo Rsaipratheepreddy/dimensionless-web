@@ -42,6 +42,11 @@ export async function POST(req: NextRequest) {
         });
     } catch (error: any) {
         console.error('Art class checkout error:', error);
-        return NextResponse.json({ error: 'Failed to create payment order' }, { status: 500 });
+        // Provide more detail if available from Razorpay
+        const details = error.error || error.message || 'Unknown error';
+        return NextResponse.json({
+            error: 'Failed to create payment order',
+            details: details
+        }, { status: 500 });
     }
 }

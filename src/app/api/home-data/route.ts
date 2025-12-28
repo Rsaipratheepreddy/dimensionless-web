@@ -16,9 +16,18 @@ export async function GET() {
             leasingResult
         ] = await Promise.all([
             supabase.from('home_config').select('*'),
-            supabase.from('paintings').select('id, title, image_url, price, artist:profiles(full_name, avatar_url)').limit(10),
-            supabase.from('tattoo_designs').select('id, name, image_url, base_price').limit(10),
-            supabase.from('leasable_paintings').select('id, title, image_url, artist_name, monthly_rate, artist_avatar_url').limit(10)
+            supabase.from('paintings')
+                .select('id, title, image_url, price, created_at, status, artist:profiles(full_name, avatar_url)')
+                .order('created_at', { ascending: false })
+                .limit(12),
+            supabase.from('tattoo_designs')
+                .select('id, name, image_url, base_price, created_at')
+                .order('created_at', { ascending: false })
+                .limit(12),
+            supabase.from('leasable_paintings')
+                .select('id, title, image_url, artist_name, monthly_rate, artist_avatar_url, created_at')
+                .order('created_at', { ascending: false })
+                .limit(12)
         ]);
 
         if (cmsResult.error) throw cmsResult.error;

@@ -30,16 +30,26 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Class not found' }, { status: 404 });
         }
 
-        // 3. Prevent duplicate registration
+        // 3. Prevent duplicate registration (allow re-attempt if pending)
         const { data: existing } = await supabase
             .from('art_class_registrations')
-            .select('id')
+            .select('*')
             .eq('user_id', user.id)
             .eq('class_id', classId)
             .maybeSingle();
 
         if (existing) {
-            return NextResponse.json({ error: 'Already registered' }, { status: 400 });
+            if (existing.status === 'active') {
+                return NextResponse.json({ error: 'Already registered' }, { status: 400 });
+            }
+
+            // If already pending, return existing info to avoid duplicates
+            return NextResponse.json({
+                registrationId: existing.id,
+                price: artClass.price,
+                pricing_type: artClass.pricing_type,
+                subscription_duration: artClass.subscription_duration
+            }, { status: 200 });
         }
 
         // 4. Handle based on pricing type

@@ -35,7 +35,7 @@ export async function GET(
             return NextResponse.json({ error: 'Art class not found' }, { status: 404 });
         }
 
-        // 2. Check if user is registered
+        // 2. Check if user is registered (fetch any status)
         let registration = null;
         if (user) {
             const { data: reg } = await supabase
@@ -43,13 +43,14 @@ export async function GET(
                 .select('*')
                 .eq('user_id', user.id)
                 .eq('class_id', id)
-                .eq('status', 'active')
                 .maybeSingle();
             registration = reg;
         }
 
         // 3. Fetch sessions
-        const sessionSelect = registration
+        // Only show link if registration status is 'active'
+        const showLinks = registration?.status === 'active';
+        const sessionSelect = showLinks
             ? 'id, session_title, session_date, session_time, session_link'
             : 'id, session_title, session_date, session_time';
 

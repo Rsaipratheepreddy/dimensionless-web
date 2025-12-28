@@ -3,6 +3,7 @@ import './ContinueSection.css';
 import { IconChevronLeft, IconChevronRight, IconHeart } from '@tabler/icons-react';
 
 export interface CarouselItem {
+    id?: string;
     title: string;
     artist: string;
     artistAvatar: string;
@@ -10,6 +11,8 @@ export interface CarouselItem {
     image: string;
     price?: string;
     color: string;
+    status?: string;
+    selected_from?: string;
 }
 
 interface ContinueSectionProps {
@@ -46,8 +49,14 @@ const ContinueSection: React.FC<ContinueSectionProps> = ({
                         return '#';
                     };
 
+                    const isSold = item.status === 'sold';
+
                     return (
-                        <div key={index} className="continue-card" onClick={() => window.location.href = getLink()}>
+                        <div
+                            key={index}
+                            className={`continue-card ${isSold ? 'sold-out' : ''}`}
+                            onClick={() => window.location.href = getLink()}
+                        >
                             <img src={item.image} alt={item.title} className="card-background-image" />
 
                             <div className="card-overlay-top">
@@ -72,8 +81,8 @@ const ContinueSection: React.FC<ContinueSectionProps> = ({
                                         {showPrice && item.price && (
                                             <span className="card-price-overlay">{item.price}</span>
                                         )}
-                                        <button className="buy-btn-overlay">
-                                            {buttonText}
+                                        <button className={`buy-btn-overlay ${isSold ? 'btn-sold' : ''}`} disabled={isSold}>
+                                            {isSold ? 'Sold' : buttonText}
                                         </button>
                                     </div>
                                 </div>

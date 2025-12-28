@@ -83,68 +83,32 @@ const ImageUpload = ({ value, onChange, bucket = 'media' }: { value: string, onC
     );
 };
 
-const ItemSelector = ({ type, onSelect }: { type: 'art' | 'tattoo' | 'leasing', onSelect: (item: any) => void }) => {
-    const [items, setItems] = useState<any[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [search, setSearch] = useState('');
 
-    const fetchItems = async () => {
-        setLoading(true);
-        try {
-            let query: any;
-            if (type === 'art') {
-                query = supabase.from('paintings').select('id, title, artist:profiles(full_name), image_url, price');
-            } else if (type === 'tattoo') {
-                query = supabase.from('tattoo_designs').select('id, name, image_url, base_price');
-            } else {
-                query = supabase.from('leasable_paintings').select('id, title, artist_name, image_url, monthly_rate');
-            }
-
-            const searchCol = type === 'tattoo' ? 'name' : 'title';
-            const { data, error } = await query.ilike(searchCol, `%${search}%`).limit(10);
-            if (error) throw error;
-            setItems(data || []);
-        } catch (error: any) {
-            toast.error(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        const timer = setTimeout(fetchItems, 300);
-        return () => clearTimeout(timer);
-    }, [search, type]);
-
-    return (
-        <div className="item-selector">
-            <div className="search-box">
-                <IconSearch size={18} />
-                <input
-                    placeholder={`Search ${type}...`}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-            </div>
-            <div className="selector-results">
-                {loading ? <IconLoader2 className="animate-spin" /> : items.map(item => (
-                    <div key={item.id} className="selector-item" onClick={() => onSelect(item)}>
-                        <img src={item.image_url} alt="" />
-                        <div className="item-info">
-                            <span className="title">{type === 'tattoo' ? item.name : item.title}</span>
-                            <span className="subtitle">
-                                {type === 'art' ? item.artist?.full_name :
-                                    type === 'tattoo' ? item.description || 'Tattoo Design' :
-                                        item.artist_name}
-                            </span>
-                        </div>
-                        <IconPlus size={16} />
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
+const REQD_SECTIONS = [
+    {
+        id: 'home_banner',
+        title: 'Home Carousel',
+        description: 'Main banner at the top of the home page',
+        items: [],
+        config_data: {}
+    },
+    {
+        id: 'events_banner',
+        title: 'Events Banner',
+        description: 'Banner for the events page',
+        items: [],
+        image_url: '',
+        config_data: { hero_title: '' }
+    },
+    {
+        id: 'classes_banner',
+        title: 'Art Classes Banner',
+        description: 'Banner for the art classes page',
+        items: [],
+        image_url: '',
+        config_data: { hero_title: '' }
+    }
+];
 
 export default function CMSPage() {
     const [configs, setConfigs] = useState<ConfigSection[]>([]);
@@ -170,18 +134,13 @@ export default function CMSPage() {
             const data = await res.json();
             if (data.error) throw new Error(data.error);
 
-            // Order according to home screen layout
-            const order = ['home_banner', 'trending_art', 'trending_tattoos', 'art_leasing', 'events_banner', 'classes_banner'];
-            const sortedData = [...data].sort((a, b) => {
-                const aIdx = order.indexOf(a.id);
-                const bIdx = order.indexOf(b.id);
-                if (aIdx === -1 && bIdx === -1) return 0;
-                if (aIdx === -1) return 1;
-                if (bIdx === -1) return -1;
-                return aIdx - bIdx;
+            // Merge with defaults so user always has something to configure
+            const mergedData = REQD_SECTIONS.map(reqd => {
+                const existing = (data || []).find((c: any) => c.id === reqd.id);
+                return existing || reqd;
             });
 
-            setConfigs(sortedData);
+            setConfigs(mergedData as ConfigSection[]);
         } catch (error: any) {
             toast.error(error.message);
         } finally {
@@ -221,29 +180,6 @@ export default function CMSPage() {
         }
     };
 
-    const handleSelectItem = (configId: string, item: any) => {
-        setConfigs(prev => prev.map(c => {
-            if (c.id === configId) {
-                // Store the item's relevant data or just ID? 
-                // Let's store a simplified version that reflects the selected item
-                const isTattoo = configId === 'trending_tattoos';
-                const isLeasing = configId === 'art_leasing';
-                const newItem = {
-                    id: item.id,
-                    title: isTattoo ? item.name : item.title,
-                    image: item.image_url,
-                    price: isLeasing ? `₹${item.monthly_rate}/mo` : (isTattoo ? `₹${item.base_price?.toLocaleString()}` : (item.price ? `₹${item.price.toLocaleString()}` : '')),
-                    artist: isTattoo ? '' : (isLeasing ? item.artist_name : item.artist?.full_name),
-                    selected_from: configId === 'trending_art' ? 'paintings' : (isTattoo ? 'tattoo_designs' : 'leasable_paintings')
-                };
-                return {
-                    ...c,
-                    items: [...(c.items || []), newItem]
-                };
-            }
-            return c;
-        }));
-    };
 
     const handleRemoveItem = (configId: string, index: number) => {
         setConfigs(prev => prev.map(c => {
@@ -337,73 +273,47 @@ export default function CMSPage() {
                                     </div>
                                 )}
 
-                                {(config.id === 'trending_art' || config.id === 'trending_tattoos' || config.id === 'art_leasing' || config.id === 'home_banner') && (
+                                {config.id === 'home_banner' && (
                                     <div className="items-list-editor">
                                         <div className="items-header">
-                                            <h4>{config.id === 'home_banner' ? 'Carousel Slides' : 'Featured Items'}</h4>
-                                            {config.id === 'home_banner' && (
-                                                <button className="add-item-btn" onClick={() => handleAddItem(config.id)}>
-                                                    <IconPlus size={16} /> Add Slide
-                                                </button>
-                                            )}
+                                            <h4>Carousel Slides</h4>
+                                            <button className="add-item-btn" onClick={() => handleAddItem(config.id)}>
+                                                <IconPlus size={16} /> Add Slide
+                                            </button>
                                         </div>
 
-                                        {config.id !== 'home_banner' && (
-                                            <div className="item-selection-wrapper">
-                                                <label>Select from Existing</label>
-                                                <ItemSelector
-                                                    type={config.id === 'trending_art' ? 'art' : (config.id === 'trending_tattoos' ? 'tattoo' : 'leasing')}
-                                                    onSelect={(item) => handleSelectItem(config.id, item)}
-                                                />
-                                            </div>
-                                        )}
                                         <div className="items-grid">
                                             {config.items && config.items.map((item, idx) => (
                                                 <div key={idx} className="item-edit-card">
                                                     <div className="item-edit-header">
-                                                        <span>{config.id === 'home_banner' ? `Slide #${idx + 1}` : `Item #${idx + 1}`}</span>
+                                                        <span>Slide #{idx + 1}</span>
                                                         <button className="delete-item-btn" onClick={() => handleRemoveItem(config.id, idx)}>
                                                             <IconTrash size={16} />
                                                         </button>
                                                     </div>
                                                     <div className="item-edit-fields">
-                                                        {config.id === 'home_banner' ? (
-                                                            <>
-                                                                <input
-                                                                    placeholder="Title"
-                                                                    value={item.title}
-                                                                    onChange={(e) => handleItemChange(config.id, idx, 'title', e.target.value)}
-                                                                />
-                                                                <input
-                                                                    placeholder="Description"
-                                                                    value={item.description}
-                                                                    onChange={(e) => handleItemChange(config.id, idx, 'description', e.target.value)}
-                                                                />
-                                                                <input
-                                                                    placeholder="Target Link (optional)"
-                                                                    value={item.link}
-                                                                    onChange={(e) => handleItemChange(config.id, idx, 'link', e.target.value)}
-                                                                />
-                                                                <div className="item-image-upload">
-                                                                    <label>Image</label>
-                                                                    <ImageUpload
-                                                                        value={item.image || ''}
-                                                                        onChange={(url) => handleItemChange(config.id, idx, 'image', url)}
-                                                                    />
-                                                                </div>
-                                                            </>
-                                                        ) : (
-                                                            <div className="selected-item-preview">
-                                                                <div className="preview-img">
-                                                                    <img src={item.image} alt="" />
-                                                                </div>
-                                                                <div className="preview-info">
-                                                                    <strong>{item.title}</strong>
-                                                                    <span>{item.artist}</span>
-                                                                    <span className="price-tag">{item.price}</span>
-                                                                </div>
-                                                            </div>
-                                                        )}
+                                                        <input
+                                                            placeholder="Title"
+                                                            value={item.title}
+                                                            onChange={(e) => handleItemChange(config.id, idx, 'title', e.target.value)}
+                                                        />
+                                                        <input
+                                                            placeholder="Description"
+                                                            value={item.description}
+                                                            onChange={(e) => handleItemChange(config.id, idx, 'description', e.target.value)}
+                                                        />
+                                                        <input
+                                                            placeholder="Target Link (optional)"
+                                                            value={item.link}
+                                                            onChange={(e) => handleItemChange(config.id, idx, 'link', e.target.value)}
+                                                        />
+                                                        <div className="item-image-upload">
+                                                            <label>Image</label>
+                                                            <ImageUpload
+                                                                value={item.image || ''}
+                                                                onChange={(url) => handleItemChange(config.id, idx, 'image', url)}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             ))}
