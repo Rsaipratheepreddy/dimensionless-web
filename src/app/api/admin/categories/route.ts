@@ -1,33 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
 
 // GET /api/admin/categories - Get all categories (admin)
 export async function GET(request: NextRequest) {
     try {
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
 
         const { data: categories, error } = await supabase
             .from('categories')
             .select('*')
             .order('type, name');
+
+        console.log('Categories query result:', {
+            categoriesCount: categories?.length || 0,
+            error: error?.message,
+            errorDetails: error
+        });
 
         if (error) {
             console.error('Error fetching categories:', error);
@@ -36,7 +24,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json(categories || []);
     } catch (error: any) {
-        console.error('Error fetching categories:', error);
+        console.error('Error fetching categories (catch):', error);
         return NextResponse.json([]);
     }
 }
@@ -44,24 +32,7 @@ export async function GET(request: NextRequest) {
 // POST /api/admin/categories - Create new category
 export async function POST(request: NextRequest) {
     try {
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
 
         const body = await request.json();
 

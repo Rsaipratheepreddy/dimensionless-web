@@ -1,28 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase-server';
 
 // GET /api/admin/art-classes - Fetch all classes for admin
 export async function GET(request: NextRequest) {
     try {
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
 
         // Verify admin role
         const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -41,8 +23,6 @@ export async function GET(request: NextRequest) {
         }
 
         // Fetch classes with registration count
-        // Note: In Supabase, we use .select('*, count:art_class_registrations(count)') or similar
-        // For simplicity and accuracy, we fetch classes and then count their registrations
         const { data: classes, error } = await supabase
             .from('art_classes')
             .select(`
@@ -81,24 +61,7 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ error: 'Missing class ID' }, { status: 400 });
         }
 
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
 
         // Verify admin role
         const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -148,24 +111,7 @@ export async function POST(request: NextRequest) {
         const body = await request.json();
         const { sessions, ...classData } = body;
 
-        const cookieStore = await cookies();
-        const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            {
-                cookies: {
-                    get(name: string) {
-                        return cookieStore.get(name)?.value;
-                    },
-                    set(name: string, value: string, options: CookieOptions) {
-                        cookieStore.set({ name, value, ...options });
-                    },
-                    remove(name: string, options: CookieOptions) {
-                        cookieStore.set({ name, value: '', ...options });
-                    },
-                },
-            }
-        );
+        const supabase = await createClient();
 
         // Verify admin role
         const { data: { user }, error: authError } = await supabase.auth.getUser();
