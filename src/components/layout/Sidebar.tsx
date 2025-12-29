@@ -80,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
     const serviceItems = [
         { icon: IconBuilding, label: 'Tattoo Studio', href: '/tattoos' },
         { icon: IconDiamond, label: 'Piercings', href: '/piercings' },
-        { icon: IconCoin, label: 'Dimen Token', href: '/token' },
+        { icon: IconCoin, label: 'Dimen Token', href: '/dimen-token' },
     ];
 
     return (
@@ -215,6 +215,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, onClose }) => {
                         <Link href="/admin/events" className="sidebar-item">
                             <IconCalendar size={20} className="item-icon" />
                             {!isCollapsed && <span className="item-label">Event Management</span>}
+                        </Link>
+                        <Link href="/admin/tokens" className="sidebar-item">
+                            <IconCoin size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Token Launch Mgmt</span>}
+                        </Link>
+                        <Link href="/admin/blue-chip" className="sidebar-item">
+                            <IconBrush size={20} className="item-icon" />
+                            {!isCollapsed && <span className="item-label">Blue Chip Mgmt</span>}
                         </Link>
                         <Link href="/admin/cms" className="sidebar-item">
                             <IconPalette size={20} className="item-icon" />

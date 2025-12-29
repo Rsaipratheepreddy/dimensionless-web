@@ -90,14 +90,13 @@ CREATE POLICY "Admins can manage all classes" ON art_classes FOR ALL USING (
     EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
 );
 
--- Sessions: User can see sessions for classes they've registered for, Admins can manage all
+-- Sessions: Public can see session schedule for published classes, Admins can manage all
 DROP POLICY IF EXISTS "Users can see registered sessions" ON art_class_sessions;
 CREATE POLICY "Users can see registered sessions" ON art_class_sessions FOR SELECT USING (
     EXISTS (
-        SELECT 1 FROM art_class_registrations reg 
-        WHERE reg.class_id = art_class_sessions.class_id 
-        AND reg.user_id = auth.uid() 
-        AND reg.status = 'active'
+        SELECT 1 FROM art_classes 
+        WHERE id = art_class_sessions.class_id 
+        AND status = 'published'
     )
     OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
 );

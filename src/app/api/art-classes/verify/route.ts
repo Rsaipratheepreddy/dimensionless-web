@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { createClient } from '@/utils/supabase-server';
+import { createAdminClient } from '@/utils/supabase-admin';
 
 // POST /api/art-classes/verify - Verify Razorpay payment and activate registration
 export async function POST(req: NextRequest) {
@@ -27,10 +27,10 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 });
         }
 
-        const supabase = await createClient();
+        const adminSupabase = createAdminClient();
 
         // 2. Fetch registration details
-        const { data: registration, error: regError } = await supabase
+        const { data: registration, error: regError } = await adminSupabase
             .from('art_class_registrations')
             .select(`
                 *,
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
             updateData.expires_at = expiry.toISOString();
         }
 
-        const { error: updateError } = await supabase
+        const { error: updateError } = await adminSupabase
             .from('art_class_registrations')
             .update(updateData)
             .eq('id', registrationId);
