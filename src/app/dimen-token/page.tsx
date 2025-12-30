@@ -4,15 +4,11 @@ import React, { useState, useEffect } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import {
     IconCurrencyRupee,
-    IconChartBar,
     IconBuildingStore,
     IconWallet,
     IconShieldCheck,
-    IconArrowRight,
     IconTrendingUp,
     IconLock,
-    IconUsers,
-    IconInfoCircle
 } from '@tabler/icons-react';
 import './dimen-token.css';
 import InvestmentProof from '@/components/features/tokens/InvestmentProof';
@@ -30,14 +26,20 @@ export default function DimenTokenPage() {
     const [amount, setAmount] = useState<number>(5000);
     const [config, setConfig] = useState<any>(null);
     const [blueChipArt, setBlueChipArt] = useState<any[]>([]);
+    const [userStats, setUserStats] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [investing, setInvesting] = useState(false);
+    const [locking, setLocking] = useState(false);
+    const [selectedLockIndex, setSelectedLockIndex] = useState(1);
+    const [lockAmount, setLockAmount] = useState(0);
     const [showProof, setShowProof] = useState(false);
     const [investmentData, setInvestmentData] = useState<any>(null);
+    const [recentActivity, setRecentActivity] = useState<any[]>([]);
+    const [chartData, setChartData] = useState<any>(null);
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [user]);
 
     const fetchData = async () => {
         try {
@@ -46,6 +48,10 @@ export default function DimenTokenPage() {
             if (res.ok) {
                 setConfig(data.config);
                 setBlueChipArt(data.blueChip);
+                setUserStats(data.userStats);
+                setRecentActivity(data.recentActivity || []);
+                setChartData(data.chartData);
+                setLockAmount(Math.min(data.userStats?.available || 0, 5000));
             }
         } catch (error) {
             console.error('Fetch error:', error);
@@ -68,7 +74,6 @@ export default function DimenTokenPage() {
 
         setInvesting(true);
         try {
-            // 1. Create Order
             const orderRes = await fetch('/api/tokens/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -78,7 +83,6 @@ export default function DimenTokenPage() {
             const orderData = await orderRes.json();
             if (!orderRes.ok) throw new Error(orderData.error || 'Failed to create order');
 
-            // 2. Open Razorpay
             const options = {
                 key: orderData.keyId,
                 amount: orderData.amount,
@@ -93,7 +97,6 @@ export default function DimenTokenPage() {
                 theme: { color: "#111827" },
                 handler: async (response: any) => {
                     try {
-                        // 3. Verify Payment
                         const verifyRes = await fetch('/api/tokens/verify', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -115,6 +118,7 @@ export default function DimenTokenPage() {
                             });
                             setShowProof(true);
                             toast.success('Contribution successful!');
+                            fetchData();
                         } else {
                             toast.error(verifyData.error || 'Verification failed');
                         }
@@ -123,7 +127,6 @@ export default function DimenTokenPage() {
                     }
                 }
             };
-
             openCheckout(options);
         } catch (error: any) {
             toast.error(error.message || 'Payment initialization failed');
@@ -132,12 +135,45 @@ export default function DimenTokenPage() {
         }
     };
 
+    const handleLock = async () => {
+        if (!user) {
+            toast.error('Please login to stake tokens');
+            return;
+        }
+
+        const selectedLock = config?.lock_config?.[selectedLockIndex] || { months: 12, multiplier: 1.15 };
+
+        setLocking(true);
+        try {
+            const res = await fetch('/api/tokens/lock', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: lockAmount,
+                    durationMonths: selectedLock.months,
+                    multiplier: selectedLock.multiplier
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                toast.success(`Succesfully staked ${lockAmount} $DIMEN!`);
+                fetchData();
+            } else {
+                toast.error(data.error || 'Failed to initiate stake');
+            }
+        } catch (error) {
+            toast.error('Network error');
+        } finally {
+            setLocking(false);
+        }
+    };
+
     if (loading) return <AppLayout><LottieLoader /></AppLayout>;
 
     return (
         <AppLayout>
             <div className="dimen-token-platform">
-                {/* Header Section */}
                 <header className="platform-header">
                     <div className="header-main">
                         <img src="/dimen-coin.png" alt="Dimen Coin" className="main-logo" />
@@ -152,7 +188,6 @@ export default function DimenTokenPage() {
                     </div>
                 </header>
 
-                {/* Growth & Stats Row */}
                 <div className="stats-container">
                     <div className="stat-box">
                         <span className="label">Current Price</span>
@@ -173,12 +208,10 @@ export default function DimenTokenPage() {
 
                 <div className="main-layout-grid">
                     <div className="dashboard-content">
-                        {/* Projection Graph */}
                         <section className="dashboard-section chart-section">
                             <GrowthChart data={config?.growth_projection || [0.5, 0.6, 0.8, 1.2, 1.5, 1.8, 2.2]} />
                         </section>
 
-                        {/* Blue Chip Trading */}
                         <section className="dashboard-section">
                             <div className="section-header">
                                 <h3>Blue Chip Art Trading</h3>
@@ -208,9 +241,12 @@ export default function DimenTokenPage() {
                             </div>
                         </section>
 
-                        {/* Allocation Section */}
+
                         <section className="dashboard-section">
-                            <h3>Fund Allocation</h3>
+                            <div className="section-header">
+                                <h3>Ecosystem Fund Allocation</h3>
+                                <p>Transparency in fund utilization for sustainable growth</p>
+                            </div>
                             <div className="allocation-list">
                                 <div className="allocation-item">
                                     <div className="alloc-header">
@@ -237,7 +273,6 @@ export default function DimenTokenPage() {
                         </section>
                     </div>
 
-                    {/* Right Sidebar - Contribution Portal */}
                     <div className="dashboard-sidebar">
                         <div className="investment-card">
                             <h3>Primary Offering</h3>
@@ -286,7 +321,235 @@ export default function DimenTokenPage() {
                     </div>
                 </div>
 
-                {/* About Section - Expanded with Images */}
+                {/* Phase 2: Participation Dashboard (Added at the bottom) */}
+                <div className="participation-dashboard">
+                    <h2 className="dashboard-title-v2">Your Participation Dashboard</h2>
+
+                    {/* 1. Balance Banner */}
+                    <div className="balance-banner">
+                        <div className="b-info">
+                            <span className="b-label">TOTAL PURCHASED COINS</span>
+                            <div className="b-value">
+                                <img src="/dimen-coin.png" alt="Dimen" style={{ width: '48px', height: '48px', borderRadius: '50%' }} />
+                                <span>{(userStats?.total_purchased || 0).toLocaleString()}</span>
+                                <span style={{ fontSize: '28px', opacity: 0.9, fontWeight: 600 }}>$DIMEN</span>
+                            </div>
+                        </div>
+                        <div className="tier-status-badge">
+                            <IconShieldCheck size={20} />
+                            {userStats?.tier || 'Explorer'} Tier
+                        </div>
+                    </div>
+
+                    {/* 2. Tier Progress Roadmap */}
+                    <div className="tier-roadmap">
+                        <div className="roadmap-header">
+                            <h3>Ecosystem Tier Roadmap</h3>
+                            <p style={{ fontSize: '14px', color: '#6b7280' }}>Unlock exclusive benefits by increasing your token stake</p>
+                        </div>
+
+                        <div className="roadmap-track">
+                            <div className="roadmap-line">
+                                <div className="roadmap-line-fill" style={{ width: `${userStats?.tier_progress || 0}%` }}></div>
+                            </div>
+
+                            <div className={`roadmap-step ${userStats?.total_purchased >= 0 ? 'completed' : ''}`}>
+                                <div className="step-icon"><IconBuildingStore size={20} /></div>
+                                <span className="step-label">Collector</span>
+                            </div>
+
+                            <div className={`roadmap-step ${userStats?.total_purchased >= 10000 ? 'completed' : userStats?.next_tier === 'Patron' ? 'active' : ''}`}>
+                                <div className="step-icon">★</div>
+                                <span className="step-label">Patron</span>
+                            </div>
+
+                            <div className={`roadmap-step ${userStats?.total_purchased >= 50000 ? 'completed' : userStats?.next_tier === 'Legacy' ? 'active' : ''}`}>
+                                <div className="step-icon">♛</div>
+                                <span className="step-label">Legacy</span>
+                            </div>
+                        </div>
+
+                        <div className="roadmap-footer">
+                            <div className="points-progress">
+                                <span>{userStats?.points_to_next > 0 ? `${userStats.points_to_next.toLocaleString()} $DIMEN left for ${userStats.next_tier} Tier` : 'Maximum Tier Achieved'}</span>
+                                <div className="p-bar"><div className="p-bar-fill" style={{ width: `${userStats?.tier_progress || 0}%` }}></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 3. Analytics Section */}
+                    <div className="analytics-grid">
+                        <div className="analytics-card">
+                            <h3>Points Growth Analysis</h3>
+                            {/* Simple SVG Chart Implementation for Available vs Locked */}
+                            <div style={{ height: '240px', width: '100%', marginTop: '32px' }}>
+                                <svg viewBox="0 0 800 240" style={{ width: '100%', height: '100%' }}>
+                                    {/* Grid Lines */}
+                                    {[0, 1, 2, 3].map(i => (
+                                        <line key={i} x1="0" y1={i * 80} x2="800" y2={i * 80} stroke="#f3f4f6" strokeWidth="1" />
+                                    ))}
+
+                                    {/* Available Path (Blue) */}
+                                    <polyline
+                                        fill="none"
+                                        stroke="#3b82f6"
+                                        strokeWidth="4"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        points={(chartData?.datasets?.[0]?.data || [0]).map((v: number, i: number) => {
+                                            const max = Math.max(...(chartData?.datasets?.[0]?.data || [1000]), 1000);
+                                            return `${(i * 160)},${240 - (v / max * 200) - 20}`;
+                                        }).join(' ')}
+                                    />
+
+                                    {/* Locked Path (Purple) */}
+                                    <polyline
+                                        fill="none"
+                                        stroke="#8b5cf6"
+                                        strokeWidth="4"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        points={(chartData?.datasets?.[1]?.data || [0]).map((v: number, i: number) => {
+                                            const max = Math.max(...(chartData?.datasets?.[0]?.data || [1000]), 1000);
+                                            return `${(i * 160)},${240 - (v / max * 200) - 20}`;
+                                        }).join(' ')}
+                                    />
+                                </svg>
+                                <div style={{ display: 'flex', gap: '24px', marginTop: '16px', justifyContent: 'center' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 600 }}>
+                                        <div style={{ width: 12, height: 12, borderRadius: 3, background: '#3b82f6' }}></div> Available
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 600 }}>
+                                        <div style={{ width: 12, height: 12, borderRadius: 3, background: '#8b5cf6' }}></div> Locked
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="analytics-card">
+                            <h3>Stake Distribution</h3>
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+                                <svg width="160" height="160" viewBox="0 0 42 42">
+                                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#f3f4f6" strokeWidth="4"></circle>
+                                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#3b82f6" strokeWidth="4"
+                                        strokeDasharray={`${(userStats?.available / (userStats?.total_purchased || 1)) * 100} ${100 - (userStats?.available / (userStats?.total_purchased || 1)) * 100}`}
+                                        strokeDashoffset="25"></circle>
+                                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#8b5cf6" strokeWidth="4"
+                                        strokeDasharray={`${(userStats?.locked / (userStats?.total_purchased || 1)) * 100} ${100 - (userStats?.locked / (userStats?.total_purchased || 1)) * 100}`}
+                                        strokeDashoffset={25 - (userStats?.available / (userStats?.total_purchased || 1)) * 100}></circle>
+                                    <text x="21" y="21" textAnchor="middle" dominantBaseline="central" fontSize="4" fontWeight="800" fill="#111827">Dimen</text>
+                                </svg>
+                            </div>
+                            <div style={{ marginTop: '32px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px' }}>
+                                    <span style={{ color: '#6b7280', fontWeight: 600 }}>Available Tokens</span>
+                                    <strong style={{ color: '#111827' }}>{(userStats?.available || 0).toLocaleString()}</strong>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px' }}>
+                                    <span style={{ color: '#6b7280', fontWeight: 600 }}>Strategically Locked</span>
+                                    <strong style={{ color: '#111827' }}>{(userStats?.locked || 0).toLocaleString()}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 4. Management Row */}
+                    <div className="management-grid">
+                        <div className="management-card">
+                            <div className="section-header" style={{ marginBottom: '32px' }}>
+                                <h3>Enhanced Stake Manager</h3>
+                                <p style={{ fontSize: '14px' }}>Optimize your holdings for maximum ecosystem benefits</p>
+                            </div>
+
+                            <div className="lock-calculator-ui">
+                                <div className="duration-selector">
+                                    {(config?.lock_config || [
+                                        { months: 1, multiplier: 1.05 },
+                                        { months: 6, multiplier: 1.15 },
+                                        { months: 12, multiplier: 1.30 },
+                                        { months: 24, multiplier: 1.50 }
+                                    ]).map((opt: any, i: number) => (
+                                        <div
+                                            key={i}
+                                            className={`duration-btn ${selectedLockIndex === i ? 'active' : ''}`}
+                                            onClick={() => setSelectedLockIndex(i)}
+                                        >
+                                            <span className="d-label">{opt.months >= 12 ? `${opt.months / 12}Y` : `${opt.months}M`}</span>
+                                            <span className="d-mult">+{((opt.multiplier - 1) * 100).toFixed(0)}%</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="lock-amount-input">
+                                    <div className="input-header" style={{ marginBottom: '16px' }}>
+                                        <span style={{ fontWeight: 700, color: '#6b7280' }}>STAKE AMOUNT</span>
+                                        <strong style={{ fontSize: '24px', color: '#111827' }}>{lockAmount.toLocaleString()} $D</strong>
+                                    </div>
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max={userStats?.available || 10000}
+                                        step="100"
+                                        style={{ width: '100%', accentColor: '#3b82f6', height: '8px' }}
+                                        value={lockAmount}
+                                        onChange={(e) => setLockAmount(Number(e.target.value))}
+                                    />
+                                    <div className="range-labels" style={{ marginTop: '12px', display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#9ca3af', fontWeight: 700 }}>
+                                        <span>MIN: 0</span>
+                                        <span onClick={() => setLockAmount(userStats?.available || 0)} style={{ cursor: 'pointer', color: '#3b82f6' }}>MAX: {(userStats?.available || 0).toLocaleString()}</span>
+                                    </div>
+                                </div>
+
+                                <div className="bonus-preview-box bonus-green">
+                                    <div className="bp-icon"><IconTrendingUp size={28} /></div>
+                                    <div className="bp-text">
+                                        <span>PROJECTED MATURITY REWARD</span>
+                                        <strong>+{(lockAmount * (config?.lock_config?.[selectedLockIndex]?.multiplier - 1 || 0.15)).toFixed(0)} $DIMEN</strong>
+                                    </div>
+                                </div>
+
+                                <div className="lock-actions">
+                                    <div style={{ fontSize: '14px', color: '#6b7280' }}>
+                                        Estimated Unlock Date:<br />
+                                        <strong style={{ color: '#111827' }}>{new Date(Date.now() + (config?.lock_config?.[selectedLockIndex]?.months || 12) * 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}</strong>
+                                    </div>
+                                    <button
+                                        className="lock-main-btn"
+                                        onClick={handleLock}
+                                        disabled={lockAmount <= 0 || locking}
+                                    >
+                                        {locking ? 'Confirming...' : `Confirm Lock [${lockAmount.toLocaleString()}]`}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="management-card">
+                            <h3 style={{ marginBottom: '24px' }}>Recent Footprint</h3>
+                            <div className="activity-feed-scroller">
+                                {recentActivity.length > 0 ? recentActivity.map((act: any) => (
+                                    <div key={act.id} className="activity-row">
+                                        <div className="act-icon">
+                                            {act.type === 'purchase' ? <IconWallet size={20} /> : <IconLock size={20} />}
+                                        </div>
+                                        <div className="act-content">
+                                            <span className="act-title">{act.description}</span>
+                                            <span className="act-time">{new Date(act.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
+                                        </div>
+                                        <div className={`act-amt ${act.type === 'purchase' ? 'pos' : 'neg'}`}>
+                                            {act.type === 'purchase' ? '+' : '-'}{Number(act.amount).toLocaleString()}
+                                        </div>
+                                    </div>
+                                )) : (
+                                    <div className="empty-state">
+                                        <p>No activity recorded yet.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <section className="about-token-section">
                     <div className="about-header">
                         <h2>Ecosystem Overview & Digital-Physical Convergence</h2>
@@ -297,75 +560,32 @@ export default function DimenTokenPage() {
                         <div className="feature-text">
                             <h3>The Bridge to Physical Excellence</h3>
                             <p>
-                                $DIMEN isn't just a digital asset; it's a key that unlocks physical artistry. Unlike traditional cryptocurrencies that exist solely on-chain, $DIMEN is deeply integrated with our physical infrastructure. From the tactile sensation of a custom tattoo to the visual presence of a masterwork on your wall, $DIMEN facilitates a seamless transition from digital ownership to tangible reality.
-                            </p>
-                            <p>
-                                By participating in our ecosystem, you are supporting a decentralized network of artists, curators, and technologists dedicated to preserving the integrity of physical art while leveraging the efficiency of blockchain technology.
+                                $DIMEN isn't just a digital asset; it's a key that unlocks physical artistry. Unlike traditional cryptocurrencies that exist solely on-chain, $DIMEN is deeply integrated with our physical infrastructure.
                             </p>
                         </div>
                         <div className="feature-image-vertical">
                             <img src="/dimen-coin.png" alt="Dimen Coin Utility" />
-                            <span className="caption">The Currency of Creation</span>
                         </div>
                     </div>
 
                     <div className="about-grid">
                         <div className="about-card">
                             <h3>Unrivaled Utility</h3>
-                            <p>
-                                Use your tokens across our entire suite of services. Whether you're looking to acquire a blue-chip masterpiece, book a session with a celebrity tattoo artist, or enroll in a masterclass at the Dimensionless Art School, $DIMEN provides a frictionless payment experience with exclusive holder-only benefits.
-                            </p>
-                            <p>
-                                Special privileges include early access to new drops, lower service fees, and the ability to stake your tokens for premium status within our physical galleries.
-                            </p>
+                            <p>Use your tokens across our entire suite of services.</p>
                         </div>
                         <div className="about-card">
                             <h3>Scarcity & Economics</h3>
-                            <p>
-                                With a capped total supply and a strategic allocation model, $DIMEN is built for long-term sustainability. Our tokenomics are designed to reward long-term supporters through ecosystem growth and increased demand for limited-edition physical assets.
-                            </p>
-                            <p>
-                                The 1-year Genesis Lock ensures that initial contributors are aligned with the project's multi-year roadmap, preventing short-term volatility and fostering a stable growth environment for our artistic partners.
-                            </p>
+                            <p>Built for long-term sustainability with capped total supply.</p>
                         </div>
                         <div className="about-card">
                             <h3>DAO & Community Vision</h3>
-                            <p>
-                                Dimensionless is evolving into a decentralized autonomous organization. Your $DIMEN tokens will soon grant you voting power to determine which new artists join the platform, which cities we expand our physical studios to, and how the communal treasury is utilized for global art preservation.
-                            </p>
-                            <p>
-                                We are building a community where every contributor has a voice in shaping the future of global art and body-art culture.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="about-feature-row reverse">
-                        <div className="feature-image-vertical">
-                            <img src="/dimen-coin.png" alt="Ecosystem Growth" />
-                            <span className="caption">Decentralized Governance</span>
-                        </div>
-                        <div className="feature-text">
-                            <h3>Global Reach, Local Impact</h3>
-                            <p>
-                                Our physical presence is expanding. While $DIMEN can be traded globally, its impact is felt locally. Every transaction contributes to the maintenance of our physical studios and the fair compensation of artists. We believe in high-impact artistic presence that inspires local communities while maintaining a global digital footprint.
-                            </p>
-                            <p>
-                                As we open more locations, the utility of your tokens grows. Future expansions include flagship galleries in major art hubs, further increasing the value of being an early participant in the Dimen ecosystem. Every studio acts as a physical node in our decentralized network, providing real-world utility for your digital assets.
-                            </p>
+                            <p>Evolving into a decentralized autonomous organization.</p>
                         </div>
                     </div>
 
                     <div className="about-full-text">
                         <h3>Roadmap & Future Milestones</h3>
-                        <p>
-                            Phase 1 of our launch focuses on establishing the core $DIMEN utility and building the initial bridge between our digital platform and premium physical studios. We are currently in the Strategic Contribution stage, allowing early supporters to participate in the Genesis event. Following this, Phase 2 will introduce the "Blue Chip Marketplace," where high-value artworks will be fractionally traded using $DIMEN.
-                        </p>
-                        <p>
-                            By Phase 3, we plan to launch the Dimensionless DAO, handing over significant governance rights to token holders. This includes the ability to vote on upcoming gallery locations, artist residencies, and the allocation of the community art fund. Our vision is to create a self-sustaining ecosystem where art, technology, and community converge seamlessly.
-                        </p>
-                        <p>
-                            Long-term goals include the integration of Augmented Reality (AR) galleries, allowing holders to visualize their blue-chip art collection in any physical space, and the establishment of the Dimensionless Art Academy, a premier institution for the next generation of digital and traditional artists. Join us as we build the framework for the future of artistic expression and decentralized ownership.
-                        </p>
+                        <p>Phase 1 focused on core utility. Phase 2 introduces Blue Chip Marketplace. Phase 3 launches Dimensionless DAO.</p>
                     </div>
                 </section>
             </div>

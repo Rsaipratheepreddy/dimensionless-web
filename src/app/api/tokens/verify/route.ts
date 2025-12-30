@@ -46,6 +46,17 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Failed to record contribution' }, { status: 500 });
         }
 
+        // 3. Log Activity
+        await supabase
+            .from('token_activity')
+            .insert([{
+                user_id: user.id,
+                type: 'purchase',
+                amount: tokenAmount,
+                description: `Purchased ${tokenAmount.toLocaleString()} $DIMEN`,
+                metadata: { inr_amount: amountInr, payment_id: razorpay_payment_id }
+            }]);
+
         // 3. Update Token Stats (Optional but good)
         // We could increment the raised_amount and investors_count here but it might be better handled by a trigger
         // For now, we rely on the manual admin update or a scheduled job

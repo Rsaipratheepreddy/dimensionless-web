@@ -3,7 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import { toast } from 'react-hot-toast';
-import { IconSettings, IconCoin, IconDeviceFloppy, IconPlus, IconTrash } from '@tabler/icons-react';
+import {
+    IconSettings, IconCoin, IconDeviceFloppy, IconPlus, IconRefresh,
+    IconLock
+} from '@tabler/icons-react';
 import LottieLoader from '@/components/ui/LottieLoader';
 
 export default function AdminTokenManagement() {
@@ -75,6 +78,32 @@ export default function AdminTokenManagement() {
                         <IconDeviceFloppy size={20} />
                         {saving ? 'Saving...' : 'Save Changes'}
                     </button>
+                </div>
+
+                {/* Lock Strategy Configuration */}
+                <div style={{ background: '#fff', padding: '24px', borderRadius: '16px', border: '1px solid #eee', marginBottom: '24px' }}>
+                    <h3 style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <IconLock size={20} />
+                        Strategic Lock Configuration
+                    </h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '16px' }}>
+                        {(config.lock_config || []).map((lock: any, index: number) => (
+                            <div key={index} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                <label style={{ fontSize: '13px', fontWeight: 600 }}>{lock.months} Months Multiplier</label>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    value={lock.multiplier}
+                                    onChange={(e) => {
+                                        const newLockConfig = [...config.lock_config];
+                                        newLockConfig[index].multiplier = Number(e.target.value);
+                                        setConfig({ ...config, lock_config: newLockConfig });
+                                    }}
+                                    style={{ width: '100%', padding: '10px', border: '1px solid #ddd', borderRadius: '6px' }}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
