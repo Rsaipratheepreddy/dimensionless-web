@@ -2,6 +2,8 @@
 import './AppLayout.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import AuthModal from '../auth/AuthModal';
+import LaunchOverlay from './LaunchOverlay';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
@@ -15,8 +17,22 @@ interface AppLayoutProps {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+    const [isUnlocked, setIsUnlocked] = useState(true); // Default true to prevent flicker on first SSR
+    const [isHydrated, setIsHydrated] = useState(false);
     const pathname = usePathname();
-    const { profile } = useAuth();
+    const { profile, showAuthModal, authModalTab, closeAuthModal } = useAuth();
+
+    useEffect(() => {
+        // Initialization on client side
+        const unlockedStatus = localStorage.getItem('dimen_unlocked') === 'true';
+        setIsUnlocked(unlockedStatus);
+        setIsHydrated(true);
+    }, []);
+
+    const handleUnlock = () => {
+        setIsUnlocked(true);
+        localStorage.setItem('dimen_unlocked', 'true');
+    };
 
     const toggleMobileSidebar = () => {
         setIsMobileSidebarOpen(!isMobileSidebarOpen);
@@ -38,6 +54,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
     return (
         <div className={`app-layout ${isMobileSidebarOpen ? 'mobile-sidebar-open' : ''}`}>
+            {isHydrated && !isUnlocked && <LaunchOverlay onUnlock={handleUnlock} />}
             <Sidebar isMobileOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} />
             <div className="main-wrapper">
                 <Header onMenuClick={toggleMobileSidebar} />
@@ -55,6 +72,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             {isMobileSidebarOpen && (
                 <div className="sidebar-overlay" onClick={() => setIsMobileSidebarOpen(false)} />
             )}
+            <AuthModal
+                isOpen={showAuthModal}
+                onClose={closeAuthModal}
+                defaultTab={authModalTab}
+            />
             <InstallPWA />
         </div>
     );

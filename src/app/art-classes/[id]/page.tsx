@@ -40,7 +40,7 @@ interface ArtClassDetails {
 }
 
 export default function ClassDetailsPage() {
-    const { user, profile } = useAuth();
+    const { user, profile, openAuthModal } = useAuth();
     const router = useRouter();
     const { id } = useParams();
     const [artClass, setArtClass] = useState<ArtClassDetails | null>(null);
@@ -79,7 +79,7 @@ export default function ClassDetailsPage() {
     const handleRegister = async () => {
         if (!user) {
             toast.error('Please login to register');
-            router.push('/login');
+            openAuthModal('signin');
             return;
         }
 

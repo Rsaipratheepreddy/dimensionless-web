@@ -22,6 +22,7 @@ interface ContinueSectionProps {
     showPrice?: boolean;
     showAvatar?: boolean;
     buttonText?: string;
+    viewMoreLink?: string;
 }
 
 const ContinueSection: React.FC<ContinueSectionProps> = ({
@@ -29,13 +30,14 @@ const ContinueSection: React.FC<ContinueSectionProps> = ({
     items,
     showPrice = true,
     showAvatar = true,
-    buttonText = "Buy Now"
+    buttonText = "Buy Now",
+    viewMoreLink
 }) => {
     return (
         <section className="continue-section">
             <div className="section-header">
                 <h2 className="section-title">{title}</h2>
-                <a href="#" className="view-more-link">View more</a>
+                {viewMoreLink && <a href={viewMoreLink} className="view-more-link">View more</a>}
             </div>
 
             <div className="continue-grid">
@@ -45,7 +47,8 @@ const ContinueSection: React.FC<ContinueSectionProps> = ({
                         const id = (item as any).id;
                         if (!id || !type) return '#';
                         if (type === 'paintings') return `/buy-art/${id}`;
-                        if (type === 'tattoo_designs') return `/tattoos/${id}`;
+                        if (type === 'tattoo_designs') return `/tattoos/book/${id}`;
+                        if (type === 'piercing_designs') return `/piercings/book/${id}`;
                         if (type === 'leasable_paintings') return `/art-leasing/${id}`;
                         return '#';
                     };

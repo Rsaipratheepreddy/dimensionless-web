@@ -72,7 +72,7 @@ interface Comment {
 }
 
 export default function FeedPage() {
-    const { user, profile, loading: authLoading } = useAuth();
+    const { user, profile, loading: authLoading, openAuthModal } = useAuth();
     const router = useRouter();
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
@@ -100,7 +100,8 @@ export default function FeedPage() {
                 fetchUpcomingEvents();
                 fetchSuggestedUsers();
             } else {
-                router.push('/login');
+                openAuthModal('signin');
+                router.push('/');
             }
         }
     }, [user, authLoading, router]);

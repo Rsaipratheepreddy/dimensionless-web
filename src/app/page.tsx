@@ -21,6 +21,7 @@ export default function Home() {
     const [trendingItems, setTrendingItems] = useState<{ [key: string]: any[] }>({
         art: [],
         tattoos: [],
+        piercings: [],
         leasing: []
     });
     const [loading, setLoading] = useState(true);
@@ -67,6 +68,15 @@ export default function Home() {
                     artist: 'Tattoo Art',
                     artistAvatar: '/member-names.png',
                     selected_from: 'tattoo_designs'
+                })),
+                piercings: (data.piercings || []).map((item: any) => ({
+                    id: item.id,
+                    title: item.name,
+                    image: item.image_url,
+                    price: item.base_price ? `₹${item.base_price.toLocaleString()}` : '',
+                    artist: 'Piercing Studio',
+                    artistAvatar: '/member-names.png',
+                    selected_from: 'piercing_designs'
                 })),
                 leasing: (data.leasing || []).map((item: any) => ({
                     id: item.id,
@@ -128,6 +138,18 @@ export default function Home() {
                                     showPrice={false}
                                     showAvatar={true}
                                     buttonText="Book Slot"
+                                    viewMoreLink="/tattoos"
+                                />
+                            )}
+
+                            {trendingItems.piercings.length > 0 && (
+                                <ContinueSection
+                                    title={cmsData['trending_piercings']?.title || "Trending Piercings"}
+                                    items={trendingItems.piercings}
+                                    showPrice={false}
+                                    showAvatar={true}
+                                    buttonText="Book Slot"
+                                    viewMoreLink="/piercings"
                                 />
                             )}
 
@@ -136,6 +158,7 @@ export default function Home() {
                                     title={cmsData['art_leasing']?.title || "Art Leasing"}
                                     items={trendingItems.leasing}
                                     buttonText="Lease"
+                                    viewMoreLink="/art-leasing"
                                 />
                             )}
                         </div>

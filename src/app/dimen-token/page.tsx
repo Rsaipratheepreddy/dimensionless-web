@@ -24,7 +24,7 @@ import LottieLoader from '@/components/ui/LottieLoader';
 import { useRazorpay } from '@/hooks/useRazorpay';
 
 export default function DimenTokenPage() {
-    const { user, profile } = useAuth();
+    const { user, profile, openAuthModal } = useAuth();
     const router = useRouter();
     const { isLoaded, openCheckout } = useRazorpay();
     const [amount, setAmount] = useState<number>(5000);
@@ -57,7 +57,7 @@ export default function DimenTokenPage() {
     const handleInvest = async () => {
         if (!user) {
             toast.error('Please login to participate');
-            router.push('/login');
+            openAuthModal('signin');
             return;
         }
 

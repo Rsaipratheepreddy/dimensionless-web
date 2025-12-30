@@ -1,0 +1,265 @@
+.confirmation-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+}
+
+.confirmation-card {
+    max-width: 600px;
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 48px;
+    text-align: center;
+}
+
+.status-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+}
+
+.status-icon.success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-icon.warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-icon.info {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.confirmation-card h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 12px 0;
+}
+
+.status-message {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin: 0 0 32px 0;
+}
+
+.booking-reference {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    margin-bottom: 32px;
+}
+
+.booking-reference .label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.reference-id {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-primary);
+    font-family: monospace;
+}
+
+.booking-details {
+    text-align: left;
+    padding: 24px 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 24px;
+}
+
+.detail-section {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.design-image {
+    width: 100%;
+    max-width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.detail-section h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.detail-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+}
+
+.detail-item>div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-item .label {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.detail-item .value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.price-badge {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.notes-section {
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    text-align: left;
+}
+
+.notes-section .label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.notes-section p {
+    font-size: 14px;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.next-steps {
+    text-align: left;
+    margin-bottom: 32px;
+}
+
+.next-steps h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0 0 16px 0;
+}
+
+.next-steps ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.next-steps li {
+    padding: 12px 0;
+    padding-left: 28px;
+    position: relative;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.next-steps li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.secondary-btn,
+.primary-btn {
+    flex: 1;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.secondary-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.secondary-btn:hover {
+    background: var(--bg-secondary);
+}
+
+.primary-btn {
+    background: var(--color-primary);
+    border: none;
+    color: white;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(91, 79, 232, 0.3);
+}
+
+.error-state {
+    text-align: center;
+    padding: 64px 24px;
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .confirmation-card {
+        padding: 32px 24px;
+    }
+
+    .detail-row {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+}

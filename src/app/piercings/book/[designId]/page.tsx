@@ -9,7 +9,7 @@ import './page.css';
 import LottieLoader from '@/components/ui/LottieLoader';
 import { toast } from 'react-hot-toast';
 
-interface TattooDesign {
+interface PiercingDesign {
     id: string;
     name: string;
     description: string;
@@ -28,13 +28,13 @@ interface TimeSlot {
     max_bookings: number;
 }
 
-export default function BookTattooPage() {
+export default function BookPiercingPage() {
     const params = useParams();
     const router = useRouter();
     const { user, loading: authLoading, openAuthModal } = useAuth();
     const designId = params.designId as string;
 
-    const [design, setDesign] = useState<TattooDesign | null>(null);
+    const [design, setDesign] = useState<PiercingDesign | null>(null);
     const [loading, setLoading] = useState(true);
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -71,7 +71,7 @@ export default function BookTattooPage() {
 
         if (!user) {
             openAuthModal('signin');
-            router.push('/tattoos');
+            router.push('/piercings');
             return;
         }
         fetchDesign();
@@ -85,7 +85,7 @@ export default function BookTattooPage() {
 
     const fetchDesign = async () => {
         try {
-            const response = await fetch(`/api/tattoos/${designId}`);
+            const response = await fetch(`/api/piercings/${designId}`);
             const data = await response.json();
             setDesign(data);
         } catch (error) {
@@ -97,7 +97,7 @@ export default function BookTattooPage() {
 
     const fetchSlots = async () => {
         try {
-            const response = await fetch(`/api/tattoos/${designId}/slots?date=${selectedDate}`);
+            const response = await fetch(`/api/piercings/${designId}/slots?date=${selectedDate}`);
             const data = await response.json();
             const now = new Date();
             const today = now.toISOString().split('T')[0];
@@ -206,7 +206,7 @@ export default function BookTattooPage() {
                     amount: orderData.amount,
                     currency: orderData.currency,
                     name: "Dimensionless",
-                    description: `Tattoo Booking - ${design.name}`,
+                    description: `Piercing Booking - ${design.name}`,
                     order_id: orderData.orderId,
                     handler: async function (razorpayResponse: any) {
                         // Verify payment and update booking
@@ -224,7 +224,7 @@ export default function BookTattooPage() {
                         const verifyData = await verifyRes.json();
                         if (verifyData.success) {
                             toast.success('Booking confirmed successfully!');
-                            router.push(`/tattoos/booking-confirmation/${result.id}`);
+                            router.push(`/piercings/booking-confirmation/${result.id}`);
                         } else {
                             toast.error('Payment verification failed. Please contact support.');
                         }
@@ -243,7 +243,7 @@ export default function BookTattooPage() {
                 setSubmitting(false);
             } else {
                 // Pay at Counter - redirect directly
-                router.push(`/tattoos/booking-confirmation/${result.id}`);
+                router.push(`/piercings/booking-confirmation/${result.id}`);
             }
         } catch (error) {
             console.error('Error creating booking:', error);
@@ -292,7 +292,7 @@ export default function BookTattooPage() {
         <AppLayout>
             <div className="booking-page">
                 <div className="booking-header">
-                    <h1>Book Your Tattoo</h1>
+                    <h1>Book Your Piercing</h1>
                     <p>{design.name}</p>
                 </div>
 

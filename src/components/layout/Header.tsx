@@ -16,7 +16,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const { itemCount } = useCart();
-    const { user, profile } = useAuth();
+    const { user, profile, openAuthModal } = useAuth();
     const [notifications, setNotifications] = useState<any[]>([]);
     const [showNotifications, setShowNotifications] = useState(false);
 
@@ -105,10 +105,10 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                                     <IconShoppingCart size={20} stroke={1.5} />
                                     {itemCount > 0 && <span className="cart-badge">{itemCount}</span>}
                                 </Link>
-                                <button className="header-btn" aria-label="Messages">
+                                <button className="header-btn desktop-only" aria-label="Messages">
                                     <IconMail size={20} stroke={1.5} />
                                 </button>
-                                <button className="header-btn notification-btn" aria-label="Notifications" onClick={() => {
+                                <button className="header-btn notification-btn desktop-only" aria-label="Notifications" onClick={() => {
                                     setShowNotifications(!showNotifications);
                                     if (!showNotifications && unreadCount > 0) markAsRead();
                                 }}>
@@ -145,16 +145,33 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                             </>
                         )}
 
-                        <Link href={`/profile/${profile?.id}`} className="user-profile">
-                            <img
-                                src={getOptimizedImageUrl(profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.full_name || 'User')}&background=5b4fe8&color=fff`, { width: 40, format: 'webp' })}
-                                alt="User Avatar"
-                                className="user-avatar"
-                            />
-                            <div className="user-info desktop-only">
-                                <span className="user-name">{profile?.full_name || "User"}</span>
+                        {user ? (
+                            <Link href={`/profile/${profile?.id}`} className="user-profile">
+                                <img
+                                    src={getOptimizedImageUrl(profile?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile?.full_name || 'User')}&background=5b4fe8&color=fff`, { width: 40, format: 'webp' })}
+                                    alt="User Avatar"
+                                    className="user-avatar"
+                                />
+                                <div className="user-info desktop-only">
+                                    <span className="user-name">{profile?.full_name || "User"}</span>
+                                </div>
+                            </Link>
+                        ) : (
+                            <div className="auth-buttons">
+                                <button
+                                    className="header-login-btn"
+                                    onClick={() => openAuthModal('signin')}
+                                >
+                                    Sign In
+                                </button>
+                                <button
+                                    className="header-signup-btn"
+                                    onClick={() => openAuthModal('signup')}
+                                >
+                                    Sign Up
+                                </button>
                             </div>
-                        </Link>
+                        )}
                     </div>
                 </div>
             </div>

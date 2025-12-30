@@ -13,6 +13,7 @@ export async function GET() {
             cmsResult,
             artResult,
             tattooResult,
+            piercingResult,
             leasingResult
         ] = await Promise.all([
             supabase.from('home_config').select('*'),
@@ -21,6 +22,10 @@ export async function GET() {
                 .order('created_at', { ascending: false })
                 .limit(12),
             supabase.from('tattoo_designs')
+                .select('id, name, image_url, base_price, created_at')
+                .order('created_at', { ascending: false })
+                .limit(12),
+            supabase.from('piercing_designs')
                 .select('id, name, image_url, base_price, created_at')
                 .order('created_at', { ascending: false })
                 .limit(12),
@@ -36,6 +41,7 @@ export async function GET() {
             cms: cmsResult.data || [],
             art: artResult.data || [],
             tattoos: tattooResult.data || [],
+            piercings: piercingResult.data || [],
             leasing: leasingResult.data || []
         };
 

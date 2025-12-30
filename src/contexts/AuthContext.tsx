@@ -10,6 +10,10 @@ interface AuthContextType {
     signUp: (email: string, password: string, full_name?: string) => Promise<{ error: Error | null }>;
     signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
     signOut: () => Promise<void>;
+    showAuthModal: boolean;
+    authModalTab: 'signin' | 'signup';
+    openAuthModal: (tab?: 'signin' | 'signup') => void;
+    closeAuthModal: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,6 +22,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [profile, setProfile] = useState<any | null>(null);
     const [loading, setLoading] = useState(true);
+    const [showAuthModal, setShowAuthModal] = useState(false);
+    const [authModalTab, setAuthModalTab] = useState<'signin' | 'signup'>('signin');
     const lastFetchedUserId = useRef<string | null>(null);
 
     const fetchProfile = useCallback(async (userId: string) => {
@@ -124,8 +130,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
     };
 
+    const openAuthModal = (tab: 'signin' | 'signup' = 'signin') => {
+        setAuthModalTab(tab);
+        setShowAuthModal(true);
+    };
+
+    const closeAuthModal = () => {
+        setShowAuthModal(false);
+    };
+
     return (
-        <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, signOut }}>
+        <AuthContext.Provider value={{
+            user,
+            profile,
+            loading,
+            signUp,
+            signIn,
+            signOut,
+            showAuthModal,
+            authModalTab,
+            openAuthModal,
+            closeAuthModal
+        }}>
             {children}
         </AuthContext.Provider>
     );

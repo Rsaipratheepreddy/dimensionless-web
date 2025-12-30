@@ -64,33 +64,22 @@ export async function middleware(request: NextRequest) {
 
     const { pathname } = request.nextUrl
 
-    // Protect these routes (requires login)
-    const protectedRoutes = ['/', '/calendar', '/main', '/shop', '/buy-art', '/wallet', '/admin']
+    // Only protect admin routes (requires login)
+    const protectedRoutes = ['/admin']
     const isProtectedRoute = protectedRoutes.some(route =>
         pathname === route || pathname.startsWith(`${route}/`)
     )
 
-    // Public auth routes (requires NO login - redirect to home if logged in)
-    const authRoutes = ['/login', '/signup']
-    const isAuthRoute = authRoutes.some(route => pathname === route)
-
-    // Only call getUser() if we are on a protected route or an auth route
+    // Only call getUser() if we are on a protected route
     // This saves a major network call for public API routes like /api/home-data
     let user = null;
-    if (isProtectedRoute || isAuthRoute) {
+    if (isProtectedRoute) {
         const { data: { user: authUser } } = await supabase.auth.getUser()
         user = authUser;
     }
 
-    // Redirect to login if accessing protected route while logged out
+    // Redirect to home if accessing admin routes while logged out
     if (!user && isProtectedRoute) {
-        const url = request.nextUrl.clone()
-        url.pathname = '/login'
-        return NextResponse.redirect(url)
-    }
-
-    // Redirect to home if accessing login/signup while already logged in
-    if (user && isAuthRoute) {
         const url = request.nextUrl.clone()
         url.pathname = '/'
         return NextResponse.redirect(url)

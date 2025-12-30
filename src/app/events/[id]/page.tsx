@@ -37,7 +37,7 @@ interface EventDetails {
 
 export default function EventDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
-    const { user, profile } = useAuth();
+    const { user, profile, openAuthModal } = useAuth();
     const router = useRouter();
     const [event, setEvent] = useState<EventDetails | null>(null);
     const [loading, setLoading] = useState(true);
@@ -70,7 +70,7 @@ export default function EventDetailsPage({ params }: { params: Promise<{ id: str
     const handleRegister = async () => {
         if (!user) {
             toast.error('Please login to register');
-            router.push('/login');
+            openAuthModal('signin');
             return;
         }
 

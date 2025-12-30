@@ -117,6 +117,46 @@
     color: #1a1a1a;
 }
 
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 16px;
+    border-left: 1px solid #e2e8f0;
+}
+
+.header-login-btn,
+.header-signup-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.header-login-btn {
+    background: white;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+}
+
+.header-login-btn:hover {
+    background: var(--bg-secondary);
+}
+
+.header-signup-btn {
+    background: var(--color-primary);
+    color: white;
+}
+
+.header-signup-btn:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
 .header-left {
     display: flex;
     align-items: center;
