@@ -70,12 +70,12 @@ export default function LaunchOverlay({ onUnlock }: LaunchOverlayProps) {
                 <div className="launch-branding">
                     <Image
                         src="/logo-black.png"
-                        alt="Dimen"
+                        alt="Dimensionless"
                         width={60}
                         height={60}
                         className="launch-logo"
                     />
-                    <h1 className="launch-title">DIMEN</h1>
+                    <h1 className="launch-title">DIMENSIONLESS</h1>
                     <p className="launch-subtitle">The future of art is arriving soon.</p>
                 </div>
 
