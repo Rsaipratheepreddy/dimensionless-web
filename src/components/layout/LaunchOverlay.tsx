@@ -76,7 +76,7 @@ export default function LaunchOverlay({ onUnlock }: LaunchOverlayProps) {
                         className="launch-logo"
                     />
                     <h1 className="launch-title">DIMENSIONLESS</h1>
-                    <p className="launch-subtitle">The future of art is arriving soon.</p>
+                    <p className="launch-subtitle">One stop solution to buy, transact and invest in Art</p>
                 </div>
 
                 <div className="launch-timer">

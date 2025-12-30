@@ -76,7 +76,7 @@ const CategorySidebar: React.FC = () => {
                         <div className="percentage-badge">{completionRate}%</div>
                     </div>
                     <div className="welcome-text">
-                        <h4>Good Morning {firstName} 🔥</h4>
+                        <h4>Welcome {firstName} 🔥</h4>
                         <p>{completionRate < 100 ? 'Complete your profile to achieve your target!' : 'Your profile looks great! Keep learning.'}</p>
                     </div>
                 </div>
