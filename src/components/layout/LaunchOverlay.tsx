@@ -15,13 +15,21 @@ export default function LaunchOverlay({ onUnlock }: LaunchOverlayProps) {
         minutes: 0,
         seconds: 0
     });
-    const [code, setCode] = useState('');
     const [error, setError] = useState(false);
     const [isChecking, setIsChecking] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+    const [code, setCode] = useState('');
 
     const TARGET_CODE = 'dimen2818--2020';
     // Dec 30, 2025 at 20:30 (8:30 PM)
     const TARGET_TIME = new Date('2025-12-30T20:30:00+05:30').getTime();
+
+    const handleDismiss = () => {
+        setIsClosing(true);
+        setTimeout(() => {
+            onUnlock();
+        }, 800); // Match CSS transition time
+    };
 
     useEffect(() => {
         const calculateTimeLeft = () => {
@@ -29,7 +37,7 @@ export default function LaunchOverlay({ onUnlock }: LaunchOverlayProps) {
             const difference = TARGET_TIME - now;
 
             if (difference <= 0) {
-                onUnlock();
+                handleDismiss();
                 return;
             }
 
@@ -44,7 +52,7 @@ export default function LaunchOverlay({ onUnlock }: LaunchOverlayProps) {
         calculateTimeLeft();
 
         return () => clearInterval(timer);
-    }, [onUnlock]);
+    }, []); // Removed onUnlock to avoid re-renders
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -54,7 +62,7 @@ export default function LaunchOverlay({ onUnlock }: LaunchOverlayProps) {
         // Simulate a small delay for "fancy" feel
         setTimeout(() => {
             if (code === TARGET_CODE) {
-                onUnlock();
+                handleDismiss();
             } else {
                 setError(true);
                 setIsChecking(false);
@@ -63,7 +71,7 @@ export default function LaunchOverlay({ onUnlock }: LaunchOverlayProps) {
     };
 
     return (
-        <div className="launch-overlay">
+        <div className={`launch-overlay ${isClosing ? 'closing' : ''}`}>
             <div className="launch-bg-blur"></div>
 
             <div className="launch-content">

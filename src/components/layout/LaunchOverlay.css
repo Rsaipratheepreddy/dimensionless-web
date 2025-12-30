@@ -10,6 +10,18 @@
     justify-content: center;
     overflow: hidden;
     background: rgba(255, 255, 255, 0.8);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.launch-overlay.closing {
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(0) saturate(100%);
+}
+
+.launch-overlay.closing .launch-content {
+    transform: scale(0.95);
+    filter: blur(10px);
 }
 
 .launch-bg-blur {
