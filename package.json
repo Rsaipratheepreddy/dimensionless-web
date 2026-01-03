@@ -10,6 +10,7 @@
     "pwa:icons": "node scripts/generate-pwa-icons.js"
   },
   "dependencies": {
+    "@dotlottie/react-player": "^1.6.19",
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.3.0",
     "@supabase/ssr": "^0.8.0",

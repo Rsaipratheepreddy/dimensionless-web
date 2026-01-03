@@ -125,6 +125,14 @@
     gap: 20px;
 }
 
+.auth-modal-description {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
 .auth-input-group {
     display: flex;
     flex-direction: column;
@@ -263,6 +271,22 @@
 }
 
 .auth-link:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+.auth-link-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+}
+
+.auth-link-btn:hover {
     color: var(--color-primary-dark);
     text-decoration: underline;
 }

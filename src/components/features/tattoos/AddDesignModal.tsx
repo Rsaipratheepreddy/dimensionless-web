@@ -9,6 +9,7 @@ interface AddDesignModalProps {
     onClose: () => void;
     onSuccess: () => void;
     editingDesign?: any;
+    type?: 'tattoo' | 'piercing';
 }
 
 interface Category {
@@ -17,7 +18,7 @@ interface Category {
     color: string;
 }
 
-export default function AddDesignModal({ isOpen, onClose, onSuccess, editingDesign }: AddDesignModalProps) {
+export default function AddDesignModal({ isOpen, onClose, onSuccess, editingDesign, type = 'tattoo' }: AddDesignModalProps) {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -60,7 +61,7 @@ export default function AddDesignModal({ isOpen, onClose, onSuccess, editingDesi
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch('/api/categories?type=tattoo');
+            const response = await fetch(`/api/categories?type=${type}`);
             const data = await response.json();
             setCategories(data);
             if (data.length > 0 && !formData.category_id && !editingDesign) {
@@ -90,8 +91,8 @@ export default function AddDesignModal({ isOpen, onClose, onSuccess, editingDesi
 
         try {
             const url = editingDesign
-                ? `/api/admin/tattoos/${editingDesign.id}`
-                : '/api/admin/tattoos';
+                ? `/api/admin/${type}s/${editingDesign.id}`
+                : `/api/admin/${type}s`;
 
             const response = await fetch(url, {
                 method: editingDesign ? 'PUT' : 'POST',
@@ -236,7 +237,7 @@ export default function AddDesignModal({ isOpen, onClose, onSuccess, editingDesi
                             Cancel
                         </button>
                         <button type="submit" className="submit-btn" disabled={submitting}>
-                            {submitting ? 'Creating...' : 'Create Design'}
+                            {submitting ? (editingDesign ? 'Updating...' : 'Creating...') : (editingDesign ? 'Update Design' : 'Create Design')}
                         </button>
                     </div>
                 </form>

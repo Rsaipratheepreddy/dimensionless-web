@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import AuthModal from '../auth/AuthModal';
 import LaunchOverlay from './LaunchOverlay';
+import Footer from './Footer';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
@@ -68,6 +69,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                         </aside>
                     )}
                 </div>
+                <Footer />
             </div>
             {isMobileSidebarOpen && (
                 <div className="sidebar-overlay" onClick={() => setIsMobileSidebarOpen(false)} />

@@ -244,6 +244,7 @@ export default function AdminTattoosPage() {
                 editingDesign={editingDesign}
                 onClose={() => setShowAddModal(false)}
                 onSuccess={fetchDesigns}
+                type="tattoo"
             />
         </AppLayout>
     );

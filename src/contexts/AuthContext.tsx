@@ -10,6 +10,7 @@ interface AuthContextType {
     signUp: (email: string, password: string, full_name?: string) => Promise<{ error: Error | null }>;
     signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
     signOut: () => Promise<void>;
+    resetPassword: (email: string) => Promise<{ error: Error | null }>;
     showAuthModal: boolean;
     authModalTab: 'signin' | 'signup';
     openAuthModal: (tab?: 'signin' | 'signup') => void;
@@ -121,6 +122,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const resetPassword = async (email: string) => {
+        try {
+            // Need to specify the redirect URL for password reset
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
+            });
+            return { error };
+        } catch (error) {
+            return { error: error as Error };
+        }
+    };
+
     const signOut = async () => {
         setLoading(true);
         await supabase.auth.signOut();
@@ -147,6 +160,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             signUp,
             signIn,
             signOut,
+            resetPassword,
             showAuthModal,
             authModalTab,
             openAuthModal,

@@ -1,6 +1,5 @@
 'use client';
-import Lottie from 'lottie-react';
-import loadingAnimation from '@/../public/animations/animation.json';
+import { DotLottiePlayer } from '@dotlottie/react-player';
 import './LottieLoader.css';
 
 interface LottieLoaderProps {
@@ -8,32 +7,15 @@ interface LottieLoaderProps {
     className?: string;
 }
 
-export default function LottieLoader({ size = 150, className = '' }: LottieLoaderProps) {
+export default function LottieLoader({ size = 250, className = '' }: LottieLoaderProps) {
     return (
         <div className={`lottie-loader-container ${className}`}>
-            <div className="lottie-loader-wrapper" style={{ width: 60, height: 60 }}>
-                <Lottie
-                    animationData={loadingAnimation}
-                    loop={true}
-                    autoplay={true}
+            <div className="lottie-loader-wrapper" style={{ width: size, height: size }}>
+                <DotLottiePlayer
+                    src="/animations/loader-lottie.lottie"
+                    loop
+                    autoplay
                 />
-                <div className="lottie-center-image" style={{ zIndex: 100000, top: '51%' }}>
-                    <img
-                        src="/imgoverlay.png"
-                        alt="Loading..."
-                        width={60}
-                        height={60}
-                    />
-                </div>
-                <div className="lottie-center-image">
-                    <img
-                        src="/alienimg.png"
-                        alt="Loading..."
-                        width={60}
-                        height={60}
-                    />
-                </div>
-
             </div>
         </div>
     );

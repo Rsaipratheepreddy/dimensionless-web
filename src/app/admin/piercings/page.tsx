@@ -244,6 +244,7 @@ export default function AdminPiercingsPage() {
                 editingDesign={editingDesign}
                 onClose={() => setShowAddModal(false)}
                 onSuccess={fetchDesigns}
+                type="piercing"
             />
         </AppLayout>
     );
