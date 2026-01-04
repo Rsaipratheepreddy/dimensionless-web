@@ -3,17 +3,21 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface CartItem {
     id: string;
+    cartKey: string; // Unique key for same item with different variants
     title: string;
     price: number;
     image_url: string;
     artist_id: string;
     artist_name?: string;
+    quantity: number;
+    variant?: string;
 }
 
 interface CartContextType {
     cartItems: CartItem[];
     addToCart: (item: CartItem) => void;
-    removeFromCart: (id: string) => void;
+    removeFromCart: (cartKey: string) => void;
+    updateQuantity: (cartKey: string, quantity: number) => void;
     clearCart: () => void;
     cartTotal: number;
     itemCount: number;
@@ -43,21 +47,36 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, [cartItems]);
 
     const addToCart = (item: CartItem) => {
-        if (!cartItems.find(i => i.id === item.id)) {
-            setCartItems(prev => [...prev, item]);
-        }
+        setCartItems(prev => {
+            const existing = prev.find(i => i.cartKey === item.cartKey);
+            if (existing) {
+                return prev.map(i =>
+                    i.cartKey === item.cartKey
+                        ? { ...i, quantity: i.quantity + item.quantity }
+                        : i
+                );
+            }
+            return [...prev, item];
+        });
     };
 
-    const removeFromCart = (id: string) => {
-        setCartItems(prev => prev.filter(item => item.id !== id));
+    const removeFromCart = (cartKey: string) => {
+        setCartItems(prev => prev.filter(item => item.cartKey !== cartKey));
+    };
+
+    const updateQuantity = (cartKey: string, quantity: number) => {
+        if (quantity < 1) return;
+        setCartItems(prev => prev.map(item =>
+            item.cartKey === cartKey ? { ...item, quantity } : item
+        ));
     };
 
     const clearCart = () => {
         setCartItems([]);
     };
 
-    const cartTotal = cartItems.reduce((total, item) => total + item.price, 0);
-    const itemCount = cartItems.length;
+    const cartTotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const itemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
     const isInCart = (id: string) => cartItems.some(i => i.id === id);
 
     return (
@@ -65,6 +84,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             cartItems,
             addToCart,
             removeFromCart,
+            updateQuantity,
             clearCart,
             cartTotal,
             itemCount,

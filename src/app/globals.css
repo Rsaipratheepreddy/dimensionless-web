@@ -11,7 +11,7 @@ body {
 }
 
 body {
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
         'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
         sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -40,23 +40,16 @@ button {
 /* CSS Variables for theming */
 :root {
     /* Light Mode (Default) */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f3f4f6;
-    --bg-tertiary: #e5e7eb;
-    --bg-card: #ffffff;
-    --bg-overlay: rgba(255, 255, 255, 0.8);
+    --color-primary: #36454F;
+    --color-secondary: #FFC107;
+    --color-black: #121212;
+    --color-white: #FFFFFF;
 
-    --text-main: #111827;
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F0F2F5;
+    --text-main: #121212;
     --text-secondary: #4b5563;
-    --text-muted: #9ca3af;
-    --text-inverse: #ffffff;
-
-    --border-color: #e5e7eb;
-    --border-hover: #d1d5db;
-
-    --color-primary: #5B4FE8;
-    --color-secondary: #ff9933;
-    --color-accent: #800020;
+    --text-muted: #666666;
 
     --shadow-sm: none;
     --shadow-md: none;

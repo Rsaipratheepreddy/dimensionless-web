@@ -1,215 +1,197 @@
-.art-card-premium {
-    position: relative;
-    border-radius: 24px;
-    overflow: hidden;
-    aspect-ratio: 3 / 4;
-    background: #fff;
-    border: 1px solid #eee;
+.nft-art-card {
+    background: white;
+    border-radius: 28px;
+    padding: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    max-width: 280px;
+    /* Constrain card width */
 }
 
+.nft-art-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
 
-
-.art-card-image-wrap {
+.nft-image-container {
     position: relative;
     width: 100%;
-    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 22px;
+    overflow: visible;
+    margin-bottom: 24px;
 }
 
-.art-card-img {
+.nft-main-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 22px;
+    transition: transform 0.5s ease;
 }
 
-.art-card-premium:hover .art-card-img {
-    transform: scale(1.1);
+.nft-art-card:hover .nft-main-img {
+    transform: scale(1.05);
 }
 
-/* Gradient Overlay */
-.art-card-overlay {
+.nft-top-actions {
     position: absolute;
-    inset: 0;
+    top: 16px;
+    left: 16px;
+    right: 16px;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 24px;
-    background: linear-gradient(to top,
-            rgba(0, 0, 0, 0.9) 0%,
-            rgba(0, 0, 0, 0.5) 40%,
-            rgba(0, 0, 0, 0) 100%);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    justify-content: space-between;
     pointer-events: none;
 }
 
-.art-card-premium:hover .art-card-overlay {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
-}
-
-/* Top Actions */
-.art-card-actions-top {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 5;
-    display: flex;
-    gap: 8px;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.art-card-premium:hover .art-card-actions-top {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.art-action-btn {
-    width: 38px;
-    height: 38px;
+.nft-icon-btn {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.2s ease;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s;
+    color: #1a1a1a;
 }
 
-.art-action-btn:hover {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
+.nft-icon-btn.shadow {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.art-action-btn.delete:hover {
-    background: #ef4444;
-    border-color: #ef4444;
+.nft-icon-btn:hover {
+    background: white;
+    transform: scale(1.1);
 }
 
-/* Status Badge */
-.art-status-badge {
+.nft-icon-btn.wishlist:hover {
+    color: #ef4444;
+}
+
+.nft-creator-badge {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 6.4px 16px;
-    border-radius: 12px;
-    font-size: 11.2px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 5;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    bottom: -18px;
+    left: 14px;
+    z-index: 10;
 }
 
-.art-card-premium:hover .art-status-badge {
-    opacity: 1;
-    transform: translateY(0);
+.creator-avatar-wrap {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    padding: 2.5px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.art-status-badge.available {
-    background: rgba(34, 197, 94, 0.8);
-    color: white;
+.creator-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-.art-status-badge.sold {
-    background: rgba(239, 68, 68, 0.8);
-    color: white;
-}
-
-/* Info Section */
-.art-card-info-main {
-    margin-bottom: 20px;
-}
-
-.art-card-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: white;
-    margin-bottom: 12px;
-    line-height: 1.2;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.art-card-artist {
+.verification-tick {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    background: white;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.art-artist-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    object-fit: cover;
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
+.nft-card-content {
+    padding: 4px 8px 8px;
 }
 
-.art-artist-details {
+.nft-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nft-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.nft-primary-price {
     display: flex;
     flex-direction: column;
 }
 
-.art-artist-name {
-    color: white;
-    font-weight: 500;
-    font-size: 15.2px;
-}
-
-.art-artist-label {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
-}
-
-/* Footer Section */
-.art-card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.art-card-price {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-    color: white;
-}
-
-.price-currency {
-    font-size: 16px;
+.price-label {
+    font-size: 13px;
+    color: #64748b;
     font-weight: 600;
 }
 
-.price-amount {
-    font-size: 28px;
+.price-val {
+    font-size: 16px;
     font-weight: 700;
+    color: #1e293b;
 }
 
-.art-buy-button {
-    background: white;
-    color: #1a1a1a;
-    padding: 9.6px 20px;
-    border-radius: 14px;
+.nft-secondary-price {
+    font-size: 15px;
     font-weight: 700;
+    color: #f97316;
+}
+
+.nft-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.nft-btn {
+    padding: 10px;
+    border-radius: 12px;
     font-size: 14px;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
 }
 
-.art-buy-button:hover {
-    transform: scale(1.05);
-    background: var(--color-primary);
+.btn-history {
+    background: transparent;
+    border: 2px solid #e2e8f0;
+    color: #64748b;
+}
+
+.btn-history:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.btn-buy {
+    background: #000000;
     color: white;
+    /* No box shadow */
+}
+
+/* User explicitly asked to remove hover effect on button */
+.btn-buy:hover {
+    background: #000000;
+    transform: none;
+    box-shadow: none;
 }

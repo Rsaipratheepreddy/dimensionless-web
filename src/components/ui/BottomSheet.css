@@ -1,0 +1,133 @@
+.bottom-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    align-items: flex-end;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.bottom-sheet {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.bottom-sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 2px;
+    margin: 12px auto 8px;
+    cursor: grab;
+}
+
+.bottom-sheet-handle:active {
+    cursor: grabbing;
+}
+
+.bottom-sheet-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.bottom-sheet-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+}
+
+.bottom-sheet-progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 4px;
+    background: #f1f5f9;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #36454F;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+.progress-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+.bottom-sheet-content {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.bottom-sheet-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.bottom-sheet-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.bottom-sheet-content::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.bottom-sheet-content::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+@media (min-width: 768px) {
+    .bottom-sheet {
+        border-radius: 24px;
+        margin: auto;
+        max-height: 80vh;
+    }
+
+    .bottom-sheet-overlay {
+        align-items: center;
+        padding: 20px;
+    }
+}

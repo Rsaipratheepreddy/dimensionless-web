@@ -5,6 +5,7 @@ import Header from './Header';
 import AuthModal from '../auth/AuthModal';
 import LaunchOverlay from './LaunchOverlay';
 import Footer from './Footer';
+import CreatorUpgradeModal from '../auth/CreatorUpgradeModal';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
@@ -40,7 +41,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     };
 
     const isHomePage = pathname === '/';
-    const showRightSidebar = isHomePage && profile?.role !== 'admin';
+    const showRightSidebar = false; // Moved to page-specific grid for better layout control
 
     // Close sidebar on window resize if it's open
     useEffect(() => {
@@ -56,21 +57,25 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     return (
         <div className={`app-layout ${isMobileSidebarOpen ? 'mobile-sidebar-open' : ''}`}>
             {isHydrated && !isUnlocked && <LaunchOverlay onUnlock={handleUnlock} />}
-            <Sidebar isMobileOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} />
+
             <div className="main-wrapper">
-                <Header onMenuClick={toggleMobileSidebar} />
-                <div className={`content-wrapper ${!showRightSidebar ? 'hide-right-sidebar' : ''}`}>
-                    <main className="main-content">
-                        {children}
-                    </main>
-                    {showRightSidebar && (
-                        <aside className="right-sidebar">
-                            <CategorySidebar />
-                        </aside>
-                    )}
+                <Sidebar isMobileOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} />
+                <div className="main-container">
+                    <Header onMenuClick={toggleMobileSidebar} />
+                    <div className={`content-wrapper ${!showRightSidebar ? 'hide-right-sidebar' : ''}`}>
+                        <main className="main-content">
+                            {children}
+                        </main>
+                        {showRightSidebar && (
+                            <aside className="right-sidebar">
+                                <CategorySidebar />
+                            </aside>
+                        )}
+                    </div>
                 </div>
-                <Footer />
             </div>
+
+            <Footer />
             {isMobileSidebarOpen && (
                 <div className="sidebar-overlay" onClick={() => setIsMobileSidebarOpen(false)} />
             )}
@@ -80,6 +85,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 defaultTab={authModalTab}
             />
             <InstallPWA />
+            <CreatorUpgradeModal />
         </div>
     );
 };

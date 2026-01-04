@@ -1,104 +1,127 @@
 'use client';
-import React from 'react';
-import { IconHeart, IconTrash, IconEdit } from '@tabler/icons-react';
+import { IconHeart, IconDots, IconCircleCheckFilled } from '@tabler/icons-react';
 import './ArtCard.css';
 import { getOptimizedImageUrl } from '@/utils/image-optimization';
+import React from 'react';
 
 interface ArtCardProps {
+    id: string;
     title: string;
     image: string;
     price: number;
+    secondaryPrice?: string;
+    currency?: string;
     artistName?: string;
     artistAvatar?: string;
-    showArtist?: boolean;
-    status?: 'available' | 'sold' | 'hidden';
-    onBuy?: () => void;
-    onDelete?: () => void;
-    onEdit?: () => void;
+    isVerified?: boolean;
+    allowPurchase?: boolean;
+    allowLease?: boolean;
+    status?: 'available' | 'sold' | 'leased' | 'hidden';
+    onBuyNow?: (e: React.MouseEvent) => void;
+    onLeaseNow?: (e: React.MouseEvent) => void;
     onClick?: () => void;
-    isOwner?: boolean;
 }
 
 const ArtCard: React.FC<ArtCardProps> = ({
+    id,
     title,
     image,
     price,
+    secondaryPrice,
+    currency = 'INR',
     artistName,
     artistAvatar,
-    showArtist = true,
+    isVerified = true,
+    allowPurchase = true,
+    allowLease = false,
     status = 'available',
-    onBuy,
-    onDelete,
-    onEdit,
-    onClick,
-    isOwner = false
+    onBuyNow,
+    onLeaseNow,
+    onClick
 }) => {
+
+    const handleBuyClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (onBuyNow) onBuyNow(e);
+    };
+
+    const handleLeaseClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (onLeaseNow) onLeaseNow(e);
+    };
+
+    const handleHistoryClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        // Placeholder for history action
+    };
+
     return (
-        <div className="art-card-premium" onClick={onClick}>
-            <div className="art-card-image-wrap">
+        <div className="nft-art-card" onClick={onClick}>
+            <div className="nft-image-container">
                 <img
                     src={getOptimizedImageUrl(image || '/placeholder-art.png', { width: 500, format: 'webp' })}
                     alt={title}
-                    className="art-card-img"
+                    className="nft-main-img"
                 />
 
-                {/* Status Badge for Owner view */}
-                {isOwner && (
-                    <span className={`art-status-badge ${status}`}>
-                        {status}
-                    </span>
-                )}
-
-                {/* Top Action Buttons (Wishlist or Edit/Delete) */}
-                <div className="art-card-actions-top">
-                    {isOwner ? (
-                        <>
-                            <button className="art-action-btn edit" onClick={(e) => { e.stopPropagation(); onEdit?.(); }} title="Edit">
-                                <IconEdit size={18} />
-                            </button>
-                            <button className="art-action-btn delete" onClick={(e) => { e.stopPropagation(); onDelete?.(); }} title="Delete">
-                                <IconTrash size={18} />
-                            </button>
-                        </>
-                    ) : (
-                        <button className="art-action-btn wishlist">
-                            <IconHeart size={18} />
-                        </button>
-                    )}
+                <div className="nft-top-actions">
+                    <button className="nft-icon-btn shadow" onClick={(e) => e.stopPropagation()}>
+                        <IconDots size={20} />
+                    </button>
+                    <button className="nft-icon-btn shadow wishlist" onClick={(e) => e.stopPropagation()}>
+                        <IconHeart size={20} />
+                    </button>
                 </div>
 
-                {/* Main Overlay Content */}
-                <div className="art-card-overlay">
-                    <div className="art-card-info-main">
-                        <h3 className="art-card-title">{title}</h3>
-
-                        {showArtist && (
-                            <div className="art-card-artist">
-                                <img
-                                    src={getOptimizedImageUrl(artistAvatar || '/founder1.png', { width: 60, format: 'webp' })}
-                                    alt={artistName}
-                                    className="art-artist-avatar"
-                                />
-                                <div className="art-artist-details">
-                                    <span className="art-artist-name">{artistName || 'Unknown Artist'}</span>
-                                    <span className="art-artist-label">Artist</span>
-                                </div>
+                <div className="nft-creator-badge">
+                    <div className="creator-avatar-wrap">
+                        <img
+                            src={artistAvatar || '/founder1.png'}
+                            alt={artistName}
+                            className="creator-img"
+                        />
+                        {isVerified && (
+                            <div className="verification-tick">
+                                <IconCircleCheckFilled size={14} color="#3b82f6" />
                             </div>
                         )}
                     </div>
+                </div>
+            </div>
 
-                    <div className="art-card-footer">
-                        <div className="art-card-price">
-                            <span className="price-currency">₹</span>
-                            <span className="price-amount">{price.toLocaleString()}</span>
-                        </div>
+            <div className="nft-card-content">
+                <h3 className="nft-title" title={title}>{title}</h3>
 
-                        {!isOwner && onBuy && (
-                            <button className="art-buy-button" onClick={(e) => { e.stopPropagation(); onBuy(); }}>
-                                View Details
-                            </button>
-                        )}
+                <div className="nft-price-row">
+                    <div className="nft-primary-price">
+                        <span className="price-label">Price:</span>
+                        <span className="price-val">{price.toLocaleString()} {currency === 'INR' ? '₹' : currency}</span>
                     </div>
+                    {secondaryPrice && (
+                        <div className="nft-secondary-price">
+                            {secondaryPrice}
+                        </div>
+                    )}
+                </div>
+
+                <div className="nft-card-actions">
+                    <button className="nft-btn btn-history" onClick={handleHistoryClick}>
+                        History
+                    </button>
+
+                    {allowPurchase ? (
+                        <button className="nft-btn btn-buy" onClick={handleBuyClick}>
+                            Buy Now
+                        </button>
+                    ) : allowLease ? (
+                        <button className="nft-btn btn-buy" onClick={handleLeaseClick}>
+                            Lease Now
+                        </button>
+                    ) : (
+                        <button className="nft-btn btn-buy">
+                            View Details
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

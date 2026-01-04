@@ -15,6 +15,8 @@ interface AuthContextType {
     authModalTab: 'signin' | 'signup';
     openAuthModal: (tab?: 'signin' | 'signup') => void;
     closeAuthModal: () => void;
+    showCreatorUpgrade: boolean;
+    setShowCreatorUpgrade: (show: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,6 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [authModalTab, setAuthModalTab] = useState<'signin' | 'signup'>('signin');
+    const [showCreatorUpgrade, setShowCreatorUpgrade] = useState(false);
     const lastFetchedUserId = useRef<string | null>(null);
 
     const fetchProfile = useCallback(async (userId: string) => {
@@ -164,7 +167,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             showAuthModal,
             authModalTab,
             openAuthModal,
-            closeAuthModal
+            closeAuthModal,
+            showCreatorUpgrade,
+            setShowCreatorUpgrade
         }}>
             {children}
         </AuthContext.Provider>

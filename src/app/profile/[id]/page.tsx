@@ -13,7 +13,10 @@ import {
     IconUserPlus,
     IconUserCheck,
     IconBrush,
-    IconEdit
+    IconDiamond,
+    IconCertificate,
+    IconEdit,
+    IconCircleCheckFilled
 } from '@tabler/icons-react';
 import LottieLoader from '@/components/ui/LottieLoader';
 import AppLayout from '@/components/layout/AppLayout';
@@ -28,6 +31,13 @@ interface ProfileData {
     background_image?: string;
     bio: string;
     created_at: string;
+    role?: 'user' | 'member' | 'creator' | 'employee' | 'admin';
+    awards?: any[];
+    certifications?: any[];
+    is_pro?: boolean;
+    gallery_name?: string;
+    gallery_description?: string;
+    is_verified?: boolean; // Using role as the primary indicator for now
 }
 
 interface Post {
@@ -192,8 +202,30 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                         </div>
 
                         <div className="profile-meta-content">
-                            <h1 className="profile-name">{viewProfile.full_name || 'Dimen Member'}</h1>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <h1 className="profile-name">{viewProfile.full_name || 'Dimen Member'}</h1>
+                                {(viewProfile.role === 'creator' || viewProfile.role === 'admin') && (
+                                    <div className="verified-badge-wrapper">
+                                        <IconCircleCheckFilled size={22} style={{ color: '#3b82f6' }} />
+                                    </div>
+                                )}
+                            </div>
+
                             {viewProfile.bio && <p className="profile-bio-text">{viewProfile.bio}</p>}
+
+                            {viewProfile.role === 'creator' && (
+                                <div className="creator-quick-info">
+                                    {viewProfile.gallery_name && (
+                                        <div className="gallery-link-info">
+                                            <IconBrush size={16} />
+                                            <span>Gallery: <strong>{viewProfile.gallery_name}</strong></span>
+                                        </div>
+                                    )}
+                                    <Link href={`/gallery`} className="view-gallery-link">
+                                        View Full Gallery →
+                                    </Link>
+                                </div>
+                            )}
 
                             <div className="profile-stats-row">
                                 <div className="stat-pill">
@@ -212,7 +244,46 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                                     <IconCalendar size={18} />
                                     <span>Joined {viewProfile.created_at ? new Date(viewProfile.created_at).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }) : 'Recently'}</span>
                                 </div>
+                                {viewProfile.role === 'creator' && viewProfile.is_pro && (
+                                    <div className="detail-item pro-member">
+                                        <IconDiamond size={18} color="#5b4fe8" />
+                                        <span style={{ color: '#5b4fe8', fontWeight: 700 }}>Pro Creator</span>
+                                    </div>
+                                )}
                             </div>
+
+                            {viewProfile.role === 'creator' && (viewProfile.awards || []).length > 0 && (
+                                <div className="profile-awards-section">
+                                    <h3 className="section-subtitle">Awards & Recognition</h3>
+                                    <div className="awards-list">
+                                        {viewProfile.awards?.map((award: any, i: number) => (
+                                            <div key={i} className="award-pill">
+                                                <span className="award-year">{award.year}</span>
+                                                <span className="award-title">{award.title}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {viewProfile.role === 'creator' && (viewProfile.certifications || []).length > 0 && (
+                                <div className="profile-awards-section" style={{ marginTop: '16px' }}>
+                                    <h3 className="section-subtitle">Certifications</h3>
+                                    <div className="awards-list">
+                                        {viewProfile.certifications?.map((cert: any, i: number) => (
+                                            <div key={i} className="award-pill">
+                                                <IconCertificate size={18} color="#36454F" />
+                                                <div className="cert-meta">
+                                                    <span className="award-title">{cert.title}</span>
+                                                    <span className="cert-issuer" style={{ display: 'block', fontSize: '12px', color: '#64748b' }}>
+                                                        {cert.issuer} • {cert.date}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -94,48 +94,59 @@ const CategorySidebar: React.FC = () => {
                 </div>
             </div>
 
-            <div className="sidebar-section token-card">
-                <div className="token-coin-header">
-                    <img src="/dimen-coin.png" alt="Dimens Coin" className="token-coin-img" />
+            <div className="sidebar-section token-card finance-card">
+                <div className="section-header-row">
+                    <h3 className="section-title">Your Finance</h3>
+                    <button className="more-btn"><IconDotsVertical size={18} /></button>
                 </div>
 
-                <div className="token-info">
-                    <h3 className="token-name">Dimens (DMN)</h3>
-
-                    <div className="token-price-box">
-                        <span className="price-label">CURRENT PRICE</span>
-                        <span className="price-value">1 DMN = 800 INR</span>
+                <div className="finance-balance-box">
+                    <span className="balance-label">Total Balance</span>
+                    <div className="balance-value-row">
+                        <span className="balance-amount">28,672</span>
+                        <span className="balance-decimal">.10</span>
+                        <span className="balance-currency-text">Rupees</span>
+                        <span className="balance-change">+61.2%</span>
                     </div>
+                </div>
 
-                    <div className="token-graph-wrapper">
-                        <svg viewBox="0 0 200 60" className="token-graph">
-                            <defs>
-                                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style={{ stopColor: '#6366f1', stopOpacity: 0.2 }} />
-                                    <stop offset="100%" style={{ stopColor: '#6366f1', stopOpacity: 0 }} />
-                                </linearGradient>
-                            </defs>
-                            <path
-                                d="M0,48 C20,48 35,30 50,45 C65,60 85,25 110,40 C135,55 155,10 180,35 C190,45 195,30 200,38"
-                                fill="none"
-                                stroke="#6366f1"
-                                strokeWidth="2.5"
-                                strokeLinecap="round"
-                            />
-                            <path
-                                d="M0,48 C20,48 35,30 50,45 C65,60 85,25 110,40 C135,55 155,10 180,35 C190,45 195,30 200,38 V60 H0 Z"
-                                fill="url(#gradient)"
-                            />
-                        </svg>
-                    </div>
+                <div className="token-graph-wrapper">
+                    <svg viewBox="0 0 200 60" className="token-graph">
+                        <path
+                            d="M0,45 C30,45 40,20 60,35 C80,50 100,10 130,25 C160,40 180,5 200,20"
+                            fill="none"
+                            stroke="#c3ff00"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                        />
+                        <circle cx="60" cy="35" r="4" fill="#c3ff00" />
+                        <circle cx="130" cy="25" r="4" fill="#c3ff00" />
+                        <circle cx="200" cy="20" r="4" fill="#c3ff00" />
+                    </svg>
+                </div>
 
-                    <p className="token-description">
-                        Web3 digital token powering the Dimensionless platform on Polygon (ERC-20).
-                    </p>
+                <button className="top-up-btn">
+                    Top Up Balance <IconPlus size={18} />
+                </button>
+            </div>
 
-                    <button className="buy-token-btn">
-                        Buy Dimens <IconChevronRight size={18} />
-                    </button>
+            <div className="sidebar-section creators-section">
+                <div className="section-header-row">
+                    <h3 className="section-title">Featured Creators</h3>
+                    <button className="view-all-link">See All <IconChevronRight size={14} /></button>
+                </div>
+
+                <div className="creators-list">
+                    {mentors.map((mentor, i) => (
+                        <div key={i} className="creator-item">
+                            <img src={mentor.avatar} alt={mentor.name} className="creator-avatar" />
+                            <div className="creator-info">
+                                <span className="creator-name">{mentor.name}</span>
+                                <span className="creator-type">Creator</span>
+                            </div>
+                            <button className="follow-btn">Follow</button>
+                        </div>
+                    ))}
                 </div>
             </div>
         </aside>

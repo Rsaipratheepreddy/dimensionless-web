@@ -1,64 +1,56 @@
-/* SF Pro Font Faces */
+/* Poppins Font Faces */
 @font-face {
-    font-family: 'SF Pro Display';
-    src: url('/fonts/SF-Pro-Display-Regular.otf') format('opentype');
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'SF Pro Display';
-    src: url('/fonts/SF-Pro-Display-Medium.otf') format('opentype');
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'SF Pro Display';
-    src: url('/fonts/SF-Pro-Display-Semibold.otf') format('opentype');
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'SF Pro Display';
-    src: url('/fonts/SF-Pro-Display-Bold.otf') format('opentype');
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'SF Pro Text';
-    src: url('/fonts/SF-Pro-Text-Regular.otf') format('opentype');
-    font-weight: 400;
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'SF Pro Text';
-    src: url('/fonts/SF-Pro-Text-Medium.otf') format('opentype');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Text';
-    src: url('/fonts/SF-Pro-Text-Semibold.otf') format('opentype');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Text';
-    src: url('/fonts/SF-Pro-Text-Bold.otf') format('opentype');
-    font-weight: 700;
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Black.ttf') format('truetype');
+    font-weight: 900;
     font-style: normal;
     font-display: swap;
 }

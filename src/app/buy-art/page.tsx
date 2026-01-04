@@ -8,21 +8,8 @@ import AppLayout from '@/components/layout/AppLayout';
 import ArtCard from '@/components/features/tattoos/ArtCard';
 import { useCart } from '@/contexts/CartContext';
 import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 import './page.css';
-
-interface Painting {
-    id: string;
-    title: string;
-    description: string;
-    price: number;
-    image_url: string;
-    artist_id: string;
-    category_id: string;
-    profiles: {
-        full_name: string;
-        avatar_url: string;
-    } | null;
-}
 
 interface Category {
     id: string;
@@ -38,7 +25,6 @@ export default function BuyArtPage() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
-    const [selectedPainting, setSelectedPainting] = useState<any | null>(null);
 
     useEffect(() => {
         fetchData();
@@ -47,20 +33,20 @@ export default function BuyArtPage() {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const [paintingsRes, categoriesRes] = await Promise.all([
+            const [artworksRes, categoriesRes] = await Promise.all([
                 supabase
-                    .from('paintings')
-                    .select('*, profiles(full_name, avatar_url)')
-                    .eq('status', 'available')
+                    .from('artworks')
+                    .select('*, profiles:artist_id(full_name, avatar_url), artwork_images(*)')
+                    .eq('status', 'published')
                     .order('created_at', { ascending: false }),
                 fetch('/api/categories?type=art')
             ]);
 
-            if (paintingsRes.error) throw paintingsRes.error;
-            setPaintings(paintingsRes.data || []);
+            if (artworksRes.error) throw artworksRes.error;
+            setPaintings(artworksRes.data || []);
 
-            const categoriesData = await categoriesRes.json();
-            setCategories(categoriesData);
+            const categoriesResData = await categoriesRes.json();
+            setCategories(categoriesResData);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -68,16 +54,16 @@ export default function BuyArtPage() {
         }
     };
 
-
-
     const handleAddToCart = (painting: any) => {
         addToCart({
             id: painting.id,
+            cartKey: painting.id,
             title: painting.title,
-            price: painting.price,
-            image_url: painting.image_url,
+            price: painting.purchase_price,
+            image_url: painting.artwork_images?.find((img: any) => img.is_primary)?.image_url || painting.artwork_images?.[0]?.image_url,
             artist_id: painting.artist_id,
-            artist_name: painting.profiles?.full_name
+            artist_name: painting.profiles?.full_name,
+            quantity: 1
         });
         toast.success(`${painting.title} added to cart!`);
     };
@@ -85,7 +71,7 @@ export default function BuyArtPage() {
     const filteredPaintings = paintings.filter(p => {
         const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             p.profiles?.full_name?.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory = selectedCategory === 'all' || p.category_id === selectedCategory;
+        const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
         return matchesSearch && matchesCategory;
     });
 
@@ -121,8 +107,8 @@ export default function BuyArtPage() {
                         {categories.map(cat => (
                             <button
                                 key={cat.id}
-                                className={`filter-btn ${selectedCategory === cat.id ? 'active' : ''}`}
-                                onClick={() => setSelectedCategory(cat.id)}
+                                className={`filter-btn ${selectedCategory === cat.name ? 'active' : ''}`}
+                                onClick={() => setSelectedCategory(cat.name)}
                             >
                                 {cat.name}
                             </button>
@@ -140,75 +126,29 @@ export default function BuyArtPage() {
                                 </div>
                             ) : (
                                 filteredPaintings.map((painting) => (
-                                    <ArtCard
-                                        key={painting.id}
-                                        title={painting.title}
-                                        image={painting.image_url}
-                                        price={painting.price}
-                                        artistName={painting.profiles?.full_name}
-                                        artistAvatar={painting.profiles?.avatar_url}
-                                        showArtist={true}
-                                        onClick={() => setSelectedPainting(painting)}
-                                        onBuy={() => setSelectedPainting(painting)}
-                                    />
+                                    <Link key={painting.id} href={`/artworks/${painting.id}`} style={{ textDecoration: 'none' }}>
+                                        <ArtCard
+                                            id={painting.id}
+                                            title={painting.title}
+                                            image={painting.artwork_images?.find((img: any) => img.is_primary)?.image_url || painting.artwork_images?.[0]?.image_url}
+                                            price={painting.purchase_price || painting.lease_monthly_rate}
+                                            currency={painting.purchase_price ? 'INR' : 'Lease'}
+                                            artistName={painting.profiles?.full_name}
+                                            artistAvatar={painting.profiles?.avatar_url}
+                                            allowPurchase={painting.allow_purchase}
+                                            allowLease={painting.allow_lease}
+                                            onBuyNow={(e) => {
+                                                e.preventDefault();
+                                                handleAddToCart(painting);
+                                            }}
+                                        />
+                                    </Link>
                                 ))
                             )}
                         </div>
                     )}
                 </div>
-
-                {/* Detail Modal */}
-                {selectedPainting && (
-                    <div className="detail-modal-overlay" onClick={() => setSelectedPainting(null)}>
-                        <div className="detail-modal-content" onClick={(e) => e.stopPropagation()}>
-                            <button className="close-detail" onClick={() => setSelectedPainting(null)}>
-                                <IconX size={24} />
-                            </button>
-
-                            <div className="detail-grid">
-                                <div className="detail-image-side">
-                                    <img src={selectedPainting.image_url} alt={selectedPainting.title} />
-                                </div>
-
-                                <div className="detail-info-side">
-                                    <div className="detail-artist">
-                                        <img src={selectedPainting.profiles?.avatar_url || '/founder1.png'} alt={selectedPainting.profiles?.full_name} />
-                                        <span>{selectedPainting.profiles?.full_name}</span>
-                                    </div>
-
-                                    <h1>{selectedPainting.title}</h1>
-                                    <div className="detail-price-tag">₹{selectedPainting.price.toLocaleString()}</div>
-
-                                    <div className="detail-desc">
-                                        <h3>About the Artwork</h3>
-                                        <p>{selectedPainting.description || 'No description available for this piece.'}</p>
-                                    </div>
-
-                                    <div className="detail-actions">
-                                        <button
-                                            className={`add-to-cart-btn ${isInCart(selectedPainting.id) ? 'in-cart' : ''}`}
-                                            onClick={() => handleAddToCart(selectedPainting)}
-                                        >
-                                            {isInCart(selectedPainting.id) ? (
-                                                <><IconCheck size={20} /> In Cart</>
-                                            ) : (
-                                                <><IconPlus size={20} /> Add to Cart</>
-                                            )}
-                                        </button>
-                                        <button className="buy-now-detail-btn" onClick={() => {
-                                            if (!isInCart(selectedPainting.id)) handleAddToCart(selectedPainting);
-                                            window.location.href = '/checkout';
-                                        }}>
-                                            Checkout Now
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
         </AppLayout>
     );
 }
-
