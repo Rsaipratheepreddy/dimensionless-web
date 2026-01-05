@@ -27,6 +27,14 @@ export default function AuthBottomSheet({
     const [authMode, setAuthMode] = useState<AuthMode>(initialMode);
     const [email, setEmail] = useState('');
 
+    // Reset state when opening
+    React.useEffect(() => {
+        if (isOpen) {
+            setCurrentView('email');
+            setAuthMode(initialMode);
+        }
+    }, [isOpen, initialMode]);
+
     const stepTitles: Record<AuthView, string> = {
         'email': authMode === 'signin' ? 'Welcome back!' : 'Welcome to Dimensionless',
         'otp': 'Verify your email',

@@ -25,12 +25,10 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
-    const { profile, signOut } = useAuth();
+    const { profile, signOut, openAuthModal } = useAuth();
     const { itemCount } = useCart();
     const pathname = usePathname();
     const [showDropdown, setShowDropdown] = useState(false);
-    const [showAuthSheet, setShowAuthSheet] = useState(false);
-    const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signup');
 
     return (
         <>
@@ -116,8 +114,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                         <div className="auth-buttons">
                             <button
                                 onClick={() => {
-                                    setAuthMode('signin');
-                                    setShowAuthSheet(true);
+                                    openAuthModal('signin');
                                 }}
                                 className="sign-in-btn"
                             >
@@ -125,8 +122,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                             </button>
                             <button
                                 onClick={() => {
-                                    setAuthMode('signup');
-                                    setShowAuthSheet(true);
+                                    openAuthModal('signup');
                                 }}
                                 className="sign-up-btn"
                             >
@@ -137,11 +133,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 </div>
             </header>
 
-            <AuthBottomSheet
-                isOpen={showAuthSheet}
-                onClose={() => setShowAuthSheet(false)}
-                initialMode={authMode}
-            />
+            {/* AuthBottomSheet is now handled globally in AppLayout */}
         </>
     );
 };

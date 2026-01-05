@@ -2,7 +2,7 @@
 import './AppLayout.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import AuthModal from '../auth/AuthModal';
+import AuthBottomSheet from '../auth/AuthBottomSheet';
 import LaunchOverlay from './LaunchOverlay';
 import Footer from './Footer';
 import CreatorUpgradeModal from '../auth/CreatorUpgradeModal';
@@ -79,10 +79,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             {isMobileSidebarOpen && (
                 <div className="sidebar-overlay" onClick={() => setIsMobileSidebarOpen(false)} />
             )}
-            <AuthModal
+            <AuthBottomSheet
                 isOpen={showAuthModal}
                 onClose={closeAuthModal}
-                defaultTab={authModalTab}
+                initialMode={authModalTab}
             />
             <InstallPWA />
             <CreatorUpgradeModal />
