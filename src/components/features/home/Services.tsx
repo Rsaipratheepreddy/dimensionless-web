@@ -13,6 +13,7 @@ import {
     IconBuilding
 } from '@tabler/icons-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useRouter } from 'next/navigation';
 import './Services.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -34,6 +35,7 @@ const Services: React.FC<ServicesProps> = ({
 }) => {
     const [mounted, setMounted] = useState(false);
     const { theme } = useTheme();
+    const router = useRouter();
     const sectionRef = useRef<HTMLElement>(null);
     const badgeRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
@@ -127,7 +129,7 @@ const Services: React.FC<ServicesProps> = ({
         if (onJoinClassesClick) {
             onJoinClassesClick();
         } else {
-            console.log('Join Classes clicked');
+            router.push('/art-classes');
         }
     };
 

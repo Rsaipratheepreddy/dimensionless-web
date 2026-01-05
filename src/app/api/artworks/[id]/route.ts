@@ -1,15 +1,15 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/utils/supabase-server';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const supabase = await createClient();
-        const { id } = params;
+        const { id } = await params;
 
         // Fetch artwork with all related data
         const { data: artwork, error } = await supabase
@@ -72,11 +72,11 @@ export async function GET(
 
 export async function PATCH(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const supabase = await createClient();
-        const { id } = params;
+        const { id } = await params;
 
         // Get current user
         const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -182,11 +182,11 @@ export async function PATCH(
 
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const supabase = await createClient();
-        const { id } = params;
+        const { id } = await params;
 
         // Get current user
         const { data: { user }, error: authError } = await supabase.auth.getUser();

@@ -64,9 +64,9 @@
 .status-badge-top .dot {
     width: 6px;
     height: 6px;
-    background: #c3ff00;
+    background: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 0 8px #c3ff00;
+    box-shadow: 0 0 8px #ffffff;
 }
 
 .explore-overlay {
@@ -127,7 +127,7 @@
 
 .explore-btn-long:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(195, 255, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .featured-card-right {

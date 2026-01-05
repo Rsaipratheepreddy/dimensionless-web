@@ -73,28 +73,33 @@
         box-sizing: border-box !important;
     }
 
-    /* Generic Cards */
-    [class*="-card"],
-    [class*="card-"] {
+    /* Generic Cards - Exclude thumb-cards to prevent stretching */
+    [class*="-card"]:not(.thumb-card),
+    [class*="card-"]:not(.thumb-card) {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
     }
 
-    /* Card Buttons */
+    /* Card Buttons - Removed forced 100% width to allow natural sizes */
     [class*="card"] button,
     [class*="card"] .btn,
     [class*="card"] [class*="-btn"] {
-        width: 100% !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         box-sizing: border-box !important;
     }
 
-    /* Sections and Containers */
+    /* Sections and Containers - Tighten padding */
+    .main-content {
+        padding: 12px !important;
+    }
+
     section,
-    .section {
+    .section,
+    .product-page-container {
+        padding: 12px !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;

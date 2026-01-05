@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconPlus, IconTrash, IconEdit, IconPhoto, IconCircleCheckFilled } from '@tabler/icons-react';
+import { IconPlus, IconTrash, IconEdit, IconPhoto, IconCircleCheckFilled, IconCopy } from '@tabler/icons-react';
 import LottieLoader from '@/components/ui/LottieLoader';
 import AppLayout from '@/components/layout/AppLayout';
 import { useModal } from '@/contexts/ModalContext';
@@ -19,6 +19,7 @@ interface Artwork {
     lease_monthly_rate: number | null;
     status: 'draft' | 'published' | 'sold' | 'leased' | 'archived';
     artwork_images: { image_url: string; is_primary: boolean }[];
+    created_at?: string;
 }
 
 export default function GalleryPage() {
@@ -26,6 +27,7 @@ export default function GalleryPage() {
     const [artworks, setArtworks] = useState<Artwork[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingArt, setEditingArt] = useState<Artwork | undefined>(undefined);
 
     useEffect(() => {
         if (user) {
@@ -51,7 +53,50 @@ export default function GalleryPage() {
         }
     };
 
-    if (loading) return <LottieLoader />;
+    const handleDuplicate = async (art: Artwork) => {
+        try {
+            // 1. Create the new artwork object
+            const { id, created_at, artwork_images, ...rest } = art;
+            const newArt = {
+                ...rest,
+                title: `${art.title} (Copy)`,
+                status: 'draft', // Default to draft for safety
+                created_at: new Date().toISOString()
+            };
+
+            // 2. Insert the artwork
+            const { data: insertedArt, error: artError } = await supabase
+                .from('artworks')
+                .insert(newArt)
+                .select()
+                .single();
+
+            if (artError) throw artError;
+
+            // 3. Duplicate images
+            if (artwork_images && artwork_images.length > 0) {
+                const newImages = artwork_images.map(img => ({
+                    artwork_id: insertedArt.id,
+                    image_url: img.image_url,
+                    is_primary: img.is_primary
+                }));
+
+                const { error: imgError } = await supabase
+                    .from('artwork_images')
+                    .insert(newImages);
+
+                if (imgError) throw imgError;
+            }
+
+            toast.success('Artwork duplicated successfully');
+            fetchArtworks(); // Refresh the list
+        } catch (error: any) {
+            console.error('Duplication error:', error);
+            toast.error(error.message || 'Failed to duplicate artwork');
+        }
+    };
+
+    if (loading) return <AppLayout><LottieLoader /></AppLayout>;
 
     return (
         <AppLayout>
@@ -82,14 +127,17 @@ export default function GalleryPage() {
                     </div>
 
                     <div className="header-actions">
-                        <button className="add-btn" onClick={() => setIsModalOpen(true)}>
+                        <button className="add-btn" onClick={() => {
+                            setEditingArt(undefined);
+                            setIsModalOpen(true);
+                        }}>
                             <IconPlus size={20} />
                             <span>Add Artwork</span>
                         </button>
                     </div>
                 </div>
 
-                <div className="artworks-grid">
+                <div className="artworks-table-container">
                     {artworks.length === 0 ? (
                         <div className="empty-state">
                             <IconPhoto size={48} color="#94a3b8" />
@@ -100,47 +148,90 @@ export default function GalleryPage() {
                             </button>
                         </div>
                     ) : (
-                        artworks.map((art) => (
-                            <div key={art.id} className="artwork-card">
-                                <div className="artwork-image">
-                                    <img
-                                        src={art.artwork_images.find(img => img.is_primary)?.image_url || '/placeholder-art.png'}
-                                        alt={art.title}
-                                    />
-                                    <span className={`status-badge ${art.status}`}>{art.status}</span>
-                                </div>
-                                <div className="artwork-details">
-                                    <h3>{art.title}</h3>
-                                    <div className="pricing-info">
-                                        {art.purchase_price && (
-                                            <div className="price-tag">
-                                                <span className="label">Sale:</span>
-                                                <span className="value">₹{art.purchase_price.toLocaleString()}</span>
+                        <table className="artworks-table responsive-table">
+                            <thead>
+                                <tr>
+                                    <th>Artwork</th>
+                                    <th>Status</th>
+                                    <th>Pricing</th>
+                                    <th className="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {artworks.map((art) => (
+                                    <tr key={art.id}>
+                                        <td data-label="Artwork" className="full-width-cell">
+                                            <div className="artwork-cell">
+                                                <div className="artwork-thumb">
+                                                    <img
+                                                        src={art.artwork_images.find(img => img.is_primary)?.image_url || '/placeholder-art.png'}
+                                                        alt={art.title}
+                                                    />
+                                                </div>
+                                                <div className="artwork-info">
+                                                    <div className="artwork-name">{art.title}</div>
+                                                    <div className="artwork-id">ID: {art.id.slice(0, 8)}</div>
+                                                </div>
                                             </div>
-                                        )}
-                                        {art.lease_monthly_rate && profile?.is_pro && (
-                                            <div className="price-tag lease">
-                                                <span className="label">Lease:</span>
-                                                <span className="value">₹{art.lease_monthly_rate.toLocaleString()}/mo</span>
+                                        </td>
+                                        <td data-label="Status">
+                                            <span className={`status-pill ${art.status}`}>{art.status}</span>
+                                        </td>
+                                        <td data-label="Pricing">
+                                            <div className="pricing-cell">
+                                                {art.purchase_price ? (
+                                                    <div className="price-item">
+                                                        <span>Sale:</span>
+                                                        <strong>₹{art.purchase_price.toLocaleString()}</strong>
+                                                    </div>
+                                                ) : null}
+                                                {art.lease_monthly_rate && (
+                                                    <div className="price-item lease">
+                                                        <span>Lease:</span>
+                                                        <strong>₹{art.lease_monthly_rate.toLocaleString()}/mo</strong>
+                                                    </div>
+                                                )}
                                             </div>
-                                        )}
-                                        {art.lease_monthly_rate && !profile?.is_pro && (
-                                            <div className="price-tag lease unavailable">
-                                                <span className="label">Lease Status:</span>
-                                                <span className="value" style={{ fontSize: '12px', color: '#dc2626' }}>Pro Only</span>
+                                        </td>
+                                        <td data-label="Actions" className="text-right">
+                                            <div className="action-cell">
+                                                <button
+                                                    className="icon-btn"
+                                                    title="Duplicate Artwork"
+                                                    onClick={() => handleDuplicate(art)}
+                                                >
+                                                    <IconCopy size={18} />
+                                                </button>
+                                                <button
+                                                    className="icon-btn"
+                                                    title="Edit Artwork"
+                                                    onClick={() => {
+                                                        setEditingArt(art);
+                                                        setIsModalOpen(true);
+                                                    }}
+                                                >
+                                                    <IconEdit size={18} />
+                                                </button>
+                                                <button className="icon-btn delete" title="Delete Artwork">
+                                                    <IconTrash size={18} />
+                                                </button>
                                             </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        ))
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     )}
                 </div>
 
                 <AddArtworkModal
                     isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
+                    onClose={() => {
+                        setIsModalOpen(false);
+                        setEditingArt(undefined);
+                    }}
                     onSuccess={fetchArtworks}
+                    editArtwork={editingArt}
                 />
             </div>
         </AppLayout>

@@ -91,7 +91,14 @@
 .marketplace-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 24px;
+    gap: 32px;
+    align-items: stretch;
+}
+
+/* Ensure the Link wrapper also stretches to fill grid height */
+.marketplace-grid>a {
+    display: flex;
+    height: 100%;
 }
 
 /* Art Card */
@@ -316,7 +323,7 @@
 .detail-price-tag {
     font-size: 36px;
     font-weight: 800;
-    color: var(--color-primary);
+    color: #000000;
     margin-bottom: 40px;
 }
 
@@ -360,8 +367,8 @@
 }
 
 .add-to-cart-btn.in-cart {
-    background: #dcfce7;
-    color: #166534;
+    background: #000000;
+    color: #ffffff;
 }
 
 .add-to-cart-btn:hover {
@@ -374,7 +381,7 @@
     border-radius: 16px;
     font-weight: 700;
     font-size: 18px;
-    background: var(--color-primary);
+    background: #000000;
     color: white;
     transition: all 0.3s ease;
 }
@@ -407,7 +414,38 @@
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
+    .marketplace-container {
+        padding: 16px;
+    }
+
+    .marketplace-grid {
+        grid-template-columns: 1fr !important;
+        gap: 32px;
+        align-items: stretch;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+    .art-image {
+        height: 320px;
+    }
+
+    .marketplace-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .header-text h1 {
+        font-size: 24px;
+    }
+
+    .header-tools {
+        max-width: none;
+        width: 100%;
+    }
+
     .detail-grid {
         grid-template-columns: 1fr;
         overflow-y: auto;
@@ -427,19 +465,5 @@
 
     .detail-info-side h1 {
         font-size: 32px;
-    }
-}
-
-@media (max-width: 768px) {
-    .marketplace-hero h1 {
-        font-size: 32px;
-    }
-
-    .marketplace-container {
-        padding: 16px;
-    }
-
-    .art-image {
-        height: 250px;
     }
 }

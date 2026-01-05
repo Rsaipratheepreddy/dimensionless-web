@@ -3,7 +3,7 @@ import React from 'react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import AppLayout from '@/components/layout/AppLayout';
-import { IconTrash, IconShoppingCart, IconArrowRight, IconBrush } from '@tabler/icons-react';
+import { IconTrash, IconShoppingCart, IconArrowRight, IconBrush, IconX } from '@tabler/icons-react';
 import Link from 'next/link';
 import './page.css';
 
@@ -42,7 +42,7 @@ export default function CartPage() {
                 <div className="cart-content-grid">
                     <div className="cart-items-list">
                         {cartItems.map((item) => (
-                            <div key={item.id} className="cart-item-card">
+                            <div key={item.cartKey} className="cart-item-card">
                                 <div className="item-image">
                                     <img src={item.image_url} alt={item.title} />
                                 </div>
@@ -53,7 +53,11 @@ export default function CartPage() {
                                     </div>
                                     <div className="item-price">₹{item.price.toLocaleString()}</div>
                                 </div>
-                                <button className="remove-item-btn" onClick={() => removeFromCart(item.id)} title="Remove">
+                                <button
+                                    className="remove-item-btn"
+                                    onClick={() => removeFromCart(item.cartKey)}
+                                    title="Remove"
+                                >
                                     <IconX size={20} />
                                 </button>
                             </div>
@@ -85,7 +89,7 @@ export default function CartPage() {
                             <p className="summary-note">Secure payment processed via Razorpay</p>
                         </div>
 
-                        <Link href="/buy-art" className="continue-shopping">
+                        <Link href="/" className="continue-shopping">
                             Continue Browsing
                         </Link>
                     </div>
@@ -94,8 +98,3 @@ export default function CartPage() {
         </AppLayout>
     );
 }
-
-// Sub-component for IconX since I forgot to import it
-const IconX = ({ size }: { size: number }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6l-12 12"></path><path d="M6 6l12 12"></path></svg>
-);

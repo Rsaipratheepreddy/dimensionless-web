@@ -1,27 +1,35 @@
 .nft-art-card {
     background: white;
-    border-radius: 28px;
+    border-radius: 32px;
     padding: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
     cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    max-width: 280px;
-    /* Constrain card width */
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 100%;
+    /* Allow it to fill the column */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    height: 100%;
+    /* Important for grid equal height */
 }
 
-.nft-art-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-}
+/* Removed hover transformation per user request */
+
 
 .nft-image-container {
     position: relative;
     width: 100%;
+    margin: 0 0 16px;
     aspect-ratio: 1;
-    border-radius: 22px;
+    /* Square is more stable for 2x2 */
+    border-radius: 20px;
     overflow: visible;
-    margin-bottom: 24px;
+    /* Prevents avatar clipping */
+    flex-shrink: 0;
 }
 
 .nft-main-img {
@@ -32,9 +40,8 @@
     transition: transform 0.5s ease;
 }
 
-.nft-art-card:hover .nft-main-img {
-    transform: scale(1.05);
-}
+/* Removed image hover scale per user request */
+
 
 .nft-top-actions {
     position: absolute;
@@ -43,22 +50,29 @@
     right: 16px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    /* Ensure they don't stretch vertically */
     pointer-events: none;
 }
 
 .nft-icon-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    aspect-ratio: 1 / 1;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.95);
     border: none;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     pointer-events: auto;
     transition: all 0.2s;
     color: #1a1a1a;
+    padding: 0 !important;
+    flex-shrink: 0;
 }
 
 .nft-icon-btn.shadow {
@@ -76,19 +90,21 @@
 
 .nft-creator-badge {
     position: absolute;
-    bottom: -18px;
-    left: 14px;
+    bottom: -8px;
+    /* Slightly less overlap below to clear title */
+    left: 10px;
     z-index: 10;
 }
 
 .creator-avatar-wrap {
     position: relative;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    /* Slightly smaller avatar */
+    height: 38px;
     border-radius: 50%;
-    padding: 2.5px;
+    padding: 2px;
     background: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .creator-img {
@@ -113,75 +129,82 @@
 }
 
 .nft-card-content {
-    padding: 4px 8px 8px;
+    padding: 0 4px 4px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+    min-width: 0;
+    /* Prevents overflow pushing */
 }
 
 .nft-title {
     font-size: 18px;
     font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 6px;
+    color: #0f172a;
+    margin-bottom: 4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
 }
 
 .nft-price-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    margin-top: auto;
+    /* Push to bottom of content section if possible */
 }
 
 .nft-primary-price {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
 }
 
 .price-label {
-    font-size: 13px;
+    font-size: 12px;
+    /* Smaller label */
     color: #64748b;
     font-weight: 600;
 }
 
 .price-val {
-    font-size: 16px;
-    font-weight: 700;
-    color: #1e293b;
+    font-size: 14px;
+    /* Smaller value */
+    font-weight: 800;
+    color: #0f172a;
 }
 
 .nft-secondary-price {
-    font-size: 15px;
-    font-weight: 700;
-    color: #f97316;
+    font-size: 14px;
+    font-weight: 800;
+    color: #f94f16;
 }
 
 .nft-card-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 4px;
 }
 
 .nft-btn {
-    padding: 10px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 12px 10px;
+    border-radius: 14px;
+    /* Slightly more rounded */
+    font-size: 13px;
+    /* Slightly smaller button text */
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
     border: none;
 }
 
-.btn-history {
-    background: transparent;
-    border: 2px solid #e2e8f0;
-    color: #64748b;
-}
+/* btn-history removed */
 
-.btn-history:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-}
 
 .btn-buy {
     background: #000000;
@@ -194,4 +217,68 @@
     background: #000000;
     transform: none;
     box-shadow: none;
+}
+
+@media (max-width: 480px) {
+    .nft-art-card {
+        padding: 12px;
+        border-radius: 28px;
+        max-width: 100%;
+    }
+
+    .nft-image-container {
+        margin-bottom: 8px;
+        border-radius: 16px;
+    }
+
+    .nft-main-img {
+        border-radius: 16px;
+    }
+
+    .nft-title {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .creator-avatar-wrap {
+        width: 30px;
+        height: 30px;
+    }
+
+    .verification-tick {
+        width: 12px;
+        height: 12px;
+    }
+
+    .price-label {
+        font-size: 10px;
+    }
+
+    .price-val {
+        font-size: 11px;
+    }
+
+    .nft-price-row {
+        margin-bottom: 8px;
+    }
+
+    .nft-btn {
+        padding: 8px 4px;
+        font-size: 11px;
+        border-radius: 10px;
+    }
+
+    .nft-top-actions {
+        top: 8px;
+        left: 8px;
+        right: 8px;
+    }
+
+    .nft-icon-btn {
+        max-width: 32px !important;
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+    }
 }

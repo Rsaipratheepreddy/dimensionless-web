@@ -65,9 +65,7 @@ const ArtCard: React.FC<ArtCardProps> = ({
                 />
 
                 <div className="nft-top-actions">
-                    <button className="nft-icon-btn shadow" onClick={(e) => e.stopPropagation()}>
-                        <IconDots size={20} />
-                    </button>
+                    <div /> {/* Spacer */}
                     <button className="nft-icon-btn shadow wishlist" onClick={(e) => e.stopPropagation()}>
                         <IconHeart size={20} />
                     </button>
@@ -82,7 +80,7 @@ const ArtCard: React.FC<ArtCardProps> = ({
                         />
                         {isVerified && (
                             <div className="verification-tick">
-                                <IconCircleCheckFilled size={14} color="#3b82f6" />
+                                <IconCircleCheckFilled size={14} color="#000000" />
                             </div>
                         )}
                     </div>
@@ -105,10 +103,6 @@ const ArtCard: React.FC<ArtCardProps> = ({
                 </div>
 
                 <div className="nft-card-actions">
-                    <button className="nft-btn btn-history" onClick={handleHistoryClick}>
-                        History
-                    </button>
-
                     {allowPurchase ? (
                         <button className="nft-btn btn-buy" onClick={handleBuyClick}>
                             Buy Now

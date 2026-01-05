@@ -9,6 +9,7 @@ import ArtCard from '@/components/features/tattoos/ArtCard';
 import { useCart } from '@/contexts/CartContext';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import './page.css';
 
 interface Category {
@@ -19,6 +20,7 @@ interface Category {
 
 export default function BuyArtPage() {
     const { user } = useAuth();
+    const router = useRouter();
     const { addToCart, isInCart } = useCart();
     const [paintings, setPaintings] = useState<any[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
@@ -66,6 +68,7 @@ export default function BuyArtPage() {
             quantity: 1
         });
         toast.success(`${painting.title} added to cart!`);
+        router.push(`/artworks/${painting.id}`);
     };
 
     const filteredPaintings = paintings.filter(p => {

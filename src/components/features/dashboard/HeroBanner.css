@@ -45,11 +45,11 @@
 }
 
 .hero-title {
-    font-size: 36px;
+    font-size: clamp(24px, 6vw, 36px);
     font-weight: 700;
     color: #ffffff;
-    line-height: 1.2;
-    margin-bottom: 32px;
+    line-height: 1.1;
+    margin-bottom: clamp(16px, 4vw, 32px);
     max-width: 400px;
 }
 
@@ -225,7 +225,9 @@
     }
 
     .hero-banner-left {
-        min-height: 280px;
+        min-height: 240px;
+        padding: 24px;
+        /* Reduced from 48px */
         flex-direction: column;
         align-items: flex-start;
     }

@@ -4,6 +4,7 @@ import React from 'react';
 import './FeaturedCard.css';
 import { IconCalendar, IconArrowRight, IconChevronRight } from '@tabler/icons-react';
 import { getOptimizedImageUrl } from '@/utils/image-optimization';
+import { supabase } from '@/utils/supabase';
 
 interface FeaturedItem {
     title: string;
@@ -19,40 +20,54 @@ interface FeaturedItem {
 
 const FeaturedCard: React.FC = () => {
     const [activeIndex, setActiveIndex] = React.useState(0);
-
-    const items: FeaturedItem[] = [
-        {
-            title: "Traditional Masterpiece Collection",
-            description: "Explore our curated collection of traditional paintings from renowned local artists. A blend of culture and creativity.",
-            image: "/painting.png",
-            date: "May 01, 2022, 12:01 PM",
-            price: "₹ 1.52",
-            creator: { name: "Evgeniy Korsak", avatar: "/founder1.png" }
-        },
-        {
-            title: "Modern Studio Sessions",
-            description: "Go behind the scenes and experience the art of creation in our premium studio environments. Exclusive access granted.",
-            image: "/studio.png",
-            date: "June 12, 2022, 11:30 AM",
-            price: "₹ 2.40",
-            creator: { name: "Zakir Horizontal", avatar: "/founder2.png" }
-        },
-        {
-            title: "Abstract Cultural Insights",
-            description: "Discover new dimensions of artistic expression with our abstract series. A visual journey through modern interpretations.",
-            image: "/abtimg.png",
-            date: "July 20, 2022, 02:45 PM",
-            price: "₹ 1.85",
-            creator: { name: "Leonardo Samsul", avatar: "/ajay-founder.png" }
-        }
-    ];
+    const [items, setItems] = React.useState<FeaturedItem[]>([]);
+    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
+        const fetchFeatured = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('artworks')
+                    .select('*, profiles:artist_id(full_name, avatar_url)')
+                    .eq('status', 'published')
+                    .limit(5);
+
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    const formatted = data.map((art: any) => ({
+                        title: art.title,
+                        description: art.description || 'Exclusive artwork collection',
+                        image: art.artwork_images?.[0]?.image_url || '/placeholder-art.png',
+                        date: new Date(art.created_at).toLocaleDateString(),
+                        price: `₹ ${art.purchase_price || art.lease_monthly_rate}`,
+                        creator: {
+                            name: art.profiles?.full_name || 'Anonymous Creator',
+                            avatar: art.profiles?.avatar_url || '/founder1.png'
+                        }
+                    }));
+                    setItems(formatted);
+                }
+            } catch (err) {
+                console.error('Error fetching featured:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchFeatured();
+    }, []);
+
+    React.useEffect(() => {
+        if (items.length === 0) return;
         const timer = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % items.length);
         }, 5000);
         return () => clearInterval(timer);
     }, [items.length]);
+
+    if (loading) return <div className="featured-card">Loading...</div>;
+    if (items.length === 0) return null;
 
     return (
         <div className="featured-carousel-container">

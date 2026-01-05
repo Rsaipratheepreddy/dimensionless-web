@@ -9,9 +9,10 @@ interface AddArtworkModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSuccess: () => void;
+    editArtwork?: any;
 }
 
-export default function AddArtworkModal({ isOpen, onClose, onSuccess }: AddArtworkModalProps) {
+export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwork }: AddArtworkModalProps) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [purchasePrice, setPurchasePrice] = useState('');
@@ -20,6 +21,7 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess }: AddArtwo
     const [images, setImages] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState<'draft' | 'published'>('published');
 
     // New fields
     const [stockQuantity, setStockQuantity] = useState('1');
@@ -28,8 +30,46 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess }: AddArtwo
     const [deliveryInfo, setDeliveryInfo] = useState('');
     const [allowPurchase, setAllowPurchase] = useState(true);
     const [allowLease, setAllowLease] = useState(false);
+    const [existingImages, setExistingImages] = useState<any[]>([]);
 
     const supabase = createClient();
+
+    React.useEffect(() => {
+        if (editArtwork && isOpen) {
+            setTitle(editArtwork.title || '');
+            setDescription(editArtwork.description || '');
+            setPurchasePrice(editArtwork.purchase_price?.toString() || '');
+            setLeaseRate(editArtwork.lease_monthly_rate?.toString() || '');
+            setCategory(editArtwork.category || 'Fine Art');
+            setStockQuantity(editArtwork.stock_quantity?.toString() || '1');
+            setOrigin(editArtwork.origin || '');
+            setDesignStyle(editArtwork.design_style || '');
+            setDeliveryInfo(editArtwork.delivery_info || '');
+            setAllowPurchase(editArtwork.allow_purchase ?? true);
+            setAllowLease(editArtwork.allow_lease ?? false);
+            setStatus(editArtwork.status === 'draft' ? 'draft' : 'published');
+            setExistingImages(editArtwork.artwork_images || []);
+            setPreviews(editArtwork.artwork_images?.map((img: any) => img.image_url) || []);
+            setImages([]); // Reset new images
+        } else if (isOpen) {
+            // Reset for new creation
+            setTitle('');
+            setDescription('');
+            setPurchasePrice('');
+            setLeaseRate('');
+            setCategory('Fine Art');
+            setStockQuantity('1');
+            setOrigin('');
+            setDesignStyle('');
+            setDeliveryInfo('');
+            setAllowPurchase(true);
+            setAllowLease(false);
+            setStatus('published');
+            setExistingImages([]);
+            setPreviews([]);
+            setImages([]);
+        }
+    }, [editArtwork, isOpen]);
 
     if (!isOpen) return null;
 
@@ -50,7 +90,7 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess }: AddArtwo
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (images.length === 0) {
+        if (images.length === 0 && existingImages.length === 0) {
             toast.error('Please add at least one image');
             return;
         }
@@ -60,66 +100,81 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess }: AddArtwo
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) throw new Error('Not authenticated');
 
-            // 1. Create Artwork Record
-            const { data: artwork, error: artworkError } = await supabase
-                .from('artworks')
-                .insert({
-                    title,
-                    description,
-                    artist_id: user.id,
-                    purchase_price: purchasePrice ? parseFloat(purchasePrice) : null,
-                    lease_monthly_rate: leaseRate ? parseFloat(leaseRate) : null,
-                    category,
-                    stock_quantity: parseInt(stockQuantity) || 1,
-                    origin,
-                    design_style: designStyle,
-                    delivery_info: deliveryInfo,
-                    allow_purchase: allowPurchase,
-                    allow_lease: allowLease,
-                    status: 'published' // Default to published for simplicity now
-                })
-                .select()
-                .single();
+            const artworkData = {
+                title,
+                description,
+                artist_id: user.id,
+                purchase_price: purchasePrice ? parseFloat(purchasePrice) : null,
+                lease_monthly_rate: leaseRate ? parseFloat(leaseRate) : null,
+                category,
+                stock_quantity: parseInt(stockQuantity) || 1,
+                origin,
+                design_style: designStyle,
+                delivery_info: deliveryInfo,
+                allow_purchase: allowPurchase,
+                allow_lease: allowLease,
+                status: status
+            };
 
-            if (artworkError) throw artworkError;
+            let artworkId = editArtwork?.id;
 
-            // 2. Upload Images and Create Image Records
-            const imageRecords = [];
-            for (let i = 0; i < images.length; i++) {
-                const file = images[i];
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${artwork.id}/${Date.now()}-${i}.${fileExt}`;
+            if (editArtwork) {
+                const { error: updateError } = await supabase
+                    .from('artworks')
+                    .update(artworkData)
+                    .eq('id', editArtwork.id);
 
-                const { error: uploadError } = await supabase.storage
-                    .from('artwork-images')
-                    .upload(fileName, file);
+                if (updateError) throw updateError;
+            } else {
+                const { data: artwork, error: artworkError } = await supabase
+                    .from('artworks')
+                    .insert(artworkData)
+                    .select()
+                    .single();
 
-                if (uploadError) throw uploadError;
-
-                const { data: { publicUrl } } = supabase.storage
-                    .from('artwork-images')
-                    .getPublicUrl(fileName);
-
-                imageRecords.push({
-                    artwork_id: artwork.id,
-                    image_url: publicUrl,
-                    is_primary: i === 0,
-                    display_order: i
-                });
+                if (artworkError) throw artworkError;
+                artworkId = artwork.id;
             }
 
-            const { error: imagesError } = await supabase
-                .from('artwork_images')
-                .insert(imageRecords);
+            // 2. Upload NEW Images
+            if (images.length > 0) {
+                const imageRecords = [];
+                for (let i = 0; i < images.length; i++) {
+                    const file = images[i];
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${artworkId}/${Date.now()}-${i}.${fileExt}`;
 
-            if (imagesError) throw imagesError;
+                    const { error: uploadError } = await supabase.storage
+                        .from('artwork-images')
+                        .upload(fileName, file);
 
-            toast.success('Artwork added successfully!');
+                    if (uploadError) throw uploadError;
+
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('artwork-images')
+                        .getPublicUrl(fileName);
+
+                    imageRecords.push({
+                        artwork_id: artworkId,
+                        image_url: publicUrl,
+                        is_primary: i === 0 && existingImages.length === 0,
+                        display_order: existingImages.length + i
+                    });
+                }
+
+                const { error: imagesError } = await supabase
+                    .from('artwork_images')
+                    .insert(imageRecords);
+
+                if (imagesError) throw imagesError;
+            }
+
+            toast.success(editArtwork ? 'Artwork updated successfully!' : 'Artwork added successfully!');
             onSuccess();
             onClose();
         } catch (err: any) {
             console.error(err);
-            toast.error(err.message || 'Failed to add artwork');
+            toast.error(err.message || (editArtwork ? 'Failed to update artwork' : 'Failed to add artwork'));
         } finally {
             setLoading(false);
         }
@@ -129,8 +184,8 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess }: AddArtwo
         <div className="modal-overlay">
             <div className="modal-content artwork-modal">
                 <div className="modal-header">
-                    <h2>Add New Artwork</h2>
-                    <button className="close-btn" onClick={onClose}><IconX size={24} /></button>
+                    <h2>{editArtwork ? 'Edit Artwork' : 'Add New Artwork'}</h2>
+                    <button type="button" className="close-btn" onClick={onClose}><IconX size={24} /></button>
                 </div>
 
                 <form onSubmit={handleSubmit}>
@@ -235,6 +290,17 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess }: AddArtwo
                                     />
                                 </div>
                                 <div className="form-group">
+                                    <label>Status</label>
+                                    <select
+                                        value={status}
+                                        onChange={e => setStatus(e.target.value as 'draft' | 'published')}
+                                        className="status-select"
+                                    >
+                                        <option value="published">Published (Visible to customers)</option>
+                                        <option value="draft">Draft (Private to you)</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
                                     <label>Delivery Info</label>
                                     <input
                                         type="text"
@@ -270,7 +336,7 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess }: AddArtwo
                     <div className="modal-footer">
                         <button type="button" className="btn-secondary" onClick={onClose}>Cancel</button>
                         <button type="submit" className="btn-primary" disabled={loading}>
-                            {loading ? 'Adding...' : 'Publish Artwork'}
+                            {loading ? (editArtwork ? 'Updating...' : 'Adding...') : (editArtwork ? 'Update Artwork' : 'Publish Artwork')}
                         </button>
                     </div>
                 </form>
@@ -320,12 +386,20 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess }: AddArtwo
                     margin-bottom: 8px;
                     color: #1e293b;
                 }
-                .form-group input, .form-group textarea {
+                .form-group input, .form-group textarea, .form-group select {
                     width: 100%;
                     padding: 12px 16px;
                     border: 2px solid #e2e8f0;
                     border-radius: 12px;
                     font-size: 16px;
+                    background: white;
+                }
+                .status-select {
+                    cursor: pointer;
+                    appearance: none;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: right 12px center;
                 }
                 .form-row {
                     display: grid;

@@ -17,6 +17,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import AuthBottomSheet from '@/components/auth/AuthBottomSheet';
 
 interface HeaderProps {
@@ -25,6 +26,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
     const { profile, signOut } = useAuth();
+    const { itemCount } = useCart();
     const pathname = usePathname();
     const [showDropdown, setShowDropdown] = useState(false);
     const [showAuthSheet, setShowAuthSheet] = useState(false);
@@ -50,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                             <IconDiamond size={20} />
                             <span>Piercings</span>
                         </Link>
-                        <Link href="/courses" className={`header-nav-link ${pathname === '/courses' ? 'active' : ''}`}>
+                        <Link href="/art-classes" className={`header-nav-link ${pathname === '/art-classes' ? 'active' : ''}`}>
                             <IconCertificate size={20} />
                             <span>Class & Courses</span>
                         </Link>
@@ -74,14 +76,19 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 </div>
 
                 <div className="header-right">
-                    <div className="header-actions">
-                        <button className="action-btn">
-                            <IconBell size={26} />
-                        </button>
-                        <button className="action-btn">
-                            <IconShoppingCart size={26} />
-                        </button>
-                    </div>
+                    {profile && (
+                        <div className="header-actions">
+                            <button className="action-btn">
+                                <IconBell size={26} />
+                            </button>
+                            <Link href="/cart" className="action-btn cart-btn">
+                                <IconShoppingCart size={26} />
+                                {itemCount > 0 && (
+                                    <span className="cart-badge">{itemCount}</span>
+                                )}
+                            </Link>
+                        </div>
+                    )}
 
                     {profile ? (
                         <div className="user-profile-dropdown">

@@ -69,6 +69,13 @@
     padding: 32px;
 }
 
+@media (max-width: 768px) {
+    .main-content {
+        padding: 16px;
+        /* Reduced from 32px */
+    }
+}
+
 .right-sidebar {
     display: none;
 }
@@ -114,6 +121,7 @@
         border-radius: 0;
         padding-bottom: 90px;
         padding-top: 140px;
+        /* Increased to account for fixed header + fixed sub-nav */
     }
 
     .sidebar-overlay {

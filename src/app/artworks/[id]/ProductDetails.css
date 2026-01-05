@@ -1,7 +1,11 @@
 .product-page-container {
-    max-width: 1400px;
+    max-width: 1200px;
+    /* Slightly narrower for better focus */
     margin: 0 auto;
-    padding: 24px 40px;
+    padding: 32px 24px;
+    background: white;
+    /* Give it a card look on the gray background */
+    border-radius: 32px;
 }
 
 .breadcrumb {
@@ -36,9 +40,9 @@
 
 .product-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 60px;
-    margin-bottom: 80px;
+    grid-template-columns: minmax(300px, 1.2fr) minmax(300px, 1fr);
+    gap: 40px;
+    margin-bottom: 60px;
 }
 
 /* Image Section */
@@ -55,16 +59,18 @@
 
 .thumb-card {
     width: 64px;
-    height: 64px;
+    aspect-ratio: 1;
+    /* Force square ratio */
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
     border: 2px solid transparent;
     transition: border-color 0.2s;
+    flex-shrink: 0;
 }
 
 .thumb-card.active {
-    border-color: #3b82f6;
+    border-color: #000000;
 }
 
 .thumb-card img {
@@ -187,9 +193,9 @@
 }
 
 .variant-chip.active {
-    background: #f1f5f9;
-    border-color: #3b82f6;
-    color: #3b82f6;
+    background: #000000;
+    border-color: #000000;
+    color: #ffffff;
 }
 
 .quantity-section {
@@ -232,6 +238,7 @@
     border-left: 1px solid #e2e8f0;
     border-right: 1px solid #e2e8f0;
     font-weight: 700;
+    background: white;
 }
 
 .stock-hint {
@@ -276,16 +283,24 @@
 
 .btn-cart {
     background: white;
-    border: 2px solid #3b82f6;
-    color: #3b82f6;
+    border: 2px solid #000000;
+    color: #000000;
     flex: 1;
 }
 
 .btn-buy {
-    background: #3b82f6;
+    background: #000000;
     border: none;
     color: white;
     flex: 1;
+}
+
+.btn-buy:hover {
+    background: #1a1a1a;
+}
+
+.btn-cart:hover {
+    background: #f8fafc;
 }
 
 .btn-lease {
@@ -304,26 +319,29 @@
     width: 60px;
 }
 
-.seller-mini-profile {
+.seller-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 24px;
     background: #f8fafc;
-    border-radius: 20px;
+    border-radius: 24px;
     border: 1px solid #f1f5f9;
+    margin-top: 40px;
 }
 
 .seller-info {
     display: flex;
     align-items: center;
     gap: 16px;
+    min-width: 0;
 }
 
 .seller-avatar {
     position: relative;
-    width: 56px;
-    height: 56px;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
 }
 
 .seller-avatar img {
@@ -331,22 +349,33 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .verified-icon {
     position: absolute;
-    bottom: 0;
-    left: -4px;
-    background: #22c55e;
+    bottom: -2px;
+    right: -2px;
+    background: #000000;
     color: white;
     border-radius: 50%;
-    padding: 2px;
+    padding: 3px;
+    border: 2px solid white;
+    z-index: 2;
+}
+
+.seller-details {
+    min-width: 0;
 }
 
 .seller-details h3 {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .seller-stats {
@@ -364,6 +393,27 @@
     border-radius: 12px;
     font-weight: 700;
     cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.view-profile-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.single-stock {
+    background: #f1f5f9;
+    padding: 12px 20px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.single-stock .stock-hint {
+    color: #1e293b;
+    font-weight: 600;
+    font-size: 14px;
 }
 
 /* Tabs Section */
@@ -390,7 +440,7 @@
 }
 
 .tab-headers button.active {
-    color: #3b82f6;
+    color: #000000;
 }
 
 .tab-headers button.active::after {
@@ -400,7 +450,7 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background: #3b82f6;
+    background: #000000;
     border-radius: 4px;
 }
 
@@ -414,15 +464,112 @@
 @media (max-width: 1024px) {
     .product-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 24px;
     }
 
+    /* Maintain desktop side-rail look on mobile */
     .image-section {
-        flex-direction: column-reverse;
+        flex-direction: row;
+        gap: 12px;
+        align-items: flex-start;
     }
 
     .thumbnail-rail {
-        flex-direction: row;
+        flex-direction: column;
+        overflow-y: auto;
+        max-height: 400px;
+        /* Limit height if many images */
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .thumb-card {
+        width: 60px;
+        /* Slightly smaller for mobile side rail */
+        aspect-ratio: 1;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .product-page-container {
+        padding: 12px 8px;
+        /* Further reduced padding */
+        border-radius: 16px;
+    }
+
+    .breadcrumb {
+        margin-bottom: 12px;
+        font-size: 12px;
+        gap: 8px;
+    }
+
+    .main-preview-container {
+        border-radius: 12px;
+        max-height: 70vh;
+        /* Prevent it from being too tall on some phones */
+    }
+
+    .product-title {
+        font-size: 22px;
+        /* Further reduced font size */
+        margin-bottom: 4px;
+        line-height: 1.1;
+    }
+
+    .header-meta {
+        margin-bottom: 12px;
+    }
+
+    .specs-grid {
+        gap: 8px;
+        margin-bottom: 24px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 32px;
+    }
+
+    .action-buttons button {
+        width: 100% !important;
+    }
+
+    .btn-wishlist {
+        width: 100% !important;
+        aspect-ratio: auto !important;
+        height: 52px;
+    }
+
+    .seller-card {
+        margin-top: 24px;
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .view-profile-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Fix Tabs overflow and sizing */
+    .tab-headers {
+        gap: 20px;
         overflow-x: auto;
+        padding-bottom: 8px;
+        scrollbar-width: none;
+    }
+
+    .tab-headers::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab-headers button {
+        font-size: 14px;
+        white-space: nowrap;
+        padding-bottom: 8px;
     }
 }

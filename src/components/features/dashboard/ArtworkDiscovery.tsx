@@ -65,6 +65,7 @@ export default function ArtworkDiscovery() {
             quantity: 1
         });
         toast.success(`${art.title} added to cart!`);
+        router.push(`/artworks/${art.id}`); // Navigate to details page
     };
 
     const handleLeaseNow = (art: any) => {
