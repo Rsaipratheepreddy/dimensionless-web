@@ -91,9 +91,9 @@
         left: 0;
         right: 0;
         width: 100%;
-        height: calc(70px + env(safe-area-inset-bottom));
+        height: calc(76px + env(safe-area-inset-bottom));
         flex-direction: row;
-        padding: 0 0 env(safe-area-inset-bottom) 0;
+        padding: 0 0 calc(6px + env(safe-area-inset-bottom)) 0;
         z-index: 2000;
         /* Extremely high to stay above all */
         background: rgba(255, 255, 255, 0.95);
