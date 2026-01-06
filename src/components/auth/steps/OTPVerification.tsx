@@ -33,6 +33,7 @@ export default function OTPVerification({ email, mode, onVerified, onBack }: OTP
 
     const sendOTP = async () => {
         try {
+            console.log('Attempting to send OTP to:', email);
             const { error } = await supabase.auth.signInWithOtp({
                 email,
                 options: {
@@ -40,9 +41,15 @@ export default function OTPVerification({ email, mode, onVerified, onBack }: OTP
                 }
             });
 
-            if (error) throw error;
+            if (error) {
+                console.error('Supabase OTP error:', error);
+                throw error;
+            }
+
+            console.log('OTP sent successfully');
             setResendTimer(30);
         } catch (err: any) {
+            console.error('Failed to send OTP:', err);
             setError(err.message || 'Failed to send OTP');
         }
     };

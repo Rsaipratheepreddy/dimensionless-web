@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { createClient } from '@/utils/supabase-client';
+import { getURL } from '@/utils/auth-helpers';
 
 export type AuthMode = 'signin' | 'signup';
 
@@ -30,7 +31,7 @@ export default function EmailEntry({ onSubmit, initialMode }: EmailEntryProps) {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: `${window.location.origin}/auth/callback`
+                    redirectTo: getURL('/auth/callback')
                 }
             });
 

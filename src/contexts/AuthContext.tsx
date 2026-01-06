@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { supabase } from '@/utils/supabase';
 import type { User } from '@supabase/supabase-js';
+import { getURL } from '@/utils/auth-helpers';
 
 interface AuthContextType {
     user: User | null;
@@ -129,7 +130,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         try {
             // Need to specify the redirect URL for password reset
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
+                redirectTo: getURL('/auth/callback?next=/reset-password'),
             });
             return { error };
         } catch (error) {
