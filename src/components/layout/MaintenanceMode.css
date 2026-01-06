@@ -90,65 +90,31 @@
     font-weight: 500;
 }
 
-.launch-timer {
+.maintenance-icon-badge {
+    width: 80px;
+    height: 80px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 24px;
     display: flex;
-    align-items: center;
-    gap: 16px;
-    margin: 20px 0;
-}
-
-.timer-block {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 90px;
-    height: 100px;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    color: #6366f1;
+    margin-bottom: 24px;
+    border: 1px solid rgba(99, 102, 241, 0.2);
 }
 
-.timer-value {
-    font-size: 36px;
-    font-weight: 800;
-    color: #0f172a;
-    font-family: 'Inter', sans-serif;
-    line-height: 1;
-    animation: timerPulse 3s ease-in-out infinite;
+.maintenance-spin {
+    animation: slow-spin 8s linear infinite;
 }
 
-@keyframes timerPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 1;
+@keyframes slow-spin {
+    from {
+        transform: rotate(0deg);
     }
 
-    50% {
-        transform: scale(1.08);
-        opacity: 0.8;
-        color: #6366f1;
+    to {
+        transform: rotate(360deg);
     }
-}
-
-.timer-label {
-    font-size: 9px;
-    font-weight: 800;
-    color: #64748b;
-    letter-spacing: 0.15em;
-    margin-top: 8px;
-}
-
-.timer-separator {
-    font-size: 24px;
-    font-weight: 800;
-    color: #94a3b8;
-    margin-bottom: 20px;
-    opacity: 0.5;
 }
 
 .launch-lockbox {
@@ -309,15 +275,7 @@
         font-size: 24px;
     }
 
-    .timer-value {
-        font-size: 36px;
-    }
-
-    .timer-block {
-        min-width: 60px;
-    }
-
-    .launch-timer {
-        gap: 12px;
+    .launch-title {
+        font-size: 24px;
     }
 }

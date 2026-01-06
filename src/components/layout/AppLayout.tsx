@@ -3,7 +3,7 @@ import './AppLayout.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import AuthBottomSheet from '../auth/AuthBottomSheet';
-import LaunchOverlay from './LaunchOverlay';
+import MaintenanceMode from './MaintenanceMode';
 import Footer from './Footer';
 import CreatorUpgradeModal from '../auth/CreatorUpgradeModal';
 
@@ -25,15 +25,15 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     const { profile, showAuthModal, authModalTab, closeAuthModal } = useAuth();
 
     useEffect(() => {
-        // Initialization on client side
-        const unlockedStatus = localStorage.getItem('dimen_unlocked') === 'true';
-        setIsUnlocked(unlockedStatus);
+        // Check if maintenance is bypassed
+        const maintenanceBypassed = localStorage.getItem('dimen_maintenance_v1') === 'true';
+        setIsUnlocked(maintenanceBypassed);
         setIsHydrated(true);
     }, []);
 
     const handleUnlock = () => {
         setIsUnlocked(true);
-        localStorage.setItem('dimen_unlocked', 'true');
+        localStorage.setItem('dimen_maintenance_v1', 'true');
     };
 
     const toggleMobileSidebar = () => {
@@ -56,7 +56,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
     return (
         <div className={`app-layout ${isMobileSidebarOpen ? 'mobile-sidebar-open' : ''}`}>
-            {isHydrated && !isUnlocked && <LaunchOverlay onUnlock={handleUnlock} />}
+            {isHydrated && !isUnlocked && <MaintenanceMode onUnlock={handleUnlock} />}
 
             <div className="main-wrapper">
                 <Sidebar isMobileOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} />
