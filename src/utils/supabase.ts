@@ -1,11 +1,17 @@
 import { createBrowserClient } from '@supabase/ssr';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+// Use environment variables with fallbacks to prevent build-time crashes
+// during static generation/prerendering when env vars might be missing.
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder-url.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
-// Helpful diagnostic log (only in development)
+// Helpful diagnostic log
 if (process.env.NODE_ENV === 'development') {
-    console.log('🔌 Supabase Initializing with URL:', supabaseUrl?.substring(0, 20) + '...');
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        console.warn('⚠️ Supabase environment variables are missing. Some features may not work.');
+    } else {
+        console.log('🔌 Supabase Initializing with URL:', supabaseUrl.substring(0, 20) + '...');
+    }
 }
 
 export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey, {
