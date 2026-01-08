@@ -23,41 +23,80 @@ export default function BottomSheet({
     const sheetRef = useRef<HTMLDivElement>(null);
     const startY = useRef(0);
     const currentY = useRef(0);
+    const isDragging = useRef(false);
+    const scrollPos = useRef(0);
 
     useEffect(() => {
         if (isOpen) {
+            // Save current scroll position
+            scrollPos.current = window.scrollY;
+
+            // Apply styles to lock body and prevent rubber-banding
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollPos.current}px`;
+            document.body.style.width = '100%';
             document.body.style.overflow = 'hidden';
+            document.body.style.touchAction = 'none';
         } else {
+            // Restore scroll position
+            const top = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
             document.body.style.overflow = '';
+            document.body.style.touchAction = '';
+
+            if (top) {
+                window.scrollTo(0, parseInt(top || '0') * -1);
+            }
         }
 
         return () => {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
             document.body.style.overflow = '';
+            document.body.style.touchAction = '';
         };
     }, [isOpen]);
 
     const handleTouchStart = (e: React.TouchEvent) => {
-        startY.current = e.touches[0].clientY;
+        const touch = e.touches[0];
+        startY.current = touch.clientY;
+        currentY.current = touch.clientY;
+        isDragging.current = true;
+
+        if (sheetRef.current) {
+            sheetRef.current.style.transition = 'none';
+        }
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isDragging.current) return;
+
         currentY.current = e.touches[0].clientY;
         const diff = currentY.current - startY.current;
 
+        // Only allow dragging down
         if (diff > 0 && sheetRef.current) {
             sheetRef.current.style.transform = `translateY(${diff}px)`;
         }
     };
 
     const handleTouchEnd = () => {
+        if (!isDragging.current) return;
+        isDragging.current = false;
+
         const diff = currentY.current - startY.current;
 
-        if (diff > 100) {
-            onClose();
-        }
-
         if (sheetRef.current) {
-            sheetRef.current.style.transform = '';
+            sheetRef.current.style.transition = 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)';
+
+            if (diff > 120) {
+                onClose();
+            } else {
+                sheetRef.current.style.transform = 'translateY(0)';
+            }
         }
     };
 

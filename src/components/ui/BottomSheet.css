@@ -1,15 +1,16 @@
 .bottom-sheet-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
     z-index: 9999;
     display: flex;
     align-items: flex-end;
-    animation: fadeIn 0.2s ease;
+    animation: fadeInSheet 0.3s ease;
+    touch-action: none;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInSheet {
     from {
         opacity: 0;
     }
@@ -44,12 +45,13 @@
 }
 
 .bottom-sheet-handle {
-    width: 40px;
-    height: 4px;
-    background: #cbd5e1;
-    border-radius: 2px;
-    margin: 12px auto 8px;
+    width: 44px;
+    height: 5px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    margin: 10px auto 10px;
     cursor: grab;
+    flex-shrink: 0;
 }
 
 .bottom-sheet-handle:active {
@@ -100,6 +102,8 @@
     padding: 24px;
     overflow-y: auto;
     flex: 1;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
 }
 
 .bottom-sheet-content::-webkit-scrollbar {
