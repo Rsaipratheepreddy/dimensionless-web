@@ -4,12 +4,12 @@ import { cookies } from 'next/headers';
 export async function createClient() {
     const cookieStore = await cookies();
 
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder-url.supabase.co';
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     return createServerClient(
-        url,
-        anonKey,
+        url || 'https://missing-url.supabase.co',
+        anonKey || 'missing-key',
         {
             global: {
                 fetch: (...args) => {
