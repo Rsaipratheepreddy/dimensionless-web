@@ -137,7 +137,7 @@ const UpcomingSection = () => {
                 .select('event_id, events(*)')
                 .eq('user_id', user?.id);
 
-            const registeredIds = (registrations || []).map(r => r.event_id).filter(Boolean);
+            const registeredIds = (registrations || []).map((r: any) => r.event_id).filter(Boolean);
             const registeredItems = (registrations || []).map((r: any) => {
                 const event = Array.isArray(r.events) ? r.events[0] : r.events;
                 if (!event) return null;
@@ -168,7 +168,7 @@ const UpcomingSection = () => {
 
             const { data: availableEvents } = await query;
 
-            const availableItems = (availableEvents || []).map(e => ({
+            const availableItems = (availableEvents || []).map((e: any) => ({
                 id: e.id,
                 title: e.title,
                 image: e.image_url,
@@ -219,7 +219,7 @@ const UpcomingSection = () => {
 
             const { data: availableClasses } = await query;
 
-            const availableItems = (availableClasses || []).map(c => ({
+            const availableItems = (availableClasses || []).map((c: any) => ({
                 id: c.id,
                 title: c.title,
                 image: c.thumbnail_url,
@@ -292,7 +292,7 @@ const UpcomingSection = () => {
                         )}
 
                         <div className="upcoming-grid carousel-grid" ref={carouselRef} onScroll={checkScroll}>
-                            {currentItems.map(item => (
+                            {(currentItems || []).map((item: any) => (
                                 <Link href={item.link} key={`${item.id}-${item.type}`} className={`upcoming-card ${item.isRegistered ? 'registered' : ''}`}>
                                     <div className="card-image">
                                         <img

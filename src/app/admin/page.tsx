@@ -72,7 +72,7 @@ export default function AdminDashboard() {
                 .select('amount')
                 .eq('status', 'completed');
 
-            const totalVolume = orders?.reduce((acc: number, order: { amount: number }) => acc + (order.amount || 0), 0) || 0;
+            const totalVolume = orders?.reduce((acc: number, order: any) => acc + (order.amount || 0), 0) || 0;
 
             // 5. Active Users (Proxy: updated in last 24h)
             const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();

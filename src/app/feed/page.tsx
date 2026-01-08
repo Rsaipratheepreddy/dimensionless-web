@@ -139,7 +139,7 @@ export default function FeedPage() {
             if (error) throw error;
 
             // Fetch interaction stats for each post (Original logic)
-            const postsWithStats = await Promise.all((postsData || []).map(async (post) => {
+            const postsWithStats = await Promise.all((postsData || []).map(async (post: any) => {
                 const postPolls = Array.isArray(post.polls) ? post.polls[0] : post.polls;
 
                 const { count: likesCount } = await supabase
@@ -675,7 +675,7 @@ export default function FeedPage() {
                                 {activeCommentPostId === post.id && (
                                     <div className="comments-section">
                                         <div className="comments-list">
-                                            {comments[post.id]?.map(comment => (
+                                            {(comments[post.id] || []).map((comment: any) => (
                                                 <div key={comment.id} className="comment-item">
                                                     <div className="comment-content">
                                                         <span className="comment-username">{comment.profiles.full_name}</span>
@@ -712,7 +712,7 @@ export default function FeedPage() {
                             </div>
                             <div className="menu-list">
                                 {upcomingEvents.length > 0 ? (
-                                    upcomingEvents.map(event => (
+                                    (upcomingEvents || []).map((event: any) => (
                                         <Link href={`/events/${event.id}`} key={event.id} className="event-item" style={{ textDecoration: 'none' }}>
                                             <IconCalendarEvent size={24} color={event.type === 'competition' ? "#ff7675" : "#a29bfe"} />
                                             <div className="event-info">
@@ -739,7 +739,7 @@ export default function FeedPage() {
                             </div>
                             <div className="menu-list">
                                 {suggestedUsers.length > 0 ? (
-                                    suggestedUsers.map(suggestedUser => (
+                                    (suggestedUsers || []).map((suggestedUser: any) => (
                                         <Link href={`/profile/${suggestedUser.id}`} key={suggestedUser.id} className="contact-item" style={{ textDecoration: 'none' }}>
                                             <img
                                                 src={suggestedUser.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(suggestedUser.full_name)}`}

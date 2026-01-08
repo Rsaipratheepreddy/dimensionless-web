@@ -238,7 +238,7 @@ export default function ClassEditorPage() {
                                         onChange={e => setFormData({ ...formData, category_id: e.target.value })}
                                     >
                                         <option value="">Select Category</option>
-                                        {categories.map(cat => (
+                                        {(categories || []).map((cat: any) => (
                                             <option key={cat.id} value={cat.id}>{cat.name}</option>
                                         ))}
                                     </select>
@@ -345,7 +345,7 @@ export default function ClassEditorPage() {
                                 </button>
                             </div>
                             <div className="sessions-list">
-                                {sessions.map((session, index) => (
+                                {(sessions || []).map((session: any, index: number) => (
                                     <div key={index} className="session-item">
                                         <div className="session-head">
                                             <span className="session-number">Session {index + 1}</span>

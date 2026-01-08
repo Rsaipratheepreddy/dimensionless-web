@@ -27,10 +27,10 @@ interface ReviewSectionProps {
 export default function ReviewSection({ artworkId, avgRating, totalReviews, reviews, onReviewAdded }: ReviewSectionProps) {
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
-    const ratingsCount = [5, 4, 3, 2, 1].map(star => ({
+    const ratingsCount = [5, 4, 3, 2, 1].map((star: number) => ({
         star,
-        count: reviews.filter(r => r.rating === star).length,
-        percent: totalReviews > 0 ? (reviews.filter(r => r.rating === star).length / totalReviews) * 100 : 0
+        count: (reviews || []).filter((r: any) => r.rating === star).length,
+        percent: totalReviews > 0 ? ((reviews || []).filter((r: any) => r.rating === star).length / totalReviews) * 100 : 0
     }));
 
     return (
@@ -51,7 +51,7 @@ export default function ReviewSection({ artworkId, avgRating, totalReviews, revi
                 </div>
 
                 <div className="rating-bars">
-                    {ratingsCount.map(({ star, percent }) => (
+                    {(ratingsCount || []).map(({ star, percent }: any) => (
                         <div key={star} className="rating-bar-row">
                             <span className="star-label">{star} star</span>
                             <div className="bar-bg">
@@ -75,7 +75,7 @@ export default function ReviewSection({ artworkId, avgRating, totalReviews, revi
                             <h3>Customer Reviews</h3>
                             <button className="write-review-btn" onClick={() => setIsReviewModalOpen(true)}>Write a Review</button>
                         </div>
-                        {reviews.map(review => (
+                        {(reviews || []).map((review: any) => (
                             <div key={review.id} className="review-item">
                                 <div className="review-user">
                                     <div className="user-avatar">

@@ -174,7 +174,7 @@ export default function AdminTattoosPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredDesigns.map(design => (
+                            {(filteredDesigns || []).map((design: any) => (
                                 <tr key={design.id}>
                                     <td>
                                         <div className="item-cell">

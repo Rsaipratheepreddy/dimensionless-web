@@ -77,7 +77,7 @@ export default function AdminAttendeesPage() {
         if (attendees.length === 0) return toast.error('No attendees to export');
 
         const headers = ['Name', 'Email', 'Status', 'Type', 'Amount Paid', 'Date Joined'];
-        const rows = attendees.map(a => [
+        const rows = (attendees || []).map((a: any) => [
             a.user.full_name,
             a.user.email,
             a.status,
@@ -88,7 +88,7 @@ export default function AdminAttendeesPage() {
 
         const csvContent = "data:text/csv;charset=utf-8,"
             + headers.join(",") + "\n"
-            + rows.map(e => e.join(",")).join("\n");
+            + rows.map((e: any) => e.join(",")).join("\n");
 
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
@@ -177,7 +177,7 @@ export default function AdminAttendeesPage() {
                                     </td>
                                 </tr>
                             ) : (
-                                filteredAttendees.map(a => (
+                                (filteredAttendees || []).map((a: any) => (
                                     <tr key={a.id}>
                                         <td>
                                             <div className="user-cell">

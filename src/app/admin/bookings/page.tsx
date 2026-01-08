@@ -165,7 +165,7 @@ export default function AdminBookingsPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredBookings.map(booking => (
+                            {(filteredBookings || []).map((booking: any) => (
                                 <tr key={booking.id}>
                                     <td>
                                         <div className="booking-cell">

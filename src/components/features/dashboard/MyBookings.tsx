@@ -84,7 +84,7 @@ export default function MyBookings() {
     return (
         <div className="my-bookings-container">
             <div className="bookings-grid">
-                {bookings.map(booking => (
+                {(bookings || []).map((booking: any) => (
                     <div key={booking.id} className="booking-card">
                         <div className="booking-image">
                             <img src={booking.tattoo_designs.image_url || '/painting.png'} alt={booking.tattoo_designs.name} />

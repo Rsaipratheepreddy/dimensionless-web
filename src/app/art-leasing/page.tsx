@@ -132,7 +132,7 @@ export default function ArtLeasingGallery() {
                     >
                         All Artworks
                     </button>
-                    {categories.map(cat => (
+                    {(categories || []).map((cat: any) => (
                         <button
                             key={cat.id}
                             className={`filter-chip ${selectedCategory === cat.id ? 'active' : ''}`}
@@ -147,7 +147,7 @@ export default function ArtLeasingGallery() {
                     <LottieLoader />
                 ) : filteredPaintings.length > 0 ? (
                     <div className="leasing-grid">
-                        {filteredPaintings.map(art => {
+                        {(filteredPaintings || []).map((art: any) => {
                             const { price, label } = getDisplayPrice(art);
                             const availability = getAvailabilityStatus(art);
                             return (

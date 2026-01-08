@@ -150,7 +150,7 @@ export default function AdminPiercingsPage() {
                         <div className="stat-label">Active</div>
                     </div>
                     <div className="stat-card">
-                        <div className="stat-value">₹{Math.min(...designs.map(d => d.base_price || 0)).toLocaleString()}</div>
+                        <div className="stat-value">₹{Math.min(...(designs || []).map((d: any) => d.base_price || 0)).toLocaleString()}</div>
                         <div className="stat-label">Starting Price</div>
                     </div>
                 </div>
@@ -189,7 +189,7 @@ export default function AdminPiercingsPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredDesigns.map(design => (
+                            {(filteredDesigns || []).map((design: any) => (
                                 <tr key={design.id}>
                                     <td>
                                         <div className="item-cell">

@@ -114,7 +114,7 @@ export default function AdminRedemptions() {
                                             <td colSpan={5} className="text-center py-8">No redemption requests found.</td>
                                         </tr>
                                     ) : (
-                                        requests.map((req) => (
+                                        (requests || []).map((req: any) => (
                                             <tr key={req.id}>
                                                 <td>
                                                     <div className="artist-cell">
@@ -159,7 +159,7 @@ export default function AdminRedemptions() {
                             {requests.length === 0 ? (
                                 <p className="text-center py-8">No redemption requests found.</p>
                             ) : (
-                                requests.map((req) => (
+                                (requests || []).map((req: any) => (
                                     <div key={req.id} className="admin-mobile-card">
                                         <div className="admin-card-header">
                                             <div className="admin-card-user-info">

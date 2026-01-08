@@ -322,7 +322,7 @@ export default function AdminLeasingPage() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {inventory.map(item => (
+                                            {(inventory || []).map((item: any) => (
                                                 <tr key={item.id}>
                                                     <td>
                                                         <div className="table-artwork-info">
@@ -370,7 +370,7 @@ export default function AdminLeasingPage() {
 
                                 {/* Mobile Card View */}
                                 <div className="leasing-cards-wrapper mobile-only">
-                                    {inventory.map(item => (
+                                    {(inventory || []).map((item: any) => (
                                         <div key={item.id} className="leasing-mobile-card">
                                             <div className="leasing-card-header">
                                                 <img src={item.image_url} alt={item.title} className="card-thumb" />
@@ -423,7 +423,7 @@ export default function AdminLeasingPage() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {orders.map(order => (
+                                            {(orders || []).map((order: any) => (
                                                 <tr key={order.id}>
                                                     <td>{order.profiles?.full_name}</td>
                                                     <td>{order.leasable_paintings?.title}</td>
@@ -458,7 +458,7 @@ export default function AdminLeasingPage() {
 
                                 {/* Mobile Card View */}
                                 <div className="leasing-cards-wrapper mobile-only">
-                                    {orders.map(order => (
+                                    {(orders || []).map((order: any) => (
                                         <div key={order.id} className="leasing-mobile-card">
                                             <div className="leasing-card-header">
                                                 <div className="card-header-info">

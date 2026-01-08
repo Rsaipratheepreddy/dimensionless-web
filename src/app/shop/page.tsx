@@ -235,7 +235,7 @@ export default function ShopPage() {
 
                 // Automatically create feed posts for bulk-uploaded paintings
                 if (newPaintings && newPaintings.length > 0) {
-                    const postInserts = newPaintings.map(p => ({
+                    const postInserts = newPaintings.map((p: Painting) => ({
                         user_id: user.id,
                         type: 'painting',
                         content: `Just listed a new artwork: ${p.title}`,
@@ -381,7 +381,7 @@ export default function ShopPage() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {paintings.map((painting) => (
+                                            {(paintings || []).map((painting: any) => (
                                                 <tr key={painting.id}>
                                                     <td className="col-image">
                                                         <div className="table-img-wrap">
@@ -414,7 +414,7 @@ export default function ShopPage() {
 
                                 {/* Mobile Card View */}
                                 <div className="shop-cards-wrapper mobile-only">
-                                    {paintings.map((painting) => (
+                                    {(paintings || []).map((painting: any) => (
                                         <div key={painting.id} className="painting-mobile-card">
                                             <div className="card-image-section">
                                                 <img src={painting.image_url || '/placeholder-art.png'} alt={painting.title} />

@@ -105,7 +105,7 @@ export default function AdminCategoriesPage() {
                 </div>
 
                 <div className="filters">
-                    {types.map(type => (
+                    {(types || []).map((type: any) => (
                         <button
                             key={type}
                             className={`filter-btn ${filter === type ? 'active' : ''}`}
@@ -118,7 +118,7 @@ export default function AdminCategoriesPage() {
                 </div>
 
                 <div className="categories-grid">
-                    {filteredCategories.map(category => (
+                    {(filteredCategories || []).map((category: any) => (
                         <div key={category.id} className="category-card">
                             <div className="category-header">
                                 <div className="category-color" style={{ backgroundColor: category.color }}>

@@ -67,7 +67,7 @@ export default function ReviewModal({ isOpen, onClose, artworkId, onSuccess }: R
                     <div className="rating-picker">
                         <label>Overall Rating</label>
                         <div className="stars-input">
-                            {[1, 2, 3, 4, 5].map(star => (
+                            {[1, 2, 3, 4, 5].map((star: number) => (
                                 <button
                                     key={star}
                                     type="button"

@@ -55,17 +55,17 @@ export default function StaffMetrics() {
             if (taskError) throw taskError;
 
             // 3. Process data
-            const staffWithMetrics = profiles.map(p => {
-                const userTasks = tasks.filter(t => t.assigned_to === p.id);
+            const staffWithMetrics = (profiles || []).map((p: any) => {
+                const userTasks = (tasks || []).filter((t: any) => t.assigned_to === p.id);
                 return {
                     ...p,
                     task_count: userTasks.length,
-                    completed_count: userTasks.filter(t => t.status === 'completed').length
+                    completed_count: userTasks.filter((t: any) => t.status === 'completed').length
                 };
             });
 
-            const totalTasks = tasks.length;
-            const completedTotal = tasks.filter(t => t.status === 'completed').length;
+            const totalTasks = tasks?.length || 0;
+            const completedTotal = (tasks || []).filter((t: any) => t.status === 'completed').length;
 
             setStaff(staffWithMetrics);
             setGlobalStats({

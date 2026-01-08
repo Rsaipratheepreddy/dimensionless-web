@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
         // Fetch session counts separately for each class
         const classesWithSessions = await Promise.all(
-            (classes || []).map(async (artClass) => {
+            (classes || []).map(async (artClass: any) => {
                 const { count } = await supabase
                     .from('art_class_sessions')
                     .select('*', { count: 'exact', head: true })

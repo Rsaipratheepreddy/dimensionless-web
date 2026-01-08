@@ -155,7 +155,7 @@ export default function AdminPiercingSlotsPage() {
                             <button onClick={() => setShowAddModal(true)}>Create Manual Slot</button>
                         </div>
                     ) : (
-                        slots.map(slot => (
+                        (slots || []).map((slot: any) => (
                             <div
                                 key={slot.id}
                                 className={`slot-card-premium ${!slot.is_available ? 'booked' : ''} ${slot.current_bookings > 0 ? 'has-bookings' : ''}`}
