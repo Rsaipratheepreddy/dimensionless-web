@@ -15,7 +15,7 @@ import {
     IconShare,
     IconCertificate
 } from '@tabler/icons-react';
-import { createClient } from '@/utils/supabase-client';
+import { createClient } from '@/utils/supabase';
 import AppLayout from '@/components/layout/AppLayout';
 import LottieLoader from '@/components/ui/LottieLoader';
 import Link from 'next/link';

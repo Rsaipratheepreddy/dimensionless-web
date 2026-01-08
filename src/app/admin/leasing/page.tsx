@@ -72,6 +72,8 @@ export default function AdminLeasingPage() {
     const [previewUrl, setPreviewUrl] = useState('');
     const [artistAvatarFile, setArtistAvatarFile] = useState<File | null>(null);
     const [artistPreviewUrl, setArtistPreviewUrl] = useState('');
+    const [alsoListForSale, setAlsoListForSale] = useState(false);
+    const [salePrice, setSalePrice] = useState('');
 
     useEffect(() => {
         if (profile?.role === 'admin') {
@@ -199,11 +201,39 @@ export default function AdminLeasingPage() {
                 if (error) throw error;
                 toast.success('Leasable artwork updated!');
             } else {
-                const { error } = await supabase
+                const { data: newLeasable, error } = await supabase
                     .from('leasable_paintings')
-                    .insert([payload]);
+                    .insert([payload])
+                    .select()
+                    .single();
+
                 if (error) throw error;
-                toast.success('Leasable artwork added!');
+
+                if (alsoListForSale && newLeasable) {
+                    const salePayload = {
+                        title: payload.title,
+                        description: payload.description,
+                        price: parseFloat(salePrice),
+                        image_url: payload.image_url,
+                        artist_name: payload.artist_name,
+                        artist_avatar_url: payload.artist_avatar_url,
+                        category: payload.category,
+                        is_leasable: true,
+                        leasing_id: newLeasable.id
+                    };
+                    const { error: saleError } = await supabase
+                        .from('paintings')
+                        .insert([salePayload]);
+
+                    if (saleError) {
+                        console.error('Failed to list for sale:', saleError);
+                        toast.error('Leasable added, but failed to list for sale.');
+                    } else {
+                        toast.success('Artwork listed for both Leasing and Sale!');
+                    }
+                } else {
+                    toast.success('Leasable artwork added!');
+                }
             }
 
             setIsModalOpen(false);
@@ -244,26 +274,13 @@ export default function AdminLeasingPage() {
         setArtistPreviewUrl('');
     };
 
-    if (profile?.role !== 'admin') {
-        return (
-            <AppLayout>
-                <div className="admin-leasing-container">
-                    <div className="error-center">
-                        <h2>Access Denied</h2>
-                        <p>Only administrators can access this page.</p>
-                    </div>
-                </div>
-            </AppLayout>
-        );
-    }
-
     return (
         <AppLayout>
             <div className="admin-leasing-container">
-                <header className="admin-leasing-header">
-                    <div>
-                        <h1>Art Leasing Admin</h1>
-                        <p>Manage your leasable inventory and rental orders</p>
+                <header className="admin-hero">
+                    <div className="hero-content">
+                        <h1>Art Leasing</h1>
+                        <p>Manage your rental inventory & leasing orders</p>
                     </div>
                     <button className="post-submit-btn" onClick={() => { resetForm(); setIsModalOpen(true); }}>
                         <IconPlus size={20} /> Add Leasable Art
@@ -533,6 +550,35 @@ export default function AdminLeasingPage() {
                                         <label>Price (₹)</label>
                                         <input type="number" value={rateAmount} onChange={e => setRateAmount(e.target.value)} required placeholder="0.00" />
                                     </div>
+
+                                    {!editingItem && (
+                                        <div className="form-group full merged-listing-option">
+                                            <div className="checkbox-row">
+                                                <input
+                                                    type="checkbox"
+                                                    id="listForSale"
+                                                    checked={alsoListForSale}
+                                                    onChange={e => setAlsoListForSale(e.target.checked)}
+                                                />
+                                                <label htmlFor="listForSale" className="checkbox-label">
+                                                    <strong>Also list for Direct Sale</strong>
+                                                    <span>Makes this artwork available for purchase in the shop</span>
+                                                </label>
+                                            </div>
+                                            {alsoListForSale && (
+                                                <div className="sale-price-field animate-slide-down">
+                                                    <label>Sale Price (₹)</label>
+                                                    <input
+                                                        type="number"
+                                                        value={salePrice}
+                                                        onChange={e => setSalePrice(e.target.value)}
+                                                        required
+                                                        placeholder="Purchase price"
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
 
                                     <div className="form-group full">
                                         <label>Artwork Image</label>

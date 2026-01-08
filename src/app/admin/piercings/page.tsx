@@ -128,36 +128,51 @@ export default function AdminPiercingsPage() {
 
     return (
         <AppLayout>
-            <div className="admin-piercings-page">
-                <div className="page-header">
-                    <div>
+            <div className="admin-container">
+                <header className="admin-hero">
+                    <div className="hero-content">
                         <h1>Piercing Designs</h1>
-                        <p>Manage your piercing design catalog</p>
+                        <p>Manage your professional piercing design catalog and pricing.</p>
                     </div>
                     <button className="add-btn" onClick={handleAdd}>
                         <IconPlus size={20} />
-                        Add Design
+                        Add New Design
                     </button>
+                </header>
+
+                <div className="stats-row">
+                    <div className="stat-card">
+                        <div className="stat-value">{designs.length}</div>
+                        <div className="stat-label">Total Designs</div>
+                    </div>
+                    <div className="stat-card">
+                        <div className="stat-value">{designs.filter(d => d.is_active).length}</div>
+                        <div className="stat-label">Active</div>
+                    </div>
+                    <div className="stat-card">
+                        <div className="stat-value">₹{Math.min(...designs.map(d => d.base_price || 0)).toLocaleString()}</div>
+                        <div className="stat-label">Starting Price</div>
+                    </div>
                 </div>
 
-                <div className="filters">
+                <div className="filters-premium">
                     <button
                         className={filter === 'all' ? 'active' : ''}
                         onClick={() => setFilter('all')}
                     >
-                        All ({designs.length})
+                        All Designs
                     </button>
                     <button
                         className={filter === 'active' ? 'active' : ''}
                         onClick={() => setFilter('active')}
                     >
-                        Active ({designs.filter(d => d.is_active).length})
+                        Active
                     </button>
                     <button
                         className={filter === 'inactive' ? 'active' : ''}
                         onClick={() => setFilter('inactive')}
                     >
-                        Inactive ({designs.filter(d => !d.is_active).length})
+                        Inactive
                     </button>
                 </div>
 

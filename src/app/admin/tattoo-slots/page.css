@@ -1,444 +1,159 @@
-.admin-slots-page {
-    padding: 0;
-}
-
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 32px;
-}
-
-.page-header h1 {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--text-main);
-    margin: 0 0 8px 0;
-}
-
-.page-header p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-.add-btn {
+/* Premium Tattoo Slots Admin Styles */
+.admin-actions-group {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    gap: 16px;
 }
 
-.add-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(91, 79, 232, 0.3);
-}
-
-.date-selector {
+.date-selector-premium {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 16px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background: white;
+    padding: 10px 16px;
     border-radius: 12px;
-    margin-bottom: 24px;
-    width: fit-content;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.date-selector input {
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+.date-selector-premium input {
+    border: none;
     font-size: 14px;
-    color: var(--text-main);
-    background: var(--bg-card);
-    cursor: pointer;
+    font-weight: 600;
+    color: #0f172a;
+    background: transparent;
+    outline: none;
 }
 
-.stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
-}
-
-.stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-}
-
-.stat-value {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--color-primary);
-    margin-bottom: 8px;
-}
-
-.stat-label {
-    font-size: 14px;
-    color: var(--text-secondary);
-}
-
-.slots-grid {
+.slots-grid-premium {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
+    gap: 20px;
 }
 
-.slot-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 16px;
+.slot-card-premium {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 20px;
     transition: all 0.2s ease;
-}
-
-.slot-card:hover {
-    border-color: rgba(138, 116, 249, 0.3);
-    transform: translateY(-2px);
-}
-
-.slot-card.fully-booked {
-    opacity: 0.8;
-}
-
-.slot-card.has-bookings {
     cursor: pointer;
-    border-color: var(--color-primary);
-    background: rgba(91, 79, 232, 0.05);
+    position: relative;
+    overflow: hidden;
 }
 
-.slot-card.has-bookings:hover {
-    background: rgba(91, 79, 232, 0.1);
-    box-shadow: 0 8px 30px rgba(91, 79, 232, 0.15);
+.slot-card-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    border-color: #3b82f6;
 }
 
-.slot-header {
+.slot-card-premium.generated {
+    background: #fcfdfe;
+    border-style: dashed;
+}
+
+.slot-card-premium.booked {
+    background: #fff1f2;
+}
+
+.slot-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
 }
 
-.slot-time {
+.time-badge {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-main);
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
 }
 
-.delete-btn {
+.delete-action-btn {
     width: 32px;
     height: 32px;
-    border-radius: 50%;
-    background: transparent;
-    border: 1px solid var(--border-color);
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     color: #ef4444;
+    background: #fef2f2;
+    border: none;
+    cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.delete-btn:hover {
-    background: #fee2e2;
-    border-color: #ef4444;
+.delete-action-btn:hover {
+    background: #ef4444;
+    color: white;
 }
 
-.slot-info {
+.slot-card-body {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.booking-count {
+.booking-info {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 14px;
-    color: var(--text-secondary);
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
 }
 
-.status-badge {
+.status-pill {
     padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-.status-badge.available {
-    background: #d1fae5;
-    color: #065f46;
+.status-pill.available {
+    background: #f0fdf4;
+    color: #10b981;
 }
 
-.status-badge.full {
-    background: #fee2e2;
-    color: #991b1b;
+.status-pill.full {
+    background: #fff1f2;
+    color: #e11d48;
 }
 
-.empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 64px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-}
-
-.empty-state p {
-    font-size: 16px;
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-.empty-state button {
-    padding: 12px 24px;
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-/* Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
+.generated-badge {
+    position: absolute;
+    bottom: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 20px;
-}
-
-.modal-content {
-    background: var(--bg-card);
-    border-radius: 20px;
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.modal-header h2 {
-    font-size: 24px;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 10px;
     font-weight: 700;
-    color: var(--text-main);
-    margin: 0;
+    text-align: center;
+    padding: 2px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.close-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--text-secondary);
-    transition: all 0.2s ease;
-}
-
-.close-btn:hover {
-    background: var(--border-color);
-}
-
-.slot-form {
-    padding: 24px;
-}
-
-.form-group {
-    margin-bottom: 24px;
-}
-
-.toggle-group {
-    background: var(--bg-secondary);
-    padding: 16px;
-    border-radius: 12px;
-    margin-bottom: 24px;
-}
-
-.toggle-label {
-    display: flex !important;
-    align-items: center !important;
-    cursor: pointer;
-    margin-bottom: 0 !important;
-}
-
-.toggle-label input {
-    display: none;
-}
-
-.toggle-custom {
-    width: 44px;
-    height: 24px;
-    background: var(--border-color);
-    border-radius: 12px;
-    position: relative;
-    transition: all 0.3s ease;
-    margin-right: 12px;
-}
-
-.toggle-dot {
-    width: 18px;
-    height: 18px;
+.empty-state-premium {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
     background: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-radius: 24px;
+    border: 2px dashed rgba(0, 0, 0, 0.05);
 }
 
-.toggle-label input:checked+.toggle-custom {
-    background: var(--color-primary);
+.empty-state-premium h3 {
+    margin: 16px 0 8px;
+    font-size: 18px;
 }
 
-.toggle-label input:checked+.toggle-custom .toggle-dot {
-    left: 23px;
-}
-
-.toggle-text {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-main);
-}
-
-.form-group label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-main);
-    margin-bottom: 8px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 14px;
-    color: var(--text-main);
-    background: var(--bg-card);
-    transition: border-color 0.2s ease;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: var(--color-primary);
-}
-
-.form-group small {
-    display: block;
-    margin-top: 6px;
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.form-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 24px;
-}
-
-.cancel-btn,
-.submit-btn {
-    flex: 1;
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.cancel-btn {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-}
-
-.cancel-btn:hover {
-    background: var(--border-color);
-}
-
-.submit-btn {
-    background: var(--color-primary);
-    border: none;
-    color: white;
-}
-
-.submit-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(91, 79, 232, 0.3);
-}
-
-.submit-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-@media (max-width: 768px) {
-    .page-header {
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .add-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .stats-row {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .slots-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-    }
+.empty-state-premium p {
+    color: #64748b;
+    margin-bottom: 24px;
 }

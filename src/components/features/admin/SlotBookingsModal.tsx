@@ -37,6 +37,9 @@ export default function SlotBookingsModal({ slotId, slotTime, onClose }: SlotBoo
     useEffect(() => {
         if (slotId) {
             fetchBookings();
+        } else {
+            setBookings([]);
+            setLoading(false);
         }
     }, [slotId]);
 

@@ -3,13 +3,12 @@
 import React, { useState } from 'react';
 import BottomSheet from '@/components/ui/BottomSheet';
 import EmailEntry from './steps/EmailEntry';
-import OTPVerification from './steps/OTPVerification';
 import ProfileSetup from './steps/ProfileSetup';
 import InterestSelection from './steps/InterestSelection';
 import CreatorOnboarding from './steps/CreatorOnboarding';
 import './AuthBottomSheet.css';
 
-type AuthView = 'email' | 'otp' | 'profile' | 'interests' | 'creator_onboarding';
+type AuthView = 'email' | 'profile' | 'interests' | 'creator_onboarding';
 type AuthMode = 'signin' | 'signup';
 
 interface AuthBottomSheetProps {
@@ -37,7 +36,6 @@ export default function AuthBottomSheet({
 
     const stepTitles: Record<AuthView, string> = {
         'email': authMode === 'signin' ? 'Welcome back!' : 'Welcome to Dimensionless',
-        'otp': 'Verify your email',
         'profile': 'Complete your profile',
         'interests': 'What interests you?',
         'creator_onboarding': 'Professional Artist Profile'
@@ -46,7 +44,7 @@ export default function AuthBottomSheet({
     const getStepNumber = () => {
         if (authMode === 'signin') return { current: 1, total: 1 };
 
-        const steps: AuthView[] = ['email', 'otp', 'profile', 'interests', 'creator_onboarding'];
+        const steps: AuthView[] = ['email', 'profile', 'interests', 'creator_onboarding'];
         return {
             current: steps.indexOf(currentView) + 1,
             total: steps.length
@@ -56,16 +54,14 @@ export default function AuthBottomSheet({
     const handleEmailSubmit = (submittedEmail: string, mode: AuthMode) => {
         setEmail(submittedEmail);
         setAuthMode(mode);
-        setCurrentView('otp');
+        // For signup, go to profile setup
+        setCurrentView('profile');
     };
 
-    const handleOTPVerified = () => {
-        if (authMode === 'signin') {
-            onClose();
-            window.location.reload();
-        } else {
-            setCurrentView('profile');
-        }
+    const handleAuthenticated = () => {
+        // For signin, authentication is complete
+        onClose();
+        window.location.reload();
     };
 
     const handleProfileComplete = () => {
@@ -99,16 +95,8 @@ export default function AuthBottomSheet({
             {currentView === 'email' && (
                 <EmailEntry
                     onSubmit={handleEmailSubmit}
+                    onAuthenticated={handleAuthenticated}
                     initialMode={authMode}
-                />
-            )}
-
-            {currentView === 'otp' && (
-                <OTPVerification
-                    email={email}
-                    mode={authMode}
-                    onVerified={handleOTPVerified}
-                    onBack={() => setCurrentView('email')}
                 />
             )}
 

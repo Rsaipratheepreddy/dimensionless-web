@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { IconPhoto, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
-import { createClient } from '@/utils/supabase-client';
+import { createClient } from '@/utils/supabase';
 import { toast } from 'react-hot-toast';
 
 interface AddArtworkModalProps {

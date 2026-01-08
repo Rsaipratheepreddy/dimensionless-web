@@ -13,8 +13,9 @@ interface Profile {
     id: string;
     full_name: string;
     email: string;
-    role: 'user' | 'admin';
+    role: 'member' | 'user' | 'creator' | 'employee' | 'admin';
     created_at: string;
+    updated_at: string;
 }
 
 export default function AdminUsers() {
@@ -38,8 +39,9 @@ export default function AdminUsers() {
 
             if (error) throw error;
             setProfiles(data || []);
-        } catch (error) {
-            console.error('Error fetching profiles:', error);
+        } catch (error: any) {
+            console.error('Error fetching profiles:', error.message || error);
+            toast.error(error.message || 'Error fetching profiles');
         } finally {
             setLoading(false);
         }
@@ -56,13 +58,13 @@ export default function AdminUsers() {
         const newRole = currentRole === 'admin' ? 'user' : 'admin';
         const confirmed = await confirm({
             title: 'Change User Role',
-            message: `Are you sure you want to change this user's role to ${newRole}?`,
-            confirmText: 'Change Role',
+            message: `Select the new role for this user:`,
+            confirmText: 'Update Role',
             type: 'primary'
         });
 
-        if (!confirmed) return;
-
+        // For simplicity in this UI, we'll cycle through roles or we could use a select in the confirm modal
+        // Since the confirm modal doesn't easily support a select yet, let's keep it simple or implement a quick toggle
         try {
             const { error } = await supabase
                 .from('profiles')
@@ -72,8 +74,35 @@ export default function AdminUsers() {
             if (error) throw error;
             toast.success(`User role updated to ${newRole}`);
             fetchProfiles();
-        } catch (error) {
-            console.error('Error updating role:', error);
+        } catch (error: any) {
+            console.error('Error updating role:', error.message || error);
+            toast.error('Failed to update role.');
+        }
+    };
+
+    const cycleRole = async (targetUserId: string, currentRole: string) => {
+        if (targetUserId === user?.id) {
+            toast.error("You cannot change your own role.");
+            return;
+        }
+
+        const roles: ('member' | 'creator' | 'employee' | 'admin')[] = ['member', 'creator', 'employee', 'admin'];
+        // Handle 'user' as 'member' if it exists
+        const normalizedRole = currentRole === 'user' ? 'member' : currentRole;
+        const currentIndex = roles.indexOf(normalizedRole as any);
+        const nextRole = roles[(currentIndex + 1) % roles.length];
+
+        try {
+            const { error } = await supabase
+                .from('profiles')
+                .update({ role: nextRole })
+                .eq('id', targetUserId);
+
+            if (error) throw error;
+            toast.success(`User role updated to ${nextRole}`);
+            fetchProfiles();
+        } catch (error: any) {
+            console.error('Error updating role:', error.message || error);
             toast.error('Failed to update role.');
         }
     };
@@ -122,9 +151,9 @@ export default function AdminUsers() {
                                             <td>
                                                 <button
                                                     className="action-btn-admin secondary"
-                                                    onClick={() => toggleRole(profile.id, profile.role)}
+                                                    onClick={() => cycleRole(profile.id, profile.role)}
                                                 >
-                                                    Change to {profile.role === 'admin' ? 'User' : 'Admin'}
+                                                    Change Role
                                                 </button>
                                             </td>
                                         </tr>
@@ -155,9 +184,9 @@ export default function AdminUsers() {
                                     <div className="admin-card-actions">
                                         <button
                                             className="action-btn-admin secondary"
-                                            onClick={() => toggleRole(profile.id, profile.role)}
+                                            onClick={() => cycleRole(profile.id, profile.role)}
                                         >
-                                            Make {profile.role === 'admin' ? 'User' : 'Admin'}
+                                            Change Role
                                         </button>
                                     </div>
                                 </div>

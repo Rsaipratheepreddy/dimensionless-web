@@ -1,6 +1,26 @@
 import { createBrowserClient } from '@supabase/ssr';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://mtsmdeyxvsgxazgqbikm.supabase.co';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10c21kZXl4dnNneGF6Z3FiaWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NzU2MzQsImV4cCI6MjA4MTQ1MTYzNH0.Q-fUIsu7x9KSVCMxuqk39fw10Qc_rNpPp315GvMTgxw';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
+// Helpful diagnostic log (only in development)
+if (process.env.NODE_ENV === 'development') {
+    console.log('🔌 Supabase Initializing with URL:', supabaseUrl?.substring(0, 20) + '...');
+}
+
+export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey, {
+    global: {
+        fetch: (...args) => {
+            const start = Date.now();
+            return fetch(...args).then(res => {
+                const duration = Date.now() - start;
+                if (duration > 5000 || res.status >= 400) {
+                    console.log(`📡 Supabase Request: ${args[0]} | Status: ${res.status} | Duration: ${duration}ms`);
+                }
+                return res;
+            });
+        }
+    }
+});
+
+export const createClient = () => supabase;

@@ -1,18 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
-import { createClient } from '@/utils/supabase-client';
+import { createClient } from '@/utils/supabase';
 import { getURL } from '@/utils/auth-helpers';
 
 export type AuthMode = 'signin' | 'signup';
 
 interface EmailEntryProps {
     onSubmit: (email: string, mode: AuthMode) => void;
+    onAuthenticated: () => void;
     initialMode: AuthMode;
 }
 
-export default function EmailEntry({ onSubmit, initialMode }: EmailEntryProps) {
+export default function EmailEntry({ onSubmit, onAuthenticated, initialMode }: EmailEntryProps) {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [mode, setMode] = useState<AuthMode>(initialMode);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -42,7 +44,7 @@ export default function EmailEntry({ onSubmit, initialMode }: EmailEntryProps) {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
 
@@ -56,7 +58,45 @@ export default function EmailEntry({ onSubmit, initialMode }: EmailEntryProps) {
             return;
         }
 
-        onSubmit(email, mode);
+        if (!password) {
+            setError('Please enter your password');
+            return;
+        }
+
+        if (password.length < 6) {
+            setError('Password must be at least 6 characters');
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            if (mode === 'signup') {
+                const { error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                });
+
+                if (error) throw error;
+
+                // For signup, continue to profile setup
+                onSubmit(email, mode);
+            } else {
+                const { error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password,
+                });
+
+                if (error) throw error;
+
+                // For signin, authentication is complete
+                onAuthenticated();
+            }
+        } catch (err: any) {
+            setError(err.message || 'Authentication failed');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -72,11 +112,23 @@ export default function EmailEntry({ onSubmit, initialMode }: EmailEntryProps) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         autoFocus
+                        disabled={loading}
                     />
                 </div>
 
-                <button type="submit" className="auth-button auth-button-primary">
-                    Continue with Email
+                <div style={{ marginBottom: '16px' }}>
+                    <input
+                        type="password"
+                        className="auth-input"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        disabled={loading}
+                    />
+                </div>
+
+                <button type="submit" className="auth-button auth-button-primary" disabled={loading}>
+                    {loading ? 'Please wait...' : mode === 'signin' ? 'Sign In' : 'Sign Up'}
                 </button>
 
                 <div className="auth-divider">
@@ -106,6 +158,7 @@ export default function EmailEntry({ onSubmit, initialMode }: EmailEntryProps) {
                             className="auth-link"
                             onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')}
                             style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                            disabled={loading}
                         >
                             {mode === 'signin' ? 'Sign Up' : 'Sign In'}
                         </button>

@@ -103,26 +103,27 @@ export default function AdminTattooSlotsPage() {
 
     return (
         <AppLayout>
-            <div className="admin-slots-page">
-                <div className="page-header">
-                    <div>
-                        <h1>Tattoo Slot Management</h1>
-                        <p>Manage available time slots for tattoo appointments</p>
+            <div className="admin-container">
+                <header className="admin-hero">
+                    <div className="hero-content">
+                        <h1>Tattoo Slots</h1>
+                        <p>Manage availability for {new Date(selectedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                     </div>
-                    <button className="add-btn" onClick={() => setShowAddModal(true)}>
-                        <IconPlus size={20} />
-                        Add Slot
-                    </button>
-                </div>
-
-                <div className="date-selector">
-                    <IconCalendar size={20} />
-                    <input
-                        type="date"
-                        value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                    />
-                </div>
+                    <div className="admin-actions-group">
+                        <div className="date-selector-premium">
+                            <IconCalendar size={18} />
+                            <input
+                                type="date"
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                            />
+                        </div>
+                        <button className="add-btn" onClick={() => setShowAddModal(true)}>
+                            <IconPlus size={20} />
+                            Add Custom Slot
+                        </button>
+                    </div>
+                </header>
 
                 <div className="stats-row">
                     <div className="stat-card">
@@ -135,7 +136,7 @@ export default function AdminTattooSlotsPage() {
                     </div>
                     <div className="stat-card">
                         <div className="stat-value">{bookedSlots.length}</div>
-                        <div className="stat-label">Fully Booked</div>
+                        <div className="stat-label">Booked</div>
                     </div>
                     <div className="stat-card">
                         <div className="stat-value">
@@ -145,44 +146,50 @@ export default function AdminTattooSlotsPage() {
                     </div>
                 </div>
 
-                <div className="slots-grid">
+                <div className="slots-grid-premium">
                     {slots.length === 0 ? (
-                        <div className="empty-state">
+                        <div className="empty-state-premium">
                             <IconClock size={48} />
-                            <p>No slots available for this date</p>
-                            <button onClick={() => setShowAddModal(true)}>Create First Slot</button>
+                            <h3>No slots found</h3>
+                            <p>Default slots (10 AM - 10 PM) should automatically appear if none are configured.</p>
+                            <button onClick={() => setShowAddModal(true)}>Create Manual Slot</button>
                         </div>
                     ) : (
                         slots.map(slot => (
                             <div
                                 key={slot.id}
-                                className={`slot-card ${!slot.is_available ? 'fully-booked' : ''} ${slot.current_bookings > 0 ? 'has-bookings' : ''}`}
+                                className={`slot-card-premium ${!slot.is_available ? 'booked' : ''} ${(slot as any).is_default ? 'generated' : ''}`}
                                 onClick={() => setSelectedSlot(slot)}
                             >
-                                <div className="slot-header">
-                                    <div className="slot-time">
-                                        <IconClock size={18} />
+                                <div className="slot-card-header">
+                                    <div className="time-badge">
+                                        <IconClock size={16} />
                                         <span>{formatTime12Hour(slot.start_time)} - {formatTime12Hour(slot.end_time)}</span>
                                     </div>
-                                    <button
-                                        className="delete-btn"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            deleteSlot(slot.id);
-                                        }}
-                                    >
-                                        <IconTrash size={16} />
-                                    </button>
+                                    {!(slot as any).is_default && (
+                                        <button
+                                            className="delete-action-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                deleteSlot(slot.id);
+                                            }}
+                                        >
+                                            <IconTrash size={16} />
+                                        </button>
+                                    )}
                                 </div>
-                                <div className="slot-info">
-                                    <div className="booking-count">
+                                <div className="slot-card-body">
+                                    <div className="booking-info">
                                         <IconUsers size={16} />
-                                        <span>{slot.current_bookings} / {slot.max_bookings} booked</span>
+                                        <span>{slot.current_bookings} / {slot.max_bookings}</span>
                                     </div>
-                                    <span className={`status-badge ${slot.is_available ? 'available' : 'full'}`}>
+                                    <span className={`status-pill ${slot.is_available ? 'available' : 'full'}`}>
                                         {slot.is_available ? 'Available' : 'Full'}
                                     </span>
                                 </div>
+                                {(slot as any).is_default && (
+                                    <div className="generated-badge">Auto-generated</div>
+                                )}
                             </div>
                         ))
                     )}
@@ -197,7 +204,7 @@ export default function AdminTattooSlotsPage() {
 
             {selectedSlot && (
                 <SlotBookingsModal
-                    slotId={selectedSlot.id}
+                    slotId={selectedSlot.id.startsWith('default') ? '' : selectedSlot.id}
                     slotTime={`${formatTime12Hour(selectedSlot.start_time)} - ${formatTime12Hour(selectedSlot.end_time)}`}
                     onClose={() => setSelectedSlot(null)}
                 />

@@ -4,10 +4,25 @@ import { cookies } from 'next/headers';
 export async function createClient() {
     const cookieStore = await cookies();
 
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
     return createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://mtsmdeyxvsgxazgqbikm.supabase.co',
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10c21kZXl4dnNneGF6Z3FiaWttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NzU2MzQsImV4cCI6MjA4MTQ1MTYzNH0.Q-fUIsu7x9KSVCMxuqk39fw10Qc_rNpPp315GvMTgxw',
+        url,
+        anonKey,
         {
+            global: {
+                fetch: (...args) => {
+                    const start = Date.now();
+                    return fetch(...args).then(res => {
+                        const duration = Date.now() - start;
+                        if (duration > 5000 || res.status >= 400) {
+                            console.log(`📡 [Server] Supabase Request: ${args[0]} | Status: ${res.status} | Duration: ${duration}ms`);
+                        }
+                        return res;
+                    });
+                }
+            },
             cookies: {
                 get(name: string) {
                     return cookieStore.get(name)?.value;

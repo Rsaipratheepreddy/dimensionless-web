@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { IconX, IconStarFilled } from '@tabler/icons-react';
-import { createClient } from '@/utils/supabase-client';
+import { createClient } from '@/utils/supabase';
 import { toast } from 'react-hot-toast';
 
 interface ReviewModalProps {

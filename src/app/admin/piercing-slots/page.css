@@ -1,444 +1,152 @@
-.admin-slots-page {
-    padding: 0;
-}
+/* Piercing Slots Premium Styling */
 
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 32px;
-}
+/* The base admin styles (admin-container, admin-hero, stats-row) 
+   are inherited from AdminLayout.css */
 
-.page-header h1 {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--text-main);
-    margin: 0 0 8px 0;
-}
-
-.page-header p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-.add-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.add-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(91, 79, 232, 0.3);
-}
-
-.date-selector {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    margin-bottom: 24px;
-    width: fit-content;
-}
-
-.date-selector input {
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 14px;
-    color: var(--text-main);
-    background: var(--bg-card);
-    cursor: pointer;
-}
-
-.stats-row {
+.slots-grid-premium {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 32px;
 }
 
-.stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-}
-
-.stat-value {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--color-primary);
-    margin-bottom: 8px;
-}
-
-.stat-label {
-    font-size: 14px;
-    color: var(--text-secondary);
-}
-
-.slots-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-}
-
-.slot-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 16px;
-    transition: all 0.2s ease;
-}
-
-.slot-card:hover {
-    border-color: rgba(138, 116, 249, 0.3);
-    transform: translateY(-2px);
-}
-
-.slot-card.fully-booked {
-    opacity: 0.8;
-}
-
-.slot-card.has-bookings {
+.slot-card-premium {
+    background: white;
+    border: 1px solid var(--admin-border);
+    border-radius: 20px;
+    padding: 24px;
     cursor: pointer;
-    border-color: var(--color-primary);
-    background: rgba(91, 79, 232, 0.05);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
 }
 
-.slot-card.has-bookings:hover {
-    background: rgba(91, 79, 232, 0.1);
-    box-shadow: 0 8px 30px rgba(91, 79, 232, 0.15);
+.slot-card-premium:hover {
+    border-color: #3b82f6;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.08);
 }
 
-.slot-header {
+.slot-card-premium.booked {
+    background: #f8fafc;
+    border-style: dashed;
+}
+
+.slot-card-premium.has-bookings {
+    border-left: 4px solid #3b82f6;
+}
+
+.slot-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
 }
 
-.slot-time {
+.time-badge {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-main);
+    padding: 6px 12px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.delete-btn {
+.delete-action-btn {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: transparent;
-    border: 1px solid var(--border-color);
+    border: none;
+    background: #fee2e2;
+    color: #ef4444;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #ef4444;
     transition: all 0.2s ease;
 }
 
-.delete-btn:hover {
-    background: #fee2e2;
-    border-color: #ef4444;
+.delete-action-btn:hover {
+    background: #ef4444;
+    color: white;
+    transform: rotate(90deg);
 }
 
-.slot-info {
+.slot-card-body {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.booking-count {
+.booking-info {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-size: 14px;
-    color: var(--text-secondary);
-}
-
-.status-badge {
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 12px;
+    color: #64748b;
     font-weight: 600;
 }
 
-.status-badge.available {
-    background: #d1fae5;
-    color: #065f46;
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 }
 
-.status-badge.full {
-    background: #fee2e2;
-    color: #991b1b;
+.status-pill.available {
+    background: #ecfdf5;
+    color: #059669;
 }
 
-.empty-state {
+.status-pill.full {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.empty-state-premium {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 64px 24px;
+    padding: 100px 40px;
+    background: white;
+    border-radius: 32px;
+    border: 2px dashed #e2e8f0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
 }
 
-.empty-state p {
-    font-size: 16px;
-    color: var(--text-secondary);
+.empty-state-premium h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
     margin: 0;
 }
 
-.empty-state button {
-    padding: 12px 24px;
-    background: var(--color-primary);
+.empty-state-premium p {
+    color: #64748b;
+    max-width: 320px;
+    margin-bottom: 12px;
+}
+
+.empty-state-premium button {
+    padding: 12px 28px;
+    background: #0f172a;
     color: white;
     border: none;
     border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-/* Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 20px;
-}
-
-.modal-content {
-    background: var(--bg-card);
-    border-radius: 20px;
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.modal-header h2 {
-    font-size: 24px;
     font-weight: 700;
-    color: var(--text-main);
-    margin: 0;
-}
-
-.close-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--text-secondary);
-    transition: all 0.2s ease;
-}
-
-.close-btn:hover {
-    background: var(--border-color);
-}
-
-.slot-form {
-    padding: 24px;
-}
-
-.form-group {
-    margin-bottom: 24px;
-}
-
-.toggle-group {
-    background: var(--bg-secondary);
-    padding: 16px;
-    border-radius: 12px;
-    margin-bottom: 24px;
-}
-
-.toggle-label {
-    display: flex !important;
-    align-items: center !important;
-    cursor: pointer;
-    margin-bottom: 0 !important;
-}
-
-.toggle-label input {
-    display: none;
-}
-
-.toggle-custom {
-    width: 44px;
-    height: 24px;
-    background: var(--border-color);
-    border-radius: 12px;
-    position: relative;
-    transition: all 0.3s ease;
-    margin-right: 12px;
-}
-
-.toggle-dot {
-    width: 18px;
-    height: 18px;
-    background: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.toggle-label input:checked+.toggle-custom {
-    background: var(--color-primary);
-}
-
-.toggle-label input:checked+.toggle-custom .toggle-dot {
-    left: 23px;
-}
-
-.toggle-text {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-main);
-}
-
-.form-group label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-main);
-    margin-bottom: 8px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 14px;
-    color: var(--text-main);
-    background: var(--bg-card);
-    transition: border-color 0.2s ease;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: var(--color-primary);
-}
-
-.form-group small {
-    display: block;
-    margin-top: 6px;
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.form-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 24px;
-}
-
-.cancel-btn,
-.submit-btn {
-    flex: 1;
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.cancel-btn {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-}
-
-.cancel-btn:hover {
-    background: var(--border-color);
-}
-
-.submit-btn {
-    background: var(--color-primary);
-    border: none;
-    color: white;
-}
-
-.submit-btn:hover:not(:disabled) {
+.empty-state-premium button:hover {
+    background: #1e293b;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(91, 79, 232, 0.3);
-}
-
-.submit-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-@media (max-width: 768px) {
-    .page-header {
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .add-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .stats-row {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .slots-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-    }
 }

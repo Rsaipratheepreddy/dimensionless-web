@@ -25,6 +25,26 @@ export async function GET(request: NextRequest) {
             return NextResponse.json([]);
         }
 
+        // Return default slots if none exist for the date
+        if (date && (slots === null || slots.length === 0)) {
+            const defaultSlots = [];
+            for (let hour = 10; hour < 22; hour++) {
+                const startTime = `${hour.toString().padStart(2, '0')}:00`;
+                const endTime = `${(hour + 1).toString().padStart(2, '0')}:00`;
+                defaultSlots.push({
+                    id: `default-${startTime}`,
+                    date: date,
+                    start_time: startTime,
+                    end_time: endTime,
+                    max_bookings: 1,
+                    current_bookings: 0,
+                    is_available: true,
+                    is_default: true // Flag to indicate these are generated
+                });
+            }
+            return NextResponse.json(defaultSlots);
+        }
+
         return NextResponse.json(slots || []);
     } catch (error: any) {
         console.error('Error fetching slots:', error);
