@@ -13,7 +13,8 @@ import {
     IconMapPin,
     IconArrowLeft,
     IconShare,
-    IconCertificate
+    IconCertificate,
+    IconCircleCheckFilled
 } from '@tabler/icons-react';
 import { createClient } from '@/utils/supabase';
 import AppLayout from '@/components/layout/AppLayout';
@@ -55,6 +56,7 @@ interface Artwork {
         full_name: string;
         avatar_url: string;
         is_pro: boolean;
+        role?: string;
         gallery_name?: string;
     };
 }
@@ -209,7 +211,12 @@ export default function ProductDetailsPage() {
                     {/* Right: Info Section */}
                     <div className="info-section">
                         <div className="header-meta">
-                            <h1 className="product-title">{artwork.title}</h1>
+                            <div className="title-row">
+                                <h1 className="product-title">{artwork.title}</h1>
+                                {artwork.profiles?.role === 'admin' && (
+                                    <IconCircleCheckFilled size={24} className="admin-verified-badge" />
+                                )}
+                            </div>
                             <div className="rating-summary">
                                 <div className="stars">
                                     {[...Array(5)].map((_, i) => (
@@ -303,7 +310,6 @@ export default function ProductDetailsPage() {
                             {!artwork.allow_purchase && !artwork.allow_lease && (
                                 <button className="btn-lease" disabled>View Only</button>
                             )}
-                            <button className="btn-wishlist"><IconHeart size={20} /></button>
                         </div>
 
                         <div className="seller-card">

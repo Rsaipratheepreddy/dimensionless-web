@@ -265,6 +265,21 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
                             </div>
 
                             <div className="admin-form-group">
+                                <label>Origin (Made in)</label>
+                                <input type="text" value={origin} onChange={e => setOrigin(e.target.value)} placeholder="e.g. Italy, India" />
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>Design Style</label>
+                                <input type="text" value={designStyle} onChange={e => setDesignStyle(e.target.value)} placeholder="e.g. Modern, Renaissance" />
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>Delivery Info</label>
+                                <input type="text" value={deliveryInfo} onChange={e => setDeliveryInfo(e.target.value)} placeholder="e.g. 2-3 days delivery" />
+                            </div>
+
+                            <div className="admin-form-group">
                                 <label>Purchase Price (₹)</label>
                                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                                     <input

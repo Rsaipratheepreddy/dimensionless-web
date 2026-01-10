@@ -22,6 +22,8 @@ import LottieLoader from '@/components/ui/LottieLoader';
 import AppLayout from '@/components/layout/AppLayout';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import ArtCard from '@/components/features/tattoos/ArtCard';
 import './page.css';
 
 interface ProfileData {
@@ -37,29 +39,15 @@ interface ProfileData {
     is_pro?: boolean;
     gallery_name?: string;
     gallery_description?: string;
-    is_verified?: boolean; // Using role as the primary indicator for now
-}
-
-interface Post {
-    id: string;
-    user_id: string;
-    type: 'text' | 'image' | 'poll' | 'painting';
-    content: string;
-    media_url?: string;
-    painting_id?: string;
-    created_at: string;
-    paintings?: {
-        title: string;
-        image_url: string;
-        price: number;
-    };
+    is_verified?: boolean;
 }
 
 export default function ProfilePage({ params }: { params: Promise<{ id: string }> }) {
     const { id: profileId } = use(params);
+    const router = useRouter();
     const { user, profile: myProfile } = useAuth();
     const [viewProfile, setViewProfile] = useState<ProfileData | null>(null);
-    const [posts, setPosts] = useState<Post[]>([]);
+    const [artworks, setArtworks] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [isFollowing, setIsFollowing] = useState(false);
     const [followerCount, setFollowerCount] = useState(0);
@@ -71,7 +59,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
     useEffect(() => {
         if (profileId) {
             fetchProfileData();
-            fetchUserPosts();
+            fetchArtworks();
             checkFollowStatus();
             fetchFollowCounts();
         }
@@ -91,19 +79,17 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
         }
     };
 
-    const fetchUserPosts = async () => {
+    const fetchArtworks = async () => {
         try {
             const { data, error } = await supabase
-                .from('posts')
-                .select('*, paintings(*)')
-                .eq('user_id', profileId)
+                .from('artworks')
+                .select('*, artwork_images(*)')
+                .eq('artist_id', profileId)
                 .order('created_at', { ascending: false });
             if (error) throw error;
-            setPosts(data || []);
+            setArtworks(data || []);
         } catch (error) {
-            console.error('Error fetching posts:', error);
-        } finally {
-            setLoading(false);
+            console.error('Error fetching artworks:', error);
         }
     };
 
@@ -131,6 +117,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
 
         setFollowerCount(followers || 0);
         setFollowingCount(following || 0);
+        setLoading(false);
     };
 
     const handleFollowToggle = async () => {
@@ -177,11 +164,18 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                     ></div>
                     <div className="profile-main-info">
                         <div className="profile-avatar-row">
-                            <img
-                                src={viewProfile.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(viewProfile.full_name || 'User')}&background=5b4fe8&color=fff`}
-                                alt={viewProfile.full_name || 'User'}
-                                className="main-avatar"
-                            />
+                            <div className="avatar-wrapper">
+                                <img
+                                    src={viewProfile.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(viewProfile.full_name || 'User')}&background=5b4fe8&color=fff`}
+                                    alt={viewProfile.full_name || 'User'}
+                                    className="main-avatar"
+                                />
+                                {viewProfile.role === 'admin' && (
+                                    <div className="verified-overlay-badge">
+                                        <IconCircleCheckFilled size={28} />
+                                    </div>
+                                )}
+                            </div>
                             <div className="profile-action-btns">
                                 {isOwnProfile ? (
                                     <Link href="/settings/profile" className="edit-profile-btn">
@@ -204,11 +198,6 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                         <div className="profile-meta-content">
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 <h1 className="profile-name">{viewProfile.full_name || 'Dimen Member'}</h1>
-                                {(viewProfile.role === 'creator' || viewProfile.role === 'admin') && (
-                                    <div className="verified-badge-wrapper">
-                                        <IconCircleCheckFilled size={22} style={{ color: '#3b82f6' }} />
-                                    </div>
-                                )}
                             </div>
 
                             {viewProfile.bio && <p className="profile-bio-text">{viewProfile.bio}</p>}
@@ -229,7 +218,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
 
                             <div className="profile-stats-row">
                                 <div className="stat-pill">
-                                    <strong>{posts.length}</strong> <span>Posts</span>
+                                    <strong>{artworks.length}</strong> <span>Artworks</span>
                                 </div>
                                 <div className="stat-pill">
                                     <strong>{followerCount}</strong> <span>Followers</span>
@@ -288,45 +277,36 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                     </div>
                 </div>
 
-                <div className="profile-feed-section">
-                    <div className="section-title">Latest Activities</div>
-                    <div className="posts-grid-profile">
-                        {posts.length === 0 ? (
-                            <div className="empty-profile-feed">
-                                <p>No posts yet.</p>
-                            </div>
-                        ) : (
-                            posts.map(post => (
-                                <div key={post.id} className="post-card">
-                                    <div className="post-header">
-                                        <div className="post-user-info">
-                                            <div className="poster-meta">
-                                                <span className="post-date">{new Date(post.created_at).toLocaleDateString()}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="post-content">
-                                        {post.content && <p className="post-text">{post.content}</p>}
-                                        {post.type === 'painting' && post.paintings && (
-                                            <div className="post-painting-card">
-                                                <img src={post.paintings.image_url} alt={post.paintings.title} />
-                                                <div className="painting-details">
-                                                    <h3>{post.paintings.title}</h3>
-                                                    <p className="painting-price">₹{post.paintings.price.toLocaleString()}</p>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="post-actions">
-                                        <button className="action-btn"><IconHeart size={18} /> <span>Like</span></button>
-                                        <button className="action-btn"><IconMessageCircle size={18} /> <span>Comment</span></button>
-                                        <button className="action-btn"><IconShare size={18} /> <span>Share</span></button>
-                                    </div>
-                                </div>
-                            ))
-                        )}
+                {artworks.length > 0 ? (
+                    <div className="profile-catalog-section">
+                        <div className="section-header">
+                            <h2 className="section-title">Artwork Catalog</h2>
+                            <span className="item-count">{artworks.length} items</span>
+                        </div>
+                        <div className="artworks-grid">
+                            {artworks.map(art => (
+                                <ArtCard
+                                    key={art.id}
+                                    id={art.id}
+                                    title={art.title}
+                                    image={art.artwork_images?.[0]?.image_url || '/placeholder-art.png'}
+                                    price={art.purchase_price || 0}
+                                    artistName={viewProfile.full_name}
+                                    artistAvatar={viewProfile.avatar_url}
+                                    isVerified={viewProfile.role === 'admin'}
+                                    allowPurchase={!!art.purchase_price}
+                                    allowLease={!!art.lease_monthly_rate}
+                                    status={art.status === 'sold' ? 'sold' : 'available'}
+                                    onClick={() => router.push(`/artworks/${art.id}`)}
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="empty-profile-feed">
+                        <p>No artworks uploaded yet.</p>
+                    </div>
+                )}
             </div>
         </AppLayout>
     );
