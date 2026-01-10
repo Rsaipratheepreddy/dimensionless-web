@@ -92,11 +92,11 @@ export default function AdminCategoriesPage() {
 
     return (
         <AppLayout>
-            <div className="admin-categories-page">
+            <div className="admin-container">
                 <div className="page-header">
                     <div>
                         <h1>Category Management</h1>
-                        <p>Manage categories across all sections</p>
+                        <p>Manage categories across all platform sections</p>
                     </div>
                     <button className="add-btn" onClick={() => setShowAddModal(true)}>
                         <IconPlus size={20} />
@@ -104,41 +104,52 @@ export default function AdminCategoriesPage() {
                     </button>
                 </div>
 
-                <div className="filters">
-                    {(types || []).map((type: any) => (
-                        <button
-                            key={type}
-                            className={`filter-btn ${filter === type ? 'active' : ''}`}
-                            onClick={() => setFilter(type)}
-                        >
-                            {type === 'all' ? 'All' : type.charAt(0).toUpperCase() + type.slice(1)}
-                            ({type === 'all' ? categories.length : categories.filter(c => c.type === type).length})
-                        </button>
-                    ))}
+                <div className="controls-row">
+                    <div className="filters-group">
+                        {(types || []).map((type: any) => (
+                            <button
+                                key={type}
+                                className={filter === type ? 'active' : ''}
+                                onClick={() => setFilter(type)}
+                            >
+                                {type === 'all' ? 'All' : type.charAt(0).toUpperCase() + type.slice(1)}
+                                ({type === 'all' ? categories.length : categories.filter(c => c.type === type).length})
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="categories-grid">
+                <div className="admin-grid-layout" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
                     {(filteredCategories || []).map((category: any) => (
-                        <div key={category.id} className="category-card">
-                            <div className="category-header">
-                                <div className="category-color" style={{ backgroundColor: category.color }}>
-                                    <IconPalette size={20} color="white" />
+                        <div key={category.id} className="management-card">
+                            <div className="card-header">
+                                <div className="stat-icon" style={{ backgroundColor: category.color + '20', color: category.color }}>
+                                    <IconPalette size={20} />
                                 </div>
-                                <div className="category-info">
-                                    <h3>{category.name}</h3>
-                                    <span className="type-badge">{category.type}</span>
+                                <div className="action-info">
+                                    <strong>{category.name}</strong>
+                                    <span className="status-tag user">{category.type}</span>
                                 </div>
                             </div>
-                            <p className="category-description">{category.description || 'No description'}</p>
-                            <div className="category-footer">
-                                <span className={`status-badge ${category.is_active ? 'active' : 'inactive'}`}>
+                            <p className="action-info" style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px', minHeight: '40px' }}>
+                                {category.description || 'No description provided'}
+                            </p>
+                            <div className="admin-card-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '16px', borderTop: '1px solid #f1f5f9' }}>
+                                <span className={`status-tag ${category.is_active ? 'employee' : 'user'}`}>
                                     {category.is_active ? 'Active' : 'Inactive'}
                                 </span>
-                                <div className="category-actions">
-                                    <button onClick={() => toggleActive(category.id, category.is_active)}>
-                                        {category.is_active ? 'Deactivate' : 'Activate'}
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <button
+                                        className="action-btn-admin secondary"
+                                        onClick={() => toggleActive(category.id, category.is_active)}
+                                    >
+                                        {category.is_active ? 'Disable' : 'Enable'}
                                     </button>
-                                    <button onClick={() => deleteCategory(category.id)}>
+                                    <button
+                                        className="action-btn-admin secondary"
+                                        style={{ color: '#ef4444', borderColor: '#fee2e2' }}
+                                        onClick={() => deleteCategory(category.id)}
+                                    >
                                         <IconTrash size={16} />
                                     </button>
                                 </div>

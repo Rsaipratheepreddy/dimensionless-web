@@ -17,6 +17,16 @@ export async function POST(request: NextRequest) {
 
         const body = await request.json();
 
+        // Determine booking table and type (default to tattoo)
+        const isPiercing = body.booking_type === 'piercing';
+        const tableName = isPiercing ? 'piercing_bookings' : 'tattoo_bookings';
+
+        // Handle virtual/default slots (IDs starting with 'default-')
+        let slotId = body.slot_id;
+        if (slotId && String(slotId).startsWith('default-')) {
+            slotId = null;
+        }
+
         // Determine booking status based on payment method and slot type
         let bookingStatus = 'pending_verification';
         let paymentStatus = 'pending';
@@ -29,17 +39,17 @@ export async function POST(request: NextRequest) {
             paymentStatus = 'pending';
         }
 
-        // If no slot_id (flexible booking), status should be pending_verification
-        if (!body.slot_id) {
+        // If no slot_id (flexible or default booking), status should be pending_verification
+        if (!slotId) {
             bookingStatus = 'pending_verification';
         }
 
         const { data: booking, error } = await supabase
-            .from('tattoo_bookings')
+            .from(tableName)
             .insert([{
                 user_id: user.id,
                 design_id: body.design_id,
-                slot_id: body.slot_id || null,
+                slot_id: slotId || null,
                 booking_date: body.booking_date,
                 booking_time: body.booking_time,
                 final_price: body.final_price,
@@ -78,26 +88,55 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        const { data: bookings, error } = await supabase
-            .from('tattoo_bookings')
-            .select(`
-                *,
-                tattoo_designs (
-                    name,
-                    description,
-                    image_url,
-                    base_price
-                )
-            `)
-            .eq('user_id', user.id)
-            .order('created_at', { ascending: false });
+        // Fetch both tattoo and piercing bookings in parallel
+        const [tattooRes, piercingRes] = await Promise.all([
+            supabase
+                .from('tattoo_bookings')
+                .select(`
+                    *,
+                    tattoo_designs (
+                        name,
+                        description,
+                        image_url,
+                        base_price
+                    )
+                `)
+                .eq('user_id', user.id),
+            supabase
+                .from('piercing_bookings')
+                .select(`
+                    *,
+                    piercing_designs (
+                        name,
+                        description,
+                        image_url,
+                        base_price
+                    )
+                `)
+                .eq('user_id', user.id)
+        ]);
 
-        if (error) {
-            console.error('Error fetching bookings:', error);
-            return NextResponse.json([]);
-        }
+        if (tattooRes.error) console.error('Error fetching tattoo bookings:', tattooRes.error);
+        if (piercingRes.error) console.error('Error fetching piercing bookings:', piercingRes.error);
 
-        return NextResponse.json(bookings || []);
+        // Map piercing designs to a consistent structure and combine
+        const tattooBookings = (tattooRes.data || []).map(b => ({
+            ...b,
+            booking_type: 'tattoo',
+            design: b.tattoo_designs
+        }));
+
+        const piercingBookings = (piercingRes.data || []).map(b => ({
+            ...b,
+            booking_type: 'piercing',
+            design: b.piercing_designs
+        }));
+
+        const allBookings = [...tattooBookings, ...piercingBookings].sort((a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+
+        return NextResponse.json(allBookings);
     } catch (error: any) {
         console.error('Error fetching bookings:', error);
         return NextResponse.json([]);

@@ -118,39 +118,39 @@ export default function AddDesignModal({ isOpen, onClose, onSuccess, editingDesi
     if (!isOpen) return null;
 
     return (
-        <div className={`admin-modal-overlay ${isOpen ? 'active' : ''}`} style={{ display: isOpen ? 'flex' : 'none' }}>
-            <div className="admin-modal-content" style={{ maxWidth: '600px' }}>
+        <div className="admin-modal-overlay">
+            <div className="admin-modal-content animate-slide-up" style={{ maxWidth: '600px' }}>
                 <div className="admin-modal-header">
-                    <h2>{editingDesign ? 'Edit Design' : 'Add New Design'}</h2>
+                    <h2>{editingDesign ? 'Edit Design' : `Add New ${type.charAt(0).toUpperCase() + type.slice(1)}`}</h2>
                     <button className="admin-modal-close" onClick={onClose}>
                         <IconX size={20} />
                     </button>
                 </div>
 
                 <div className="admin-modal-body">
-                    <form id="design-form" onSubmit={handleSubmit} className="admin-form">
-                        <div className="admin-form-group">
-                            <label>Design Name *</label>
-                            <input
-                                type="text"
-                                value={formData.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                required
-                                placeholder="e.g., Minimalist Lotus"
-                            />
-                        </div>
+                    <form id="design-form" onSubmit={handleSubmit}>
+                        <div className="admin-form-grid">
+                            <div className="admin-form-group full-width">
+                                <label>Design Name *</label>
+                                <input
+                                    type="text"
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    required
+                                    placeholder={`e.g., Minimalist ${type.charAt(0).toUpperCase() + type.slice(1)}`}
+                                />
+                            </div>
 
-                        <div className="admin-form-group">
-                            <label>Description</label>
-                            <textarea
-                                value={formData.description}
-                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                placeholder="Describe the design..."
-                                rows={3}
-                            />
-                        </div>
+                            <div className="admin-form-group full-width">
+                                <label>Description</label>
+                                <textarea
+                                    value={formData.description}
+                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                    placeholder="Describe the design details..."
+                                    rows={3}
+                                />
+                            </div>
 
-                        <div className="admin-form-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
                             <div className="admin-form-group">
                                 <label>Category *</label>
                                 <select
@@ -158,6 +158,7 @@ export default function AddDesignModal({ isOpen, onClose, onSuccess, editingDesi
                                     onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
                                     required
                                 >
+                                    <option value="" disabled>Select category</option>
                                     {categories.map(cat => (
                                         <option key={cat.id} value={cat.id}>{cat.name}</option>
                                     ))}
@@ -200,36 +201,35 @@ export default function AddDesignModal({ isOpen, onClose, onSuccess, editingDesi
                                     step="100"
                                 />
                             </div>
-                        </div>
 
-                        <div className="admin-form-group">
-                            <label>Design Image</label>
-                            <div className="image-upload" style={{ minHeight: '150px', border: '2px dashed #e2e8f0', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', position: 'relative', overflow: 'hidden' }}>
-                                {formData.image_url ? (
-                                    <div className="image-preview" style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
-                                        <img src={formData.image_url} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                        <button
-                                            type="button"
-                                            className="remove-image"
-                                            onClick={() => setFormData({ ...formData, image_url: '' })}
-                                            style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', padding: '5px', cursor: 'pointer' }}
-                                        >
-                                            <IconX size={16} />
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <label className="upload-area" style={{ cursor: 'pointer', textAlign: 'center' }}>
-                                        <IconUpload size={32} style={{ color: '#94a3b8', marginBottom: '8px' }} />
-                                        <div style={{ fontSize: '14px', color: '#64748b' }}>Click to upload image</div>
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={handleImageUpload}
-                                            disabled={uploading}
-                                            hidden
-                                        />
-                                    </label>
-                                )}
+                            <div className="admin-form-group full-width">
+                                <label>Design Image</label>
+                                <div className="image-upload-grid">
+                                    {formData.image_url ? (
+                                        <div className="preview-card">
+                                            <img src={formData.image_url} alt="Preview" />
+                                            <button
+                                                type="button"
+                                                className="remove-img"
+                                                onClick={() => setFormData({ ...formData, image_url: '' })}
+                                            >
+                                                <IconX size={16} />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <label className="upload-placeholder-card">
+                                            <IconUpload size={32} />
+                                            <span>{uploading ? 'Processing...' : 'Click to upload image'}</span>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleImageUpload}
+                                                disabled={uploading}
+                                                hidden
+                                            />
+                                        </label>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -240,7 +240,7 @@ export default function AddDesignModal({ isOpen, onClose, onSuccess, editingDesi
                         Cancel
                     </button>
                     <button form="design-form" type="submit" className="admin-btn admin-btn-primary" disabled={submitting}>
-                        {submitting ? (editingDesign ? 'Updating...' : 'Creating...') : (editingDesign ? 'Update Design' : 'Create Design')}
+                        {submitting ? 'Saving...' : (editingDesign ? 'Update Design' : 'Create Design')}
                     </button>
                 </div>
             </div>

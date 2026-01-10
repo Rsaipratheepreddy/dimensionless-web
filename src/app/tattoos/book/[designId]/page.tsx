@@ -160,6 +160,7 @@ export default function BookTattooPage() {
         try {
             const bookingData = {
                 design_id: designId,
+                booking_type: 'tattoo',
                 slot_id: flexibleBooking ? null : selectedSlot,
                 booking_date: flexibleBooking ? customDateTime.date : selectedDate,
                 booking_time: flexibleBooking ? customDateTime.time : slots.find(s => s.id === selectedSlot)?.start_time,

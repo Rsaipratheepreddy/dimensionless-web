@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase-server';
 
-// GET /api/tattoos/[designId]/slots?date=YYYY-MM-DD
+// GET /api/piercings/[designId]/slots?date=YYYY-MM-DD
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ designId: string }> }
@@ -13,7 +13,7 @@ export async function GET(
         const supabase = await createClient();
 
         let query = supabase
-            .from('tattoo_slots')
+            .from('piercing_slots')
             .select('*')
             .order('start_time');
 

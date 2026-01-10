@@ -6,19 +6,12 @@ import { IconCalendar, IconClock, IconMapPin, IconCheck, IconX, IconClock12 } fr
 import './MyBookings.css';
 
 interface Booking {
-    id: string;
-    booking_date: string;
-    booking_time: string;
-    status: string;
-    payment_status: string;
-    payment_method: string;
-    final_price: number;
-    custom_notes: string;
-    tattoo_designs: {
+    design: {
         name: string;
         image_url: string;
         description: string;
     };
+    booking_type: 'tattoo' | 'piercing';
 }
 
 export default function MyBookings() {
@@ -73,10 +66,15 @@ export default function MyBookings() {
             <div className="empty-bookings">
                 <IconClock12 size={64} />
                 <h3>No Bookings Yet</h3>
-                <p>You haven't booked any tattoo appointments yet.</p>
-                <button onClick={() => window.location.href = '/tattoos'} className="browse-btn">
-                    Browse Designs
-                </button>
+                <p>You haven't booked any tattoo or piercing appointments yet.</p>
+                <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
+                    <button onClick={() => window.location.href = '/tattoos'} className="browse-btn">
+                        Tattoos
+                    </button>
+                    <button onClick={() => window.location.href = '/piercings'} className="browse-btn secondary" style={{ background: 'transparent', border: '1px solid var(--color-primary)', color: 'var(--color-primary)' }}>
+                        Piercings
+                    </button>
+                </div>
             </div>
         );
     }
@@ -87,15 +85,20 @@ export default function MyBookings() {
                 {(bookings || []).map((booking: any) => (
                     <div key={booking.id} className="booking-card">
                         <div className="booking-image">
-                            <img src={booking.tattoo_designs.image_url || '/painting.png'} alt={booking.tattoo_designs.name} />
-                            <span className={`status-badge ${getStatusColor(booking.status)}`}>
-                                {booking.status.replace('_', ' ')}
-                            </span>
+                            <img src={booking.design?.image_url || '/painting.png'} alt={booking.design?.name} />
+                            <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '8px', zIndex: 2 }}>
+                                <span className="type-tag" style={{ background: 'rgba(0,0,0,0.6)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '10px', textTransform: 'uppercase', fontWeight: 700, backdropFilter: 'blur(4px)' }}>
+                                    {booking.booking_type}
+                                </span>
+                                <span className={`status-badge ${getStatusColor(booking.status)}`}>
+                                    {booking.status.replace('_', ' ')}
+                                </span>
+                            </div>
                         </div>
 
                         <div className="booking-content">
-                            <h3>{booking.tattoo_designs.name}</h3>
-                            <p className="booking-description">{booking.tattoo_designs.description}</p>
+                            <h3>{booking.design?.name || 'Booking Details'}</h3>
+                            <p className="booking-description">{booking.design?.description}</p>
 
                             <div className="booking-details">
                                 <div className="detail-item">
