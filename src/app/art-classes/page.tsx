@@ -34,6 +34,7 @@ export default function ArtClassesPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [selectedPricing, setSelectedPricing] = useState<string>('all');
+    const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
 
     useEffect(() => {
         fetchInitialData();
@@ -176,8 +177,13 @@ export default function ArtClassesPage() {
                         ) : (
                             filteredClasses.map(c => (
                                 <Link href={`/art-classes/${c.id}`} key={c.id} className="class-card">
-                                    <div className="card-thumb">
-                                        <img src={c.thumbnail_url || '/painting.png'} alt={c.title} />
+                                    <div className={`card-thumb ${loadedImages[c.id] ? 'loaded' : ''}`}>
+                                        <img
+                                            src={c.thumbnail_url || '/painting.png'}
+                                            alt={c.title}
+                                            loading="lazy"
+                                            onLoad={() => setLoadedImages(prev => ({ ...prev, [c.id]: true }))}
+                                        />
                                         <span className={`pricing-badge ${c.pricing_type}`}>
                                             {c.pricing_type.replace('_', ' ')}
                                         </span>

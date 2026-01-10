@@ -48,6 +48,7 @@ export default function TattoosPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedSize, setSelectedSize] = useState('all');
+    const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
 
     useEffect(() => {
         fetchData();
@@ -179,8 +180,13 @@ export default function TattoosPage() {
                                     const category = categories.find(c => c.id === design.category_id);
                                     return (
                                         <div key={design.id} className="tattoo-card">
-                                            <div className="tattoo-image">
-                                                <img src={design.image_url || '/painting.png'} alt={design.name} />
+                                            <div className={`tattoo-image ${loadedImages[design.id] ? 'loaded' : ''}`}>
+                                                <img
+                                                    src={design.image_url || '/painting.png'}
+                                                    alt={design.name}
+                                                    loading="lazy"
+                                                    onLoad={() => setLoadedImages(prev => ({ ...prev, [design.id]: true }))}
+                                                />
                                             </div>
                                             <div className="tattoo-info">
                                                 <h3 className="tattoo-title">{design.name}</h3>

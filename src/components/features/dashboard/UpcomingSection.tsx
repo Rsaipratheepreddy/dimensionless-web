@@ -45,6 +45,7 @@ const UpcomingSection = () => {
         events: [],
         classes: []
     });
+    const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
 
     const currentItems = items[activeTab] || [];
 
@@ -294,10 +295,12 @@ const UpcomingSection = () => {
                         <div className="upcoming-grid carousel-grid" ref={carouselRef} onScroll={checkScroll}>
                             {(currentItems || []).map((item: any) => (
                                 <Link href={item.link} key={`${item.id}-${item.type}`} className={`upcoming-card ${item.isRegistered ? 'registered' : ''}`}>
-                                    <div className="card-image">
+                                    <div className={`card-image ${loadedImages[`${item.id}-${item.type}`] ? 'loaded' : ''}`}>
                                         <img
                                             src={getOptimizedImageUrl(item.image || '/painting.png', { width: 400, format: 'webp' })}
                                             alt={item.title}
+                                            loading="lazy"
+                                            onLoad={() => setLoadedImages(prev => ({ ...prev, [`${item.id}-${item.type}`]: true }))}
                                         />
                                         <span className={`status-badge ${item.type.toLowerCase()}`}>
                                             {item.type}

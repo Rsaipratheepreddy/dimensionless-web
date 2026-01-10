@@ -48,6 +48,7 @@ export default function PiercingsPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedSize, setSelectedSize] = useState('all');
+    const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
 
     useEffect(() => {
         fetchData();
@@ -179,8 +180,13 @@ export default function PiercingsPage() {
                                     const category = categories.find(c => c.id === design.category_id);
                                     return (
                                         <div key={design.id} className="piercing-card">
-                                            <div className="piercing-image">
-                                                <img src={design.image_url || '/painting.png'} alt={design.name} />
+                                            <div className={`piercing-image ${loadedImages[design.id] ? 'loaded' : ''}`}>
+                                                <img
+                                                    src={design.image_url || '/painting.png'}
+                                                    alt={design.name}
+                                                    loading="lazy"
+                                                    onLoad={() => setLoadedImages(prev => ({ ...prev, [design.id]: true }))}
+                                                />
                                             </div>
                                             <div className="piercing-info">
                                                 <h3 className="piercing-title">{design.name}</h3>

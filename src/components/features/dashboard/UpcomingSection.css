@@ -178,6 +178,30 @@
     position: relative;
     height: 160px;
     padding: 12px 12px 0 12px;
+    background: #f6f7f8;
+    background-image: linear-gradient(to right,
+            #f6f7f8 0%,
+            #edeef1 20%,
+            #f6f7f8 40%,
+            #f6f7f8 100%);
+    background-repeat: no-repeat;
+    background-size: 800px 100%;
+    animation: shimmer 2s infinite linear forwards;
+}
+
+.card-image.loaded {
+    animation: none;
+    background: transparent;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+
+    100% {
+        background-position: 468px 0;
+    }
 }
 
 .card-image img {
@@ -185,6 +209,12 @@
     height: 100%;
     object-fit: cover;
     border-radius: 12px;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.card-image.loaded img {
+    opacity: 1;
 }
 
 .status-badge {

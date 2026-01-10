@@ -1,9 +1,9 @@
 .hero-banner-container {
     display: grid;
-    grid-template-columns: 1.4fr 0.6fr;
-    gap: 24px;
+    grid-template-columns: 1.6fr 0.4fr;
+    gap: 20px;
     margin-bottom: 1.5rem;
-    height: 360px;
+    height: 240px;
 }
 
 .hero-banner-left {
@@ -98,8 +98,8 @@
 }
 
 .hero-img {
-    width: 260px;
-    height: 200px;
+    width: 180px;
+    height: 140px;
     object-fit: cover;
     border-radius: 4px;
     display: block;
@@ -111,16 +111,28 @@
 }
 
 .dimen-card {
-    background: rgba(255, 255, 255, 0.95);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%);
     backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 28px;
-    padding: 20px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow: 0 8px 32px rgba(16, 185, 129, 0.15), 0 0 0 1px rgba(16, 185, 129, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.dimen-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
 }
 
 .dimen-top {
@@ -136,9 +148,10 @@
 }
 
 .dimen-icon-small {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.3));
 }
 
 .dimen-name {
@@ -148,9 +161,22 @@
 }
 
 .dimen-price-display {
-    background: rgba(15, 23, 42, 0.05);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.05) 100%);
     border-radius: 14px;
-    padding: 10px 14px;
+    padding: 12px 16px;
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.dimen-price-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
 }
 
 .price-row {
@@ -171,9 +197,12 @@
 }
 
 .price-inr {
-    font-size: 18px;
-    font-weight: 700;
-    color: #0f172a;
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .dimen-graph-section {
@@ -225,18 +254,57 @@
     }
 
     .hero-banner-left {
-        min-height: 240px;
-        padding: 24px;
-        /* Reduced from 48px */
+        min-height: auto;
+        padding: 40px 32px;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
     }
 
     .hero-image {
-        margin-top: 20px;
+        margin-top: 32px;
     }
 
     .dimen-card {
-        min-height: 280px;
+        min-height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-banner-container {
+        margin-bottom: 0rem;
+    }
+
+    .hero-banner-left {
+        padding: 24px;
+        text-align: center;
+        justify-content: center;
+        border-radius: 24px;
+    }
+
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-title {
+        font-size: 24px !important;
+        margin-bottom: 20px;
+        max-width: 100%;
+        line-height: 1.2;
+    }
+
+    .hero-explore-btn {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+
+    .hero-image {
+        display: none;
+    }
+
+    .hero-banner-right {
+        display: none;
     }
 }
