@@ -16,6 +16,7 @@ import {
     IconCertificate,
     IconCircleCheckFilled
 } from '@tabler/icons-react';
+import useSWR from 'swr';
 import { createClient } from '@/utils/supabase';
 import AppLayout from '@/components/layout/AppLayout';
 import LottieLoader from '@/components/ui/LottieLoader';
@@ -24,6 +25,8 @@ import ReviewSection from '@/components/features/artworks/ReviewSection';
 import { useCart } from '@/contexts/CartContext';
 import { toast } from 'react-hot-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import { getOptimizedImageUrl } from '@/utils/image-optimization';
 import './ProductDetails.css';
 
 interface ArtworkImage {
@@ -81,49 +84,57 @@ export default function ProductDetailsPage() {
     const { addToCart } = useCart();
     const router = useRouter();
 
-    const fetchData = useCallback(async () => {
-        const [artworkRes, reviewsRes] = await Promise.all([
-            supabase
+    // 1. Fetch Artwork Data with SWR
+    const { data: artwork, error: artworkError } = useSWR<Artwork>(
+        id ? `/api/artworks/${id}` : null,
+        async (url) => {
+            const { data, error } = await supabase
                 .from('artworks')
                 .select('*, artwork_images(*), profiles:artist_id(*)')
                 .eq('id', id)
-                .single(),
-            supabase
+                .single();
+            if (error) throw error;
+            return data;
+        },
+        { revalidateOnFocus: false }
+    );
+
+    // 2. Fetch Reviews with SWR
+    const { data: reviews = [], error: reviewsError, mutate: mutateReviews } = useSWR<any[]>(
+        id ? `/api/reviews/${id}` : null,
+        async () => {
+            const { data, error } = await supabase
                 .from('artwork_reviews')
                 .select('*, profiles(full_name, avatar_url)')
                 .eq('artwork_id', id)
-                .order('created_at', { ascending: false })
-        ]);
-
-        if (artworkRes.data) {
-            setArtwork(artworkRes.data);
-            if (!selectedVariant && artworkRes.data.variants?.length > 0) {
-                setSelectedVariant(artworkRes.data.variants[0].name);
-            }
+                .order('created_at', { ascending: false });
+            if (error) throw error;
+            return data;
         }
-        if (reviewsRes.data) {
-            setReviews(reviewsRes.data);
-        }
+    );
 
-        // Fetch artist stats
-        if (artworkRes.data?.artist_id) {
-            const { count } = await supabase
-                .from('artworks')
-                .select('*', { count: 'exact', head: true })
-                .eq('artist_id', artworkRes.data.artist_id)
-                .eq('status', 'sold');
-
-            if (count !== null) setSoldCount(count + (artworkRes.data.profiles?.is_pro ? 120 : 0)); // Adding base for pro sellers or using real
-        }
-
-        setLoading(false);
-    }, [id, supabase, selectedVariant]);
+    // 3. Derived / Extra Data
+    const [soldCount, setSoldCount] = useState(120);
+    const [artistRating, setArtistRating] = useState(4.2);
 
     useEffect(() => {
-        if (id) fetchData();
-    }, [id, fetchData]);
+        if (artwork?.variants?.length > 0 && !selectedVariant) {
+            setSelectedVariant(artwork.variants[0].name);
+        }
 
-    if (loading) return <AppLayout><LottieLoader /></AppLayout>;
+        if (artwork?.artist_id) {
+            supabase
+                .from('artworks')
+                .select('*', { count: 'exact', head: true })
+                .eq('artist_id', artwork.artist_id)
+                .eq('status', 'sold')
+                .then(({ count }) => {
+                    if (count !== null) setSoldCount(count + (artwork.profiles?.is_pro ? 120 : 0));
+                });
+        }
+    }, [artwork, supabase, selectedVariant]);
+
+    const isLoading = !artwork && !artworkError;
     if (!artwork) return <AppLayout><div className="error-center">Artwork not found.</div></AppLayout>;
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -172,7 +183,11 @@ export default function ProductDetailsPage() {
                 <div className="product-grid">
                     {/* Left: Image Gallery */}
                     <div className="image-section">
-                        {artwork.artwork_images?.length > 0 && (
+                        {isLoading ? (
+                            <div className="skeleton-image-rail">
+                                {[1, 2, 3].map(i => <div key={i} className="skeleton-thumb shimmer" />)}
+                            </div>
+                        ) : artwork.artwork_images?.length > 0 && (
                             <div className="thumbnail-rail">
                                 {artwork.artwork_images.map((img, i) => (
                                     <div
@@ -180,27 +195,38 @@ export default function ProductDetailsPage() {
                                         className={`thumb-card ${activeImage === i ? 'active' : ''}`}
                                         onMouseEnter={() => setActiveImage(i)}
                                     >
-                                        <img src={img.image_url} alt={`Thumbnail ${i}`} />
+                                        <Image
+                                            src={getOptimizedImageUrl(img.image_url, { width: 100 })}
+                                            alt={`Thumbnail ${i}`}
+                                            width={80}
+                                            height={80}
+                                            objectFit="cover"
+                                        />
                                     </div>
                                 ))}
                             </div>
                         )}
 
                         <div
-                            className="main-preview-container"
+                            className={`main-preview-container ${isLoading ? 'shimmer' : ''}`}
                             onMouseMove={handleMouseMove}
                             onMouseLeave={() => setZoomPos(prev => ({ ...prev, show: false }))}
                         >
-                            <img
-                                src={artwork.artwork_images?.[activeImage]?.image_url || '/placeholder-art.png'}
-                                alt={artwork.title}
-                                className="main-img"
-                            />
+                            {!isLoading && (
+                                <Image
+                                    src={getOptimizedImageUrl(artwork.artwork_images?.[activeImage]?.image_url || '/placeholder-art.png', { width: 1000 })}
+                                    alt={artwork.title}
+                                    className="main-img"
+                                    layout="fill"
+                                    objectFit="contain"
+                                    priority
+                                />
+                            )}
                             {zoomPos.show && artwork.artwork_images?.[activeImage] && (
                                 <div
                                     className="zoom-overlay"
                                     style={{
-                                        backgroundImage: `url(${artwork.artwork_images[activeImage]?.image_url})`,
+                                        backgroundImage: `url(${getOptimizedImageUrl(artwork.artwork_images[activeImage]?.image_url, { width: 1600, format: 'webp' })})`,
                                         backgroundPosition: `${zoomPos.x}% ${zoomPos.y}%`
                                     }}
                                 />
@@ -316,7 +342,13 @@ export default function ProductDetailsPage() {
                             <div className="seller-info">
                                 <div className="seller-avatar">
                                     {artwork.profiles?.is_pro && <IconCheck size={14} className="verified-icon" />}
-                                    <img src={artwork.profiles?.avatar_url || '/default-avatar.png'} alt={artwork.profiles?.full_name || 'Seller'} />
+                                    <Image
+                                        src={artwork.profiles?.avatar_url || '/default-avatar.png'}
+                                        alt={artwork.profiles?.full_name || 'Seller'}
+                                        width={40}
+                                        height={40}
+                                        className="rounded-full"
+                                    />
                                 </div>
                                 <div className="seller-details">
                                     <h3>{artwork.profiles?.gallery_name || artwork.profiles?.full_name || 'Guanjoi Trading LLC'}</h3>
@@ -364,7 +396,7 @@ export default function ProductDetailsPage() {
                                 avgRating={Number(artwork.avg_rating)}
                                 totalReviews={artwork.total_reviews}
                                 reviews={reviews}
-                                onReviewAdded={fetchData}
+                                onReviewAdded={() => mutateReviews()}
                             />
                         )}
                         {activeTab === 'usage' && (
