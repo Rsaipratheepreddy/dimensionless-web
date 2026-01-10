@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { IconPlus, IconEdit, IconTrash, IconEye, IconEyeOff, IconSearch, IconFilter } from '@tabler/icons-react';
+import { IconPlus, IconEdit, IconTrash, IconEye, IconEyeOff, IconSearch, IconFilter, IconCheck } from '@tabler/icons-react';
 import { useModal } from '@/contexts/ModalContext';
 import { toast } from 'react-hot-toast';
 import LottieLoader from '@/components/ui/LottieLoader';
@@ -21,7 +21,9 @@ interface Artwork {
     status: string;
     artist: {
         full_name: string;
+        avatar_url?: string;
     };
+    images?: any[];
     artwork_images?: any[];
 }
 
@@ -201,7 +203,7 @@ export default function AdminArtPage() {
                                         <td>
                                             <div className="item-cell">
                                                 <img
-                                                    src={artwork.artwork_images?.[0]?.image_url || '/painting.png'}
+                                                    src={artwork.images?.[0]?.image_url || '/painting.png'}
                                                     alt={artwork.title}
                                                     className="item-thumb"
                                                 />
@@ -214,7 +216,14 @@ export default function AdminArtPage() {
                                         <td>
                                             <span className="category-badge">{artwork.category}</span>
                                         </td>
-                                        <td>{artwork.artist?.full_name || 'Admin'}</td>
+                                        <td>
+                                            <div className="artist-cell">
+                                                {artwork.artist?.avatar_url && (
+                                                    <img src={artwork.artist.avatar_url} className="artist-tiny-thumb" alt="" />
+                                                )}
+                                                <span>{artwork.artist?.full_name || 'Admin'}</span>
+                                            </div>
+                                        </td>
                                         <td>
                                             <div className="price-info">
                                                 {artwork.purchase_price && (
@@ -237,10 +246,10 @@ export default function AdminArtPage() {
                                                     <button
                                                         className="icon-btn approve"
                                                         title="Approve & Publish"
-                                                        onClick={() => toggleStatus(artwork.id, 'draft')} // toggleStatus(id, 'draft') will set it to 'published'
+                                                        onClick={() => toggleStatus(artwork.id, artwork.status)}
                                                         style={{ color: '#22c55e' }}
                                                     >
-                                                        <IconEye size={18} />
+                                                        <IconCheck size={20} stroke={3} />
                                                     </button>
                                                 ) : (
                                                     <button

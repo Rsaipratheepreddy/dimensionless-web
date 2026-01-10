@@ -183,6 +183,20 @@
     font-size: 13px;
 }
 
+.artist-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.artist-tiny-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-secondary);
+}
+
 .actions-cell {
     display: flex;
     gap: 8px;
@@ -205,6 +219,11 @@
 .icon-btn:hover {
     background: var(--border-color);
     color: var(--color-primary);
+}
+
+.icon-btn.approve:hover {
+    background: rgba(34, 197, 94, 0.1);
+    transform: scale(1.1);
 }
 
 .icon-btn.delete:hover {
