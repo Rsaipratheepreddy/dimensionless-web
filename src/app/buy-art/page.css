@@ -420,11 +420,9 @@
     }
 
     .marketplace-grid {
-        grid-template-columns: 1fr !important;
-        gap: 32px;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px;
         align-items: stretch;
-        max-width: 480px;
-        margin: 0 auto;
     }
 
     .art-image {
@@ -466,4 +464,34 @@
     .detail-info-side h1 {
         font-size: 32px;
     }
+}
+
+.load-more-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.load-more-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 15px;
+}
+
+.load-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.load-more-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }

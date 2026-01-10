@@ -39,6 +39,7 @@ const ArtCard: React.FC<ArtCardProps> = ({
     onLeaseNow,
     onClick
 }) => {
+    const [imageLoaded, setImageLoaded] = React.useState(false);
 
     const handleBuyClick = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -57,11 +58,13 @@ const ArtCard: React.FC<ArtCardProps> = ({
 
     return (
         <div className="nft-art-card" onClick={onClick}>
-            <div className="nft-image-container">
+            <div className={`nft-image-container ${imageLoaded ? 'loaded' : ''}`}>
                 <img
                     src={getOptimizedImageUrl(image || '/placeholder-art.png', { width: 500, format: 'webp' })}
                     alt={title}
                     className="nft-main-img"
+                    loading="lazy"
+                    onLoad={() => setImageLoaded(true)}
                 />
 
                 <div className="nft-top-actions">
@@ -69,21 +72,6 @@ const ArtCard: React.FC<ArtCardProps> = ({
                     <button className="nft-icon-btn shadow wishlist" onClick={(e) => e.stopPropagation()}>
                         <IconHeart size={20} />
                     </button>
-                </div>
-
-                <div className="nft-creator-badge">
-                    <div className="creator-avatar-wrap">
-                        <img
-                            src={artistAvatar || '/founder1.png'}
-                            alt={artistName}
-                            className="creator-img"
-                        />
-                        {isVerified && (
-                            <div className="verification-tick">
-                                <IconCircleCheckFilled size={14} color="#000000" />
-                            </div>
-                        )}
-                    </div>
                 </div>
             </div>
 

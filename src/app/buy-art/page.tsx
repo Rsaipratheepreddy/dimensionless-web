@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { IconSearch, IconFilter, IconShoppingCart, IconHeart, IconX, IconPlus, IconCheck } from '@tabler/icons-react';
+import { IconSearch, IconFilter, IconShoppingCart, IconHeart, IconX, IconPlus, IconCheck, IconLoader2 } from '@tabler/icons-react';
 import LottieLoader from '@/components/ui/LottieLoader';
 import AppLayout from '@/components/layout/AppLayout';
 import ArtCard from '@/components/features/tattoos/ArtCard';
@@ -25,34 +25,60 @@ export default function BuyArtPage() {
     const [paintings, setPaintings] = useState<any[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(0);
+    const ITEMS_PER_PAGE = 12;
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
 
     useEffect(() => {
-        fetchData();
+        fetchData(true);
     }, []);
 
-    const fetchData = async () => {
+    const fetchData = async (isInitial = false) => {
         try {
-            setLoading(true);
+            if (isInitial) {
+                setLoading(true);
+                setPage(0);
+            } else {
+                setLoadingMore(true);
+            }
+
+            const currentPage = isInitial ? 0 : page + 1;
+            const from = currentPage * ITEMS_PER_PAGE;
+            const to = from + ITEMS_PER_PAGE - 1;
+
             const [artworksRes, categoriesRes] = await Promise.all([
                 supabase
                     .from('artworks')
                     .select('*, profiles:artist_id(full_name, avatar_url), artwork_images(*)')
                     .eq('status', 'published')
-                    .order('created_at', { ascending: false }),
-                fetch('/api/categories?type=art')
+                    .order('created_at', { ascending: false })
+                    .range(from, to),
+                isInitial ? fetch('/api/categories?type=art') : Promise.resolve(null)
             ]);
 
             if (artworksRes.error) throw artworksRes.error;
-            setPaintings(artworksRes.data || []);
 
-            const categoriesResData = await categoriesRes.json();
-            setCategories(categoriesResData);
+            if (isInitial) {
+                setPaintings(artworksRes.data || []);
+            } else {
+                setPaintings(prev => [...prev, ...(artworksRes.data || [])]);
+            }
+
+            setHasMore((artworksRes.data || []).length === ITEMS_PER_PAGE);
+            setPage(currentPage);
+
+            if (categoriesRes) {
+                const categoriesResData = await categoriesRes.json();
+                setCategories(categoriesResData);
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
             setLoading(false);
+            setLoadingMore(false);
         }
     };
 
@@ -121,32 +147,45 @@ export default function BuyArtPage() {
                     {loading ? (
                         <LottieLoader />
                     ) : (
-                        <div className="marketplace-grid">
-                            {filteredPaintings.length === 0 ? (
-                                <div className="no-results">
-                                    <h3>No artworks found</h3>
-                                    <p>Try adjusting your search query.</p>
+                        <div className="marketplace-grid-container">
+                            <div className="marketplace-grid">
+                                {filteredPaintings.length === 0 ? (
+                                    <div className="no-results">
+                                        <h3>No artworks found</h3>
+                                        <p>Try adjusting your search query.</p>
+                                    </div>
+                                ) : (
+                                    filteredPaintings.map((painting) => (
+                                        <Link key={painting.id} href={`/artworks/${painting.id}`} style={{ textDecoration: 'none' }}>
+                                            <ArtCard
+                                                id={painting.id}
+                                                title={painting.title}
+                                                image={painting.artwork_images?.find((img: any) => img.is_primary)?.image_url || painting.artwork_images?.[0]?.image_url}
+                                                price={painting.purchase_price || painting.lease_monthly_rate}
+                                                currency={painting.purchase_price ? 'INR' : 'Lease'}
+                                                artistName={painting.profiles?.full_name}
+                                                artistAvatar={painting.profiles?.avatar_url}
+                                                allowPurchase={painting.allow_purchase}
+                                                allowLease={painting.allow_lease}
+                                                onBuyNow={(e) => {
+                                                    e.preventDefault();
+                                                    handleAddToCart(painting);
+                                                }}
+                                            />
+                                        </Link>
+                                    ))
+                                )}
+                            </div>
+                            {hasMore && searchQuery === '' && selectedCategory === 'all' && (
+                                <div className="load-more-section">
+                                    <button
+                                        className="load-more-btn"
+                                        onClick={() => fetchData()}
+                                        disabled={loadingMore}
+                                    >
+                                        {loadingMore ? <IconLoader2 className="animate-spin" size={20} /> : 'Load More Artworks'}
+                                    </button>
                                 </div>
-                            ) : (
-                                filteredPaintings.map((painting) => (
-                                    <Link key={painting.id} href={`/artworks/${painting.id}`} style={{ textDecoration: 'none' }}>
-                                        <ArtCard
-                                            id={painting.id}
-                                            title={painting.title}
-                                            image={painting.artwork_images?.find((img: any) => img.is_primary)?.image_url || painting.artwork_images?.[0]?.image_url}
-                                            price={painting.purchase_price || painting.lease_monthly_rate}
-                                            currency={painting.purchase_price ? 'INR' : 'Lease'}
-                                            artistName={painting.profiles?.full_name}
-                                            artistAvatar={painting.profiles?.avatar_url}
-                                            allowPurchase={painting.allow_purchase}
-                                            allowLease={painting.allow_lease}
-                                            onBuyNow={(e) => {
-                                                e.preventDefault();
-                                                handleAddToCart(painting);
-                                            }}
-                                        />
-                                    </Link>
-                                ))
                             )}
                         </div>
                     )}

@@ -4,6 +4,13 @@
     padding: 24px;
 }
 
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 16px;
+        /* Slightly more edge padding */
+    }
+}
+
 .profile-header-card {
     background: white;
     border-radius: 24px;
@@ -269,7 +276,43 @@
     .artworks-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
+        /* Slightly wider gap */
     }
+}
+
+@media (max-width: 380px) {
+    .artworks-grid {
+        gap: 8px;
+    }
+}
+
+.load-more-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.load-more-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 15px;
+}
+
+.load-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.load-more-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .loading-center,

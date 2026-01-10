@@ -49,6 +49,10 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
     const [viewProfile, setViewProfile] = useState<ProfileData | null>(null);
     const [artworks, setArtworks] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(0);
+    const ITEMS_PER_PAGE = 12;
     const [isFollowing, setIsFollowing] = useState(false);
     const [followerCount, setFollowerCount] = useState(0);
     const [followingCount, setFollowingCount] = useState(0);
@@ -59,7 +63,7 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
     useEffect(() => {
         if (profileId) {
             fetchProfileData();
-            fetchArtworks();
+            fetchArtworks(true);
             checkFollowStatus();
             fetchFollowCounts();
         }
@@ -79,17 +83,41 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
         }
     };
 
-    const fetchArtworks = async () => {
+    const fetchArtworks = async (isInitial = false) => {
         try {
+            if (isInitial) {
+                setLoading(true);
+                setPage(0);
+            } else {
+                setLoadingMore(true);
+            }
+
+            const currentPage = isInitial ? 0 : page + 1;
+            const from = currentPage * ITEMS_PER_PAGE;
+            const to = from + ITEMS_PER_PAGE - 1;
+
             const { data, error } = await supabase
                 .from('artworks')
                 .select('*, artwork_images(*)')
                 .eq('artist_id', profileId)
-                .order('created_at', { ascending: false });
+                .order('created_at', { ascending: false })
+                .range(from, to);
+
             if (error) throw error;
-            setArtworks(data || []);
+
+            if (isInitial) {
+                setArtworks(data || []);
+            } else {
+                setArtworks(prev => [...prev, ...(data || [])]);
+            }
+
+            setHasMore((data || []).length === ITEMS_PER_PAGE);
+            setPage(currentPage);
         } catch (error) {
             console.error('Error fetching artworks:', error);
+        } finally {
+            setLoading(false);
+            setLoadingMore(false);
         }
     };
 
@@ -301,6 +329,17 @@ export default function ProfilePage({ params }: { params: Promise<{ id: string }
                                 />
                             ))}
                         </div>
+                        {hasMore && (
+                            <div className="load-more-section">
+                                <button
+                                    className="load-more-btn"
+                                    onClick={() => fetchArtworks()}
+                                    disabled={loadingMore}
+                                >
+                                    {loadingMore ? <IconLoader2 className="animate-spin" size={20} /> : 'Load More Artworks'}
+                                </button>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div className="empty-profile-feed">

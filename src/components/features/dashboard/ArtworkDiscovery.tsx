@@ -34,7 +34,8 @@ export default function ArtworkDiscovery() {
                     images:artwork_images(*)
                 `)
                 .eq('status', 'published')
-                .order('created_at', { ascending: false });
+                .order('created_at', { ascending: false })
+                .limit(12);
 
             if (filter === 'buy') {
                 query = query.eq('allow_purchase', true);
@@ -111,32 +112,39 @@ export default function ArtworkDiscovery() {
                     <p>No artworks found in this category.</p>
                 </div>
             ) : (
-                <div className="artwork-grid">
-                    {artworks.map((art) => (
-                        <Link key={art.id} href={`/artworks/${art.id}`} style={{ textDecoration: 'none' }}>
-                            <ArtCard
-                                id={art.id}
-                                title={art.title}
-                                image={art.images?.find((img: any) => img.is_primary)?.image_url || art.images?.[0]?.image_url}
-                                price={art.purchase_price || art.lease_monthly_rate || 0}
-                                currency="INR"
-                                artistName={art.artist?.full_name}
-                                artistAvatar={art.artist?.avatar_url}
-                                allowPurchase={art.allow_purchase}
-                                allowLease={art.allow_lease}
-                                status={art.status}
-                                onBuyNow={(e) => {
-                                    e.preventDefault(); // Prevent Link navigation
-                                    handleBuyNow(art);
-                                }}
-                                onLeaseNow={(e) => {
-                                    e.preventDefault(); // Prevent Link navigation
-                                    handleLeaseNow(art);
-                                }}
-                            />
+                <>
+                    <div className="artwork-grid">
+                        {artworks.map((art) => (
+                            <Link key={art.id} href={`/artworks/${art.id}`} style={{ textDecoration: 'none' }}>
+                                <ArtCard
+                                    id={art.id}
+                                    title={art.title}
+                                    image={art.images?.find((img: any) => img.is_primary)?.image_url || art.images?.[0]?.image_url}
+                                    price={art.purchase_price || art.lease_monthly_rate || 0}
+                                    currency="INR"
+                                    artistName={art.artist?.full_name}
+                                    artistAvatar={art.artist?.avatar_url}
+                                    allowPurchase={art.allow_purchase}
+                                    allowLease={art.allow_lease}
+                                    status={art.status}
+                                    onBuyNow={(e) => {
+                                        e.preventDefault();
+                                        handleBuyNow(art);
+                                    }}
+                                    onLeaseNow={(e) => {
+                                        e.preventDefault();
+                                        handleLeaseNow(art);
+                                    }}
+                                />
+                            </Link>
+                        ))}
+                    </div>
+                    <div className="discovery-footer">
+                        <Link href="/buy-art" className="view-all-btn">
+                            View All Artworks
                         </Link>
-                    ))}
-                </div>
+                    </div>
+                </>
             )}
         </section>
     );

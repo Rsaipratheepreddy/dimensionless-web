@@ -24,19 +24,37 @@
     position: relative;
     width: 100%;
     margin: 0 0 16px;
-    height: 0;
-    padding-bottom: 100%;
-    /* Force perfect square */
+    aspect-ratio: 1 / 1;
     border-radius: 20px;
     overflow: hidden;
-    /* Strict crop */
     flex-shrink: 0;
+    background: #f6f7f8;
+    background-image: linear-gradient(to right,
+            #f6f7f8 0%,
+            #edeef1 20%,
+            #f6f7f8 40%,
+            #f6f7f8 100%);
+    background-repeat: no-repeat;
+    background-size: 800px 100%;
+    animation: shimmer 2s infinite linear forwards;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.nft-image-container.loaded {
+    animation: none;
+    background: transparent;
 }
 
 .nft-main-img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -94,8 +112,8 @@
 
 .nft-creator-badge {
     position: absolute;
-    bottom: -8px;
-    /* Slightly less overlap below to clear title */
+    bottom: -20px;
+    /* Extended significantly to pop out from image */
     left: 10px;
     z-index: 10;
 }
@@ -137,9 +155,9 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    justify-content: space-between;
+    justify-content: flex-start;
+    /* Align to top in list view */
     min-width: 0;
-    /* Prevents overflow pushing */
 }
 
 .nft-title {
@@ -157,9 +175,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     margin-top: auto;
-    /* Push to bottom of content section if possible */
 }
 
 .nft-primary-price {
@@ -225,64 +242,78 @@
 
 @media (max-width: 480px) {
     .nft-art-card {
-        padding: 12px;
-        border-radius: 28px;
-        max-width: 100%;
+        padding: 8px;
+        /* Very compact padding */
+        border-radius: 16px;
+        gap: 8px;
     }
 
     .nft-image-container {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        padding-bottom: 0;
+        /* Remove the hack and use aspect-ratio */
         margin-bottom: 8px;
-        border-radius: 16px;
+        border-radius: 12px;
     }
 
     .nft-main-img {
-        border-radius: 16px;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        display: block;
+    }
+
+    .nft-card-content {
+        padding: 0 4px;
+        gap: 2px;
     }
 
     .nft-title {
-        font-size: 14px;
+        font-size: 13.5px;
         margin-bottom: 4px;
-    }
-
-    .creator-avatar-wrap {
-        width: 30px;
-        height: 30px;
-    }
-
-    .verification-tick {
-        width: 12px;
-        height: 12px;
-    }
-
-    .price-label {
-        font-size: 10px;
-    }
-
-    .price-val {
-        font-size: 11px;
+        line-height: 1.2;
     }
 
     .nft-price-row {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
+    }
+
+    .price-val {
+        font-size: 11.5px;
+    }
+
+    .nft-card-actions {
+        margin-top: 4px;
     }
 
     .nft-btn {
-        padding: 8px 4px;
+        padding: 7px 4px;
         font-size: 11px;
-        border-radius: 10px;
+        border-radius: 8px;
     }
 
     .nft-top-actions {
-        top: 8px;
-        left: 8px;
-        right: 8px;
+        top: 6px;
+        right: 6px;
     }
 
     .nft-icon-btn {
-        max-width: 32px !important;
-        width: 32px !important;
-        height: 32px !important;
-        min-width: 32px !important;
-        min-height: 32px !important;
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
+        min-height: 24px !important;
+    }
+
+    .nft-creator-badge {
+        bottom: -12px;
+        left: 4px;
+    }
+
+    .creator-avatar-wrap {
+        width: 22px;
+        height: 22px;
     }
 }
