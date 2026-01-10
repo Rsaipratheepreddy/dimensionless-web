@@ -228,15 +228,15 @@ export default function ProductDetailsPage() {
                         <div className="specs-grid">
                             <div className="spec-item">
                                 <span className="label">Made in:</span>
-                                <span className="val">{artwork.origin || 'Australia'}</span>
+                                <span className="val">{artwork.origin || '-'}</span>
                             </div>
                             <div className="spec-item">
                                 <span className="label">Design:</span>
-                                <span className="val">{artwork.design_style || 'Modern'}</span>
+                                <span className="val">{artwork.design_style || '-'}</span>
                             </div>
                             <div className="spec-item">
                                 <span className="label">Delivery:</span>
-                                <span className="val">{artwork.delivery_info || '2-3 days delivery'}</span>
+                                <span className="val">{artwork.delivery_info || '-'}</span>
                             </div>
                         </div>
 
