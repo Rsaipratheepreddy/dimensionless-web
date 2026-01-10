@@ -32,8 +32,12 @@ export default function ProfileSetup({ onComplete, onSkip }: ProfileSetupProps) 
 
             const { error: updateError } = await supabase
                 .from('profiles')
-                .update({ full_name: fullName.trim() })
-                .eq('id', user.id);
+                .upsert({
+                    id: user.id,
+                    full_name: fullName.trim(),
+                    email: user.email,
+                    updated_at: new Date().toISOString()
+                });
 
             if (updateError) throw updateError;
 

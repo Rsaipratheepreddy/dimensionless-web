@@ -62,27 +62,49 @@ export async function middleware(request: NextRequest) {
         }
     )
 
+    const host = request.headers.get('host') || '';
     const { pathname } = request.nextUrl
 
-    // Only protect admin routes (requires login)
-    const protectedRoutes = ['/admin']
-    const isProtectedRoute = protectedRoutes.some(route =>
+    // Detect admin subdomain
+    const isAdminSubdomain = host.startsWith('admin.');
+
+    // Only protect admin routes or subdomain routes
+    const protectedRoutes = ['/admin', '/employee']
+    let isProtectedRoute = protectedRoutes.some(route =>
         pathname === route || pathname.startsWith(`${route}/`)
     )
 
-    // Only call getUser() if we are on a protected route
-    // This saves a major network call for public API routes like /api/home-data
+    // If on admin subdomain, it's inherently a protected path eventually
+    if (isAdminSubdomain) {
+        isProtectedRoute = true;
+    }
+
     let user = null;
     if (isProtectedRoute) {
         const { data: { user: authUser } } = await supabase.auth.getUser()
         user = authUser;
     }
 
-    // Redirect to home if accessing admin routes while logged out
+    // Redirect to home if accessing protected routes while logged out
     if (!user && isProtectedRoute) {
+        // If on admin subdomain, redirect to the main domain home page
+        if (isAdminSubdomain) {
+            const mainUrl = new URL(request.url)
+            mainUrl.hostname = host.replace('admin.', '')
+            mainUrl.pathname = '/'
+            return NextResponse.redirect(mainUrl)
+        }
+
         const url = request.nextUrl.clone()
         url.pathname = '/'
         return NextResponse.redirect(url)
+    }
+
+    // Rewrite logic for subdomain
+    if (isAdminSubdomain && !pathname.startsWith('/admin') && !pathname.startsWith('/api') && !pathname.startsWith('/_next')) {
+        const url = request.nextUrl.clone();
+        url.pathname = `/admin${pathname === '/' ? '' : pathname}`;
+        return NextResponse.rewrite(url);
     }
 
     return response

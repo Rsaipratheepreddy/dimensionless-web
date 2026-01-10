@@ -279,8 +279,8 @@ export default function AdminLeasingPage() {
             <div className="admin-leasing-container">
                 <header className="admin-hero">
                     <div className="hero-content">
-                        <h1>Art Leasing</h1>
-                        <p>Manage your rental inventory & leasing orders</p>
+                        <h1>Art Sell / Lease</h1>
+                        <p>Manage art listings (Rent/Sale) & orders</p>
                     </div>
                     <button className="post-submit-btn" onClick={() => { resetForm(); setIsModalOpen(true); }}>
                         <IconPlus size={20} /> Add Leasable Art
@@ -298,7 +298,7 @@ export default function AdminLeasingPage() {
                         className={`leasing-tab ${activeTab === 'orders' ? 'active' : ''}`}
                         onClick={() => setActiveTab('orders')}
                     >
-                        <IconClock size={18} /> Leasing Orders
+                        <IconClock size={18} /> Orders & Requests
                     </button>
                 </nav>
 

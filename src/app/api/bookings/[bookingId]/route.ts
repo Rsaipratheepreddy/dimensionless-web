@@ -14,14 +14,26 @@ export async function PATCH(
         const { bookingId } = await params;
         const body = await request.json();
 
-        const { data: booking, error } = await supabase
+        // Get user role to allow staff updates
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+
+        const isStaff = profile?.role === 'admin' || profile?.role === 'employee';
+
+        let query = supabase
             .from('tattoo_bookings')
             .update(body)
-            .eq('id', bookingId)
-            // Ensure user can only update their own booking OR is admin (RLS should handle this, but good to be explicit here)
-            .eq('user_id', user.id)
-            .select()
-            .single();
+            .eq('id', bookingId);
+
+        // Only restrict by user_id if not staff
+        if (!isStaff) {
+            query = query.eq('user_id', user.id);
+        }
+
+        const { data: booking, error } = await query.select().single();
 
         if (error) throw error;
 

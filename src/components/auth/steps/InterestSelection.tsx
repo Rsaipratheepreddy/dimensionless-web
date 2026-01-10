@@ -62,11 +62,13 @@ export default function InterestSelection({ onComplete, onSkip }: InterestSelect
 
             const { error: updateError } = await supabase
                 .from('profiles')
-                .update({
+                .upsert({
+                    id: user.id,
+                    email: user.email,
                     interests: selectedInterests,
-                    onboarding_completed: true
-                })
-                .eq('id', user.id);
+                    onboarding_completed: true,
+                    updated_at: new Date().toISOString()
+                });
 
             if (updateError) throw updateError;
 

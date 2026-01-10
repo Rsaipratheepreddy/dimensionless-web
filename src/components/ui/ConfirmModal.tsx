@@ -23,16 +23,16 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     onCancel
 }) => {
     return (
-        <div className="modal-overlay">
-            <div className="confirm-modal">
-                <div className="modal-body">
+        <div className="modal-overlay" onClick={onCancel}>
+            <div className="modal-content confirm-modal-view" onClick={e => e.stopPropagation()}>
+                <div className="confirm-modal-body">
                     <div className={`modal-icon ${type}`}>
                         {type === 'danger' ? <IconAlertTriangle size={32} /> : <IconCircleCheck size={32} />}
                     </div>
                     <h2>{title}</h2>
                     <p>{message}</p>
                 </div>
-                <div className="modal-footer">
+                <div className="confirm-modal-footer">
                     <button className="modal-cancel-btn" onClick={onCancel}>
                         {cancelText}
                     </button>
@@ -40,7 +40,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
                         {confirmText}
                     </button>
                 </div>
-                <button className="modal-close-x" onClick={onCancel}>
+                <button className="close-btn modal-top-right" onClick={onCancel}>
                     <IconX size={20} />
                 </button>
             </div>

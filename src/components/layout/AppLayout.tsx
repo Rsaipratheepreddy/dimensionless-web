@@ -25,7 +25,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     // const [isUnlocked, setIsUnlocked] = useState(true); // Maintenance mode disabled
     // const [isHydrated, setIsHydrated] = useState(false);
     const pathname = usePathname();
-    const { profile, showAuthModal, authModalTab, closeAuthModal } = useAuth();
+    const { profile, showAuthModal, authModalTab, closeAuthModal, signOut } = useAuth();
 
     // useEffect(() => {
     //     // Check if maintenance is bypassed
@@ -83,7 +83,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                                     <span>Platform</span>
                                     <IconSettings size={14} />
                                     <span className="current">
-                                        {pathname.split('/').pop()?.replace(/-/g, ' ').toUpperCase() || 'DASHBOARD'}
+                                        {pathname.includes('/admin/leasing')
+                                            ? 'ART SELL / LEASE'
+                                            : pathname.split('/').pop()?.replace(/-/g, ' ').toUpperCase() || 'DASHBOARD'}
                                     </span>
                                 </div>
                             </div>
@@ -93,7 +95,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                                 <IconArrowLeft size={18} />
                                 View Site
                             </button>
-                            <button onClick={() => profile ? useAuth().signOut() : null} className="nav-action-btn logout">
+                            <button onClick={() => profile ? signOut() : null} className="nav-action-btn logout">
                                 <IconLogout size={18} />
                                 Logout
                             </button>

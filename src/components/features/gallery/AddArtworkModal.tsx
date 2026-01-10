@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { IconPhoto, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
 import { createClient } from '@/utils/supabase';
 import { toast } from 'react-hot-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface AddArtworkModalProps {
     isOpen: boolean;
@@ -15,18 +16,22 @@ interface AddArtworkModalProps {
 export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwork }: AddArtworkModalProps) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [about, setAbout] = useState('');
     const [purchasePrice, setPurchasePrice] = useState('');
     const [leaseRate, setLeaseRate] = useState('');
     const [category, setCategory] = useState('Fine Art');
     const [images, setImages] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
-    const [status, setStatus] = useState<'draft' | 'published'>('published');
+    const [status, setStatus] = useState<'draft' | 'pending' | 'published' | 'sold' | 'leased' | 'archived'>('published');
+    const { profile } = useAuth();
 
     // New fields
     const [stockQuantity, setStockQuantity] = useState('1');
     const [origin, setOrigin] = useState('');
     const [designStyle, setDesignStyle] = useState('');
+    const [medium, setMedium] = useState('');
+    const [dimensions, setDimensions] = useState('');
     const [deliveryInfo, setDeliveryInfo] = useState('');
     const [allowPurchase, setAllowPurchase] = useState(true);
     const [allowLease, setAllowLease] = useState(false);
@@ -38,16 +43,19 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
         if (editArtwork && isOpen) {
             setTitle(editArtwork.title || '');
             setDescription(editArtwork.description || '');
+            setAbout(editArtwork.about || '');
             setPurchasePrice(editArtwork.purchase_price?.toString() || '');
             setLeaseRate(editArtwork.lease_monthly_rate?.toString() || '');
             setCategory(editArtwork.category || 'Fine Art');
             setStockQuantity(editArtwork.stock_quantity?.toString() || '1');
             setOrigin(editArtwork.origin || '');
             setDesignStyle(editArtwork.design_style || '');
+            setMedium(editArtwork.medium || '');
+            setDimensions(editArtwork.dimensions || '');
             setDeliveryInfo(editArtwork.delivery_info || '');
             setAllowPurchase(editArtwork.allow_purchase ?? true);
             setAllowLease(editArtwork.allow_lease ?? false);
-            setStatus(editArtwork.status === 'draft' ? 'draft' : 'published');
+            setStatus(editArtwork.status || 'published');
             setExistingImages(editArtwork.artwork_images || []);
             setPreviews(editArtwork.artwork_images?.map((img: any) => img.image_url) || []);
             setImages([]); // Reset new images
@@ -55,16 +63,19 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
             // Reset for new creation
             setTitle('');
             setDescription('');
+            setAbout('');
             setPurchasePrice('');
             setLeaseRate('');
             setCategory('Fine Art');
             setStockQuantity('1');
             setOrigin('');
             setDesignStyle('');
+            setMedium('');
+            setDimensions('');
             setDeliveryInfo('');
             setAllowPurchase(true);
             setAllowLease(false);
-            setStatus('published');
+            setStatus(profile?.role === 'admin' ? 'published' : 'pending');
             setExistingImages([]);
             setPreviews([]);
             setImages([]);
@@ -88,6 +99,10 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
         setPreviews(prev => prev.filter((_, i) => i !== index));
     };
 
+    const handleRemoveExistingImage = async (imageId: string) => {
+        setExistingImages(prev => prev.filter(img => img.id !== imageId));
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (images.length === 0 && existingImages.length === 0) {
@@ -103,10 +118,13 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
             const artworkData = {
                 title,
                 description,
+                about,
                 artist_id: user.id,
                 purchase_price: purchasePrice ? parseFloat(purchasePrice) : null,
                 lease_monthly_rate: leaseRate ? parseFloat(leaseRate) : null,
                 category,
+                medium,
+                dimensions,
                 stock_quantity: parseInt(stockQuantity) || 1,
                 origin,
                 design_style: designStyle,
@@ -181,165 +199,168 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
     };
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-content artwork-modal">
-                <div className="modal-header">
+        <div className={`admin-modal-overlay ${isOpen ? 'active' : ''}`} style={{ display: isOpen ? 'flex' : 'none' }}>
+            <div className="admin-modal-content" style={{ maxWidth: '900px' }}>
+                <div className="admin-modal-header">
                     <h2>{editArtwork ? 'Edit Artwork' : 'Add New Artwork'}</h2>
-                    <button type="button" className="close-btn" onClick={onClose}><IconX size={24} /></button>
+                    <button type="button" className="admin-modal-close" onClick={onClose}>
+                        <IconX size={20} />
+                    </button>
                 </div>
 
-                <form onSubmit={handleSubmit}>
-                    <div className="form-grid">
-                        <div className="form-section">
-                            <div className="form-group">
+                <div className="admin-modal-body">
+                    <form id="artwork-form" onSubmit={handleSubmit}>
+                        <div className="admin-form-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                            <div className="admin-form-group">
                                 <label>Title</label>
                                 <input
                                     type="text"
+                                    required
                                     value={title}
                                     onChange={e => setTitle(e.target.value)}
-                                    required
                                     placeholder="Artwork title"
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="admin-form-group">
+                                <label>Category</label>
+                                <select value={category} onChange={e => setCategory(e.target.value)}>
+                                    <option value="Fine Art">Fine Art</option>
+                                    <option value="Abstract">Abstract</option>
+                                    <option value="Portrait">Portrait</option>
+                                    <option value="Landscape">Landscape</option>
+                                    <option value="Digital">Digital</option>
+                                    <option value="Photography">Photography</option>
+                                </select>
+                            </div>
+
+                            <div className="admin-form-group full-width">
                                 <label>Description</label>
                                 <textarea
                                     value={description}
                                     onChange={e => setDescription(e.target.value)}
-                                    rows={4}
-                                    placeholder="Tell the story behind this piece..."
+                                    placeholder="Brief description..."
+                                    rows={2}
                                 />
                             </div>
 
-                            <div className="form-row">
-                                <div className="form-group checkbox-group">
-                                    <label className="checkbox-label">
-                                        <input
-                                            type="checkbox"
-                                            checked={allowPurchase}
-                                            onChange={e => setAllowPurchase(e.target.checked)}
-                                        />
-                                        Allow Purchase
-                                    </label>
-                                </div>
-                                <div className="form-group checkbox-group">
-                                    <label className="checkbox-label">
-                                        <input
-                                            type="checkbox"
-                                            checked={allowLease}
-                                            onChange={e => setAllowLease(e.target.checked)}
-                                        />
-                                        Allow Lease
-                                    </label>
-                                </div>
+                            <div className="admin-form-group full-width">
+                                <label>About / Story</label>
+                                <textarea
+                                    value={about}
+                                    onChange={e => setAbout(e.target.value)}
+                                    placeholder="The story behind this artwork..."
+                                    rows={4}
+                                />
                             </div>
 
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Sale Price (₹)</label>
+                            <div className="admin-form-group">
+                                <label>Medium</label>
+                                <input type="text" value={medium} onChange={e => setMedium(e.target.value)} placeholder="e.g. Oil on Canvas" />
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>Dimensions</label>
+                                <input type="text" value={dimensions} onChange={e => setDimensions(e.target.value)} placeholder="e.g. 24x36 inches" />
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>Purchase Price (₹)</label>
+                                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={allowPurchase}
+                                        onChange={e => setAllowPurchase(e.target.checked)}
+                                        style={{ width: 'auto' }}
+                                    />
                                     <input
                                         type="number"
                                         value={purchasePrice}
                                         onChange={e => setPurchasePrice(e.target.value)}
-                                        placeholder="Optional"
                                         disabled={!allowPurchase}
+                                        placeholder="0.00"
+                                        style={{ flex: 1 }}
                                     />
                                 </div>
-                                <div className="form-group">
-                                    <label>Monthly Lease (₹)</label>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label>Monthly Lease (₹)</label>
+                                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={allowLease}
+                                        onChange={e => setAllowLease(e.target.checked)}
+                                        style={{ width: 'auto' }}
+                                    />
                                     <input
                                         type="number"
                                         value={leaseRate}
                                         onChange={e => setLeaseRate(e.target.value)}
-                                        placeholder="Optional"
                                         disabled={!allowLease}
+                                        placeholder="0.00"
+                                        style={{ flex: 1 }}
                                     />
                                 </div>
                             </div>
 
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Stock Quantity</label>
-                                    <input
-                                        type="number"
-                                        value={stockQuantity}
-                                        onChange={e => setStockQuantity(e.target.value)}
-                                        min="1"
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Origin (Made in)</label>
-                                    <input
-                                        type="text"
-                                        value={origin}
-                                        onChange={e => setOrigin(e.target.value)}
-                                        placeholder="e.g. India"
-                                    />
-                                </div>
+                            <div className="admin-form-group">
+                                <label>Status</label>
+                                <select
+                                    value={status}
+                                    onChange={e => setStatus(e.target.value as any)}
+                                    disabled={profile?.role !== 'admin'}
+                                >
+                                    <option value="draft">Draft</option>
+                                    <option value="pending">Pending Approval</option>
+                                    <option value="published">Published</option>
+                                    <option value="sold">Sold</option>
+                                    <option value="leased">Leased</option>
+                                </select>
                             </div>
 
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Design Style</label>
-                                    <input
-                                        type="text"
-                                        value={designStyle}
-                                        onChange={e => setDesignStyle(e.target.value)}
-                                        placeholder="e.g. Modern Minimalist"
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Status</label>
-                                    <select
-                                        value={status}
-                                        onChange={e => setStatus(e.target.value as 'draft' | 'published')}
-                                        className="status-select"
-                                    >
-                                        <option value="published">Published (Visible to customers)</option>
-                                        <option value="draft">Draft (Private to you)</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label>Delivery Info</label>
-                                    <input
-                                        type="text"
-                                        value={deliveryInfo}
-                                        onChange={e => setDeliveryInfo(e.target.value)}
-                                        placeholder="e.g. 3-5 business days"
-                                    />
+                            <div className="admin-form-group">
+                                <label>Stock Quantity</label>
+                                <input type="number" value={stockQuantity} onChange={e => setStockQuantity(e.target.value)} min="1" />
+                            </div>
+
+                            <div className="admin-form-group full-width">
+                                <label>Artwork Images</label>
+                                <div className="image-upload-grid">
+                                    {existingImages.map((img, idx) => (
+                                        <div key={img.id} className="preview-card">
+                                            <img src={img.image_url} alt="Preview" />
+                                            <button type="button" className="remove-img" onClick={() => handleRemoveExistingImage(img.id)}>
+                                                <IconX size={14} />
+                                            </button>
+                                            {img.is_primary && <span className="primary-label">Primary</span>}
+                                        </div>
+                                    ))}
+                                    {images.map((img, idx) => (
+                                        <div key={idx} className="preview-card">
+                                            <img src={URL.createObjectURL(img)} alt="Preview" />
+                                            <button type="button" className="remove-img" onClick={() => removeImage(idx)}>
+                                                <IconX size={14} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                    <label className="upload-placeholder-card">
+                                        <input type="file" multiple accept="image/*" onChange={handleImageChange} hidden />
+                                        <IconPlus size={24} />
+                                        <span>Add Image</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
+                    </form>
+                </div>
 
-                        <div className="form-section">
-                            <label>Images</label>
-                            <div className="image-upload-grid">
-                                {previews.map((preview, index) => (
-                                    <div key={index} className="preview-card">
-                                        <img src={preview} alt="Preview" />
-                                        <button type="button" onClick={() => removeImage(index)} className="remove-img">
-                                            <IconTrash size={16} />
-                                        </button>
-                                        {index === 0 && <span className="primary-label">Primary</span>}
-                                    </div>
-                                ))}
-                                <label className="upload-placeholder-card">
-                                    <input type="file" multiple accept="image/*" onChange={handleImageChange} hidden />
-                                    <IconPlus size={32} />
-                                    <span>Add Image</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="modal-footer">
-                        <button type="button" className="btn-secondary" onClick={onClose}>Cancel</button>
-                        <button type="submit" className="btn-primary" disabled={loading}>
-                            {loading ? (editArtwork ? 'Updating...' : 'Adding...') : (editArtwork ? 'Update Artwork' : 'Publish Artwork')}
-                        </button>
-                    </div>
-                </form>
+                <div className="admin-modal-footer">
+                    <button type="button" className="admin-btn admin-btn-secondary" onClick={onClose}>Cancel</button>
+                    <button form="artwork-form" type="submit" className="admin-btn admin-btn-primary" disabled={loading}>
+                        {loading ? 'Saving...' : (editArtwork ? 'Update Artwork' : 'Add Artwork')}
+                    </button>
+                </div>
             </div>
 
             <style jsx>{`

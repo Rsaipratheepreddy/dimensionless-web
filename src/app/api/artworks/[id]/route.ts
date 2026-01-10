@@ -16,7 +16,7 @@ export async function GET(
             .from('artworks')
             .select(`
                 *,
-                artist:profiles!artist_id(
+                artist:profiles!artworks_artist_id_fkey(
                     id,
                     full_name,
                     avatar_url,

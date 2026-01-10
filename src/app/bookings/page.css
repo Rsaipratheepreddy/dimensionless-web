@@ -1,0 +1,132 @@
+.user-bookings-container {
+    padding: 32px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bookings-header {
+    margin-bottom: 32px;
+}
+
+.bookings-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.bookings-header p {
+    color: #666;
+    font-size: 16px;
+}
+
+.bookings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.booking-user-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    background: white;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.booking-user-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    border-color: #5b4fe8;
+}
+
+.booking-main-info {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.booking-design-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #f5f5f5;
+}
+
+.booking-text-details h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.booking-date-time {
+    display: flex;
+    gap: 16px;
+    color: #666;
+    font-size: 14px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.booking-status-badge {
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.booking-status-badge.confirmed {
+    background: #e6fffa;
+    color: #0694a2;
+}
+
+.booking-status-badge.pending {
+    background: #fffaf0;
+    color: #b7791f;
+}
+
+.booking-status-badge.cancelled {
+    background: #fff5f5;
+    color: #e53e3e;
+}
+
+.empty-bookings {
+    text-align: center;
+    padding: 80px 0;
+    background: #f9fafb;
+    border-radius: 24px;
+    color: #9ca3af;
+}
+
+.empty-bookings h3 {
+    margin: 16px 0 8px;
+    color: #4b5563;
+}
+
+.book-now-btn {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 12px 24px;
+    background: #5b4fe8;
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .booking-user-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+}

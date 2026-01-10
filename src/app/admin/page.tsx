@@ -15,7 +15,11 @@ import {
     IconSettings,
     IconDatabase,
     IconChevronRight,
-    IconChecklist
+    IconChecklist,
+    IconBook,
+    IconArtboard,
+    IconWorld,
+    IconDiamond
 } from '@tabler/icons-react';
 import LottieLoader from '@/components/ui/LottieLoader';
 import Link from 'next/link';
@@ -148,7 +152,7 @@ export default function AdminDashboard() {
                                 </div>
                                 <div className="stat-body">
                                     <p className="stat-value">{stats.totalPaintings}</p>
-                                    <span className="stat-trend">Standard & Leasing</span>
+                                    <span className="stat-trend">Sell & Lease</span>
                                 </div>
                             </div>
 
@@ -182,8 +186,8 @@ export default function AdminDashboard() {
                         <div className="admin-grid-layout">
                             <section className="management-card">
                                 <div className="card-header">
-                                    <IconPackage size={20} />
-                                    <h2>Content & Products</h2>
+                                    <IconWorld size={20} />
+                                    <h2>Data & Content Hub</h2>
                                 </div>
                                 <div className="card-actions-list">
                                     <Link href="/admin/cms" className="admin-action-item">
@@ -200,22 +204,6 @@ export default function AdminDashboard() {
                                         </div>
                                         <IconChevronRight size={18} />
                                     </Link>
-                                    <Link href="/admin/leasing" className="admin-action-item highlight">
-                                        <div className="action-info">
-                                            <strong>Art Leasing</strong>
-                                            <span>Manage rental inventory & orders</span>
-                                        </div>
-                                        <IconChevronRight size={18} />
-                                    </Link>
-                                </div>
-                            </section>
-
-                            <section className="management-card">
-                                <div className="card-header">
-                                    <IconBallpen size={20} />
-                                    <h2>Services & Booking</h2>
-                                </div>
-                                <div className="card-actions-list">
                                     <Link href="/admin/tattoos" className="admin-action-item">
                                         <div className="action-info">
                                             <strong>Tattoo Designs</strong>
@@ -230,6 +218,29 @@ export default function AdminDashboard() {
                                         </div>
                                         <IconChevronRight size={18} />
                                     </Link>
+                                    <Link href="/admin/art" className="admin-action-item">
+                                        <div className="action-info">
+                                            <strong>Standard Artworks</strong>
+                                            <span>Manage primary art catalog</span>
+                                        </div>
+                                        <IconChevronRight size={18} />
+                                    </Link>
+                                    <Link href="/admin/blue-chip" className="admin-action-item highlight">
+                                        <div className="action-info">
+                                            <strong>Blue-Chip Art</strong>
+                                            <span>Exclusive art collection</span>
+                                        </div>
+                                        <IconChevronRight size={18} />
+                                    </Link>
+                                </div>
+                            </section>
+
+                            <section className="management-card">
+                                <div className="card-header">
+                                    <IconArtboard size={20} />
+                                    <h2>Services Management</h2>
+                                </div>
+                                <div className="card-actions-list">
                                     <Link href="/admin/tattoo-slots" className="admin-action-item">
                                         <div className="action-info">
                                             <strong>Tattoo Availability</strong>
@@ -251,15 +262,6 @@ export default function AdminDashboard() {
                                         </div>
                                         <IconChevronRight size={18} />
                                     </Link>
-                                </div>
-                            </section>
-
-                            <section className="management-card">
-                                <div className="card-header">
-                                    <IconCertificate size={20} />
-                                    <h2>Events & Courses</h2>
-                                </div>
-                                <div className="card-actions-list">
                                     <Link href="/admin/events" className="admin-action-item">
                                         <div className="action-info">
                                             <strong>Events</strong>
@@ -274,13 +276,27 @@ export default function AdminDashboard() {
                                         </div>
                                         <IconChevronRight size={18} />
                                     </Link>
+                                    <Link href="/admin/leasing" className="admin-action-item">
+                                        <div className="action-info">
+                                            <strong>Art Sell / Lease</strong>
+                                            <span>Manage rental inventory</span>
+                                        </div>
+                                        <IconChevronRight size={18} />
+                                    </Link>
+                                    <Link href="/admin/art?filter=pending" className="admin-action-item">
+                                        <div className="action-info">
+                                            <strong>Art Approvals</strong>
+                                            <span>Review creator submissions</span>
+                                        </div>
+                                        <IconChevronRight size={18} />
+                                    </Link>
                                 </div>
                             </section>
 
                             <section className="management-card">
                                 <div className="card-header">
-                                    <IconUsers size={20} />
-                                    <h2>Users & Finance</h2>
+                                    <IconSettings size={20} />
+                                    <h2>User & Operations</h2>
                                 </div>
                                 <div className="card-actions-list">
                                     <Link href="/admin/users" className="admin-action-item">
@@ -304,15 +320,6 @@ export default function AdminDashboard() {
                                         </div>
                                         <IconChevronRight size={18} />
                                     </Link>
-                                </div>
-                            </section>
-
-                            <section className="management-card">
-                                <div className="card-header">
-                                    <IconChecklist size={20} />
-                                    <h2>Staff & Operations</h2>
-                                </div>
-                                <div className="card-actions-list">
                                     <Link href="/admin/employee" className="admin-action-item">
                                         <div className="action-info">
                                             <strong>Task Board</strong>
@@ -324,6 +331,20 @@ export default function AdminDashboard() {
                                         <div className="action-info">
                                             <strong>Staff Metrics</strong>
                                             <span>Individual performance & logs</span>
+                                        </div>
+                                        <IconChevronRight size={18} />
+                                    </Link>
+                                    <Link href="/admin/settings" className="admin-action-item">
+                                        <div className="action-info">
+                                            <strong>Platform Settings</strong>
+                                            <span>General configuration & rules</span>
+                                        </div>
+                                        <IconChevronRight size={18} />
+                                    </Link>
+                                    <Link href="/admin/docs" className="admin-action-item">
+                                        <div className="action-info">
+                                            <strong>Documentation</strong>
+                                            <span>Admin guides and help</span>
                                         </div>
                                         <IconChevronRight size={18} />
                                     </Link>

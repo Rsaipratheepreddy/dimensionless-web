@@ -139,11 +139,14 @@ export default function AdminEventsPage() {
                 setUploadingImage(false);
             }
 
-            const payload = {
+            const payload: any = {
                 ...newEventData,
-                image_url: imageUrl,
-                id: editEventId
+                image_url: imageUrl
             };
+
+            if (isEditing) {
+                payload.id = editEventId;
+            }
 
             const response = await fetch('/api/admin/events', {
                 method: isEditing ? 'PUT' : 'POST',
@@ -247,7 +250,7 @@ export default function AdminEventsPage() {
 
     return (
         <AppLayout>
-            <div className="admin-events-page">
+            <div className="admin-container">
                 <div className="page-header">
                     <div>
                         <h1>Event & Competition Management</h1>
@@ -387,140 +390,144 @@ export default function AdminEventsPage() {
 
                 {/* CREATE EVENT MODAL */}
                 {showCreateModal && (
-                    <div className="modal-overlay">
-                        <div className="modal-content admin-modal">
-                            <div className="modal-header">
+                    <div className="admin-modal-overlay">
+                        <div className="admin-modal-content">
+                            <div className="admin-modal-header">
                                 <h2>{isEditing ? 'Edit Event' : 'Create New Event'}</h2>
-                                <button className="close-modal" onClick={() => { setShowCreateModal(false); resetForm(); }}>
-                                    <IconPlus size={24} style={{ transform: 'rotate(45deg)' }} />
+                                <button className="admin-modal-close" onClick={() => { setShowCreateModal(false); resetForm(); }}>
+                                    <IconX size={20} />
                                 </button>
                             </div>
-                            <form onSubmit={handleSubmitEvent}>
-                                <div className="form-grid">
-                                    <div className="form-group">
-                                        <label>Event Title</label>
-                                        <input
-                                            type="text"
-                                            required
-                                            value={newEventData.title}
-                                            onChange={(e) => setNewEventData({ ...newEventData, title: e.target.value })}
-                                            placeholder="Enter event title"
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Type</label>
-                                        <select
-                                            value={newEventData.type}
-                                            onChange={(e) => setNewEventData({ ...newEventData, type: e.target.value as any })}
-                                        >
-                                            <option value="event">Standard Event</option>
-                                            <option value="competition">Competition</option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group full-width">
-                                        <label>Description</label>
-                                        <textarea
-                                            value={newEventData.description}
-                                            onChange={(e) => setNewEventData({ ...newEventData, description: e.target.value })}
-                                            placeholder="Event description..."
-                                            rows={3}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Start Date</label>
-                                        <input
-                                            type="datetime-local"
-                                            required
-                                            value={newEventData.start_date}
-                                            onChange={(e) => setNewEventData({ ...newEventData, start_date: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>End Date</label>
-                                        <input
-                                            type="datetime-local"
-                                            required
-                                            value={newEventData.end_date}
-                                            onChange={(e) => setNewEventData({ ...newEventData, end_date: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Price (₹)</label>
-                                        <input
-                                            type="number"
-                                            value={newEventData.price}
-                                            onChange={(e) => setNewEventData({ ...newEventData, price: parseInt(e.target.value) || 0 })}
-                                            min="0"
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Event Mode</label>
-                                        <select
-                                            value={newEventData.is_online ? 'online' : 'offline'}
-                                            onChange={(e) => setNewEventData({ ...newEventData, is_online: e.target.value === 'online' })}
-                                        >
-                                            <option value="offline">Offline (Physical Venue)</option>
-                                            <option value="online">Online (Virtual)</option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{newEventData.is_online ? 'Meeting Link' : 'Location'}</label>
-                                        <input
-                                            type="text"
-                                            required
-                                            value={newEventData.is_online ? newEventData.meeting_link : newEventData.location}
-                                            onChange={(e) => setNewEventData({
-                                                ...newEventData,
-                                                [newEventData.is_online ? 'meeting_link' : 'location']: e.target.value
-                                            })}
-                                            placeholder={newEventData.is_online ? 'Zoom, Google Meet, etc.' : 'Enter venue address'}
-                                        />
-                                    </div>
-                                    <div className="form-group full-width">
-                                        <label>Event Banner Image</label>
-                                        <div
-                                            className="upload-zone-event"
-                                            onClick={() => document.getElementById('event-img-upload')?.click()}
-                                        >
+                            <div className="admin-modal-body">
+                                <form id="event-form" onSubmit={handleSubmitEvent}>
+                                    <div className="admin-form-grid">
+                                        <div className="admin-form-group">
+                                            <label>Event Title</label>
                                             <input
-                                                type="file"
-                                                id="event-img-upload"
-                                                hidden
-                                                accept="image/*"
-                                                onChange={handleImageChange}
+                                                type="text"
+                                                required
+                                                value={newEventData.title}
+                                                onChange={(e) => setNewEventData({ ...newEventData, title: e.target.value })}
+                                                placeholder="Enter event title"
                                             />
-                                            {imagePreview ? (
-                                                <div className="preview-container">
-                                                    <img src={imagePreview} alt="Preview" className="event-preview-img" />
-                                                    <button
-                                                        type="button"
-                                                        className="remove-preview"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setImageFile(null);
-                                                            setImagePreview('');
-                                                        }}
-                                                    >
-                                                        <IconX size={16} />
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <div className="upload-placeholder">
-                                                    <IconUpload size={32} />
-                                                    <p>Click to upload event banner</p>
-                                                    <span>JPG, PNG or WEBP (Max 5MB)</span>
-                                                </div>
-                                            )}
+                                        </div>
+                                        <div className="admin-form-group">
+                                            <label>Type</label>
+                                            <select
+                                                value={newEventData.type}
+                                                onChange={(e) => setNewEventData({ ...newEventData, type: e.target.value as any })}
+                                            >
+                                                <option value="event">Standard Event</option>
+                                                <option value="competition">Competition</option>
+                                            </select>
+                                        </div>
+                                        <div className="admin-form-group full-width">
+                                            <label>Description</label>
+                                            <textarea
+                                                value={newEventData.description}
+                                                onChange={(e) => setNewEventData({ ...newEventData, description: e.target.value })}
+                                                placeholder="Event description..."
+                                                rows={3}
+                                            />
+                                        </div>
+                                        <div className="admin-form-group">
+                                            <label>Start Date</label>
+                                            <input
+                                                type="datetime-local"
+                                                required
+                                                value={newEventData.start_date}
+                                                onChange={(e) => setNewEventData({ ...newEventData, start_date: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="admin-form-group">
+                                            <label>End Date</label>
+                                            <input
+                                                type="datetime-local"
+                                                required
+                                                value={newEventData.end_date}
+                                                onChange={(e) => setNewEventData({ ...newEventData, end_date: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="admin-form-group">
+                                            <label>Price (₹)</label>
+                                            <input
+                                                type="number"
+                                                value={newEventData.price}
+                                                onChange={(e) => setNewEventData({ ...newEventData, price: parseInt(e.target.value) || 0 })}
+                                                min="0"
+                                            />
+                                        </div>
+                                        <div className="admin-form-group">
+                                            <label>Event Mode</label>
+                                            <select
+                                                value={newEventData.is_online ? 'online' : 'offline'}
+                                                onChange={(e) => setNewEventData({ ...newEventData, is_online: e.target.value === 'online' })}
+                                            >
+                                                <option value="offline">Offline (Physical Venue)</option>
+                                                <option value="online">Online (Virtual)</option>
+                                            </select>
+                                        </div>
+                                        <div className="admin-form-group">
+                                            <label>{newEventData.is_online ? 'Meeting Link' : 'Location'}</label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={newEventData.is_online ? newEventData.meeting_link : newEventData.location}
+                                                onChange={(e) => setNewEventData({
+                                                    ...newEventData,
+                                                    [newEventData.is_online ? 'meeting_link' : 'location']: e.target.value
+                                                })}
+                                                placeholder={newEventData.is_online ? 'Zoom, Google Meet, etc.' : 'Enter venue address'}
+                                            />
+                                        </div>
+                                        <div className="admin-form-group full-width">
+                                            <label>Event Banner Image</label>
+                                            <div
+                                                className="upload-zone-event"
+                                                onClick={() => document.getElementById('event-img-upload')?.click()}
+                                                style={{ border: '2px dashed #e2e8f0', borderRadius: '12px', padding: '24px', textAlign: 'center', cursor: 'pointer', background: '#f8fafc' }}
+                                            >
+                                                <input
+                                                    type="file"
+                                                    id="event-img-upload"
+                                                    hidden
+                                                    accept="image/*"
+                                                    onChange={handleImageChange}
+                                                />
+                                                {imagePreview ? (
+                                                    <div className="preview-container" style={{ position: 'relative' }}>
+                                                        <img src={imagePreview} alt="Preview" style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '8px' }} />
+                                                        <button
+                                                            type="button"
+                                                            className="remove-preview"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setImageFile(null);
+                                                                setImagePreview('');
+                                                            }}
+                                                            style={{ position: 'absolute', top: '-10px', right: '-10px', width: '24px', height: '24px', borderRadius: '50%', background: '#ef4444', color: 'white', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                                        >
+                                                            <IconX size={16} />
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div className="upload-placeholder">
+                                                        <IconUpload size={32} />
+                                                        <p style={{ fontWeight: 600, margin: '8px 0 4px' }}>Click to upload event banner</p>
+                                                        <span style={{ fontSize: '12px', color: '#94a3b8' }}>JPG, PNG or WEBP (Max 5MB)</span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="cancel-btn" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</button>
-                                    <button type="submit" className="submit-btn" disabled={createLoading || uploadingImage}>
-                                        {createLoading || uploadingImage ? 'Processing...' : (isEditing ? 'Update Event' : 'Create Event')}
-                                    </button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
+                            <div className="admin-modal-footer">
+                                <button type="button" className="admin-btn admin-btn-secondary" onClick={() => { setShowCreateModal(false); resetForm(); }}>Cancel</button>
+                                <button form="event-form" type="submit" className="admin-btn admin-btn-primary" disabled={createLoading || uploadingImage}>
+                                    {createLoading || uploadingImage ? 'Processing...' : (isEditing ? 'Update Event' : 'Create Event')}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 )}

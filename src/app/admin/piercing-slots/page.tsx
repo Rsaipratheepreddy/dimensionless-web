@@ -195,6 +195,7 @@ export default function AdminPiercingSlotsPage() {
                 isOpen={showAddModal}
                 onClose={() => setShowAddModal(false)}
                 onSuccess={fetchSlots}
+                type="piercing"
             />
 
             {selectedSlot && (

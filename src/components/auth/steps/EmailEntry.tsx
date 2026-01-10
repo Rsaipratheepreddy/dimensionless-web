@@ -1,8 +1,8 @@
 'use client';
-
 import React, { useState } from 'react';
-import { createClient } from '@/utils/supabase';
 import { getURL } from '@/utils/auth-helpers';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/utils/supabase';
 
 export type AuthMode = 'signin' | 'signup';
 
@@ -18,7 +18,7 @@ export default function EmailEntry({ onSubmit, onAuthenticated, initialMode }: E
     const [mode, setMode] = useState<AuthMode>(initialMode);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const supabase = createClient();
+    const { signIn, signUp } = useAuth();
 
     const validateEmail = (email: string) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,24 +72,12 @@ export default function EmailEntry({ onSubmit, onAuthenticated, initialMode }: E
 
         try {
             if (mode === 'signup') {
-                const { error } = await supabase.auth.signUp({
-                    email,
-                    password,
-                });
-
+                const { error } = await signUp(email, password);
                 if (error) throw error;
-
-                // For signup, continue to profile setup
                 onSubmit(email, mode);
             } else {
-                const { error } = await supabase.auth.signInWithPassword({
-                    email,
-                    password,
-                });
-
+                const { error } = await signIn(email, password);
                 if (error) throw error;
-
-                // For signin, authentication is complete
                 onAuthenticated();
             }
         } catch (err: any) {

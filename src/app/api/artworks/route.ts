@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
             .from('artworks')
             .select(`
                 *,
-                artist:profiles!artist_id(
+                artist:profiles!artworks_artist_id_fkey(
                     id,
                     full_name,
                     avatar_url
@@ -189,7 +189,7 @@ export async function POST(request: NextRequest) {
                 variants: variants || [],
                 allow_purchase: allow_purchase !== undefined ? allow_purchase : true,
                 allow_lease: allow_lease !== undefined ? allow_lease : false,
-                status: 'draft'
+                status: profile.role === 'admin' ? 'published' : 'pending'
             })
             .select()
             .single();

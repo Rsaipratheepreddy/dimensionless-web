@@ -93,10 +93,10 @@ export default function AdminDocsPage() {
         },
         {
             id: 'art-leasing',
-            title: 'Art Leasing',
+            title: 'Art Sell / Lease',
             icon: '🖼️',
             content: `
-                <h2>Art Leasing Management</h2>
+                <h2>Art Sell / Lease Management</h2>
                 <p><strong>Location:</strong> <code>/admin/leasing</code></p>
 
                 <h3>Adding New Artwork</h3>

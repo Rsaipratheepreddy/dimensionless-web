@@ -97,7 +97,7 @@ export async function POST(req: Request) {
                 }]);
         }
 
-        // Common: Update artist wallet
+        // Common: Update artist wallet and Award points to buyer
         const { data: settings } = await supabase
             .from('platform_settings')
             .select('platform_fee_percent')
@@ -106,7 +106,8 @@ export async function POST(req: Request) {
         const platformFeePercent = settings?.platform_fee_percent ?? 10;
         const platformFeeMultiplier = platformFeePercent / 100;
 
-        const { data: profile } = await supabase
+        // Update Artist Wallet
+        const { data: artistProfile } = await supabase
             .from('profiles')
             .select('wallet_balance')
             .eq('id', artistId)
@@ -116,11 +117,30 @@ export async function POST(req: Request) {
 
         const { error: walletError } = await supabase
             .from('profiles')
-            .update({ wallet_balance: (profile?.wallet_balance || 0) + artistEarnings })
+            .update({ wallet_balance: (artistProfile?.wallet_balance || 0) + artistEarnings })
             .eq('id', artistId);
 
         if (walletError) {
             console.error('Update wallet error:', walletError);
+        }
+
+        // Award Points to Buyer (10 points per 100 INR)
+        const buyerIdToAward = buyerId || (await supabase.auth.getUser()).data.user?.id;
+        if (buyerIdToAward) {
+            const pointsToAward = Math.floor(price / 10);
+            const { data: bProfile } = await supabase
+                .from('profiles')
+                .select('points, xp')
+                .eq('id', buyerIdToAward)
+                .single();
+
+            await supabase
+                .from('profiles')
+                .update({
+                    points: (bProfile?.points || 0) + pointsToAward,
+                    xp: (bProfile?.xp || 0) + pointsToAward
+                })
+                .eq('id', buyerIdToAward);
         }
 
         return NextResponse.json({ success: true });

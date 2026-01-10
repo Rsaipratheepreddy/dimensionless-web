@@ -18,6 +18,7 @@ interface AuthContextType {
     closeAuthModal: () => void;
     showCreatorUpgrade: boolean;
     setShowCreatorUpgrade: (show: boolean) => void;
+    calculateLevel: (xp: number) => number;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -88,6 +89,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         return () => subscription.unsubscribe();
     }, [fetchProfile]);
+
+    // Separate effect for real-time profile updates
+    useEffect(() => {
+        let profileSubscription: any = null;
+        if (user) {
+            profileSubscription = supabase
+                .channel(`profile-${user.id}`)
+                .on('postgres_changes', {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'profiles',
+                    filter: `id=eq.${user.id}`
+                }, (payload: any) => {
+                    setProfile(payload.new);
+                })
+                .subscribe();
+        }
+
+        return () => {
+            if (profileSubscription) profileSubscription.unsubscribe();
+        };
+    }, [user?.id]);
+
+    const calculateLevel = (xp: number = 0) => {
+        // Simple RPG level logic: level = floor(sqrt(xp/100)) + 1
+        return Math.floor(Math.sqrt(xp / 100)) + 1;
+    };
 
     const signUp = async (email: string, password: string, full_name?: string) => {
         try {
@@ -170,7 +198,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             openAuthModal,
             closeAuthModal,
             showCreatorUpgrade,
-            setShowCreatorUpgrade
+            setShowCreatorUpgrade,
+            calculateLevel
         }}>
             {children}
         </AuthContext.Provider>

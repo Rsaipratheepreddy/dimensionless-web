@@ -17,7 +17,7 @@ interface Artwork {
     description: string;
     purchase_price: number | null;
     lease_monthly_rate: number | null;
-    status: 'draft' | 'published' | 'sold' | 'leased' | 'archived';
+    status: 'draft' | 'pending' | 'published' | 'sold' | 'leased' | 'archived';
     artwork_images: { image_url: string; is_primary: boolean }[];
     created_at?: string;
 }

@@ -200,6 +200,7 @@ export default function AdminTattooSlotsPage() {
                 isOpen={showAddModal}
                 onClose={() => setShowAddModal(false)}
                 onSuccess={fetchSlots}
+                type="tattoo"
             />
 
             {selectedSlot && (

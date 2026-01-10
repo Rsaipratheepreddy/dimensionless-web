@@ -8,9 +8,10 @@ interface AddSlotModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSuccess: () => void;
+    type?: 'tattoo' | 'piercing';
 }
 
-export default function AddSlotModal({ isOpen, onClose, onSuccess }: AddSlotModalProps) {
+export default function AddSlotModal({ isOpen, onClose, onSuccess, type = 'tattoo' }: AddSlotModalProps) {
     const [bulkMode, setBulkMode] = useState(false);
     const [formData, setFormData] = useState({
         date: new Date().toISOString().split('T')[0],
@@ -26,7 +27,8 @@ export default function AddSlotModal({ isOpen, onClose, onSuccess }: AddSlotModa
         setSubmitting(true);
 
         try {
-            const endpoint = bulkMode ? '/api/admin/tattoo-slots/bulk' : '/api/admin/tattoo-slots';
+            const apiBase = type === 'piercing' ? '/api/admin/piercing-slots' : '/api/admin/tattoo-slots';
+            const endpoint = bulkMode ? `${apiBase}/bulk` : apiBase;
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
