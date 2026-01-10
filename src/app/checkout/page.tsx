@@ -187,7 +187,7 @@ export default function CheckoutPage() {
                             <h3>Order Summary</h3>
                             <div className="items-preview">
                                 {cartItems.map(item => (
-                                    <div key={item.id} className="preview-item">
+                                    <div key={item.cartKey} className="preview-item">
                                         <span>{item.title}</span>
                                         <span>₹{item.price.toLocaleString()}</span>
                                     </div>

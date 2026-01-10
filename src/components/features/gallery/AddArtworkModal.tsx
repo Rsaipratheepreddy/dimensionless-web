@@ -5,6 +5,7 @@ import { IconPhoto, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
 import { createClient } from '@/utils/supabase';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
+import { convertToWebP } from '@/utils/image-optimization';
 
 interface AddArtworkModalProps {
     isOpen: boolean;
@@ -158,7 +159,16 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
             if (images.length > 0) {
                 const imageRecords = [];
                 for (let i = 0; i < images.length; i++) {
-                    const file = images[i];
+                    let file = images[i];
+
+                    // Client-side compression to WebP before upload
+                    try {
+                        const webpBlob = await convertToWebP(file);
+                        file = new File([webpBlob], `${file.name.split('.')[0]}.webp`, { type: 'image/webp' });
+                    } catch (err) {
+                        console.error('Compression failed, uploading original:', err);
+                    }
+
                     const fileExt = file.name.split('.').pop();
                     const fileName = `${artworkId}/${Date.now()}-${i}.${fileExt}`;
 

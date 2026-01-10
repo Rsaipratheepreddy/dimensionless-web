@@ -1,8 +1,8 @@
 'use client';
-import { IconHeart, IconDots, IconCircleCheckFilled } from '@tabler/icons-react';
-import './ArtCard.css';
-import { getOptimizedImageUrl } from '@/utils/image-optimization';
+import { IconHeart } from '@tabler/icons-react';
+import Image from 'next/image';
 import React from 'react';
+import './ArtCard.css';
 
 interface ArtCardProps {
     id: string;
@@ -51,20 +51,18 @@ const ArtCard: React.FC<ArtCardProps> = ({
         if (onLeaseNow) onLeaseNow(e);
     };
 
-    const handleHistoryClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        // Placeholder for history action
-    };
-
     return (
         <div className="nft-art-card" onClick={onClick}>
             <div className={`nft-image-container ${imageLoaded ? 'loaded' : ''}`}>
-                <img
-                    src={getOptimizedImageUrl(image || '/placeholder-art.png', { width: 500, format: 'webp' })}
+                <Image
+                    src={image || '/placeholder-art.png'}
                     alt={title}
                     className="nft-main-img"
-                    loading="lazy"
+                    fill
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                    priority={false}
                     onLoad={() => setImageLoaded(true)}
+                    style={{ objectFit: 'cover' }}
                 />
 
                 <div className="nft-top-actions">
