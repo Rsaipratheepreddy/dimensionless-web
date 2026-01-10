@@ -128,11 +128,11 @@ export default function AdminTattoosPage() {
 
     return (
         <AppLayout>
-            <div className="admin-tattoos-page">
+            <div className="admin-container">
                 <div className="page-header">
                     <div>
                         <h1>Tattoo Designs</h1>
-                        <p>Manage your tattoo design catalog</p>
+                        <p>Manage your tattoo design catalog and listings</p>
                     </div>
                     <button className="add-btn" onClick={handleAdd}>
                         <IconPlus size={20} />
@@ -140,28 +140,30 @@ export default function AdminTattoosPage() {
                     </button>
                 </div>
 
-                <div className="filters">
-                    <button
-                        className={filter === 'all' ? 'active' : ''}
-                        onClick={() => setFilter('all')}
-                    >
-                        All ({designs.length})
-                    </button>
-                    <button
-                        className={filter === 'active' ? 'active' : ''}
-                        onClick={() => setFilter('active')}
-                    >
-                        Active ({designs.filter(d => d.is_active).length})
-                    </button>
-                    <button
-                        className={filter === 'inactive' ? 'active' : ''}
-                        onClick={() => setFilter('inactive')}
-                    >
-                        Inactive ({designs.filter(d => !d.is_active).length})
-                    </button>
+                <div className="controls-row">
+                    <div className="filters-group">
+                        <button
+                            className={filter === 'all' ? 'active' : ''}
+                            onClick={() => setFilter('all')}
+                        >
+                            All ({designs.length})
+                        </button>
+                        <button
+                            className={filter === 'active' ? 'active' : ''}
+                            onClick={() => setFilter('active')}
+                        >
+                            Active ({designs.filter(d => d.is_active).length})
+                        </button>
+                        <button
+                            className={filter === 'inactive' ? 'active' : ''}
+                            onClick={() => setFilter('inactive')}
+                        >
+                            Inactive ({designs.filter(d => !d.is_active).length})
+                        </button>
+                    </div>
                 </div>
 
-                <div className="table-container">
+                <div className="admin-table-wrapper">
                     <table className="admin-table">
                         <thead>
                             <tr>
