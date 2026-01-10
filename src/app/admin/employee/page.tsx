@@ -299,43 +299,61 @@ export default function EmployeeDashboard() {
             </div>
 
             {isModalOpen && (
-                <div className="modal-overlay">
-                    <div className="modal-content animate-slide-up">
-                        <div className="modal-header">
+                <div className="admin-modal-overlay">
+                    <div className="admin-modal-content animate-slide-up" style={{ maxWidth: '500px' }}>
+                        <div className="admin-modal-header">
                             <h2>Create Custom Task</h2>
-                            <button className="close-btn" onClick={() => setIsModalOpen(false)}><IconPlus style={{ transform: 'rotate(45deg)' }} /></button>
+                            <button className="admin-modal-close" onClick={() => setIsModalOpen(false)}>
+                                <IconPlus style={{ transform: 'rotate(45deg)' }} />
+                            </button>
                         </div>
-                        <form onSubmit={handleCreateTask} className="task-form">
-                            <div className="form-group">
-                                <label>Task Title</label>
-                                <input
-                                    type="text"
-                                    value={newTask.title}
-                                    onChange={e => setNewTask({ ...newTask, title: e.target.value })}
-                                    required
-                                    placeholder="What needs to be done?"
-                                />
+                        <form onSubmit={handleCreateTask}>
+                            <div className="admin-modal-body">
+                                <div className="admin-form-grid" style={{ gridTemplateColumns: '1fr' }}>
+                                    <div className="admin-form-group">
+                                        <label>Task Title</label>
+                                        <input
+                                            type="text"
+                                            value={newTask.title}
+                                            onChange={e => setNewTask({ ...newTask, title: e.target.value })}
+                                            required
+                                            placeholder="What needs to be done?"
+                                        />
+                                    </div>
+                                    <div className="admin-form-group">
+                                        <label>Priority</label>
+                                        <select
+                                            value={newTask.priority}
+                                            onChange={e => setNewTask({ ...newTask, priority: e.target.value as any })}
+                                        >
+                                            <option value="low">Low</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="high">High</option>
+                                        </select>
+                                    </div>
+                                    <div className="admin-form-group">
+                                        <label>Description (Optional)</label>
+                                        <textarea
+                                            value={newTask.description}
+                                            onChange={e => setNewTask({ ...newTask, description: e.target.value })}
+                                            placeholder="Add details..."
+                                            rows={4}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="form-group">
-                                <label>Priority</label>
-                                <select
-                                    value={newTask.priority}
-                                    onChange={e => setNewTask({ ...newTask, priority: e.target.value as any })}
+                            <div className="admin-modal-footer">
+                                <button
+                                    type="button"
+                                    className="admin-btn admin-btn-secondary"
+                                    onClick={() => setIsModalOpen(false)}
                                 >
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
-                                </select>
+                                    Cancel
+                                </button>
+                                <button type="submit" className="admin-btn admin-btn-primary">
+                                    Create Task
+                                </button>
                             </div>
-                            <div className="form-group">
-                                <label>Description (Optional)</label>
-                                <textarea
-                                    value={newTask.description}
-                                    onChange={e => setNewTask({ ...newTask, description: e.target.value })}
-                                    placeholder="Add details..."
-                                />
-                            </div>
-                            <button type="submit" className="post-submit-btn">Create Task</button>
                         </form>
                     </div>
                 </div>
