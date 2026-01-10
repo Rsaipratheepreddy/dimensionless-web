@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import useSWR from 'swr';
 import { supabase } from '@/utils/supabase';
 import ArtCard from '@/components/features/tattoos/ArtCard';
 import LottieLoader from '@/components/ui/LottieLoader';
@@ -13,19 +14,13 @@ import './ArtworkDiscovery.css';
 type FilterMode = 'all' | 'buy' | 'lease';
 
 export default function ArtworkDiscovery() {
-    const [artworks, setArtworks] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<FilterMode>('all');
     const { addToCart } = useCart();
     const router = useRouter();
 
-    useEffect(() => {
-        fetchArtworks();
-    }, [filter]);
-
-    const fetchArtworks = async () => {
-        try {
-            setLoading(true);
+    const { data: artworks, isValidating: loading } = useSWR(
+        ['discovery-artworks', filter],
+        async ([, f]) => {
             let query = supabase
                 .from('artworks')
                 .select(`
@@ -37,22 +32,17 @@ export default function ArtworkDiscovery() {
                 .order('created_at', { ascending: false })
                 .limit(12);
 
-            if (filter === 'buy') {
+            if (f === 'buy') {
                 query = query.eq('allow_purchase', true);
-            } else if (filter === 'lease') {
+            } else if (f === 'lease') {
                 query = query.eq('allow_lease', true);
             }
 
             const { data, error } = await query;
-
             if (error) throw error;
-            setArtworks(data || []);
-        } catch (error) {
-            console.error('Error fetching artworks:', error);
-        } finally {
-            setLoading(false);
+            return data || [];
         }
-    };
+    );
 
     const handleBuyNow = (art: any) => {
         addToCart({
@@ -66,19 +56,22 @@ export default function ArtworkDiscovery() {
             quantity: 1
         });
         toast.success(`${art.title} added to cart!`);
-        router.push(`/artworks/${art.id}`); // Navigate to details page
+        router.push(`/artworks/${art.id}`);
     };
 
     const handleLeaseNow = (art: any) => {
         router.push(`/artworks/${art.id}`);
     };
 
+    const displayArtworks = artworks || [];
+    const isInitialLoading = !artworks && loading;
+
     return (
         <section className="artwork-discovery-section">
             <div className="discovery-header">
                 <div className="discovery-title-area">
                     <h2 className="discovery-title">All Artworks</h2>
-                    <span className="item-count">({artworks.length} items)</span>
+                    <span className="item-count">({displayArtworks.length} items)</span>
                 </div>
 
                 <div className="discovery-filters">
@@ -103,18 +96,18 @@ export default function ArtworkDiscovery() {
                 </div>
             </div>
 
-            {loading ? (
+            {isInitialLoading ? (
                 <div className="loading-wrap">
                     <LottieLoader />
                 </div>
-            ) : artworks.length === 0 ? (
+            ) : displayArtworks.length === 0 ? (
                 <div className="empty-discovery">
                     <p>No artworks found in this category.</p>
                 </div>
             ) : (
                 <>
                     <div className="artwork-grid">
-                        {artworks.map((art) => (
+                        {displayArtworks.map((art: any) => (
                             <Link key={art.id} href={`/artworks/${art.id}`} style={{ textDecoration: 'none' }}>
                                 <ArtCard
                                     id={art.id}
@@ -145,7 +138,8 @@ export default function ArtworkDiscovery() {
                         </Link>
                     </div>
                 </>
-            )}
-        </section>
+            )
+            }
+        </section >
     );
 }

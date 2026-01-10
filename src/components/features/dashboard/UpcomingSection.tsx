@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import useSWR from 'swr';
 import { useAuth } from '@/contexts/AuthContext';
 import {
     IconCalendar,
@@ -35,22 +36,147 @@ interface UpcomingItem {
 const UpcomingSection = () => {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<TabType>('events');
-    const [loading, setLoading] = useState<{ [key in TabType]: boolean }>({
-        tattoos: true,
-        events: true,
-        classes: true
-    });
-    const [items, setItems] = useState<{ [key in TabType]: UpcomingItem[] }>({
-        tattoos: [],
-        events: [],
-        classes: []
-    });
     const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
-
-    const currentItems = items[activeTab] || [];
-
     const carouselRef = useRef<HTMLDivElement>(null);
     const [showArrows, setShowArrows] = useState({ left: false, right: false });
+
+    // 1. Fetch Tattoos
+    const { data: tattooItems, isValidating: tattoosLoading } = useSWR(
+        user ? '/api/bookings' : null,
+        async (url) => {
+            const response = await fetch(url);
+            const data = await response.json();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            return data.filter((b: any) => {
+                const bookingDate = new Date(b.booking_date);
+                bookingDate.setHours(0, 0, 0, 0);
+                return bookingDate >= today && b.status !== 'cancelled';
+            }).map((b: any) => ({
+                id: b.id,
+                title: b.tattoo_designs?.name || 'Tattoo Session',
+                image: b.tattoo_designs?.image_url || '/painting.png',
+                date: b.booking_date,
+                time: b.booking_time,
+                type: 'Booking',
+                isRegistered: true,
+                link: `/tattoos/${b.tattoo_designs?.id}`
+            }));
+        }
+    );
+
+    // 2. Fetch Events
+    const { data: eventItems, isValidating: eventsLoading } = useSWR(
+        user ? ['events', user.id] : null,
+        async ([, userId]) => {
+            const { data: registrations } = await supabase
+                .from('event_registrations')
+                .select('event_id, events(*)')
+                .eq('user_id', userId);
+
+            const registeredIds = (registrations || []).map((r: any) => r.event_id).filter(Boolean);
+            const registeredItems = (registrations || []).map((r: any) => {
+                const event = Array.isArray(r.events) ? r.events[0] : r.events;
+                if (!event) return null;
+                return {
+                    id: event.id,
+                    title: event.title,
+                    image: event.image_url,
+                    date: event.start_date,
+                    time: new Date(event.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    location: event.location,
+                    type: 'Registered',
+                    isRegistered: true,
+                    link: `/events/${event.id}`
+                };
+            }).filter(Boolean) as UpcomingItem[];
+
+            let query = supabase
+                .from('events')
+                .select('*')
+                .eq('status', 'published')
+                .gte('start_date', new Date().toISOString())
+                .limit(5);
+
+            if (registeredIds.length > 0) {
+                query = query.not('id', 'in', `(${registeredIds.join(',')})`);
+            }
+
+            const { data: availableEvents } = await query;
+            const availableItems = (availableEvents || []).map((e: any) => ({
+                id: e.id,
+                title: e.title,
+                image: e.image_url,
+                date: e.start_date,
+                time: new Date(e.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                location: e.location,
+                type: 'Upcoming',
+                isRegistered: false,
+                link: `/events/${e.id}`
+            }));
+
+            return [...registeredItems, ...availableItems];
+        }
+    );
+
+    // 3. Fetch Classes
+    const { data: classItems, isValidating: classesLoading } = useSWR(
+        user ? '/api/user/registrations' : null,
+        async (url) => {
+            const response = await fetch(url);
+            const enrolledData = await response.json();
+
+            const enrolledIds = (enrolledData || []).map((r: any) => r.art_classes?.id).filter(Boolean);
+            const enrolledItems = (enrolledData || []).map((r: any) => ({
+                id: r.art_classes?.id,
+                title: r.art_classes?.title,
+                image: r.art_classes?.thumbnail_url,
+                date: r.next_session?.session_date || '',
+                time: r.next_session?.session_time || '',
+                type: 'Enrolled',
+                isRegistered: true,
+                link: `/art-classes/${r.art_classes?.id}`
+            }));
+
+            let query = supabase
+                .from('art_classes')
+                .select('*')
+                .eq('status', 'published')
+                .limit(5);
+
+            if (enrolledIds.length > 0) {
+                query = query.not('id', 'in', `(${enrolledIds.join(',')})`);
+            }
+
+            const { data: availableClasses } = await query;
+            const availableItems = (availableClasses || []).map((c: any) => ({
+                id: c.id,
+                title: c.title,
+                image: c.thumbnail_url,
+                date: 'Ongoing',
+                type: 'Available',
+                isRegistered: false,
+                link: `/art-classes/${c.id}`
+            }));
+
+            return [...enrolledItems, ...availableItems];
+        }
+    );
+
+    const items = {
+        tattoos: tattooItems || [],
+        events: eventItems || [],
+        classes: classItems || []
+    };
+
+    const isLoading = {
+        tattoos: tattoosLoading && !tattooItems,
+        events: eventsLoading && !eventItems,
+        classes: classesLoading && !classItems
+    };
+
+    const currentItems = items[activeTab] || [];
 
     const checkScroll = () => {
         if (carouselRef.current) {
@@ -74,170 +200,15 @@ const UpcomingSection = () => {
     };
 
     useEffect(() => {
-        if (user) {
-            fetchAllData();
-        } else {
-            setLoading({ tattoos: false, events: false, classes: false });
-        }
-    }, [user]);
-
-    useEffect(() => {
-        if (!loading[activeTab] && currentItems.length > 0) {
-            // Wait for render
+        if (!isLoading[activeTab] && currentItems.length > 0) {
             setTimeout(checkScroll, 100);
         }
-    }, [loading, activeTab, items]);
+    }, [isLoading, activeTab, items]);
 
-    // Re-check on window resize
     useEffect(() => {
         window.addEventListener('resize', checkScroll);
         return () => window.removeEventListener('resize', checkScroll);
     }, []);
-
-    const fetchAllData = async () => {
-        // Fetch everything in parallel but let them update state independently
-        fetchTattoos();
-        fetchEvents();
-        fetchClasses();
-    };
-
-    const fetchTattoos = async () => {
-        try {
-            const response = await fetch('/api/bookings');
-            const data = await response.json();
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            const filtered = data.filter((b: any) => {
-                const bookingDate = new Date(b.booking_date);
-                bookingDate.setHours(0, 0, 0, 0);
-                return bookingDate >= today && b.status !== 'cancelled';
-            }).map((b: any) => ({
-                id: b.id,
-                title: b.tattoo_designs?.name || 'Tattoo Session',
-                image: b.tattoo_designs?.image_url || '/painting.png',
-                date: b.booking_date,
-                time: b.booking_time,
-                type: 'Booking',
-                isRegistered: true,
-                link: `/tattoos/${b.tattoo_designs?.id}`
-            }));
-            setItems(prev => ({ ...prev, tattoos: filtered }));
-        } catch (error) {
-            console.error('Error fetching tattoos:', error);
-        } finally {
-            setLoading(prev => ({ ...prev, tattoos: false }));
-        }
-    };
-
-    const fetchEvents = async () => {
-        try {
-            // 1. Fetch user's registrations
-            const { data: registrations } = await supabase
-                .from('event_registrations')
-                .select('event_id, events(*)')
-                .eq('user_id', user?.id);
-
-            const registeredIds = (registrations || []).map((r: any) => r.event_id).filter(Boolean);
-            const registeredItems = (registrations || []).map((r: any) => {
-                const event = Array.isArray(r.events) ? r.events[0] : r.events;
-                if (!event) return null;
-                return {
-                    id: event.id,
-                    title: event.title,
-                    image: event.image_url,
-                    date: event.start_date,
-                    time: new Date(event.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                    location: event.location,
-                    type: 'Registered',
-                    isRegistered: true,
-                    link: `/events/${event.id}`
-                };
-            }).filter(Boolean) as UpcomingItem[];
-
-            // 2. Fetch available upcoming events (excluding already registered)
-            let query = supabase
-                .from('events')
-                .select('*')
-                .eq('status', 'published')
-                .gte('start_date', new Date().toISOString())
-                .limit(5);
-
-            if (registeredIds.length > 0) {
-                query = query.not('id', 'in', `(${registeredIds.join(',')})`);
-            }
-
-            const { data: availableEvents } = await query;
-
-            const availableItems = (availableEvents || []).map((e: any) => ({
-                id: e.id,
-                title: e.title,
-                image: e.image_url,
-                date: e.start_date,
-                time: new Date(e.start_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                location: e.location,
-                type: 'Upcoming',
-                isRegistered: false,
-                link: `/events/${e.id}`
-            }));
-
-            setItems(prev => ({ ...prev, events: [...registeredItems, ...availableItems] }));
-        } catch (error) {
-            console.error('Error fetching events:', error);
-        } finally {
-            setLoading(prev => ({ ...prev, events: false }));
-        }
-    };
-
-    const fetchClasses = async () => {
-        try {
-            // 1. Fetch user's enrolled classes
-            const response = await fetch('/api/user/registrations');
-            const enrolledData = await response.json();
-
-            const enrolledIds = (enrolledData || []).map((r: any) => r.art_classes?.id).filter(Boolean);
-            const enrolledItems = (enrolledData || []).map((r: any) => ({
-                id: r.art_classes?.id,
-                title: r.art_classes?.title,
-                image: r.art_classes?.thumbnail_url,
-                date: r.next_session?.session_date || '',
-                time: r.next_session?.session_time || '',
-                type: 'Enrolled',
-                isRegistered: true,
-                link: `/art-classes/${r.art_classes?.id}`
-            }));
-
-            // 2. Fetch available classes
-            let query = supabase
-                .from('art_classes')
-                .select('*')
-                .eq('status', 'published')
-                .limit(5);
-
-            if (enrolledIds.length > 0) {
-                query = query.not('id', 'in', `(${enrolledIds.join(',')})`);
-            }
-
-            const { data: availableClasses } = await query;
-
-            const availableItems = (availableClasses || []).map((c: any) => ({
-                id: c.id,
-                title: c.title,
-                image: c.thumbnail_url,
-                date: 'Ongoing',
-                type: 'Available',
-                isRegistered: false,
-                link: `/art-classes/${c.id}`
-            }));
-
-            setItems(prev => ({ ...prev, classes: [...enrolledItems, ...availableItems] }));
-        } catch (error) {
-            console.error('Error fetching classes:', error);
-        } finally {
-            setLoading(prev => ({ ...prev, classes: false }));
-        }
-    };
-
 
     if (!user) return null;
 
@@ -271,7 +242,7 @@ const UpcomingSection = () => {
             </div>
 
             <div className="upcoming-content">
-                {loading[activeTab] ? (
+                {isLoading[activeTab] ? (
                     <div className="loading-placeholder">
                         <IconLoader2 className="animate-spin" size={32} />
                         <p>Updating your {activeTab}...</p>
@@ -293,7 +264,7 @@ const UpcomingSection = () => {
                         )}
 
                         <div className="upcoming-grid carousel-grid" ref={carouselRef} onScroll={checkScroll}>
-                            {(currentItems || []).map((item: any) => (
+                            {currentItems.map((item: any) => (
                                 <Link href={item.link} key={`${item.id}-${item.type}`} className={`upcoming-card ${item.isRegistered ? 'registered' : ''}`}>
                                     <div className={`card-image ${loadedImages[`${item.id}-${item.type}`] ? 'loaded' : ''}`}>
                                         <img

@@ -1,5 +1,4 @@
-'use client';
-
+import Image from 'next/image';
 import React from 'react';
 import './HeroBanner.css';
 
@@ -16,7 +15,14 @@ const HeroBanner: React.FC = () => {
                     </button>
                 </div>
                 <div className="hero-image">
-                    <img src="/painting.png" alt="Premium Artwork" className="hero-img" />
+                    <Image
+                        src="/painting.png"
+                        alt="Premium Artwork"
+                        className="hero-img"
+                        width={600}
+                        height={600}
+                        priority
+                    />
                 </div>
             </div>
 
@@ -24,7 +30,13 @@ const HeroBanner: React.FC = () => {
                 <div className="dimen-card">
                     <div className="dimen-top">
                         <div className="dimen-title-row">
-                            <img src="/dimen-coin.png" alt="Dimen Coin" className="dimen-icon-small" />
+                            <Image
+                                src="/dimen-coin.png"
+                                alt="Dimen Coin"
+                                className="dimen-icon-small"
+                                width={32}
+                                height={32}
+                            />
                             <span className="dimen-name">Dimens (DMN)</span>
                         </div>
                         <div className="dimen-price-display">

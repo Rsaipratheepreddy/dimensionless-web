@@ -15,6 +15,7 @@ import {
 } from '@tabler/icons-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
@@ -35,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             <header className="app-header">
                 <div className="header-left">
                     <div className="header-logo">
-                        <img src="/logo-black.png" alt="Logo" className="logo-img" />
+                        <Image src="/logo-black.png" alt="Logo" className="logo-img" width={120} height={40} priority />
                     </div>
                     <nav className="header-nav-bar">
                         <Link href="/" className={`header-nav-link ${pathname === '/' ? 'active' : ''}`}>
@@ -94,10 +95,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                                 className="profile-trigger"
                                 onClick={() => setShowDropdown(!showDropdown)}
                             >
-                                <img
+                                <Image
                                     src={profile.avatar_url || '/default-avatar.png'}
                                     alt={profile.full_name || 'User'}
                                     className="profile-avatar"
+                                    width={32}
+                                    height={32}
                                 />
                                 <span className="profile-name">{profile.full_name || 'User'}</span>
                                 <IconChevronDown size={16} />

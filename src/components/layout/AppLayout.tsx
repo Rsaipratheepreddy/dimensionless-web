@@ -2,6 +2,7 @@
 import './AppLayout.css';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import Image from 'next/image';
 import AuthBottomSheet from '../auth/AuthBottomSheet';
 // import MaintenanceMode from './MaintenanceMode';
 import Footer from './Footer';
@@ -77,7 +78,14 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 <div className="admin-layout-wrapper">
                     <header className="admin-nav-header">
                         <div className="admin-nav-left">
-                            <img src="/logo-black.png" alt="Dimen" className="admin-logo" />
+                            <Image
+                                src="/logo-black.png"
+                                alt="Dimen"
+                                className="admin-logo"
+                                width={100}
+                                height={30}
+                                priority
+                            />
                             <div className="admin-nav-content">
                                 <div className="admin-breadcrumb">
                                     <span>Platform</span>
