@@ -87,30 +87,35 @@
 @media (max-width: 900px) {
     .become-artist-cta {
         flex-direction: column;
-        align-items: flex-start;
-        padding: 24px;
-        gap: 24px;
+        align-items: center;
+        text-align: center;
+        padding: 24px 16px;
+        gap: 16px;
+        margin-top: 12px;
     }
 
     .cta-left {
-        gap: 16px;
+        flex-direction: column;
+        gap: 12px;
     }
 
     .cta-icon-wrapper {
-        width: 48px;
-        height: 48px;
+        width: 42px;
+        height: 42px;
     }
 
     .cta-title {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .cta-description {
-        font-size: 14px;
+        display: none;
     }
 
     .cta-button {
         width: 100%;
         justify-content: center;
+        padding: 12px 20px;
+        font-size: 14px;
     }
 }

@@ -272,7 +272,7 @@
 
 @media (max-width: 768px) {
     .hero-banner-container {
-        margin-bottom: 0rem;
+        margin-bottom: 12px;
     }
 
     .hero-banner-left {
