@@ -52,7 +52,13 @@ export default function TattoosPage() {
     // 1. Fetch Tattoo Designs
     const { data: designs, isValidating: designsValidating, error: designsError } = useSWR<TattooDesign[]>(
         '/api/tattoos',
-        (url: string) => fetch(url).then(res => res.json())
+        (url: string) => fetch(url).then(async (res) => {
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => ({}));
+                throw new Error(errorData.error || 'Failed to fetch');
+            }
+            return res.json();
+        })
     );
 
     // 2. Fetch Categories
