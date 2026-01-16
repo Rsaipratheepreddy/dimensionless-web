@@ -69,16 +69,11 @@ export default function ProductDetailsPage() {
     const searchParams = useSearchParams();
     const initialQty = parseInt(searchParams.get('qty') || '1');
 
-    const [artwork, setArtwork] = useState<Artwork | null>(null);
-    const [reviews, setReviews] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
     const [activeImage, setActiveImage] = useState(0);
     const [zoomPos, setZoomPos] = useState({ x: 0, y: 0, show: false });
     const [quantity, setQuantity] = useState(initialQty);
     const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState('description');
-    const [soldCount, setSoldCount] = useState(120); // Fallback to 120 or real count
-    const [artistRating, setArtistRating] = useState(4.2);
 
     const supabase = createClient();
     const { addToCart } = useCart();
@@ -113,13 +108,14 @@ export default function ProductDetailsPage() {
         }
     );
 
+
     // 3. Derived / Extra Data
     const [soldCount, setSoldCount] = useState(120);
     const [artistRating, setArtistRating] = useState(4.2);
 
     useEffect(() => {
-        if (artwork?.variants?.length > 0 && !selectedVariant) {
-            setSelectedVariant(artwork.variants[0].name);
+        if ((artwork?.variants?.length || 0) > 0 && !selectedVariant) {
+            setSelectedVariant(artwork?.variants[0].name);
         }
 
         if (artwork?.artist_id) {
@@ -128,7 +124,7 @@ export default function ProductDetailsPage() {
                 .select('*', { count: 'exact', head: true })
                 .eq('artist_id', artwork.artist_id)
                 .eq('status', 'sold')
-                .then(({ count }) => {
+                .then(({ count }: { count: number }) => {
                     if (count !== null) setSoldCount(count + (artwork.profiles?.is_pro ? 120 : 0));
                 });
         }
