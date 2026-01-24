@@ -63,6 +63,8 @@ export async function GET(
 
         if (sessionError) {
             console.error('Error fetching sessions:', sessionError);
+        } else {
+            console.log(`Fetched ${sessions?.length || 0} sessions for class ${id}. ShowLinks: ${showLinks}`);
         }
 
         return NextResponse.json({

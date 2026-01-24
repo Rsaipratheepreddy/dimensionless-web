@@ -36,6 +36,7 @@ interface ArtClassDetails {
     category_name: string;
     sessions: Session[];
     is_registered: boolean;
+    registration_details?: any;
     subscription_duration?: number;
 }
 
@@ -256,7 +257,7 @@ export default function ClassDetailsPage() {
                                                     {formatTime12h(session.session_time)}
                                                 </div>
                                             </div>
-                                            {artClass.is_registered && session.session_link && (
+                                            {session.session_link ? (
                                                 <a
                                                     href={session.session_link}
                                                     target="_blank"
@@ -266,11 +267,12 @@ export default function ClassDetailsPage() {
                                                     <IconVideo size={18} />
                                                     Join Session
                                                 </a>
-                                            )}
-                                            {!artClass.is_registered && (
+                                            ) : (
                                                 <div className="join-link-btn disabled" style={{ background: '#eee', color: '#999', cursor: 'not-allowed' }}>
                                                     <IconVideo size={18} />
-                                                    Join Link Unlocked on Registration
+                                                    {artClass.is_registered ?
+                                                        (artClass.registration_details?.status === 'pending' ? 'Locked (Payment Required)' : 'Link Unlocking Soon')
+                                                        : 'Locked (Register to Join)'}
                                                 </div>
                                             )}
                                         </div>

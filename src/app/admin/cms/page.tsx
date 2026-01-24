@@ -86,11 +86,11 @@ const ImageUpload = ({ value, onChange, bucket = 'media' }: { value: string, onC
 
 const REQD_SECTIONS = [
     {
-        id: 'home_banner',
-        title: 'Home Carousel',
-        description: 'Main banner at the top of the home page',
+        id: 'classes_banner',
+        title: 'Art Classes Banner',
+        description: 'Main banner at the top of the Art Classes page',
         items: [],
-        config_data: {}
+        config_data: { hero_title: 'Unite, Compete, and Grow' }
     }
 ];
 
@@ -151,17 +151,7 @@ export default function CMSPage() {
     };
 
     const handleAddItem = (configId: string) => {
-        if (configId === 'home_banner') {
-            setConfigs(prev => prev.map(c => {
-                if (c.id === configId) {
-                    return {
-                        ...c,
-                        items: [...(c.items || []), { title: '', description: '', image: '', link: '' }]
-                    };
-                }
-                return c;
-            }));
-        }
+        // Reserved for future use (e.g., carousel items for specific banners)
     };
 
 
@@ -204,10 +194,9 @@ export default function CMSPage() {
                         <section key={config.id} className="cms-section-card">
                             <div className="section-header">
                                 <div className="section-title-group">
-                                    {config.id === 'home_banner' ? <IconPalette size={24} /> :
-                                        config.id === 'trending_art' ? <IconBrush size={24} /> :
-                                            config.id === 'trending_tattoos' ? <IconArtboard size={24} /> :
-                                                <IconLayoutDashboard size={24} />}
+                                    {config.id === 'classes_banner' ? <IconBrush size={24} /> :
+                                        config.id === 'events_banner' ? <IconPalette size={24} /> :
+                                            <IconLayoutDashboard size={24} />}
                                     <h3>{config.title}</h3>
                                 </div>
                                 <button
@@ -257,53 +246,6 @@ export default function CMSPage() {
                                     </div>
                                 )}
 
-                                {config.id === 'home_banner' && (
-                                    <div className="items-list-editor">
-                                        <div className="items-header">
-                                            <h4>Carousel Slides</h4>
-                                            <button className="add-item-btn" onClick={() => handleAddItem(config.id)}>
-                                                <IconPlus size={16} /> Add Slide
-                                            </button>
-                                        </div>
-
-                                        <div className="items-grid">
-                                            {config.items && config.items.map((item, idx) => (
-                                                <div key={idx} className="item-edit-card">
-                                                    <div className="item-edit-header">
-                                                        <span>Slide #{idx + 1}</span>
-                                                        <button className="delete-item-btn" onClick={() => handleRemoveItem(config.id, idx)}>
-                                                            <IconTrash size={16} />
-                                                        </button>
-                                                    </div>
-                                                    <div className="item-edit-fields">
-                                                        <input
-                                                            placeholder="Title"
-                                                            value={item.title}
-                                                            onChange={(e) => handleItemChange(config.id, idx, 'title', e.target.value)}
-                                                        />
-                                                        <input
-                                                            placeholder="Description"
-                                                            value={item.description}
-                                                            onChange={(e) => handleItemChange(config.id, idx, 'description', e.target.value)}
-                                                        />
-                                                        <input
-                                                            placeholder="Target Link (optional)"
-                                                            value={item.link}
-                                                            onChange={(e) => handleItemChange(config.id, idx, 'link', e.target.value)}
-                                                        />
-                                                        <div className="item-image-upload">
-                                                            <label>Image</label>
-                                                            <ImageUpload
-                                                                value={item.image || ''}
-                                                                onChange={(url) => handleItemChange(config.id, idx, 'image', url)}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         </section>
                     ))}
