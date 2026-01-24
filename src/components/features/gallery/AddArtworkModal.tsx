@@ -220,7 +220,7 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
 
                 <div className="admin-modal-body">
                     <form id="artwork-form" onSubmit={handleSubmit}>
-                        <div className="admin-form-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                        <div className="admin-form-grid">
                             <div className="admin-form-group">
                                 <label>Title</label>
                                 <input
