@@ -1,60 +1,31 @@
-import { createClient } from '@/utils/supabase-server';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { backendFetch, forwardHeaders } from '@/utils/backend';
 
-export async function GET(request: Request) {
-    const supabase = await createClient();
-    const { searchParams } = new URL(request.url);
-    const assignedTo = searchParams.get('assignedTo');
-    const status = searchParams.get('status');
-
-    let query = supabase
-        .from('staff_tasks')
-        .select(`
-            *,
-            assigned_profile:profiles!staff_tasks_assigned_to_fkey(full_name, email),
-            creator_profile:profiles!staff_tasks_created_by_fkey(full_name, email)
-        `);
-
-    if (assignedTo === 'unassigned') {
-        query = query.is('assigned_to', null);
-    } else if (assignedTo) {
-        query = query.eq('assigned_to', assignedTo);
-    }
-
-    if (status) {
-        query = query.eq('status', status);
-    }
-
-    const { data, error } = await query.order('created_at', { ascending: false });
-
-    if (error) {
+export async function GET(request: NextRequest) {
+    try {
+        const searchParams = request.nextUrl.searchParams.toString();
+        const path = `/api/admin/staff-tasks${searchParams ? `?${searchParams}` : ''}`;
+        const headers = forwardHeaders(request);
+        const res = await backendFetch(path, { headers });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
+    } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
-
-    return NextResponse.json(data);
 }
 
-export async function POST(request: Request) {
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const body = await request.json();
-
-    const { data, error } = await supabase
-        .from('staff_tasks')
-        .insert([{
-            ...body,
-            created_by: body.created_by || user.id // Default to current user if not specified
-        }])
-        .select()
-        .single();
-
-    if (error) {
+export async function POST(request: NextRequest) {
+    try {
+        const body = await request.json();
+        const headers = forwardHeaders(request);
+        const res = await backendFetch('/api/admin/staff-tasks', {
+            method: 'POST',
+            headers: { ...headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
+    } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
-
-    return NextResponse.json(data);
 }

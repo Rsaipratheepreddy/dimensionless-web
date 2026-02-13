@@ -12,7 +12,6 @@ import Link from 'next/link';
 import './page.css';
 import { toast } from 'react-hot-toast';
 import LottieLoader from '@/components/ui/LottieLoader';
-import { supabase } from '@/utils/supabase';
 
 interface ArtClass {
     id: string;
@@ -59,12 +58,11 @@ export default function ArtClassesPage() {
 
     const fetchBanner = async () => {
         try {
-            const { data, error } = await supabase.from('home_config').select('*').eq('id', 'classes_banner').single();
-            if (error) {
-                console.warn('Classes banner fetch notice:', error.message || error);
-                return;
-            }
-            if (data) setBanner(data);
+            const res = await fetch('/api/admin/cms');
+            if (!res.ok) return;
+            const cmsData = await res.json();
+            const bannerData = Array.isArray(cmsData) ? cmsData.find((c: any) => c.id === 'classes_banner') : null;
+            if (bannerData) setBanner(bannerData);
         } catch (error) {
             console.error('Unexpected error fetching banner:', error);
         }
@@ -80,7 +78,8 @@ export default function ArtClassesPage() {
             const response = await fetch(`/api/art-classes?${params.toString()}`);
             const data = await response.json();
             if (response.ok) {
-                setClasses(data);
+                // Extract classes array from response object
+                setClasses(data.classes || data);
             } else {
                 toast.error('Failed to load classes');
             }

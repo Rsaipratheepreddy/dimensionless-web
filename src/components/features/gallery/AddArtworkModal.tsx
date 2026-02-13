@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { IconPhoto, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
-import { createClient } from '@/utils/supabase';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { convertToWebP } from '@/utils/image-optimization';
@@ -38,7 +37,6 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
     const [allowLease, setAllowLease] = useState(false);
     const [existingImages, setExistingImages] = useState<any[]>([]);
 
-    const supabase = createClient();
 
     React.useEffect(() => {
         if (editArtwork && isOpen) {
@@ -113,14 +111,10 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
 
         setLoading(true);
         try {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) throw new Error('Not authenticated');
-
-            const artworkData = {
+            const artworkData: any = {
                 title,
                 description,
                 about,
-                artist_id: user.id,
                 purchase_price: purchasePrice ? parseFloat(purchasePrice) : null,
                 lease_monthly_rate: leaseRate ? parseFloat(leaseRate) : null,
                 category,
@@ -138,26 +132,25 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
             let artworkId = editArtwork?.id;
 
             if (editArtwork) {
-                const { error: updateError } = await supabase
-                    .from('artworks')
-                    .update(artworkData)
-                    .eq('id', editArtwork.id);
-
-                if (updateError) throw updateError;
+                const res = await fetch(`/api/artworks/${editArtwork.id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(artworkData),
+                });
+                if (!res.ok) throw new Error('Failed to update artwork');
             } else {
-                const { data: artwork, error: artworkError } = await supabase
-                    .from('artworks')
-                    .insert(artworkData)
-                    .select()
-                    .single();
-
-                if (artworkError) throw artworkError;
+                const res = await fetch('/api/artworks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(artworkData),
+                });
+                if (!res.ok) throw new Error('Failed to create artwork');
+                const artwork = await res.json();
                 artworkId = artwork.id;
             }
 
             // 2. Upload NEW Images
             if (images.length > 0) {
-                const imageRecords = [];
                 for (let i = 0; i < images.length; i++) {
                     let file = images[i];
 
@@ -169,32 +162,15 @@ export default function AddArtworkModal({ isOpen, onClose, onSuccess, editArtwor
                         console.error('Compression failed, uploading original:', err);
                     }
 
-                    const fileExt = file.name.split('.').pop();
-                    const fileName = `${artworkId}/${Date.now()}-${i}.${fileExt}`;
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('artwork_id', artworkId);
+                    formData.append('is_primary', String(i === 0 && existingImages.length === 0));
+                    formData.append('display_order', String(existingImages.length + i));
 
-                    const { error: uploadError } = await supabase.storage
-                        .from('artwork-images')
-                        .upload(fileName, file);
-
-                    if (uploadError) throw uploadError;
-
-                    const { data: { publicUrl } } = supabase.storage
-                        .from('artwork-images')
-                        .getPublicUrl(fileName);
-
-                    imageRecords.push({
-                        artwork_id: artworkId,
-                        image_url: publicUrl,
-                        is_primary: i === 0 && existingImages.length === 0,
-                        display_order: existingImages.length + i
-                    });
+                    const uploadRes = await fetch('/api/artworks/upload', { method: 'POST', body: formData });
+                    if (!uploadRes.ok) throw new Error(`Failed to upload image ${i + 1}`);
                 }
-
-                const { error: imagesError } = await supabase
-                    .from('artwork_images')
-                    .insert(imageRecords);
-
-                if (imagesError) throw imagesError;
             }
 
             toast.success(editArtwork ? 'Artwork updated successfully!' : 'Artwork added successfully!');

@@ -57,7 +57,9 @@ export default function TattoosPage() {
                 const errorData = await res.json().catch(() => ({}));
                 throw new Error(errorData.error || 'Failed to fetch');
             }
-            return res.json();
+            const data = await res.json();
+            // Extract tattoos array from response object
+            return data.tattoos || data;
         })
     );
 

@@ -1,57 +1,108 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase-server';
+import { getCached, setCache } from '@/utils/redis';
 
-// GET /api/art-classes - Fetch published classes for users
+// Enable static generation with revalidation
+export const revalidate = 180; // 3 minutes
+
+// GET /api/art-classes - Fetch published classes for users with pagination
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
         const category = searchParams.get('category');
         const pricing = searchParams.get('pricing');
+        const limit = parseInt(searchParams.get('limit') || '20');
+        const offset = parseInt(searchParams.get('offset') || '0');
 
-        const supabase = await createClient();
+        console.log('Fetching art classes with params:', { category, pricing, limit, offset });
 
-        console.log('Fetching art classes with params:', { category, pricing });
+        // Create cache key
+        const cacheKey = `art-classes:${category || 'all'}:${pricing || 'all'}:${limit}:${offset}`;
 
-        let query = supabase
-            .from('art_classes')
-            .select(`
-                *,
-                art_class_categories(name)
-            `)
-            .eq('status', 'published')
-            .order('created_at', { ascending: false });
-
-        if (category && category !== 'all') query = query.eq('category_id', category);
-        if (pricing && pricing !== 'all') query = query.eq('pricing_type', pricing);
-
-        const { data: classes, error } = await query;
-
-        if (error) {
-            console.error('Error fetching art classes:', error);
-            return NextResponse.json([]);
+        // Try cache first
+        const cached = await getCached(cacheKey);
+        if (cached) {
+            console.log('✅ Cache hit for', cacheKey);
+            return NextResponse.json(cached, {
+                headers: {
+                    'Cache-Control': 'public, s-maxage=180, stale-while-revalidate=360',
+                },
+            });
         }
 
-        console.log(`Found ${classes?.length || 0} published art classes`);
+        // Use NestJS backend
+        if (!process.env.NEXT_PUBLIC_API_URL) {
+            return NextResponse.json({
+                classes: [],
+                total: 0,
+                limit,
+                offset,
+                hasMore: false
+            }, { status: 500 });
+        }
 
-        // Fetch session counts separately for each class
-        const classesWithSessions = await Promise.all(
-            (classes || []).map(async (artClass: any) => {
-                const { count } = await supabase
-                    .from('art_class_sessions')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('class_id', artClass.id);
+        const queryParams = new URLSearchParams({
+            category: category || 'all',
+            pricing: pricing || 'all',
+            limit: limit.toString(),
+            offset: offset.toString()
+        });
 
-                return {
-                    ...artClass,
-                    category_name: (artClass.art_class_categories as any)?.name || 'General',
-                    session_count: count || 0
-                };
-            })
-        );
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/art-classes?${queryParams.toString()}`;
 
-        return NextResponse.json(classesWithSessions);
+        // Fetch with 30s timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+        try {
+            const response = await fetch(apiUrl, { signal: controller.signal });
+            clearTimeout(timeoutId);
+
+            if (!response.ok) {
+                console.error('Backend returned error for art-classes:', response.status);
+                return NextResponse.json({
+                    classes: [],
+                    total: 0,
+                    limit,
+                    offset,
+                    hasMore: false
+                }, { status: response.status });
+            }
+
+            const data = await response.json();
+
+            // Cache for 3 minutes
+            await setCache(cacheKey, data, 180);
+            console.log('✅ Cached', cacheKey);
+
+            return NextResponse.json(data, {
+                headers: {
+                    'Cache-Control': 'public, s-maxage=180, stale-while-revalidate=360',
+                },
+            });
+        } catch (fetchError: any) {
+            clearTimeout(timeoutId);
+            if (fetchError.name === 'AbortError') {
+                console.error('Request timeout for art-classes');
+                return NextResponse.json({
+                    classes: [],
+                    total: 0,
+                    limit,
+                    offset,
+                    hasMore: false,
+                    error: 'Request timeout'
+                }, { status: 504 });
+            }
+            throw fetchError;
+        }
+
     } catch (error: any) {
         console.error('Unexpected error in art-classes API:', error);
-        return NextResponse.json([]);
+        return NextResponse.json({
+            classes: [],
+            total: 0,
+            limit: 20,
+            offset: 0,
+            hasMore: false
+        }, { status: 500 });
     }
 }

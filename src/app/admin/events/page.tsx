@@ -21,7 +21,6 @@ import './page.css';
 import LottieLoader from '@/components/ui/LottieLoader';
 import { toast } from 'react-hot-toast';
 import { useModal } from '@/contexts/ModalContext';
-import { supabase } from '@/utils/supabase';
 
 interface Event {
     id: string;
@@ -130,12 +129,12 @@ export default function AdminEventsPage() {
             let imageUrl = imagePreview;
             if (imageFile) {
                 setUploadingImage(true);
-                const fileExt = imageFile.name.split('.').pop();
-                const filePath = `events/${Date.now()}.${fileExt}`;
-                const { error: uploadError } = await supabase.storage.from('artwork-images').upload(filePath, imageFile);
-                if (uploadError) throw uploadError;
-                const { data: { publicUrl } } = supabase.storage.from('artwork-images').getPublicUrl(filePath);
-                imageUrl = publicUrl;
+                const formData = new FormData();
+                formData.append('file', imageFile);
+                const uploadRes = await fetch('/api/artworks/upload', { method: 'POST', body: formData });
+                if (!uploadRes.ok) throw new Error('Image upload failed');
+                const uploadData = await uploadRes.json();
+                imageUrl = uploadData.url || uploadData.image_url || imageUrl;
                 setUploadingImage(false);
             }
 

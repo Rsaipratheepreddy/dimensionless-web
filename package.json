@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --webpack",
+    "build": "next build --webpack --no-turbopack-warning",
     "start": "next start",
     "lint": "eslint",
     "pwa:icons": "node scripts/generate-pwa-icons.js"
@@ -18,6 +18,7 @@
     "@tabler/icons-react": "^3.34.1",
     "@types/three": "^0.180.0",
     "gsap": "^3.13.0",
+    "ioredis": "^5.9.2",
     "lottie-react": "^2.4.1",
     "minimatch": "^10.1.1",
     "moment": "^2.30.1",

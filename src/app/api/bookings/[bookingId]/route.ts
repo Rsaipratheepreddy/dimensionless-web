@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase-server';
+import { backendFetch, forwardHeaders } from '@/utils/backend';
 
 // PATCH /api/bookings/[bookingId] - Update booking status
 export async function PATCH(
@@ -7,43 +7,19 @@ export async function PATCH(
     { params }: { params: Promise<{ bookingId: string }> }
 ) {
     try {
-        const supabase = await createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
         const { bookingId } = await params;
         const body = await request.json();
-
-        // Get user role to allow staff updates
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single();
-
-        const isStaff = profile?.role === 'admin' || profile?.role === 'employee';
-
-        let query = supabase
-            .from('tattoo_bookings')
-            .update(body)
-            .eq('id', bookingId);
-
-        // Only restrict by user_id if not staff
-        if (!isStaff) {
-            query = query.eq('user_id', user.id);
-        }
-
-        const { data: booking, error } = await query.select().single();
-
-        if (error) throw error;
-
-        return NextResponse.json(booking);
+        const headers = forwardHeaders(request);
+        const res = await backendFetch(`/api/bookings/${bookingId}`, {
+            method: 'PATCH',
+            headers: { ...headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error('Error updating booking:', error);
-        return NextResponse.json(
-            { error: 'Failed to update booking' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 });
     }
 }
 
@@ -53,33 +29,13 @@ export async function GET(
     { params }: { params: Promise<{ bookingId: string }> }
 ) {
     try {
-        const supabase = await createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
         const { bookingId } = await params;
-
-        const { data: booking, error } = await supabase
-            .from('tattoo_bookings')
-            .select(`
-                *,
-                tattoo_designs (
-                    name,
-                    image_url
-                )
-            `)
-            .eq('id', bookingId)
-            .eq('user_id', user.id)
-            .single();
-
-        if (error) throw error;
-
-        return NextResponse.json(booking);
+        const headers = forwardHeaders(request);
+        const res = await backendFetch(`/api/bookings/${bookingId}`, { headers });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error('Error fetching booking:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch booking' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to fetch booking' }, { status: 500 });
     }
 }

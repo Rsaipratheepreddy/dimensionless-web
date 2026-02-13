@@ -1,59 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase-server';
+import { backendFetch, forwardHeaders } from '@/utils/backend';
 
 // GET /api/user/registrations - Fetch current user's active registrations and upcoming sessions
 export async function GET(request: NextRequest) {
     try {
-        const supabase = await createClient();
-
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        if (authError || !user) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
-
-        // Fetch active registrations with class and its next session
-        const { data: registrations, error } = await supabase
-            .from('art_class_registrations')
-            .select(`
-                id,
-                status,
-                expires_at,
-                art_classes (
-                    id,
-                    title,
-                    thumbnail_url,
-                    art_class_categories(name)
-                )
-            `)
-            .eq('user_id', user.id)
-            .eq('status', 'active');
-
-        if (error) {
-            console.error('Error fetching user registrations:', error);
-            return NextResponse.json([]);
-        }
-
-        // For each class, fetch the closest upcoming session
-        const today = new Date().toISOString().split('T')[0];
-
-        const enhancedRegistrations = await Promise.all((registrations || []).map(async (reg: any) => {
-            const { data: nextSession } = await supabase
-                .from('art_class_sessions')
-                .select('*')
-                .eq('class_id', reg.art_classes.id)
-                .gte('session_date', today)
-                .order('session_date', { ascending: true })
-                .order('session_time', { ascending: true })
-                .limit(1)
-                .maybeSingle();
-
-            return {
-                ...reg,
-                next_session: nextSession
-            };
-        }));
-
-        return NextResponse.json(enhancedRegistrations);
+        const headers = forwardHeaders(request);
+        const res = await backendFetch('/api/users/registrations', { headers });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error: any) {
         console.error('Error fetching user registrations:', error);
         return NextResponse.json([]);

@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconUser, IconCamera, IconLoader2, IconCheck, IconChevronLeft } from '@tabler/icons-react';
 import AppLayout from '@/components/layout/AppLayout';
@@ -32,17 +31,12 @@ export default function ProfileSettingsPage() {
             const fileExt = file.name.split('.').pop();
             const filePath = `${user?.id}-${Math.random()}.${fileExt}`;
 
-            const { error: uploadError } = await supabase.storage
-                .from('avatars')
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('avatars')
-                .getPublicUrl(filePath);
-
-            setAvatarUrl(publicUrl);
+            const formData = new FormData();
+            formData.append('file', file);
+            const uploadRes = await fetch('/api/artworks/upload', { method: 'POST', body: formData });
+            if (!uploadRes.ok) throw new Error('Upload failed');
+            const uploadData = await uploadRes.json();
+            setAvatarUrl(uploadData.url || uploadData.image_url || '');
             toast.success('Avatar uploaded! Save changes to apply.');
         } catch (error: any) {
             toast.error(error.message);
@@ -55,17 +49,12 @@ export default function ProfileSettingsPage() {
         e.preventDefault();
         try {
             setLoading(true);
-            const { error } = await supabase
-                .from('profiles')
-                .update({
-                    full_name: fullName,
-                    bio: bio,
-                    avatar_url: avatarUrl,
-                    updated_at: new Date().toISOString(),
-                })
-                .eq('id', user?.id);
-
-            if (error) throw error;
+            const res = await fetch('/api/user/profile', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ full_name: fullName, bio, avatar_url: avatarUrl }),
+            });
+            if (!res.ok) throw new Error('Update failed');
             toast.success('Profile updated successfully!');
         } catch (error: any) {
             toast.error(error.message);

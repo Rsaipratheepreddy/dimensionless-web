@@ -20,7 +20,6 @@ import {
 } from '@tabler/icons-react';
 import { toast } from 'react-hot-toast';
 import LottieLoader from '@/components/ui/LottieLoader';
-import { supabase } from '@/utils/supabase';
 import './page.css';
 
 interface ConfigSection {
@@ -42,21 +41,12 @@ const ImageUpload = ({ value, onChange, bucket = 'media' }: { value: string, onC
             const file = e.target.files?.[0];
             if (!file) return;
 
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Math.random()}.${fileExt}`;
-            const filePath = `cms/${fileName}`;
-
-            const { error: uploadError } = await supabase.storage
-                .from(bucket)
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from(bucket)
-                .getPublicUrl(filePath);
-
-            onChange(publicUrl);
+            const formData = new FormData();
+            formData.append('file', file);
+            const uploadRes = await fetch('/api/artworks/upload', { method: 'POST', body: formData });
+            if (!uploadRes.ok) throw new Error('Upload failed');
+            const uploadData = await uploadRes.json();
+            onChange(uploadData.url || uploadData.image_url || '');
             toast.success('Image uploaded!');
         } catch (error: any) {
             toast.error(error.message || 'Error uploading image');

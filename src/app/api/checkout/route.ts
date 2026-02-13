@@ -1,47 +1,19 @@
 import { NextResponse } from 'next/server';
-import { razorpay } from '@/utils/razorpay';
-import { createClient } from '@/utils/supabase-server';
+import { backendFetch, forwardHeaders } from '@/utils/backend';
 
 export async function POST(req: Request) {
     try {
-        const { paintingId, amount } = await req.json();
-
-        // Optional: Check if painting exists/available from Supabase
-        const supabase = await createClient();
-        const { data, error } = await supabase
-            .from('paintings')
-            .select('id, price')
-            .eq('id', paintingId)
-            .single();
-
-        if (error || !data) {
-            console.error('Painting not found for checkout:', paintingId);
-        }
-
-        // Create Razorpay Order
-        const options = {
-            amount: Math.round(amount * 100), // amount in smallest currency unit (paise)
-            currency: "INR",
-            receipt: paintingId.slice(0, 40),
-        };
-
-        const order = await razorpay.orders.create(options);
-
-        return NextResponse.json({
-            orderId: order.id,
-            amount: order.amount,
-            currency: order.currency
+        const body = await req.json();
+        const headers = forwardHeaders(req);
+        const res = await backendFetch('/api/payments/checkout', {
+            method: 'POST',
+            headers: { ...headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
         });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error: any) {
-        console.error('Checkout error detail:', {
-            message: error.message,
-            stack: error.stack,
-            error: error
-        });
-        return NextResponse.json({
-            error: 'Failed to create order',
-            details: error.message
-        }, { status: 500 });
+        console.error('Checkout error:', error.message);
+        return NextResponse.json({ error: 'Failed to create order', details: error.message }, { status: 500 });
     }
 }
-

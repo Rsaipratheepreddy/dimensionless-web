@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase-server';
+import { backendFetch, forwardHeaders } from '@/utils/backend';
 
 export async function PUT(
     request: NextRequest,
@@ -7,22 +7,15 @@ export async function PUT(
 ) {
     try {
         const { id } = await params;
-        const supabase = await createClient();
         const body = await request.json();
-
-        const { data: artwork, error } = await supabase
-            .from('artworks')
-            .update({
-                ...body,
-                updated_at: new Date().toISOString()
-            })
-            .eq('id', id)
-            .select()
-            .single();
-
-        if (error) throw error;
-
-        return NextResponse.json(artwork);
+        const headers = forwardHeaders(request);
+        const res = await backendFetch(`/api/admin/artworks/${id}`, {
+            method: 'PUT',
+            headers: { ...headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error: any) {
         console.error('Error updating artwork:', error);
         return NextResponse.json({ error: error.message }, { status: 500 });
@@ -35,25 +28,10 @@ export async function DELETE(
 ) {
     try {
         const { id } = await params;
-        const supabase = await createClient();
-
-        // 1. Delete associated images
-        const { error: imgError } = await supabase
-            .from('artwork_images')
-            .delete()
-            .eq('artwork_id', id);
-
-        if (imgError) throw imgError;
-
-        // 2. Delete artwork
-        const { error } = await supabase
-            .from('artworks')
-            .delete()
-            .eq('id', id);
-
-        if (error) throw error;
-
-        return NextResponse.json({ message: 'Artwork deleted successfully' });
+        const headers = forwardHeaders(request);
+        const res = await backendFetch(`/api/admin/artworks/${id}`, { method: 'DELETE', headers });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error: any) {
         console.error('Error deleting artwork:', error);
         return NextResponse.json({ error: error.message }, { status: 500 });

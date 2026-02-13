@@ -1,0 +1,459 @@
+Retrieving logs...
+============= i-029c843bb4c7ef80c ==============
+----------------------------------------
+/var/log/web.stdout.log
+----------------------------------------
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mPiercingsModule dependencies initialized#033[39m#033[38;5;3m +0ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mCategoriesModule dependencies initialized#033[39m#033[38;5;3m +1ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mBookingsModule dependencies initialized#033[39m#033[38;5;3m +0ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mArtClassesModule dependencies initialized#033[39m#033[38;5;3m +0ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mConfigHostModule dependencies initialized#033[39m#033[38;5;3m +1ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mConfigModule dependencies initialized#033[39m#033[38;5;3m +1ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mConfigModule dependencies initialized#033[39m#033[38;5;3m +0ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mS3Module dependencies initialized#033[39m#033[38;5;3m +21ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mStorageModule dependencies initialized#033[39m#033[38;5;3m +1ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mJwtModule dependencies initialized#033[39m#033[38;5;3m +0ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mUploadsModule dependencies initialized#033[39m#033[38;5;3m +0ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[32m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[32m    LOG#033[39m #033[38;5;3m[InstanceLoader] #033[39m#033[32mPaymentsModule dependencies initialized#033[39m#033[38;5;3m +1ms#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: #033[31m[Nest] 6440  - #033[39m02/10/2026, 6:42:12 PM #033[31m  ERROR#033[39m #033[38;5;3m[TypeOrmModule] #033[39m#033[31mUnable to connect to the database. Retrying (1)...#033[39m
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]: error: no pg_hba.conf entry for host "172.31.20.164", user "postgres", database "dimensionless", no encryption
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]:    at parseErrorMessage (/var/app/current/node_modules/pg-protocol/dist/parser.js:305:11)
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]:    at Parser.handlePacket (/var/app/current/node_modules/pg-protocol/dist/parser.js:143:27)
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]:    at Parser.parse (/var/app/current/node_modules/pg-protocol/dist/parser.js:37:38)
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]:    at Socket.<anonymous> (/var/app/current/node_modules/pg-protocol/dist/index.js:11:42)
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]:    at Socket.emit (node:events:524:28)
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]:    at addChunk (node:internal/streams/readable:561:12)
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]:    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]:    at Readable.push (node:internal/streams/readable:392:5)
+Feb 10 18:42:12 ip-172-31-20-164 web[6440]:    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]: #033[31m[Nest] 6440  - #033[39m02/10/2026, 6:42:15 PM #033[31m  ERROR#033[39m #033[38;5;3m[TypeOrmModule] #033[39m#033[31mUnable to connect to the database. Retrying (2)...#033[39m
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]: error: no pg_hba.conf entry for host "172.31.20.164", user "postgres", database "dimensionless", no encryption
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]:    at parseErrorMessage (/var/app/current/node_modules/pg-protocol/dist/parser.js:305:11)
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]:    at Parser.handlePacket (/var/app/current/node_modules/pg-protocol/dist/parser.js:143:27)
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]:    at Parser.parse (/var/app/current/node_modules/pg-protocol/dist/parser.js:37:38)
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]:    at Socket.<anonymous> (/var/app/current/node_modules/pg-protocol/dist/index.js:11:42)
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]:    at Socket.emit (node:events:524:28)
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]:    at addChunk (node:internal/streams/readable:561:12)
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]:    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]:    at Readable.push (node:internal/streams/readable:392:5)
+Feb 10 18:42:15 ip-172-31-20-164 web[6440]:    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]: #033[31m[Nest] 6440  - #033[39m02/10/2026, 6:42:18 PM #033[31m  ERROR#033[39m #033[38;5;3m[TypeOrmModule] #033[39m#033[31mUnable to connect to the database. Retrying (3)...#033[39m
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]: error: no pg_hba.conf entry for host "172.31.20.164", user "postgres", database "dimensionless", no encryption
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]:    at parseErrorMessage (/var/app/current/node_modules/pg-protocol/dist/parser.js:305:11)
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]:    at Parser.handlePacket (/var/app/current/node_modules/pg-protocol/dist/parser.js:143:27)
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]:    at Parser.parse (/var/app/current/node_modules/pg-protocol/dist/parser.js:37:38)
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]:    at Socket.<anonymous> (/var/app/current/node_modules/pg-protocol/dist/index.js:11:42)
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]:    at Socket.emit (node:events:524:28)
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]:    at addChunk (node:internal/streams/readable:561:12)
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]:    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]:    at Readable.push (node:internal/streams/readable:392:5)
+Feb 10 18:42:18 ip-172-31-20-164 web[6440]:    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]: #033[31m[Nest] 6440  - #033[39m02/10/2026, 6:42:21 PM #033[31m  ERROR#033[39m #033[38;5;3m[TypeOrmModule] #033[39m#033[31mUnable to connect to the database. Retrying (4)...#033[39m
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]: error: no pg_hba.conf entry for host "172.31.20.164", user "postgres", database "dimensionless", no encryption
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]:    at parseErrorMessage (/var/app/current/node_modules/pg-protocol/dist/parser.js:305:11)
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]:    at Parser.handlePacket (/var/app/current/node_modules/pg-protocol/dist/parser.js:143:27)
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]:    at Parser.parse (/var/app/current/node_modules/pg-protocol/dist/parser.js:37:38)
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]:    at Socket.<anonymous> (/var/app/current/node_modules/pg-protocol/dist/index.js:11:42)
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]:    at Socket.emit (node:events:524:28)
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]:    at addChunk (node:internal/streams/readable:561:12)
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]:    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]:    at Readable.push (node:internal/streams/readable:392:5)
+Feb 10 18:42:21 ip-172-31-20-164 web[6440]:    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]: #033[31m[Nest] 6440  - #033[39m02/10/2026, 6:42:24 PM #033[31m  ERROR#033[39m #033[38;5;3m[TypeOrmModule] #033[39m#033[31mUnable to connect to the database. Retrying (5)...#033[39m
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]: error: no pg_hba.conf entry for host "172.31.20.164", user "postgres", database "dimensionless", no encryption
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]:    at parseErrorMessage (/var/app/current/node_modules/pg-protocol/dist/parser.js:305:11)
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]:    at Parser.handlePacket (/var/app/current/node_modules/pg-protocol/dist/parser.js:143:27)
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]:    at Parser.parse (/var/app/current/node_modules/pg-protocol/dist/parser.js:37:38)
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]:    at Socket.<anonymous> (/var/app/current/node_modules/pg-protocol/dist/index.js:11:42)
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]:    at Socket.emit (node:events:524:28)
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]:    at addChunk (node:internal/streams/readable:561:12)
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]:    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]:    at Readable.push (node:internal/streams/readable:392:5)
+Feb 10 18:42:24 ip-172-31-20-164 web[6440]:    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]: #033[31m[Nest] 6440  - #033[39m02/10/2026, 6:42:27 PM #033[31m  ERROR#033[39m #033[38;5;3m[TypeOrmModule] #033[39m#033[31mUnable to connect to the database. Retrying (6)...#033[39m
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]: error: no pg_hba.conf entry for host "172.31.20.164", user "postgres", database "dimensionless", no encryption
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]:    at parseErrorMessage (/var/app/current/node_modules/pg-protocol/dist/parser.js:305:11)
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]:    at Parser.handlePacket (/var/app/current/node_modules/pg-protocol/dist/parser.js:143:27)
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]:    at Parser.parse (/var/app/current/node_modules/pg-protocol/dist/parser.js:37:38)
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]:    at Socket.<anonymous> (/var/app/current/node_modules/pg-protocol/dist/index.js:11:42)
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]:    at Socket.emit (node:events:524:28)
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]:    at addChunk (node:internal/streams/readable:561:12)
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]:    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]:    at Readable.push (node:internal/streams/readable:392:5)
+Feb 10 18:42:27 ip-172-31-20-164 web[6440]:    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]: #033[31m[Nest] 6440  - #033[39m02/10/2026, 6:42:30 PM #033[31m  ERROR#033[39m #033[38;5;3m[TypeOrmModule] #033[39m#033[31mUnable to connect to the database. Retrying (7)...#033[39m
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]: error: no pg_hba.conf entry for host "172.31.20.164", user "postgres", database "dimensionless", no encryption
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]:    at parseErrorMessage (/var/app/current/node_modules/pg-protocol/dist/parser.js:305:11)
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]:    at Parser.handlePacket (/var/app/current/node_modules/pg-protocol/dist/parser.js:143:27)
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]:    at Parser.parse (/var/app/current/node_modules/pg-protocol/dist/parser.js:37:38)
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]:    at Socket.<anonymous> (/var/app/current/node_modules/pg-protocol/dist/index.js:11:42)
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]:    at Socket.emit (node:events:524:28)
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]:    at addChunk (node:internal/streams/readable:561:12)
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]:    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]:    at Readable.push (node:internal/streams/readable:392:5)
+Feb 10 18:42:30 ip-172-31-20-164 web[6440]:    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]: #033[31m[Nest] 6440  - #033[39m02/10/2026, 6:42:33 PM #033[31m  ERROR#033[39m #033[38;5;3m[TypeOrmModule] #033[39m#033[31mUnable to connect to the database. Retrying (8)...#033[39m
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]: error: no pg_hba.conf entry for host "172.31.20.164", user "postgres", database "dimensionless", no encryption
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]:    at parseErrorMessage (/var/app/current/node_modules/pg-protocol/dist/parser.js:305:11)
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]:    at Parser.handlePacket (/var/app/current/node_modules/pg-protocol/dist/parser.js:143:27)
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]:    at Parser.parse (/var/app/current/node_modules/pg-protocol/dist/parser.js:37:38)
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]:    at Socket.<anonymous> (/var/app/current/node_modules/pg-protocol/dist/index.js:11:42)
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]:    at Socket.emit (node:events:524:28)
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]:    at addChunk (node:internal/streams/readable:561:12)
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]:    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]:    at Readable.push (node:internal/streams/readable:392:5)
+Feb 10 18:42:33 ip-172-31-20-164 web[6440]:    at TCP.onStreamRead (node:internal/stream_base_commons:191:23)
+
+
+----------------------------------------
+/var/log/eb-engine.log
+----------------------------------------
+2026/02/10 18:42:08.489845 [INFO] Running command: systemctl show -p PartOf xray.service
+2026/02/10 18:42:08.504960 [WARN] stopProcess Warning: process xray is not registered 
+2026/02/10 18:42:08.504986 [INFO] Running command: systemctl stop xray.service
+2026/02/10 18:42:08.521384 [INFO] Executing instruction: stop proxy
+2026/02/10 18:42:08.521403 [INFO] Running command: systemctl show -p PartOf httpd.service
+2026/02/10 18:42:08.537628 [WARN] deregisterProcess Warning: process httpd is not registered, skipping...
+
+2026/02/10 18:42:08.537653 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/02/10 18:42:08.550941 [INFO] Running command: systemctl is-active nginx.service
+2026/02/10 18:42:08.559674 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/02/10 18:42:08.569671 [INFO] Running command: systemctl stop nginx.service
+2026/02/10 18:42:08.747514 [INFO] Running command: systemctl disable nginx.service
+2026/02/10 18:42:09.018887 [INFO] Running command: systemctl daemon-reload
+2026/02/10 18:42:09.266828 [INFO] Running command: systemctl reset-failed
+2026/02/10 18:42:09.275041 [INFO] Executing instruction: FlipApplication
+2026/02/10 18:42:09.275062 [INFO] Fetching environment variables...
+2026/02/10 18:42:09.275270 [INFO] Purge old process...
+2026/02/10 18:42:09.275291 [INFO] Running command: systemctl stop eb-app.target
+2026/02/10 18:42:09.283187 [INFO] Running command: systemctl show -p ConsistsOf eb-app.target | cut -d= -f2
+2026/02/10 18:42:09.292826 [INFO] web.service
+
+2026/02/10 18:42:09.292842 [INFO] deregistering process: web
+2026/02/10 18:42:09.292853 [INFO] Running command: systemctl show -p PartOf web.service
+2026/02/10 18:42:09.302697 [INFO] Running command: systemctl is-active web.service
+2026/02/10 18:42:09.309958 [INFO] Running command: systemctl disable web.service
+2026/02/10 18:42:09.568359 [INFO] Removed "/etc/systemd/system/multi-user.target.wants/web.service".
+
+2026/02/10 18:42:09.568432 [INFO] Running command: systemctl daemon-reload
+2026/02/10 18:42:09.804831 [INFO] Running command: systemctl reset-failed
+2026/02/10 18:42:09.813361 [INFO] Running command: systemctl is-active web.service
+2026/02/10 18:42:09.820645 [INFO] Process web has been fully terminated
+2026/02/10 18:42:09.820661 [INFO] All processes have been fully terminated
+2026/02/10 18:42:09.820665 [INFO] Removing /var/app/current/ if it exists
+2026/02/10 18:42:09.854956 [INFO] Renaming /var/app/staging/ to /var/app/current/
+2026/02/10 18:42:09.854986 [INFO] Register application processes...
+2026/02/10 18:42:09.854990 [INFO] Registering the proc: web
+
+2026/02/10 18:42:09.854999 [INFO] Running command: systemctl show -p PartOf web.service
+2026/02/10 18:42:09.872602 [INFO] Running command: systemctl daemon-reload
+2026/02/10 18:42:10.118469 [INFO] Running command: systemctl reset-failed
+2026/02/10 18:42:10.126914 [INFO] Running command: systemctl is-enabled eb-app.target
+2026/02/10 18:42:10.134305 [INFO] Running command: systemctl enable eb-app.target
+2026/02/10 18:42:10.414149 [INFO] Running command: systemctl start eb-app.target
+2026/02/10 18:42:10.423453 [INFO] Running command: systemctl enable web.service
+2026/02/10 18:42:10.664613 [INFO] Created symlink /etc/systemd/system/multi-user.target.wants/web.service → /etc/systemd/system/web.service.
+
+2026/02/10 18:42:10.664646 [INFO] Running command: systemctl show -p PartOf web.service
+2026/02/10 18:42:10.675578 [INFO] Running command: systemctl is-active web.service
+2026/02/10 18:42:10.682826 [INFO] Running command: systemctl start web.service
+2026/02/10 18:42:10.747467 [INFO] Executing instruction: start X-Ray
+2026/02/10 18:42:10.747482 [INFO] X-Ray is not enabled.
+2026/02/10 18:42:10.747485 [INFO] Executing instruction: start proxy with new configuration
+2026/02/10 18:42:10.747506 [INFO] Running command: /usr/sbin/nginx -t -c /var/proxy/staging/nginx/nginx.conf
+2026/02/10 18:42:10.764437 [INFO] nginx: [warn] could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+nginx: the configuration file /var/proxy/staging/nginx/nginx.conf syntax is ok
+nginx: configuration file /var/proxy/staging/nginx/nginx.conf test is successful
+
+2026/02/10 18:42:10.764644 [INFO] Running command: cp -rp /var/proxy/staging/nginx/* /etc/nginx
+2026/02/10 18:42:10.767781 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/02/10 18:42:10.784618 [INFO] Running command: systemctl daemon-reload
+2026/02/10 18:42:11.061674 [INFO] Running command: systemctl reset-failed
+2026/02/10 18:42:11.070029 [INFO] Running command: systemctl show -p PartOf nginx.service
+2026/02/10 18:42:11.084035 [INFO] Running command: systemctl is-active nginx.service
+2026/02/10 18:42:11.094055 [INFO] Running command: systemctl start nginx.service
+2026/02/10 18:42:11.229813 [INFO] Executing instruction: configureSqsd
+2026/02/10 18:42:11.229829 [INFO] This is a web server environment instance, skip configure sqsd daemon ...
+2026/02/10 18:42:11.229832 [INFO] Executing instruction: startSqsd
+2026/02/10 18:42:11.229834 [INFO] This is a web server environment instance, skip start sqsd daemon ...
+2026/02/10 18:42:11.229837 [INFO] Executing instruction: Track pids in healthd
+2026/02/10 18:42:11.229840 [INFO] This is an enhanced health env...
+2026/02/10 18:42:11.229852 [INFO] Running command: systemctl show -p ConsistsOf aws-eb.target | cut -d= -f2
+2026/02/10 18:42:11.241105 [INFO] nginx.service cfn-hup.service healthd.service
+
+2026/02/10 18:42:11.241135 [INFO] Running command: systemctl show -p ConsistsOf eb-app.target | cut -d= -f2
+2026/02/10 18:42:11.251190 [INFO] web.service
+
+2026/02/10 18:42:11.251488 [INFO] Executing instruction: RunAppDeployPostDeployHooks
+2026/02/10 18:42:11.251530 [INFO] Executing platform hooks in .platform/hooks/postdeploy/
+2026/02/10 18:42:11.251549 [INFO] The dir .platform/hooks/postdeploy/ does not exist
+2026/02/10 18:42:11.251551 [INFO] Finished running scripts in /var/app/current/.platform/hooks/postdeploy
+2026/02/10 18:42:11.251555 [INFO] Executing cleanup logic
+2026/02/10 18:42:11.251631 [INFO] CommandService Response: {"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"Engine execution has succeeded.","returncode":0,"events":[{"msg":"Instance deployment completed successfully.","timestamp":1770748931251,"severity":"INFO"}]}]}
+
+2026/02/10 18:42:11.251746 [INFO] Platform Engine finished execution on command: app-deploy
+
+2026/02/10 18:42:34.562485 [INFO] Starting...
+2026/02/10 18:42:34.562523 [INFO] Starting EBPlatform-PlatformEngine
+2026/02/10 18:42:34.562542 [INFO] reading event message file
+2026/02/10 18:42:34.562944 [INFO] Engine received EB command cfn-hup-exec
+
+2026/02/10 18:42:34.626702 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBAutoScalingGroup --region ap-south-1
+2026/02/10 18:42:34.941834 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBBeanstalkMetadata --region ap-south-1
+2026/02/10 18:42:35.229751 [INFO] checking whether command tail-log is applicable to this instance...
+2026/02/10 18:42:35.229763 [INFO] this command is applicable to the instance, thus instance should execute command
+2026/02/10 18:42:35.229765 [INFO] Engine command: (tail-log)
+
+2026/02/10 18:42:35.229815 [INFO] Executing instruction: GetTailLogs
+2026/02/10 18:42:35.229819 [INFO] Tail Logs...
+2026/02/10 18:42:35.230256 [INFO] Running command: tail -n 100 /var/log/web.stdout.log
+2026/02/10 18:42:35.232589 [INFO] Running command: tail -n 100 /var/log/eb-engine.log
+
+
+----------------------------------------
+/var/log/eb-hooks.log
+----------------------------------------
+2026/02/10 18:41:50.761156 [INFO] Running command: .platform/hooks/prebuild/01_install_deps.sh
+2026/02/10 18:42:05.260631 [INFO] 
+added 63 packages, changed 756 packages, and audited 432 packages in 14s
+
+65 packages are looking for funding
+  run `npm fund` for details
+
+8 vulnerabilities (4 moderate, 4 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+2026/02/10 18:42:05.260680 [INFO] npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated npmlog@5.0.1: This package is no longer supported.
+npm warn deprecated multer@1.4.5-lts.2: Multer 1.x is impacted by a number of vulnerabilities, which have been patched in 2.x. You should upgrade to the latest 2.x version.
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+npm warn deprecated gauge@3.0.2: This package is no longer supported.
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated tar@6.2.1: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm notice
+npm notice New major version of npm available! 10.8.2 -> 11.9.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.9.0
+npm notice To update run: npm install -g npm@11.9.0
+npm notice
+
+
+
+----------------------------------------
+/var/log/nginx/access.log
+----------------------------------------
+172.31.4.176 - - [10/Feb/2026:18:29:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:30:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:30:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:30:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:30:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:30:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:30:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:30:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:30:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:31:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:31:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:31:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:31:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:31:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:31:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:31:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:31:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:32:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:32:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:32:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:32:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:32:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:32:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:32:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:32:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:33:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:33:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:33:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:33:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:33:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:33:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:33:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:33:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:34:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:34:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:34:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:34:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:34:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:34:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:34:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:34:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:35:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:35:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:35:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:35:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:35:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:35:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:35:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:35:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:36:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:36:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:36:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:36:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:36:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:36:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:36:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:36:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:37:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:37:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:37:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:37:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:37:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:37:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:37:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:37:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:38:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:38:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:38:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:38:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:38:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:38:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:38:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:38:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:39:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:39:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:39:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:39:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:39:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:39:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:39:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:39:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:40:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:40:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:40:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:40:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:40:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:40:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:40:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:40:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:41:10 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:41:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:41:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:41:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:41:40 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:41:43 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:41:55 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:41:58 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:42:13 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:42:25 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:42:28 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+
+
+----------------------------------------
+/var/log/nginx/error.log
+----------------------------------------
+2026/02/10 18:30:25 [error] 4955#4955: *281 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:30:28 [error] 4955#4955: *283 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:30:40 [error] 4955#4955: *285 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:30:43 [error] 4955#4955: *287 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:30:55 [error] 4955#4955: *289 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:30:58 [error] 4955#4955: *291 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:31:10 [error] 4954#4954: *293 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:31:13 [error] 4954#4954: *295 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:31:25 [error] 4954#4954: *297 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:31:28 [error] 4954#4954: *299 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:31:40 [error] 4954#4954: *301 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:31:43 [error] 4954#4954: *303 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:31:55 [error] 4954#4954: *305 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:31:58 [error] 4954#4954: *307 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:32:10 [error] 4954#4954: *309 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:32:13 [error] 4954#4954: *311 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:32:25 [error] 4954#4954: *313 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:32:28 [error] 4954#4954: *315 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:32:40 [error] 4954#4954: *317 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:32:43 [error] 4954#4954: *319 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:32:55 [error] 4954#4954: *321 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:32:58 [error] 4954#4954: *323 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:33:10 [error] 4955#4955: *325 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:33:13 [error] 4955#4955: *327 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:33:25 [error] 4955#4955: *329 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:33:28 [error] 4955#4955: *331 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:33:40 [error] 4955#4955: *333 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:33:43 [error] 4955#4955: *335 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:33:55 [error] 4955#4955: *337 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:33:58 [error] 4955#4955: *339 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:34:10 [error] 4955#4955: *341 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:34:13 [error] 4955#4955: *343 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:34:25 [error] 4955#4955: *345 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:34:28 [error] 4955#4955: *347 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:34:40 [error] 4955#4955: *349 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:34:43 [error] 4955#4955: *351 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:34:55 [error] 4955#4955: *353 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:34:58 [error] 4955#4955: *355 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:35:10 [error] 4954#4954: *357 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:35:13 [error] 4954#4954: *359 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:35:25 [error] 4954#4954: *361 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:35:28 [error] 4954#4954: *363 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:35:40 [error] 4954#4954: *365 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:35:43 [error] 4954#4954: *367 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:35:55 [error] 4954#4954: *369 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:35:58 [error] 4954#4954: *371 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:36:10 [error] 4954#4954: *373 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:36:13 [error] 4954#4954: *375 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:36:25 [error] 4954#4954: *377 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:36:28 [error] 4954#4954: *379 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:36:40 [error] 4954#4954: *381 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:36:43 [error] 4954#4954: *383 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:36:55 [error] 4954#4954: *385 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:36:58 [error] 4954#4954: *387 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:37:10 [error] 4955#4955: *389 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:37:13 [error] 4955#4955: *391 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:37:25 [error] 4955#4955: *393 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:37:28 [error] 4955#4955: *395 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:37:40 [error] 4955#4955: *397 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:37:43 [error] 4955#4955: *399 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:37:55 [error] 4955#4955: *401 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:37:58 [error] 4955#4955: *403 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:38:10 [error] 4955#4955: *405 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:38:13 [error] 4955#4955: *407 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:38:25 [error] 4955#4955: *409 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:38:28 [error] 4955#4955: *411 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:38:40 [error] 4955#4955: *413 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:38:43 [error] 4955#4955: *415 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:38:55 [error] 4955#4955: *417 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:38:58 [error] 4955#4955: *419 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:39:10 [error] 4954#4954: *421 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:39:13 [error] 4954#4954: *423 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:39:25 [error] 4954#4954: *425 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:39:28 [error] 4954#4954: *427 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:39:40 [error] 4954#4954: *429 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:39:43 [error] 4954#4954: *431 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:39:55 [error] 4954#4954: *433 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:39:58 [error] 4954#4954: *435 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:40:10 [error] 4954#4954: *437 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:40:13 [error] 4954#4954: *439 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:40:25 [error] 4954#4954: *441 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:40:28 [error] 4954#4954: *443 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:40:40 [error] 4954#4954: *445 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:40:43 [error] 4954#4954: *447 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:40:55 [error] 4954#4954: *449 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:40:58 [error] 4954#4954: *451 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:41:10 [error] 4955#4955: *453 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:41:13 [error] 4955#4955: *455 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:41:25 [error] 4955#4955: *457 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:41:28 [error] 4955#4955: *459 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:41:40 [error] 4955#4955: *461 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:41:43 [error] 4955#4955: *463 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:41:55 [error] 4955#4955: *465 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:41:58 [error] 4955#4955: *467 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:42:10 [warn] 6444#6444: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/10 18:42:11 [warn] 6483#6483: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/10 18:42:11 [warn] 6484#6484: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/10 18:42:13 [error] 6488#6488: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:42:25 [error] 6487#6487: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:42:28 [error] 6488#6488: *5 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+
+

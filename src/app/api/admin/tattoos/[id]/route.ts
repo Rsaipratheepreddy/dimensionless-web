@@ -1,19 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase-server';
-
-async function verifyAdmin(supabase: any) {
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) return { error: 'Unauthorized', status: 401 };
-
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-
-    if (profile?.role !== 'admin') return { error: 'Forbidden', status: 403 };
-    return { user };
-}
+import { backendFetch, forwardHeaders } from '@/utils/backend';
 
 // PUT /api/admin/tattoos/[id] - Update tattoo design
 export async function PUT(
@@ -21,36 +7,19 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const supabase = await createClient();
-        const verification = await verifyAdmin(supabase);
-        if ('error' in verification) {
-            return NextResponse.json({ error: verification.error }, { status: verification.status });
-        }
-
-        const body = await request.json();
         const { id } = await params;
-
-        // Sanitize UUID fields
-        const updateData = { ...body };
-        if (updateData.category_id === '') updateData.category_id = null;
-        if (updateData.artist_id === '') updateData.artist_id = null;
-
-        const { data: design, error } = await supabase
-            .from('tattoo_designs')
-            .update(updateData)
-            .eq('id', id)
-            .select()
-            .single();
-
-        if (error) throw error;
-
-        return NextResponse.json(design);
+        const body = await request.json();
+        const headers = forwardHeaders(request);
+        const res = await backendFetch(`/api/admin/tattoos/${id}`, {
+            method: 'PUT',
+            headers: { ...headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error('Error updating tattoo design:', error);
-        return NextResponse.json(
-            { error: 'Failed to update design' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to update design' }, { status: 500 });
     }
 }
 
@@ -60,27 +29,16 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const supabase = await createClient();
-        const verification = await verifyAdmin(supabase);
-        if ('error' in verification) {
-            return NextResponse.json({ error: verification.error }, { status: verification.status });
-        }
-
         const { id } = await params;
-
-        const { error } = await supabase
-            .from('tattoo_designs')
-            .delete()
-            .eq('id', id);
-
-        if (error) throw error;
-
-        return NextResponse.json({ success: true });
+        const headers = forwardHeaders(request);
+        const res = await backendFetch(`/api/admin/tattoos/${id}`, {
+            method: 'DELETE',
+            headers,
+        });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error('Error deleting tattoo design:', error);
-        return NextResponse.json(
-            { error: 'Failed to delete design' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to delete design' }, { status: 500 });
     }
 }

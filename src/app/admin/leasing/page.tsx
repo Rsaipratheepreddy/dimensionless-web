@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import {
     IconPlus,
@@ -85,23 +84,15 @@ export default function AdminLeasingPage() {
         setLoading(true);
         try {
             if (activeTab === 'inventory') {
-                const { data, error } = await supabase
-                    .from('leasable_paintings')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                if (error) throw error;
+                const res = await fetch('/api/admin/leasing/inventory');
+                if (!res.ok) throw new Error('Failed to fetch inventory');
+                const data = await res.json();
                 setInventory(data || []);
             } else {
-                const { data, error } = await supabase
-                    .from('lease_orders')
-                    .select(`
-                        *,
-                        profiles:user_id(full_name),
-                        leasable_paintings:painting_id(title)
-                    `)
-                    .order('created_at', { ascending: false });
-                if (error) throw error;
-                setOrders(data as any || []);
+                const res = await fetch('/api/admin/leasing/orders');
+                if (!res.ok) throw new Error('Failed to fetch orders');
+                const data = await res.json();
+                setOrders(data || []);
             }
         } catch (error: any) {
             toast.error(error.message);
@@ -127,11 +118,8 @@ export default function AdminLeasingPage() {
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this listing?')) return;
         try {
-            const { error } = await supabase
-                .from('leasable_paintings')
-                .delete()
-                .eq('id', id);
-            if (error) throw error;
+            const res = await fetch(`/api/admin/leasing/inventory/${id}`, { method: 'DELETE' });
+            if (!res.ok) throw new Error('Delete failed');
             toast.success('Listing deleted');
             fetchData();
         } catch (error: any) {
@@ -161,22 +149,22 @@ export default function AdminLeasingPage() {
         try {
             let imageUrl = previewUrl;
             if (imageFile) {
-                const fileExt = imageFile.name.split('.').pop();
-                const filePath = `leasing/${Date.now()}.${fileExt}`;
-                const { error: uploadError } = await supabase.storage.from('artwork-images').upload(filePath, imageFile);
-                if (uploadError) throw uploadError;
-                const { data: { publicUrl } } = supabase.storage.from('artwork-images').getPublicUrl(filePath);
-                imageUrl = publicUrl;
+                const fd = new FormData();
+                fd.append('file', imageFile);
+                const uploadRes = await fetch('/api/artworks/upload', { method: 'POST', body: fd });
+                if (!uploadRes.ok) throw new Error('Image upload failed');
+                const uploadData = await uploadRes.json();
+                imageUrl = uploadData.url || uploadData.image_url || imageUrl;
             }
 
             let artistAvatarUrl = artistPreviewUrl;
             if (artistAvatarFile) {
-                const fileExt = artistAvatarFile.name.split('.').pop();
-                const filePath = `artists/${Date.now()}.${fileExt}`;
-                const { error: uploadError } = await supabase.storage.from('artwork-images').upload(filePath, artistAvatarFile);
-                if (uploadError) throw uploadError;
-                const { data: { publicUrl } } = supabase.storage.from('artwork-images').getPublicUrl(filePath);
-                artistAvatarUrl = publicUrl;
+                const fd = new FormData();
+                fd.append('file', artistAvatarFile);
+                const uploadRes = await fetch('/api/artworks/upload', { method: 'POST', body: fd });
+                if (!uploadRes.ok) throw new Error('Avatar upload failed');
+                const uploadData = await uploadRes.json();
+                artistAvatarUrl = uploadData.url || uploadData.image_url || artistAvatarUrl;
             }
 
             const payload = {
@@ -194,46 +182,21 @@ export default function AdminLeasingPage() {
             };
 
             if (editingItem) {
-                const { error } = await supabase
-                    .from('leasable_paintings')
-                    .update(payload)
-                    .eq('id', editingItem.id);
-                if (error) throw error;
+                const res = await fetch(`/api/admin/leasing/inventory/${editingItem.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                if (!res.ok) throw new Error('Update failed');
                 toast.success('Leasable artwork updated!');
             } else {
-                const { data: newLeasable, error } = await supabase
-                    .from('leasable_paintings')
-                    .insert([payload])
-                    .select()
-                    .single();
-
-                if (error) throw error;
-
-                if (alsoListForSale && newLeasable) {
-                    const salePayload = {
-                        title: payload.title,
-                        description: payload.description,
-                        price: parseFloat(salePrice),
-                        image_url: payload.image_url,
-                        artist_name: payload.artist_name,
-                        artist_avatar_url: payload.artist_avatar_url,
-                        category: payload.category,
-                        is_leasable: true,
-                        leasing_id: newLeasable.id
-                    };
-                    const { error: saleError } = await supabase
-                        .from('paintings')
-                        .insert([salePayload]);
-
-                    if (saleError) {
-                        console.error('Failed to list for sale:', saleError);
-                        toast.error('Leasable added, but failed to list for sale.');
-                    } else {
-                        toast.success('Artwork listed for both Leasing and Sale!');
-                    }
-                } else {
-                    toast.success('Leasable artwork added!');
-                }
+                const res = await fetch('/api/admin/leasing/inventory', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ...payload, also_list_for_sale: alsoListForSale, sale_price: parseFloat(salePrice) }),
+                });
+                if (!res.ok) throw new Error('Create failed');
+                toast.success('Leasable artwork added!');
             }
 
             setIsModalOpen(false);
@@ -247,12 +210,13 @@ export default function AdminLeasingPage() {
     };
 
     const updateOrderStatus = async (orderId: string, newStatus: string) => {
-        const { error } = await supabase
-            .from('lease_orders')
-            .update({ status: newStatus })
-            .eq('id', orderId);
+        const res = await fetch(`/api/admin/leasing/orders/${orderId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: newStatus }),
+        });
 
-        if (error) {
+        if (!res.ok) {
             toast.error('Failed to update status');
         } else {
             toast.success('Order updated!');

@@ -1,19 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase-server';
-
-async function verifyAdmin(supabase: any) {
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) return { error: 'Unauthorized', status: 401 };
-
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-
-    if (profile?.role !== 'admin') return { error: 'Forbidden', status: 403 };
-    return { user };
-}
+import { backendFetch, forwardHeaders } from '@/utils/backend';
 
 // PUT /api/admin/categories/[id] - Update category
 export async function PUT(
@@ -21,31 +7,19 @@ export async function PUT(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const supabase = await createClient();
-        const verification = await verifyAdmin(supabase);
-        if ('error' in verification) {
-            return NextResponse.json({ error: verification.error }, { status: verification.status });
-        }
-
-        const body = await request.json();
         const { id } = await params;
-
-        const { data: category, error } = await supabase
-            .from('categories')
-            .update(body)
-            .eq('id', id)
-            .select()
-            .single();
-
-        if (error) throw error;
-
-        return NextResponse.json(category);
+        const body = await request.json();
+        const headers = forwardHeaders(request);
+        const res = await backendFetch(`/api/admin/categories/${id}`, {
+            method: 'PUT',
+            headers: { ...headers, 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error('Error updating category:', error);
-        return NextResponse.json(
-            { error: 'Failed to update category' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to update category' }, { status: 500 });
     }
 }
 
@@ -55,27 +29,13 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const supabase = await createClient();
-        const verification = await verifyAdmin(supabase);
-        if ('error' in verification) {
-            return NextResponse.json({ error: verification.error }, { status: verification.status });
-        }
-
         const { id } = await params;
-
-        const { error } = await supabase
-            .from('categories')
-            .delete()
-            .eq('id', id);
-
-        if (error) throw error;
-
-        return NextResponse.json({ success: true });
+        const headers = forwardHeaders(request);
+        const res = await backendFetch(`/api/admin/categories/${id}`, { method: 'DELETE', headers });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error('Error deleting category:', error);
-        return NextResponse.json(
-            { error: 'Failed to delete category' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to delete category' }, { status: 500 });
     }
 }

@@ -16,7 +16,6 @@ import {
     IconUpload,
     IconLoader2
 } from '@tabler/icons-react';
-import { supabase } from '@/utils/supabase';
 import './editor.css';
 import LottieLoader from '@/components/ui/LottieLoader';
 import { toast } from 'react-hot-toast';
@@ -139,20 +138,12 @@ export default function ClassEditorPage() {
             }
 
             setUploading(true);
-            const fileExt = file.name.split('.').pop();
-            const filePath = `art-classes/${Date.now()}.${fileExt}`;
-
-            const { error: uploadError } = await supabase.storage
-                .from('artwork-images')
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            const { data: { publicUrl } } = supabase.storage
-                .from('artwork-images')
-                .getPublicUrl(filePath);
-
-            setFormData({ ...formData, thumbnail_url: publicUrl });
+            const formDataUpload = new FormData();
+            formDataUpload.append('file', file);
+            const uploadRes = await fetch('/api/artworks/upload', { method: 'POST', body: formDataUpload });
+            if (!uploadRes.ok) throw new Error('Upload failed');
+            const uploadData = await uploadRes.json();
+            setFormData({ ...formData, thumbnail_url: uploadData.url || uploadData.image_url || '' });
             toast.success('Thumbnail uploaded!');
         } catch (error: any) {
             console.error('Upload error:', error);

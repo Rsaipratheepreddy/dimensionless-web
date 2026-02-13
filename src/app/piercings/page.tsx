@@ -67,7 +67,8 @@ export default function PiercingsPage() {
             const designsData = await designsRes.json();
             const categoriesData = await categoriesRes.json();
 
-            setDesigns(designsData);
+            // Extract piercings array from response object
+            setDesigns(designsData.piercings || designsData);
             setCategories(categoriesData);
         } catch (error) {
             console.error('Error fetching data:', error);

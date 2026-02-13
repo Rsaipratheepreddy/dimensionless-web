@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase-server';
+import { backendFetch } from '@/utils/backend';
 
 // GET /api/tattoos/[designId]
 export async function GET(
@@ -7,24 +7,12 @@ export async function GET(
     { params }: { params: Promise<{ designId: string }> }
 ) {
     try {
-        const supabase = await createClient();
-
         const { designId } = await params;
-
-        const { data: design, error } = await supabase
-            .from('tattoo_designs')
-            .select('*')
-            .eq('id', designId)
-            .single();
-
-        if (error) throw error;
-
-        return NextResponse.json(design);
+        const res = await backendFetch(`/api/tattoos/${designId}`);
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error('Error fetching design:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch design' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to fetch design' }, { status: 500 });
     }
 }

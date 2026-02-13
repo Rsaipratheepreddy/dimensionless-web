@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import * as XLSX from 'xlsx';
-import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconPlus, IconTrash, IconEdit, IconPhoto, IconFileSpreadsheet } from '@tabler/icons-react';
 import LottieLoader from '@/components/ui/LottieLoader';
@@ -44,13 +43,9 @@ export default function ShopPage() {
     const fetchPaintings = async () => {
         try {
             setLoading(true);
-            const { data, error } = await supabase
-                .from('paintings')
-                .select('*')
-                .eq('artist_id', user?.id)
-                .order('created_at', { ascending: false });
-
-            if (error) throw error;
+            const res = await fetch('/api/shop/paintings');
+            if (!res.ok) throw new Error('Failed to fetch');
+            const data = await res.json();
             setPaintings(data || []);
         } catch (error) {
             console.error('Error fetching paintings:', error);
@@ -76,61 +71,27 @@ export default function ShopPage() {
             let imageUrl = editingPainting?.image_url || '';
 
             if (imageFile) {
-                const fileExt = imageFile.name.split('.').pop();
-                const fileName = `${Math.random()}.${fileExt}`;
-                const filePath = `${user.id}/${fileName}`;
-
-                const { error: uploadError } = await supabase.storage
-                    .from('artwork-images')
-                    .upload(filePath, imageFile);
-
-                if (uploadError) throw uploadError;
-
-                const { data: { publicUrl } } = supabase.storage
-                    .from('artwork-images')
-                    .getPublicUrl(filePath);
-
-                imageUrl = publicUrl;
+                const formData = new FormData();
+                formData.append('file', imageFile);
+                const uploadRes = await fetch('/api/artworks/upload', { method: 'POST', body: formData });
+                if (!uploadRes.ok) throw new Error('Image upload failed');
+                const uploadData = await uploadRes.json();
+                imageUrl = uploadData.url || uploadData.image_url || imageUrl;
             }
             if (editingPainting) {
-                const { error } = await supabase
-                    .from('paintings')
-                    .update({
-                        title,
-                        description,
-                        price: parseFloat(price),
-                        image_url: imageUrl
-                    })
-                    .eq('id', editingPainting.id);
-
-                if (error) throw error;
+                const res = await fetch(`/api/shop/paintings/${editingPainting.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, description, price: parseFloat(price), image_url: imageUrl }),
+                });
+                if (!res.ok) throw new Error('Failed to update painting');
             } else {
-                const { data: newPainting, error } = await supabase
-                    .from('paintings')
-                    .insert([
-                        {
-                            artist_id: user.id,
-                            title,
-                            description,
-                            price: parseFloat(price),
-                            image_url: imageUrl,
-                            status: 'available'
-                        }
-                    ])
-                    .select()
-                    .single();
-
-                if (error) throw error;
-
-                // Automatically create a feed post for the new painting
-                if (newPainting) {
-                    await supabase.from('posts').insert([{
-                        user_id: user.id,
-                        type: 'painting',
-                        content: `Just listed a new artwork: ${title}`,
-                        painting_id: newPainting.id
-                    }]);
-                }
+                const res = await fetch('/api/shop/paintings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, description, price: parseFloat(price), image_url: imageUrl, status: 'available' }),
+                });
+                if (!res.ok) throw new Error('Failed to create painting');
             }
 
             setIsModalOpen(false);
@@ -193,21 +154,16 @@ export default function ShopPage() {
                     let imageUrl = '';
 
                     if (matchedFile) {
-                        const fileExt = matchedFile.name.split('.').pop();
-                        const fileName = `${Math.random()}.${fileExt}`;
-                        const filePath = `${user.id}/${fileName}`;
-
-                        const { error: uploadError } = await supabase.storage
-                            .from('artwork-images')
-                            .upload(filePath, matchedFile);
-
-                        if (!uploadError) {
-                            const { data: { publicUrl } } = supabase.storage
-                                .from('artwork-images')
-                                .getPublicUrl(filePath);
-                            imageUrl = publicUrl;
-                        } else {
-                            console.warn(`Failed to upload ${matchedFile.name}:`, uploadError);
+                        try {
+                            const formData = new FormData();
+                            formData.append('file', matchedFile);
+                            const uploadRes = await fetch('/api/artworks/upload', { method: 'POST', body: formData });
+                            if (uploadRes.ok) {
+                                const uploadData = await uploadRes.json();
+                                imageUrl = uploadData.url || uploadData.image_url || '';
+                            }
+                        } catch (err) {
+                            console.warn(`Failed to upload ${matchedFile.name}:`, err);
                         }
                     }
 
@@ -226,23 +182,12 @@ export default function ShopPage() {
                     return;
                 }
 
-                const { data: newPaintings, error } = await supabase
-                    .from('paintings')
-                    .insert(paintingsToInsert)
-                    .select();
-
-                if (error) throw error;
-
-                // Automatically create feed posts for bulk-uploaded paintings
-                if (newPaintings && newPaintings.length > 0) {
-                    const postInserts = newPaintings.map((p: Painting) => ({
-                        user_id: user.id,
-                        type: 'painting',
-                        content: `Just listed a new artwork: ${p.title}`,
-                        painting_id: p.id
-                    }));
-                    await supabase.from('posts').insert(postInserts);
-                }
+                const bulkRes = await fetch('/api/shop/paintings/bulk', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ paintings: paintingsToInsert }),
+                });
+                if (!bulkRes.ok) throw new Error('Bulk insert failed');
 
                 toast.success(`Successfully processed ${paintingsToInsert.length} artworks!`);
                 fetchPaintings();
@@ -278,12 +223,8 @@ export default function ShopPage() {
         if (!confirmed) return;
 
         try {
-            const { error } = await supabase
-                .from('paintings')
-                .delete()
-                .eq('id', id);
-
-            if (error) throw error;
+            const res = await fetch(`/api/shop/paintings/${id}`, { method: 'DELETE' });
+            if (!res.ok) throw new Error('Delete failed');
             toast.success('Artwork deleted successfully!');
             fetchPaintings();
         } catch (error: any) {
@@ -303,12 +244,8 @@ export default function ShopPage() {
         if (!confirmed) return;
 
         try {
-            const { error } = await supabase
-                .from('paintings')
-                .delete()
-                .eq('artist_id', user?.id);
-
-            if (error) throw error;
+            const res = await fetch('/api/shop/paintings?all=true', { method: 'DELETE' });
+            if (!res.ok) throw new Error('Delete all failed');
             fetchPaintings();
             toast.success('All artworks deleted successfully.');
         } catch (error: any) {

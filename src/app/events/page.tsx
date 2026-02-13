@@ -15,7 +15,6 @@ import Link from 'next/link';
 import './page.css';
 import { toast } from 'react-hot-toast';
 import LottieLoader from '@/components/ui/LottieLoader';
-import { supabase } from '@/utils/supabase';
 
 interface Event {
     id: string;
@@ -46,12 +45,11 @@ export default function EventsPage() {
 
     const fetchBanner = async () => {
         try {
-            const { data, error } = await supabase.from('home_config').select('*').eq('id', 'events_banner').single();
-            if (error) {
-                console.warn('Events banner fetch notice:', error.message || error);
-                return;
-            }
-            if (data) setBanner(data);
+            const res = await fetch('/api/admin/cms');
+            if (!res.ok) return;
+            const cmsData = await res.json();
+            const bannerData = Array.isArray(cmsData) ? cmsData.find((c: any) => c.id === 'events_banner') : null;
+            if (bannerData) setBanner(bannerData);
         } catch (error) {
             console.error('Unexpected error fetching events banner:', error);
         }
@@ -60,35 +58,13 @@ export default function EventsPage() {
     const fetchEvents = async () => {
         setLoading(true);
         try {
-            let query = supabase
-                .from('events')
-                .select(`
-                    *,
-                    category:event_categories(name)
-                `)
-                .eq('status', 'published')
-                .order('start_date', { ascending: true });
-
-            if (activeTab !== 'all') {
-                query = query.eq('type', activeTab);
-            }
-
-            if (selectedPricing === 'free') {
-                query = query.eq('price', 0);
-            } else if (selectedPricing === 'paid') {
-                query = query.gt('price', 0);
-            }
-
-            const { data, error } = await query;
-
-            if (error) throw error;
-
-            const formattedData = (data || []).map((e: any) => ({
-                ...e,
-                category_name: e.category?.name || 'General'
-            }));
-
-            setEvents(formattedData);
+            const params = new URLSearchParams();
+            if (activeTab !== 'all') params.append('type', activeTab);
+            if (selectedPricing !== 'all') params.append('pricing', selectedPricing);
+            const res = await fetch(`/api/events/list?${params.toString()}`);
+            if (!res.ok) throw new Error('Failed to fetch events');
+            const data = await res.json();
+            setEvents(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error('Error fetching events:', error);
             toast.error('Failed to load events');

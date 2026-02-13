@@ -1,0 +1,427 @@
+Retrieving logs...
+============= i-029c843bb4c7ef80c ==============
+----------------------------------------
+/var/log/eb-engine.log
+----------------------------------------
+2026/02/10 18:10:20.729445 [INFO] Starting EBPlatform-PlatformEngine
+2026/02/10 18:10:20.729465 [INFO] reading event message file
+2026/02/10 18:10:20.729776 [INFO] Engine received EB command cfn-hup-exec
+
+2026/02/10 18:10:20.796432 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBAutoScalingGroup --region ap-south-1
+2026/02/10 18:10:21.092624 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBBeanstalkMetadata --region ap-south-1
+2026/02/10 18:10:21.381006 [INFO] checking whether command tail-log is applicable to this instance...
+2026/02/10 18:10:21.381018 [INFO] this command is applicable to the instance, thus instance should execute command
+2026/02/10 18:10:21.381021 [INFO] Engine command: (tail-log)
+
+2026/02/10 18:10:21.381064 [INFO] Executing instruction: GetTailLogs
+2026/02/10 18:10:21.381066 [INFO] Tail Logs...
+2026/02/10 18:10:21.381436 [INFO] Running command: tail -n 100 /var/log/web.stdout.log
+2026/02/10 18:10:21.383506 [INFO] Running command: tail -n 100 /var/log/eb-engine.log
+2026/02/10 18:10:21.385196 [INFO] Running command: tail -n 100 /var/log/eb-hooks.log
+2026/02/10 18:10:21.386925 [INFO] Running command: tail -n 100 /var/log/nginx/access.log
+2026/02/10 18:10:21.388682 [INFO] Running command: tail -n 100 /var/log/nginx/error.log
+2026/02/10 18:10:21.454601 [INFO] Executing cleanup logic
+2026/02/10 18:10:21.454682 [INFO] CommandService Response: {"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"Engine execution has succeeded.","returncode":0,"events":[{"msg":"Instance deployment completed successfully.","timestamp":1770747021454,"severity":"INFO"}]}]}
+
+2026/02/10 18:10:21.454699 [INFO] Platform Engine finished execution on command: tail-log
+
+2026/02/10 18:10:37.593449 [INFO] Starting...
+2026/02/10 18:10:37.593493 [INFO] Starting EBPlatform-PlatformEngine
+2026/02/10 18:10:37.593513 [INFO] reading event message file
+2026/02/10 18:10:37.593805 [INFO] Engine received EB command cfn-hup-exec
+
+2026/02/10 18:10:37.662129 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBAutoScalingGroup --region ap-south-1
+2026/02/10 18:10:37.948619 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBBeanstalkMetadata --region ap-south-1
+2026/02/10 18:10:38.243671 [INFO] checking whether command bundle-log is applicable to this instance...
+2026/02/10 18:10:38.243682 [INFO] this command is applicable to the instance, thus instance should execute command
+2026/02/10 18:10:38.243684 [INFO] Engine command: (bundle-log)
+
+2026/02/10 18:10:38.243726 [INFO] Executing instruction: GetBundleLogs
+2026/02/10 18:10:38.243729 [INFO] Bundle Logs...
+2026/02/10 18:10:38.323139 [INFO] Executing cleanup logic
+2026/02/10 18:10:38.323214 [INFO] CommandService Response: {"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"Engine execution has succeeded.","returncode":0,"events":[{"msg":"Instance deployment completed successfully.","timestamp":1770747038323,"severity":"INFO"}]}]}
+
+2026/02/10 18:10:38.323230 [INFO] Platform Engine finished execution on command: bundle-log
+
+2026/02/10 18:10:58.497990 [INFO] Starting...
+2026/02/10 18:10:58.498035 [INFO] Starting EBPlatform-PlatformEngine
+2026/02/10 18:10:58.498055 [INFO] reading event message file
+2026/02/10 18:10:58.498363 [INFO] Engine received EB command cfn-hup-exec
+
+2026/02/10 18:10:58.564356 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBAutoScalingGroup --region ap-south-1
+2026/02/10 18:10:58.851350 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBBeanstalkMetadata --region ap-south-1
+2026/02/10 18:10:59.135391 [INFO] checking whether command tail-log is applicable to this instance...
+2026/02/10 18:10:59.135404 [INFO] this command is applicable to the instance, thus instance should execute command
+2026/02/10 18:10:59.135407 [INFO] Engine command: (tail-log)
+
+2026/02/10 18:10:59.135448 [INFO] Executing instruction: GetTailLogs
+2026/02/10 18:10:59.135450 [INFO] Tail Logs...
+2026/02/10 18:10:59.135797 [INFO] Running command: tail -n 100 /var/log/web.stdout.log
+2026/02/10 18:10:59.137720 [INFO] Running command: tail -n 100 /var/log/eb-engine.log
+2026/02/10 18:10:59.139523 [INFO] Running command: tail -n 100 /var/log/eb-hooks.log
+2026/02/10 18:10:59.141311 [INFO] Running command: tail -n 100 /var/log/nginx/access.log
+2026/02/10 18:10:59.143476 [INFO] Running command: tail -n 100 /var/log/nginx/error.log
+2026/02/10 18:10:59.189971 [INFO] Executing cleanup logic
+2026/02/10 18:10:59.190039 [INFO] CommandService Response: {"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"Engine execution has succeeded.","returncode":0,"events":[{"msg":"Instance deployment completed successfully.","timestamp":1770747059189,"severity":"INFO"}]}]}
+
+2026/02/10 18:10:59.190056 [INFO] Platform Engine finished execution on command: tail-log
+
+2026/02/10 18:11:19.369084 [INFO] Starting...
+2026/02/10 18:11:19.369142 [INFO] Starting EBPlatform-PlatformEngine
+2026/02/10 18:11:19.369164 [INFO] reading event message file
+2026/02/10 18:11:19.369464 [INFO] Engine received EB command cfn-hup-exec
+
+2026/02/10 18:11:19.432849 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBAutoScalingGroup --region ap-south-1
+2026/02/10 18:11:19.720542 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBBeanstalkMetadata --region ap-south-1
+2026/02/10 18:11:20.033780 [INFO] checking whether command tail-log is applicable to this instance...
+2026/02/10 18:11:20.033792 [INFO] this command is applicable to the instance, thus instance should execute command
+2026/02/10 18:11:20.033795 [INFO] Engine command: (tail-log)
+
+2026/02/10 18:11:20.033852 [INFO] Executing instruction: GetTailLogs
+2026/02/10 18:11:20.033856 [INFO] Tail Logs...
+2026/02/10 18:11:20.034138 [INFO] Running command: tail -n 100 /var/log/web.stdout.log
+2026/02/10 18:11:20.036380 [INFO] Running command: tail -n 100 /var/log/eb-engine.log
+2026/02/10 18:11:20.038226 [INFO] Running command: tail -n 100 /var/log/eb-hooks.log
+2026/02/10 18:11:20.039906 [INFO] Running command: tail -n 100 /var/log/nginx/access.log
+2026/02/10 18:11:20.041574 [INFO] Running command: tail -n 100 /var/log/nginx/error.log
+2026/02/10 18:11:20.099762 [INFO] Executing cleanup logic
+2026/02/10 18:11:20.099835 [INFO] CommandService Response: {"status":"SUCCESS","api_version":"1.0","results":[{"status":"SUCCESS","msg":"Engine execution has succeeded.","returncode":0,"events":[{"msg":"Instance deployment completed successfully.","timestamp":1770747080099,"severity":"INFO"}]}]}
+
+2026/02/10 18:11:20.099849 [INFO] Platform Engine finished execution on command: tail-log
+
+2026/02/10 18:11:40.785092 [INFO] Starting...
+2026/02/10 18:11:40.785133 [INFO] Starting EBPlatform-PlatformEngine
+2026/02/10 18:11:40.785152 [INFO] reading event message file
+2026/02/10 18:11:40.785453 [INFO] Engine received EB command cfn-hup-exec
+
+2026/02/10 18:11:40.883351 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBAutoScalingGroup --region ap-south-1
+2026/02/10 18:11:41.168555 [INFO] Running command: /opt/aws/bin/cfn-get-metadata -s arn:aws:cloudformation:ap-south-1:489785350916:stack/awseb-e-n2pg5kxp4i-stack/b9008f10-06a8-11f1-84d5-0aa932e61479 -r AWSEBBeanstalkMetadata --region ap-south-1
+2026/02/10 18:11:41.452320 [INFO] checking whether command tail-log is applicable to this instance...
+2026/02/10 18:11:41.452338 [INFO] this command is applicable to the instance, thus instance should execute command
+2026/02/10 18:11:41.452342 [INFO] Engine command: (tail-log)
+
+2026/02/10 18:11:41.452398 [INFO] Executing instruction: GetTailLogs
+2026/02/10 18:11:41.452402 [INFO] Tail Logs...
+2026/02/10 18:11:41.452690 [INFO] Running command: tail -n 100 /var/log/eb-engine.log
+
+
+----------------------------------------
+/var/log/eb-hooks.log
+----------------------------------------
+
+
+----------------------------------------
+/var/log/nginx/access.log
+----------------------------------------
+172.31.4.176 - - [10/Feb/2026:17:59:26 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:17:59:38 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:17:59:41 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:17:59:53 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:17:59:56 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:00:08 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:00:11 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:00:23 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:00:26 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:00:38 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:00:41 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:00:53 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:00:56 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:01:08 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:01:11 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:01:23 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:01:26 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:01:38 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:01:41 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:01:53 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:01:56 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:02:08 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:02:11 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:02:23 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:02:26 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:02:38 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1" "43.166.136.202"
+172.31.21.202 - - [10/Feb/2026:18:02:38 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:02:41 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:02:53 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:02:56 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:03:08 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:03:11 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:03:23 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:03:26 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:03:38 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:03:41 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:03:54 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:03:56 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:04:09 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:04:11 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:04:24 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:04:26 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:04:39 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:04:41 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:04:54 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:04:56 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:05:09 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:05:11 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:05:24 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:05:26 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:05:39 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:05:41 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:05:54 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:05:57 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:06:09 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:06:12 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:06:24 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:06:27 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:06:39 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:06:42 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:06:54 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:06:57 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:07:09 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:07:12 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:07:24 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:07:27 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:07:39 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:07:42 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:07:54 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:07:57 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:08:09 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:08:12 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:08:24 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:08:27 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:08:39 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:08:42 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:08:54 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:08:57 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:09:09 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:09:12 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:09:24 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:09:27 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:09:39 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:09:42 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:09:54 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:09:57 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:10:09 +0000] "HEAD /api HTTP/1.1" 502 0 "-" "curl/8.7.1" "103.203.175.237"
+172.31.21.202 - - [10/Feb/2026:18:10:09 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:10:12 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:10:24 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:10:27 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:10:39 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:10:42 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:10:54 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:10:57 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:11:09 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:11:12 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:11:24 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.4.176 - - [10/Feb/2026:18:11:27 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+172.31.21.202 - - [10/Feb/2026:18:11:39 +0000] "GET / HTTP/1.1" 502 150 "-" "ELB-HealthChecker/2.0" "-"
+
+
+----------------------------------------
+/var/log/nginx/error.log
+----------------------------------------
+2026/02/10 18:00:11 [error] 2176#2176: *132 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:00:23 [error] 2177#2177: *134 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:00:26 [error] 2177#2177: *136 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:00:38 [error] 2177#2177: *138 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:00:41 [error] 2177#2177: *140 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:00:53 [error] 2177#2177: *142 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:00:56 [error] 2177#2177: *144 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:01:08 [error] 2177#2177: *146 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:01:11 [error] 2177#2177: *148 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:01:23 [error] 2177#2177: *150 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:01:26 [error] 2177#2177: *152 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:01:38 [error] 2177#2177: *154 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:01:41 [error] 2177#2177: *156 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:01:53 [error] 2177#2177: *158 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:01:56 [error] 2177#2177: *160 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:02:08 [error] 2177#2177: *162 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:02:11 [error] 2177#2177: *164 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:02:23 [error] 2176#2176: *166 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:02:26 [error] 2176#2176: *168 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:02:38 [error] 2176#2176: *170 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "15.207.145.169"
+2026/02/10 18:02:38 [error] 2176#2176: *172 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:02:41 [error] 2176#2176: *174 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:02:53 [error] 2176#2176: *176 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:02:56 [error] 2176#2176: *178 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:03:08 [error] 2176#2176: *180 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:03:11 [error] 2176#2176: *182 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:03:23 [error] 2176#2176: *184 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:03:26 [error] 2176#2176: *186 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:03:38 [error] 2176#2176: *188 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:03:41 [error] 2176#2176: *190 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:03:54 [error] 2176#2176: *192 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:03:56 [error] 2176#2176: *194 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:04:09 [error] 2176#2176: *196 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:04:11 [error] 2177#2177: *198 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:04:24 [error] 2177#2177: *200 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:04:26 [error] 2177#2177: *202 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:04:39 [error] 2177#2177: *204 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:04:41 [error] 2177#2177: *206 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:04:54 [error] 2177#2177: *208 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:04:56 [error] 2177#2177: *210 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:05:09 [error] 2177#2177: *212 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:05:11 [error] 2177#2177: *214 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:05:24 [error] 2177#2177: *216 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:05:26 [error] 2177#2177: *218 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:05:39 [error] 2177#2177: *220 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:05:41 [error] 2177#2177: *222 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:05:54 [error] 2177#2177: *224 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:05:57 [error] 2177#2177: *226 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:06:09 [error] 2177#2177: *228 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:06:12 [error] 2176#2176: *230 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:06:24 [error] 2176#2176: *232 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:06:27 [error] 2176#2176: *234 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:06:39 [error] 2176#2176: *236 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:06:42 [error] 2176#2176: *238 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:06:54 [error] 2176#2176: *240 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:06:57 [error] 2176#2176: *242 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:07:09 [error] 2176#2176: *244 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:07:12 [error] 2176#2176: *246 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:07:24 [error] 2176#2176: *248 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:07:27 [error] 2176#2176: *250 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:07:39 [error] 2176#2176: *252 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:07:42 [error] 2176#2176: *254 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:07:54 [error] 2176#2176: *256 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:07:57 [error] 2176#2176: *258 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:08:05 [warn] 3341#3341: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/10 18:08:05 [warn] 3391#3391: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/10 18:08:05 [warn] 3392#3392: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/10 18:08:09 [error] 3394#3394: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:08:12 [error] 3395#3395: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:08:24 [error] 3394#3394: *5 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:08:27 [error] 3394#3394: *7 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:08:39 [error] 3394#3394: *9 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:08:42 [error] 3394#3394: *11 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:08:54 [error] 3394#3394: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:08:57 [error] 3394#3394: *15 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:09:09 [error] 3394#3394: *17 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:09:12 [error] 3394#3394: *19 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:09:24 [error] 3394#3394: *21 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:09:27 [error] 3394#3394: *23 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:09:39 [error] 3394#3394: *25 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:09:42 [error] 3394#3394: *27 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:09:49 [warn] 4108#4108: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/10 18:09:49 [warn] 4157#4157: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/10 18:09:49 [warn] 4159#4159: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size
+2026/02/10 18:09:54 [error] 4162#4162: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:09:57 [error] 4161#4161: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:10:09 [error] 4162#4162: *5 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "HEAD /api HTTP/1.1", upstream: "http://127.0.0.1:8080/api", host: "dimensionless-prod.eba-mexe2vg2.ap-south-1.elasticbeanstalk.com"
+2026/02/10 18:10:09 [error] 4162#4162: *7 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:10:12 [error] 4162#4162: *9 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:10:24 [error] 4162#4162: *11 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:10:27 [error] 4162#4162: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:10:39 [error] 4162#4162: *15 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:10:42 [error] 4162#4162: *17 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:10:54 [error] 4162#4162: *19 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:10:57 [error] 4162#4162: *21 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:11:09 [error] 4162#4162: *23 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:11:12 [error] 4162#4162: *25 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:11:24 [error] 4162#4162: *27 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:11:27 [error] 4162#4162: *29 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.4.176, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+2026/02/10 18:11:39 [error] 4162#4162: *31 connect() failed (111: Connection refused) while connecting to upstream, client: 172.31.21.202, server: , request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "172.31.20.164"
+
+
+----------------------------------------
+/var/log/web.stdout.log
+----------------------------------------
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:    at require (node:internal/modules/helpers:182:18)
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:    at Object.<anonymous> (/var/app/current/dist/main.js:8:18)
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:    at __webpack_require__ (/var/app/current/dist/main.js:2379:42)
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:    at /var/app/current/dist/main.js:2392:16
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:    at /var/app/current/dist/main.js:2423:3
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:    at Object.<anonymous> (/var/app/current/dist/main.js:2425:12)
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:    at Module._compile (node:internal/modules/cjs/loader:1521:14) {
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:  code: 'MODULE_NOT_FOUND',
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]:  requireStack: [ '/var/app/current/dist/main.js' ]
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]: }
+Feb 10 18:09:50 ip-172-31-20-164 web[4191]: Node.js v20.19.5
+Feb 10 18:09:51 ip-172-31-20-164 web[4200]: > dimensionless-backend@1.0.0 start:prod
+Feb 10 18:09:51 ip-172-31-20-164 web[4200]: > node dist/main
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]: node:internal/modules/cjs/loader:1210
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:  throw err;
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:  ^
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]: Error: Cannot find module '@nestjs/core'
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]: Require stack:
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]: - /var/app/current/dist/main.js
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at Module._load (node:internal/modules/cjs/loader:1038:27)
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at require (node:internal/modules/helpers:182:18)
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at Object.<anonymous> (/var/app/current/dist/main.js:8:18)
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at __webpack_require__ (/var/app/current/dist/main.js:2379:42)
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at /var/app/current/dist/main.js:2392:16
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at /var/app/current/dist/main.js:2423:3
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at Object.<anonymous> (/var/app/current/dist/main.js:2425:12)
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:    at Module._compile (node:internal/modules/cjs/loader:1521:14) {
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:  code: 'MODULE_NOT_FOUND',
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]:  requireStack: [ '/var/app/current/dist/main.js' ]
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]: }
+Feb 10 18:09:51 ip-172-31-20-164 web[4214]: Node.js v20.19.5
+Feb 10 18:09:51 ip-172-31-20-164 web[4222]: > dimensionless-backend@1.0.0 start:prod
+Feb 10 18:09:51 ip-172-31-20-164 web[4222]: > node dist/main
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]: node:internal/modules/cjs/loader:1210
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:  throw err;
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:  ^
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]: Error: Cannot find module '@nestjs/core'
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]: Require stack:
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]: - /var/app/current/dist/main.js
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at Module._load (node:internal/modules/cjs/loader:1038:27)
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at require (node:internal/modules/helpers:182:18)
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at Object.<anonymous> (/var/app/current/dist/main.js:8:18)
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at __webpack_require__ (/var/app/current/dist/main.js:2379:42)
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at /var/app/current/dist/main.js:2392:16
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at /var/app/current/dist/main.js:2423:3
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at Object.<anonymous> (/var/app/current/dist/main.js:2425:12)
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:    at Module._compile (node:internal/modules/cjs/loader:1521:14) {
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:  code: 'MODULE_NOT_FOUND',
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]:  requireStack: [ '/var/app/current/dist/main.js' ]
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]: }
+Feb 10 18:09:52 ip-172-31-20-164 web[4236]: Node.js v20.19.5
+Feb 10 18:09:52 ip-172-31-20-164 web[4244]: > dimensionless-backend@1.0.0 start:prod
+Feb 10 18:09:52 ip-172-31-20-164 web[4244]: > node dist/main
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]: node:internal/modules/cjs/loader:1210
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:  throw err;
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:  ^
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]: Error: Cannot find module '@nestjs/core'
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]: Require stack:
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]: - /var/app/current/dist/main.js
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at Module._load (node:internal/modules/cjs/loader:1038:27)
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at require (node:internal/modules/helpers:182:18)
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at Object.<anonymous> (/var/app/current/dist/main.js:8:18)
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at __webpack_require__ (/var/app/current/dist/main.js:2379:42)
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at /var/app/current/dist/main.js:2392:16
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at /var/app/current/dist/main.js:2423:3
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at Object.<anonymous> (/var/app/current/dist/main.js:2425:12)
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:    at Module._compile (node:internal/modules/cjs/loader:1521:14) {
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:  code: 'MODULE_NOT_FOUND',
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]:  requireStack: [ '/var/app/current/dist/main.js' ]
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]: }
+Feb 10 18:09:52 ip-172-31-20-164 web[4258]: Node.js v20.19.5
+Feb 10 18:09:53 ip-172-31-20-164 web[4266]: > dimensionless-backend@1.0.0 start:prod
+Feb 10 18:09:53 ip-172-31-20-164 web[4266]: > node dist/main
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]: node:internal/modules/cjs/loader:1210
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:  throw err;
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:  ^
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]: Error: Cannot find module '@nestjs/core'
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]: Require stack:
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]: - /var/app/current/dist/main.js
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at Module._load (node:internal/modules/cjs/loader:1038:27)
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at Module.require (node:internal/modules/cjs/loader:1289:19)
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at require (node:internal/modules/helpers:182:18)
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at Object.<anonymous> (/var/app/current/dist/main.js:8:18)
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at __webpack_require__ (/var/app/current/dist/main.js:2379:42)
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at /var/app/current/dist/main.js:2392:16
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at /var/app/current/dist/main.js:2423:3
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at Object.<anonymous> (/var/app/current/dist/main.js:2425:12)
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:    at Module._compile (node:internal/modules/cjs/loader:1521:14) {
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:  code: 'MODULE_NOT_FOUND',
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]:  requireStack: [ '/var/app/current/dist/main.js' ]
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]: }
+Feb 10 18:09:53 ip-172-31-20-164 web[4280]: Node.js v20.19.5
+
+

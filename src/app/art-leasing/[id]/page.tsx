@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect, use } from 'react';
-import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import {
@@ -54,13 +53,9 @@ export default function LeaseDetailPage({ params }: { params: Promise<{ id: stri
 
     const fetchPainting = async (paintingId: string) => {
         try {
-            const { data, error } = await supabase
-                .from('leasable_paintings')
-                .select('*')
-                .eq('id', paintingId)
-                .single();
-
-            if (error) throw error;
+            const res = await fetch(`/api/art-leasing/${paintingId}`);
+            if (!res.ok) throw new Error('Not found');
+            const data = await res.json();
             setPainting(data);
         } catch (error) {
             console.error('Error fetching painting:', error);
@@ -116,16 +111,12 @@ export default function LeaseDetailPage({ params }: { params: Promise<{ id: stri
 
         setBooking(true);
         try {
-            const { error } = await supabase.from('lease_orders').insert([{
-                user_id: profile.id,
-                painting_id: id,
-                start_date: startDate,
-                end_date: endDate,
-                total_price: totalPrice,
-                status: 'pending'
-            }]);
-
-            if (error) throw error;
+            const res = await fetch('/api/art-leasing/lease', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ painting_id: id, start_date: startDate, end_date: endDate, total_price: totalPrice }),
+            });
+            if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Lease failed'); }
             toast.success('Lease request sent! Our team will contact you soon.');
             router.push('/orders');
         } catch (error: any) {
