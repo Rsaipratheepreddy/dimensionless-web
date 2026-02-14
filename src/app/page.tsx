@@ -84,42 +84,38 @@ export default function Home() {
                         </Link>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {homeData?.artworks.map((artwork) => (
-                            <Link
-                                key={artwork.id}
-                                href={`/shop/${artwork.id}`}
-                                className="group"
-                            >
-                                <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
-                                    {artwork.image_url ? (
-                                        <div className="relative h-64 w-full bg-gray-200 overflow-hidden">
-                                            <Image
-                                                src={artwork.image_url}
-                                                alt={artwork.title}
-                                                width={400}
-                                                height={256}
-                                                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                                                unoptimized
-                                            />
+                        {homeData?.artworks && homeData.artworks.length > 0 ? (
+                            homeData.artworks.map((artwork) => (
+                                <Link
+                                    key={artwork.id}
+                                    href={`/shop/${artwork.id}`}
+                                    className="group"
+                                >
+                                    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+                                        <div className="h-64 bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-6">
+                                            <div className="text-center">
+                                                <div className="text-4xl mb-2">🎨</div>
+                                                <p className="text-gray-600 font-medium">{artwork.title}</p>
+                                            </div>
                                         </div>
-                                    ) : (
-                                        <div className="h-64 bg-gray-200 flex items-center justify-center">
-                                            <span className="text-gray-400">No image</span>
+                                        <div className="p-4">
+                                            <h3 className="font-semibold text-lg text-gray-900 mb-2">
+                                                {artwork.title}
+                                            </h3>
+                                            {artwork.price && (
+                                                <p className="text-blue-600 font-bold">
+                                                    ₹{Number(artwork.price).toLocaleString()}
+                                                </p>
+                                            )}
                                         </div>
-                                    )}
-                                    <div className="p-4">
-                                        <h3 className="font-semibold text-lg text-gray-900 mb-2">
-                                            {artwork.title}
-                                        </h3>
-                                        {artwork.price && (
-                                            <p className="text-blue-600 font-bold">
-                                                ₹{artwork.price.toLocaleString()}
-                                            </p>
-                                        )}
                                     </div>
-                                </div>
-                            </Link>
-                        ))}
+                                </Link>
+                            ))
+                        ) : (
+                            <div className="col-span-3 text-center py-12">
+                                <p className="text-gray-500">No artworks available</p>
+                            </div>
+                        )}
                     </div>
                 </section>
 
@@ -135,39 +131,35 @@ export default function Home() {
                         </Link>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {homeData?.tattoos.map((tattoo) => (
-                            <div
-                                key={tattoo.id}
-                                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
-                            >
-                                {tattoo.image_url ? (
-                                    <div className="relative h-64 w-full bg-gray-200 overflow-hidden">
-                                        <Image
-                                            src={tattoo.image_url}
-                                            alt={tattoo.name}
-                                            width={400}
-                                            height={256}
-                                            className="w-full h-64 object-cover"
-                                            unoptimized
-                                        />
+                        {homeData?.tattoos && homeData.tattoos.length > 0 ? (
+                            homeData.tattoos.map((tattoo) => (
+                                <div
+                                    key={tattoo.id}
+                                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
+                                >
+                                    <div className="h-64 bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-6">
+                                        <div className="text-center">
+                                            <div className="text-4xl mb-2">✨</div>
+                                            <p className="text-gray-600 font-medium">{tattoo.name}</p>
+                                        </div>
                                     </div>
-                                ) : (
-                                    <div className="h-64 bg-gray-200 flex items-center justify-center">
-                                        <span className="text-gray-400">No image</span>
+                                    <div className="p-4">
+                                        <h3 className="font-semibold text-lg text-gray-900 mb-2">
+                                            {tattoo.name}
+                                        </h3>
+                                        {tattoo.base_price && (
+                                            <p className="text-blue-600 font-bold">
+                                                Starting at ₹{Number(tattoo.base_price).toLocaleString()}
+                                            </p>
+                                        )}
                                     </div>
-                                )}
-                                <div className="p-4">
-                                    <h3 className="font-semibold text-lg text-gray-900 mb-2">
-                                        {tattoo.name}
-                                    </h3>
-                                    {tattoo.base_price && (
-                                        <p className="text-blue-600 font-bold">
-                                            Starting at ₹{tattoo.base_price.toLocaleString()}
-                                        </p>
-                                    )}
                                 </div>
+                            ))
+                        ) : (
+                            <div className="col-span-3 text-center py-12">
+                                <p className="text-gray-500">No tattoo designs available</p>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </section>
 
