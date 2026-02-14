@@ -26,7 +26,8 @@ export class ArtworksService {
         const query = this.artworksRepository
             .createQueryBuilder('artwork')
             .leftJoinAndSelect('artwork.images', 'images')
-            .leftJoinAndSelect('artwork.artist', 'artist')
+            .leftJoin('artwork.artist', 'artist')
+            .addSelect(['artist.id', 'artist.email', 'artist.full_name'])
             .orderBy('artwork.created_at', 'DESC');
 
         if (filters?.status) {

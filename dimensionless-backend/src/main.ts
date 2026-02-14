@@ -6,9 +6,9 @@ import { AppModule } from './app.module';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    // Enable CORS
+    // Enable CORS - allow all since API calls are proxied through Next.js server-side
     app.enableCors({
-        origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : true,
+        origin: true,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
