@@ -32,6 +32,7 @@ export class ArtworksService {
 
         const query = this.artworksRepository
             .createQueryBuilder('artwork')
+            .leftJoinAndSelect('artwork.images', 'images')
             .orderBy('artwork.created_at', 'DESC');
 
         if (filters?.status) {
@@ -53,8 +54,14 @@ export class ArtworksService {
             .take(limit)
             .getManyAndCount();
 
+        // Map primary image to image_url for easier frontend consumption
+        const dataWithImageUrl = data.map(artwork => ({
+            ...artwork,
+            image_url: artwork.images?.find(img => img.is_primary)?.image_url || artwork.images?.[0]?.image_url || null,
+        }));
+
         return {
-            data,
+            data: dataWithImageUrl,
             meta: {
                 total,
                 page,
