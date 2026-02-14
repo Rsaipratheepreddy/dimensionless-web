@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Artwork, ArtworkStatus } from './entities/artwork.entity';
 import { ArtworkImage } from './entities/artwork-image.entity';
+import { PaginationDto, PaginatedResponse } from '../common/dto/pagination.dto';
 
 @Injectable()
 export class ArtworksService {
@@ -18,11 +19,17 @@ export class ArtworksService {
         return this.artworksRepository.save(artwork);
     }
 
-    async findAll(filters?: {
-        status?: ArtworkStatus;
-        category?: string;
-        artist_id?: string;
-    }): Promise<Artwork[]> {
+    async findAll(
+        paginationDto: PaginationDto,
+        filters?: {
+            status?: ArtworkStatus;
+            category?: string;
+            artist_id?: string;
+        }
+    ): Promise<PaginatedResponse<Artwork>> {
+        const { page = 1, limit = 20 } = paginationDto;
+        const skip = (page - 1) * limit;
+
         const query = this.artworksRepository
             .createQueryBuilder('artwork')
             .orderBy('artwork.created_at', 'DESC');
@@ -41,7 +48,20 @@ export class ArtworksService {
             });
         }
 
-        return query.getMany();
+        const [data, total] = await query
+            .skip(skip)
+            .take(limit)
+            .getManyAndCount();
+
+        return {
+            data,
+            meta: {
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit),
+            },
+        };
     }
 
     async findOne(id: string): Promise<Artwork> {

@@ -21,6 +21,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
 import { ArtworkStatus } from './entities/artwork.entity';
 import { StorageService } from '../storage/storage.service';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @ApiTags('artworks')
 @Controller('artworks')
@@ -32,11 +33,12 @@ export class ArtworksController {
 
     @Get()
     findAll(
+        @Query() paginationDto: PaginationDto,
         @Query('status') status?: ArtworkStatus,
         @Query('category') category?: string,
         @Query('artist_id') artist_id?: string,
     ) {
-        return this.artworksService.findAll({ status, category, artist_id });
+        return this.artworksService.findAll(paginationDto, { status, category, artist_id });
     }
 
     @Get(':id')

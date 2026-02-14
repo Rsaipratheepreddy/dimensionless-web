@@ -63,4 +63,26 @@ export class AuthService {
             throw new UnauthorizedException('Invalid token');
         }
     }
+
+    async googleLogin(googleUser: {
+        email: string;
+        full_name: string;
+        avatar_url: string;
+        googleId: string;
+    }) {
+        // Check if user exists
+        let user = await this.usersService.findByEmail(googleUser.email);
+
+        if (!user) {
+            // Create new user from Google profile
+            user = await this.usersService.create({
+                email: googleUser.email,
+                full_name: googleUser.full_name,
+                avatar_url: googleUser.avatar_url,
+                password: null, // No password for OAuth users
+            });
+        }
+
+        return this.login(user);
+    }
 }
