@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --webpack --no-turbopack-warning",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "pwa:icons": "node scripts/generate-pwa-icons.js"
