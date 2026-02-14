@@ -50,18 +50,18 @@ export default function TattoosPage() {
     const [loadedImages, setLoadedImages] = useState<{ [key: string]: boolean }>({});
 
     // 1. Fetch Tattoo Designs
-    const { data: designs, isValidating: designsValidating, error: designsError } = useSWR<TattooDesign[]>(
+    const { data: designsResponse, isValidating: designsValidating, error: designsError } = useSWR(
         '/api/tattoos',
         (url: string) => fetch(url).then(async (res) => {
             if (!res.ok) {
                 const errorData = await res.json().catch(() => ({}));
                 throw new Error(errorData.error || 'Failed to fetch');
             }
-            const data = await res.json();
-            // Extract tattoos array from response object
-            return data.tattoos || data;
+            return res.json();
         })
     );
+
+    const designs = Array.isArray(designsResponse?.data) ? designsResponse.data : [];
 
     // 2. Fetch Categories
     const { data: categories, isValidating: categoriesValidating, error: categoriesError } = useSWR<Category[]>(
@@ -77,7 +77,7 @@ export default function TattoosPage() {
 
     const sizes = ['all', 'Small', 'Medium', 'Large'];
 
-    const filteredDesigns = (designs || []).filter(design => {
+    const filteredDesigns = designs.filter((design: TattooDesign) => {
         const matchesSearch = design.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             design.description?.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = selectedCategory === 'all' || design.category_id === selectedCategory;
