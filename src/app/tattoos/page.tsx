@@ -61,13 +61,19 @@ export default function TattoosPage() {
         })
     );
 
-    const designs = Array.isArray(designsResponse?.data) ? designsResponse.data : [];
+    const designs: TattooDesign[] = Array.isArray(designsResponse?.data) ? designsResponse.data : (Array.isArray(designsResponse) ? designsResponse : []);
 
-    // 2. Fetch Categories
-    const { data: categories, isValidating: categoriesValidating, error: categoriesError } = useSWR<Category[]>(
+    // 2. Fetch Categories (endpoint may not exist yet)
+    const { data: categoriesResponse, isValidating: categoriesValidating, error: categoriesError } = useSWR(
         '/api/categories?type=tattoo',
-        (url: string) => fetch(url).then(res => res.json())
+        (url: string) => fetch(url).then(res => {
+            if (!res.ok) return [];
+            return res.json();
+        }),
+        { fallbackData: [] }
     );
+
+    const categories: Category[] = Array.isArray(categoriesResponse) ? categoriesResponse : [];
 
     // 3. Fetch Bookings
     const { data: bookings = [], isValidating: bookingsValidating } = useSWR<Booking[]>(
@@ -77,7 +83,7 @@ export default function TattoosPage() {
 
     const sizes = ['all', 'Small', 'Medium', 'Large'];
 
-    const filteredDesigns = designs.filter((design: TattooDesign) => {
+    const filteredDesigns = designs.filter((design) => {
         const matchesSearch = design.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             design.description?.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = selectedCategory === 'all' || design.category_id === selectedCategory;
@@ -85,8 +91,8 @@ export default function TattoosPage() {
         return matchesSearch && matchesCategory && matchesSize;
     });
 
-    const isInitialLoading = !designs && !designsError;
-    const isCategoryLoading = !categories && !categoriesError;
+    const isInitialLoading = !designsResponse && !designsError;
+    const isCategoryLoading = false;
 
     return (
         <AppLayout>
@@ -167,7 +173,7 @@ export default function TattoosPage() {
                             ) : (
                                 <div className="tattoos-grid">
                                     {filteredDesigns.map(design => {
-                                        const category = (categories || []).find(c => c.id === design.category_id);
+                                        const category = categories.find((c: Category) => c.id === design.category_id);
                                         return (
                                             <div key={design.id} className="tattoo-card">
                                                 <div className={`tattoo-image ${loadedImages[design.id] ? 'loaded' : ''}`}>
