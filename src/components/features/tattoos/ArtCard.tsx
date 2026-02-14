@@ -61,6 +61,7 @@ const ArtCard: React.FC<ArtCardProps> = ({
                     fill
                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                     priority={false}
+                    unoptimized={!!(image && image.startsWith('data:'))}
                     onLoad={() => setImageLoaded(true)}
                     style={{ objectFit: 'cover' }}
                 />

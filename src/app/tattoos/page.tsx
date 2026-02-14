@@ -183,6 +183,7 @@ export default function TattoosPage() {
                                                         width={600}
                                                         height={600}
                                                         loading="lazy"
+                                                        unoptimized={!!(design.image_url && design.image_url.startsWith('data:'))}
                                                         onLoad={() => setLoadedImages(prev => ({ ...prev, [design.id]: true }))}
                                                     />
                                                 </div>
