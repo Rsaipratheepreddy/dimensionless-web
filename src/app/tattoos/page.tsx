@@ -136,7 +136,7 @@ export default function TattoosPage() {
                                 >
                                     All Designs
                                 </button>
-                                {categories?.map(cat => (
+                                {Array.isArray(categories) && categories.map(cat => (
                                     <button
                                         key={cat.id}
                                         className={`filter-btn ${selectedCategory === cat.id ? 'active' : ''}`}
