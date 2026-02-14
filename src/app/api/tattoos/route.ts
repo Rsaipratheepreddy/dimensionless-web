@@ -39,7 +39,8 @@ export async function GET(request: NextRequest) {
             }, { status: 500 });
         }
 
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/tattoos?limit=${limit}&offset=${offset}`;
+        const page = Math.floor(offset / limit) + 1;
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/tattoos?page=${page}&limit=${limit}`;
 
         // Fetch with 30s timeout
         const controller = new AbortController();
