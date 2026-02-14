@@ -61,12 +61,8 @@ export class Artwork {
     @Column({ type: 'int', nullable: true })
     year_created: number;
 
-    @Column({
-        type: 'enum',
-        enum: ArtworkStatus,
-        default: ArtworkStatus.DRAFT,
-    })
-    status: ArtworkStatus;
+    @Column({ type: 'varchar', length: 50, default: 'draft' })
+    status: string;
 
     @Column({ default: false })
     is_featured: boolean;
@@ -85,6 +81,33 @@ export class Artwork {
 
     @Column({ nullable: true })
     category: string;
+
+    @Column({ type: 'int', default: 1, nullable: true })
+    stock_quantity: number;
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    origin: string;
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    design_style: string;
+
+    @Column({ type: 'text', nullable: true })
+    delivery_info: string;
+
+    @Column({ type: 'jsonb', nullable: true })
+    variants: any;
+
+    @Column({ default: true, nullable: true })
+    allow_purchase: boolean;
+
+    @Column({ default: true, nullable: true })
+    allow_lease: boolean;
+
+    @Column({ type: 'decimal', precision: 3, scale: 2, nullable: true })
+    avg_rating: number;
+
+    @Column({ type: 'int', default: 0, nullable: true })
+    total_reviews: number;
 
     @OneToMany(() => ArtworkImage, (image) => image.artwork)
     images: ArtworkImage[];

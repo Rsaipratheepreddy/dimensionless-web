@@ -19,7 +19,6 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/entities/user.entity';
-import { ArtworkStatus } from './entities/artwork.entity';
 import { StorageService } from '../storage/storage.service';
 import { PaginationDto } from '../common/dto/pagination.dto';
 
@@ -34,7 +33,7 @@ export class ArtworksController {
     @Get()
     findAll(
         @Query() paginationDto: PaginationDto,
-        @Query('status') status?: ArtworkStatus,
+        @Query('status') status?: string,
         @Query('category') category?: string,
         @Query('artist_id') artist_id?: string,
     ) {
@@ -88,7 +87,6 @@ export class ArtworksController {
             image_url: imageUrl,
             is_primary: body.is_primary === 'true',
             display_order: parseInt(body.display_order || '0'),
-            caption: body.caption,
         });
     }
 

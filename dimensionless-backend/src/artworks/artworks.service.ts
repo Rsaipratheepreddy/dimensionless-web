@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Artwork, ArtworkStatus } from './entities/artwork.entity';
+import { Artwork } from './entities/artwork.entity';
 import { ArtworkImage } from './entities/artwork-image.entity';
 import { PaginationDto, PaginatedResponse } from '../common/dto/pagination.dto';
 
@@ -22,7 +22,7 @@ export class ArtworksService {
     async findAll(
         paginationDto: PaginationDto,
         filters?: {
-            status?: ArtworkStatus;
+            status?: string;
             category?: string;
             artist_id?: string;
         }

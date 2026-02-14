@@ -31,9 +31,6 @@ export class ArtworkImage {
     @Column({ default: false })
     is_primary: boolean;
 
-    @Column({ type: 'text', nullable: true })
-    caption: string;
-
     @CreateDateColumn()
     created_at: Date;
 }
