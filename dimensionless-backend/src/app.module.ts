@@ -2,19 +2,16 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-
-import { EventsModule } from './events/events.module';
 import { TattoosModule } from './tattoos/tattoos.module';
 import { PiercingsModule } from './piercings/piercings.module';
-import { PaymentsModule } from './payments/payments.module';
 import { StorageModule } from './storage/storage.module';
 import { CategoriesModule } from './categories/categories.module';
-import { BookingsModule } from './bookings/bookings.module';
 import { ArtClassesModule } from './art-classes/art-classes.module';
 import { ArtworksModule } from './artworks/artworks.module';
 import { UsersModule } from './users/users.module';
-import { S3Module } from './s3/s3.module';
 import { UploadsModule } from './uploads/uploads.module';
+import { HomeModule } from './home/home.module';
+import { CacheModule } from './cache/cache.module';
 import { HealthController } from './health.controller';
 
 @Module({
@@ -26,7 +23,10 @@ import { HealthController } from './health.controller';
       envFilePath: '.env',
     }),
 
-    // Database - Now enabled with Docker PostgreSQL
+    // Cache
+    CacheModule,
+
+    // Database
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
@@ -40,19 +40,18 @@ import { HealthController } from './health.controller';
       ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
 
-    // Feature modules
+    // Core Feature Modules
     AuthModule,
     UsersModule,
+    HomeModule,
     ArtworksModule,
-    EventsModule,
     TattoosModule,
     PiercingsModule,
-    PaymentsModule,
+    ArtClassesModule,
+
+    // Utility Modules
     StorageModule,
     CategoriesModule,
-    BookingsModule,
-    ArtClassesModule,
-    S3Module,
     UploadsModule,
   ],
 })
