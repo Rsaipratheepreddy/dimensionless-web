@@ -6,14 +6,11 @@ const SUPABASE_URL = 'https://mtsmdeyxvsgxazgqbikm.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10c21kZXl4dnNneGF6Z3FiaWttIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTg3NTYzNCwiZXhwIjoyMDgxNDUxNjM0fQ.yIEcxonQMrjEp6ouBvsVwDWwgt1nhsBXA_WA6pIw8fw';
 
 const RDS_CONFIG = {
-  host: 'dimensionless-db.cbaeu2kkebwk.ap-south-1.rds.amazonaws.com',
+  host: 'localhost',
   port: 5432,
   database: 'dimensionless',
   user: 'postgres',
-  password: 'DimensionlessPass2024',
-  ssl: {
-    rejectUnauthorized: false
-  }
+  password: 'postgres'
 };
 
 // Tables to migrate in dependency order (using actual Supabase table names)

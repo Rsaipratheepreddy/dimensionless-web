@@ -1,14 +1,11 @@
 const { Client } = require('pg');
 
 const RDS_CONFIG = {
-  host: 'dimensionless-db.cbaeu2kkebwk.ap-south-1.rds.amazonaws.com',
+  host: 'localhost',
   port: 5432,
   database: 'dimensionless',
   user: 'postgres',
-  password: 'DimensionlessPass2024',
-  ssl: {
-    rejectUnauthorized: false
-  }
+  password: 'postgres'
 };
 
 // Basic table schemas based on the entities

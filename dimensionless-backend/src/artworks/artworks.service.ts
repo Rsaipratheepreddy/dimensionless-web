@@ -25,9 +25,6 @@ export class ArtworksService {
     }): Promise<Artwork[]> {
         const query = this.artworksRepository
             .createQueryBuilder('artwork')
-            .leftJoinAndSelect('artwork.images', 'images')
-            .leftJoin('artwork.artist', 'artist')
-            .addSelect(['artist.id', 'artist.email', 'artist.full_name'])
             .orderBy('artwork.created_at', 'DESC');
 
         if (filters?.status) {
@@ -50,7 +47,7 @@ export class ArtworksService {
     async findOne(id: string): Promise<Artwork> {
         const artwork = await this.artworksRepository.findOne({
             where: { id },
-            relations: ['images', 'artist'],
+            relations: ['images'],
         });
 
         if (!artwork) {
