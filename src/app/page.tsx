@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface Artwork {
     id: string;
@@ -91,15 +90,12 @@ export default function Home() {
                                     href={`/shop/${artwork.id}`}
                                     className="group"
                                 >
-                                    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
-                                        <div className="h-64 bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-6">
-                                            <div className="text-center">
-                                                <div className="text-4xl mb-2">🎨</div>
-                                                <p className="text-gray-600 font-medium">{artwork.title}</p>
-                                            </div>
+                                    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow h-full">
+                                        <div className="h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
+                                            <span className="text-5xl">🎨</span>
                                         </div>
                                         <div className="p-4">
-                                            <h3 className="font-semibold text-lg text-gray-900 mb-2">
+                                            <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-2">
                                                 {artwork.title}
                                             </h3>
                                             {artwork.price && (
@@ -135,16 +131,13 @@ export default function Home() {
                             homeData.tattoos.map((tattoo) => (
                                 <div
                                     key={tattoo.id}
-                                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
+                                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow h-full"
                                 >
-                                    <div className="h-64 bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-6">
-                                        <div className="text-center">
-                                            <div className="text-4xl mb-2">✨</div>
-                                            <p className="text-gray-600 font-medium">{tattoo.name}</p>
-                                        </div>
+                                    <div className="h-48 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
+                                        <span className="text-5xl">✨</span>
                                     </div>
                                     <div className="p-4">
-                                        <h3 className="font-semibold text-lg text-gray-900 mb-2">
+                                        <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-2">
                                             {tattoo.name}
                                         </h3>
                                         {tattoo.base_price && (
