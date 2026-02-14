@@ -70,12 +70,15 @@
     .cards-grid {
         grid-template-columns: 1fr;
     }
+
     .hero-section h1 {
         font-size: 28px;
     }
+
     .hero-section p {
         font-size: 15px;
     }
+
     .home-page {
         padding: 16px;
     }
@@ -96,11 +99,13 @@
 }
 
 .card-image {
+    position: relative;
     height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 48px;
+    overflow: hidden;
 }
 
 .card-image.artwork-bg {
@@ -225,7 +230,9 @@
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .loading-spinner p {

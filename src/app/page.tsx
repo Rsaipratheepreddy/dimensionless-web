@@ -1,15 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import AppLayout from '@/components/layout/AppLayout';
+import ArtCard from '@/components/features/tattoos/ArtCard';
 import Link from 'next/link';
+import Image from 'next/image';
 import './page.css';
+
+interface ArtworkImage {
+    id: string;
+    image_url: string;
+    is_primary: boolean;
+    display_order: number;
+}
 
 interface Artwork {
     id: string;
     title: string;
     image_url?: string;
+    images?: ArtworkImage[];
     purchase_price?: number;
+    lease_monthly_rate?: number;
+    status?: string;
 }
 
 interface Tattoo {
@@ -26,7 +39,17 @@ interface HomeData {
     artClasses: any[];
 }
 
+function getArtworkImage(artwork: Artwork): string {
+    if (artwork.image_url) return artwork.image_url;
+    if (artwork.images && artwork.images.length > 0) {
+        const primary = artwork.images.find(img => img.is_primary);
+        return primary?.image_url || artwork.images[0]?.image_url || '/painting.png';
+    }
+    return '/painting.png';
+}
+
 export default function Home() {
+    const router = useRouter();
     const [homeData, setHomeData] = useState<HomeData | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -74,17 +97,18 @@ export default function Home() {
                     <div className="cards-grid">
                         {homeData?.artworks && homeData.artworks.length > 0 ? (
                             homeData.artworks.map((artwork) => (
-                                <Link key={artwork.id} href={`/shop/${artwork.id}`}>
-                                    <div className="card">
-                                        <div className="card-image artwork-bg">🎨</div>
-                                        <div className="card-body">
-                                            <h3>{artwork.title}</h3>
-                                            {artwork.purchase_price && (
-                                                <p className="card-price">₹{Number(artwork.purchase_price).toLocaleString()}</p>
-                                            )}
-                                        </div>
-                                    </div>
-                                </Link>
+                                <ArtCard
+                                    key={artwork.id}
+                                    id={artwork.id}
+                                    title={artwork.title}
+                                    image={getArtworkImage(artwork)}
+                                    price={Number(artwork.purchase_price) || 0}
+                                    currency="INR"
+                                    allowPurchase={!!artwork.purchase_price}
+                                    allowLease={!!artwork.lease_monthly_rate}
+                                    status={artwork.status === 'sold' ? 'sold' : 'available'}
+                                    onClick={() => router.push(`/artworks/${artwork.id}`)}
+                                />
                             ))
                         ) : (
                             <div className="empty-state">No artworks available</div>
@@ -100,17 +124,27 @@ export default function Home() {
                     <div className="cards-grid">
                         {homeData?.tattoos && homeData.tattoos.length > 0 ? (
                             homeData.tattoos.map((tattoo) => (
-                                <Link key={tattoo.id} href="/tattoos">
-                                    <div className="card">
-                                        <div className="card-image tattoo-bg">✨</div>
-                                        <div className="card-body">
-                                            <h3>{tattoo.name}</h3>
-                                            {tattoo.base_price && (
-                                                <p className="card-price">Starting at ₹{Number(tattoo.base_price).toLocaleString()}</p>
-                                            )}
-                                        </div>
+                                <div key={tattoo.id} className="card" onClick={() => router.push('/tattoos')}>
+                                    <div className="card-image tattoo-bg">
+                                        {tattoo.image_url ? (
+                                            <Image
+                                                src={tattoo.image_url}
+                                                alt={tattoo.name}
+                                                fill
+                                                style={{ objectFit: 'cover' }}
+                                                unoptimized
+                                            />
+                                        ) : (
+                                            <span>✨</span>
+                                        )}
                                     </div>
-                                </Link>
+                                    <div className="card-body">
+                                        <h3>{tattoo.name}</h3>
+                                        {tattoo.base_price && (
+                                            <p className="card-price">Starting at ₹{Number(tattoo.base_price).toLocaleString()}</p>
+                                        )}
+                                    </div>
+                                </div>
                             ))
                         ) : (
                             <div className="empty-state">No tattoo designs available</div>
