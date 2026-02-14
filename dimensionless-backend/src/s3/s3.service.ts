@@ -9,15 +9,14 @@ export class S3Service {
     private s3Client: S3Client;
     private bucketName: string;
 
+    private cloudfrontDomain: string;
+
     constructor(private configService: ConfigService) {
         const region = this.configService.get<string>('AWS_REGION') || 'ap-south-1';
         this.bucketName = this.configService.get<string>('AWS_S3_BUCKET');
+        this.cloudfrontDomain = this.configService.get<string>('CLOUDFRONT_DOMAIN') || '';
 
-        this.s3Client = new S3Client({
-            region,
-            // If running on EC2/EB, credentials are automatically loaded from IAM role
-            // For local development, use AWS CLI credentials or environment variables
-        });
+        this.s3Client = new S3Client({ region });
     }
 
     /**
@@ -40,11 +39,12 @@ export class S3Service {
 
         await this.s3Client.send(command);
 
-        // Return the S3 key and URL
-        return {
-            key: fileName,
-            url: `https://${this.bucketName}.s3.${this.configService.get('AWS_REGION')}.amazonaws.com/${fileName}`,
-        };
+        // Return CloudFront URL if configured, otherwise S3 URL
+        const url = this.cloudfrontDomain
+            ? `https://${this.cloudfrontDomain}/${fileName}`
+            : `https://${this.bucketName}.s3.${this.configService.get('AWS_REGION')}.amazonaws.com/${fileName}`;
+
+        return { key: fileName, url };
     }
 
     /**

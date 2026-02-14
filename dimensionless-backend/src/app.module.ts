@@ -11,6 +11,7 @@ import { ArtworksModule } from './artworks/artworks.module';
 import { UsersModule } from './users/users.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { HomeModule } from './home/home.module';
+import { CacheModule } from './cache/cache.module';
 import { HealthController } from './health.controller';
 
 @Module({
@@ -21,6 +22,9 @@ import { HealthController } from './health.controller';
       isGlobal: true,
       envFilePath: '.env',
     }),
+
+    // Cache (Redis in production, in-memory in dev)
+    CacheModule,
 
     // Database
     TypeOrmModule.forRoot({

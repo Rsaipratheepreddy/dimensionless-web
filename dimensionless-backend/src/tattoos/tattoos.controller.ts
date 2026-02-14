@@ -11,9 +11,12 @@ import {
     Request,
     UseInterceptors,
     UploadedFile,
+    Inject,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags, ApiConsumes } from '@nestjs/swagger';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { TattoosService } from './tattoos.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -28,15 +31,22 @@ export class TattoosController {
     constructor(
         private readonly tattoosService: TattoosService,
         private readonly storageService: StorageService,
-    ) {}
+        @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    ) { }
 
     @Get()
-    findAll(
+    async findAll(
         @Query() paginationDto: PaginationDto,
         @Query('is_active') is_active?: boolean,
         @Query('category_id') category_id?: string,
     ) {
-        return this.tattoosService.findAll(paginationDto, { is_active, category_id });
+        const cacheKey = `tattoos_${paginationDto.page || 1}_${paginationDto.limit || 20}_${is_active}_${category_id || 'all'}`;
+        const cached = await this.cacheManager.get(cacheKey);
+        if (cached) return cached;
+
+        const data = await this.tattoosService.findAll(paginationDto, { is_active, category_id });
+        await this.cacheManager.set(cacheKey, data, 300);
+        return data;
     }
 
     @Get(':id')

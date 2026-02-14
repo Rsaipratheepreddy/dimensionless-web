@@ -11,9 +11,12 @@ import {
     Request,
     UseInterceptors,
     UploadedFile,
+    Inject,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags, ApiConsumes } from '@nestjs/swagger';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { ArtworksService } from './artworks.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -28,16 +31,23 @@ export class ArtworksController {
     constructor(
         private readonly artworksService: ArtworksService,
         private readonly storageService: StorageService,
+        @Inject(CACHE_MANAGER) private cacheManager: Cache,
     ) { }
 
     @Get()
-    findAll(
+    async findAll(
         @Query() paginationDto: PaginationDto,
         @Query('status') status?: string,
         @Query('category') category?: string,
         @Query('artist_id') artist_id?: string,
     ) {
-        return this.artworksService.findAll(paginationDto, { status, category, artist_id });
+        const cacheKey = `artworks_${paginationDto.page || 1}_${paginationDto.limit || 20}_${status || 'all'}_${category || 'all'}_${artist_id || 'all'}`;
+        const cached = await this.cacheManager.get(cacheKey);
+        if (cached) return cached;
+
+        const data = await this.artworksService.findAll(paginationDto, { status, category, artist_id });
+        await this.cacheManager.set(cacheKey, data, 300);
+        return data;
     }
 
     @Get(':id')

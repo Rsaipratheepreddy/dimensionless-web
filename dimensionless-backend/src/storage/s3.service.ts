@@ -8,16 +8,14 @@ import { v4 as uuidv4 } from 'uuid';
 export class S3Service {
     private s3Client: S3Client;
     private bucketName: string;
+    private cloudfrontDomain: string;
 
     constructor(private configService: ConfigService) {
         this.s3Client = new S3Client({
-            region: this.configService.get<string>('AWS_REGION'),
-            credentials: {
-                accessKeyId: this.configService.get<string>('AWS_ACCESS_KEY_ID'),
-                secretAccessKey: this.configService.get<string>('AWS_SECRET_ACCESS_KEY'),
-            },
+            region: this.configService.get<string>('AWS_REGION') || 'ap-south-1',
         });
         this.bucketName = this.configService.get<string>('AWS_S3_BUCKET');
+        this.cloudfrontDomain = this.configService.get<string>('CLOUDFRONT_DOMAIN') || '';
     }
 
     async uploadFile(
@@ -31,12 +29,14 @@ export class S3Service {
             Key: key,
             Body: file.buffer,
             ContentType: file.mimetype,
-            ACL: 'public-read',
+            CacheControl: 'public, max-age=31536000',
         });
 
         await this.s3Client.send(command);
 
-        return `https://${this.bucketName}.s3.${this.configService.get('AWS_REGION')}.amazonaws.com/${key}`;
+        return this.cloudfrontDomain
+            ? `https://${this.cloudfrontDomain}/${key}`
+            : `https://${this.bucketName}.s3.${this.configService.get('AWS_REGION')}.amazonaws.com/${key}`;
     }
 
     async deleteFile(fileUrl: string): Promise<void> {
