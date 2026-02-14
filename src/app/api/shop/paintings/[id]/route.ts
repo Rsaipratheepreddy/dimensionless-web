@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { backendFetch, forwardHeaders } from '@/utils/backend';
 
-// PUT /api/shop/paintings/[id] - Update a painting
+// PUT /api/artworks/[id] - Update a painting
 export async function PUT(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
@@ -10,7 +10,7 @@ export async function PUT(
         const { id } = await params;
         const body = await request.json();
         const headers = forwardHeaders(request);
-        const res = await backendFetch(`/api/shop/paintings/${id}`, {
+        const res = await backendFetch(`/api/artworks/${id}`, {
             method: 'PUT',
             headers: { ...headers, 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
@@ -23,7 +23,7 @@ export async function PUT(
     }
 }
 
-// DELETE /api/shop/paintings/[id] - Delete a painting
+// DELETE /api/artworks/[id] - Delete a painting
 export async function DELETE(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
@@ -31,7 +31,7 @@ export async function DELETE(
     try {
         const { id } = await params;
         const headers = forwardHeaders(request);
-        const res = await backendFetch(`/api/shop/paintings/${id}`, { method: 'DELETE', headers });
+        const res = await backendFetch(`/api/artworks/${id}`, { method: 'DELETE', headers });
         const data = await res.json();
         return NextResponse.json(data, { status: res.status });
     } catch (error) {
