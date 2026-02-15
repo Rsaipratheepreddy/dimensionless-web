@@ -7,6 +7,7 @@ import AuthBottomSheet from '../auth/AuthBottomSheet';
 // import MaintenanceMode from './MaintenanceMode';
 import Footer from './Footer';
 import CreatorUpgradeModal from '../auth/CreatorUpgradeModal';
+import MigrationNotice from '../ui/MigrationNotice';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
@@ -154,6 +155,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             />
             <InstallPWA />
             <CreatorUpgradeModal />
+            <MigrationNotice />
         </div>
     );
 };
